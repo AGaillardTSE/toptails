@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "rows": {
+    "CEX_BM_RECON_bivariate.json": 2141012,
+    "CEX_BM_RECON_bivariate_unmerged.json": 1534296
+  },
+  "modern_annual_rows_exactly_preserved": {
+    "CEX_BM_RECON_bivariate.json": 1597023,
+    "CEX_BM_RECON_bivariate_unmerged.json": 1082969
+  },
+  "decoded_bytes": 127814517,
+  "packed_sha256": "9cd47e51f51f1ef3173097f935ce3b0aa77f642b0907dbb5f9d7826af1f1c583"
+}

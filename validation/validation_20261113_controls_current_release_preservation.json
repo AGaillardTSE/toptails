@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "baseline_sha256": "b46087f75d2ae6d1967a5289852155a233e3448cd762d414a020392f992ac21c",
+  "candidate_sha256": "92dc3cacac1baa80c25566eaf4e6c467909961b9a3423c6f64d159d1523ab887",
+  "unrelated_blocks_unchanged": true,
+  "summary": {
+    "previous_rows_preserved": 6458,
+    "PSID_food_groups_added": 140,
+    "CEX_historical_groups_added": 720
+  },
+  "tail_curves": {
+    "previous_rows_preserved": 6458,
+    "PSID_food_groups_added": 140,
+    "CEX_historical_groups_added": 720
+  },
+  "all_non_US_Forbes_international_results_preserved": true,
+  "unrelated_metadata_preserved": true,
+  "bins_PSID": {
+    "rows": 674339,
+    "primitive_width": 0.002,
+    "unique_groups": 9042
+  },
+  "bins_unmerged_PSID": {
+    "rows": 298426,
+    "primitive_width": 0.002,
+    "unique_groups": 4234
+  },
+  "bins_CEX_BM_RECON": {
+    "rows": 2417957,
+    "primitive_width": 0.002,
+    "unique_groups": 38573
+  }
+}

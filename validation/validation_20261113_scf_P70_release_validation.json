@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "only_changed_data_block": "tail_curves",
+  "SCF_P70_groups": 60,
+  "existing_array_entries_preserved": 72000,
+  "CEX_choices": [
+    "PSID",
+    "SCF",
+    "CEX"
+  ],
+  "output_sha256": "5d1af067fdc24e2aca99d999f66a373b7dec9b0340bd024c144474d815c49966"
+}

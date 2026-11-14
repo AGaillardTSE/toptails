@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "rows": {
+    "bins_PSID": 674339,
+    "bins_unmerged_PSID": 298426,
+    "bins_CEX_BM_RECON": 2417957
+  },
+  "SCF_1989_and_all_other_data_unchanged": true,
+  "inequality_observatory.html": "48dfaf20358bc47272f68d3df57777ae04169643d770c1cc4b52777156425905",
+  "inequality.html": "e80a3f548e1d04c1ca73541b3d4b4cc0dcfdc84ccaa017c27cf7d08d55e1763b"
+}

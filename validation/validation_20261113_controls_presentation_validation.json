@@ -1,0 +1,102 @@
+{
+  "status": "PASS",
+  "aggregate_payload_bytes": 259499744,
+  "aggregate_payload_sha256": "716bd1d527fa22374b3495632ebc1e3f785c4425a3c84e90e954a1ac2fd5df68",
+  "data_blocks": [
+    {
+      "id": "explorer-block-bins_unmerged_PSID",
+      "bytes": 5699158,
+      "sha256": "dddfc57db94d360d6ce38f739b13371e1b198cba80d2f3eeeedd4d57934a3996"
+    },
+    {
+      "id": "explorer-block-bins_unmerged_SCF",
+      "bytes": 2856968,
+      "sha256": "f9ccd49b3f26d1ccccb5bc425621ebf1d229f9a53f22b2ce0c9c7a8ff2fcd301"
+    },
+    {
+      "id": "explorer-block-bins_unmerged_international",
+      "bytes": 11498184,
+      "sha256": "ec2cebcd2a2de576a15eb93ea3e914041bf18de64c83230fcd2202b8e5a19e8a"
+    },
+    {
+      "id": "explorer-results",
+      "bytes": 102,
+      "sha256": "0fc13546e88bda968cdbddb85deaf26a5ce487d1029c867652c12e8e3068dc15"
+    },
+    {
+      "id": "explorer-block-bins_CEX",
+      "bytes": 49549258,
+      "sha256": "700764aa31095d72549dcb71fc823d5b2e535522783d381692408f20763ee7a5"
+    },
+    {
+      "id": "explorer-block-bins_CEX_BM",
+      "bytes": 1135156,
+      "sha256": "77febec29793152e0c551f112d928b2654f4021a40cd967bd38888bf49e78f0d"
+    },
+    {
+      "id": "explorer-block-bins_CEX_BM_RECON",
+      "bytes": 42023496,
+      "sha256": "04fededa79a5eddfb269817f947127b3ad6e62726da62d1f4090e02b489a24ca"
+    },
+    {
+      "id": "explorer-block-bins_PSID",
+      "bytes": 9920160,
+      "sha256": "b95c1f2047395d7e813e9cdc1d389fc8ffbec036ec564552757b9d1e0b1fc89c"
+    },
+    {
+      "id": "explorer-block-bins_SCF",
+      "bytes": 3359650,
+      "sha256": "406df3c2da2fb10662a53db7a8a4ab430acfff69139d55db4a667b53646b4ae5"
+    },
+    {
+      "id": "explorer-block-other_bins",
+      "bytes": 7792078,
+      "sha256": "611693c2c420479c08c356b3b8212b561ed4d4239646874a54913846e8201a39"
+    },
+    {
+      "id": "explorer-block-metadata",
+      "bytes": 1457399,
+      "sha256": "540ae2098e0a73c31cc182bad88b69a21fd6cf24214e73e1977e0b7a80189018"
+    },
+    {
+      "id": "explorer-block-summary",
+      "bytes": 880617,
+      "sha256": "87556634ee091c9985384bea5e9c8e2cebc0897e4f215d4d81c0df8c7599f059"
+    },
+    {
+      "id": "explorer-block-tail_curves",
+      "bytes": 105512225,
+      "sha256": "1d43e0eb90e1507161be19698271af2012db92a46928ebe1db465a6c2457b25a"
+    },
+    {
+      "id": "explorer-block-other",
+      "bytes": 15785953,
+      "sha256": "a6fe517215c4c160a1b768e1a6ea5719cf2be59166257583c06190f3a3ddc85f"
+    },
+    {
+      "id": "explorer-block-adjustments",
+      "bytes": 1642593,
+      "sha256": "9120b40c9c70c1e94f27cfa3e9ad56a530769f47c383a6897871caf23fd3e412"
+    },
+    {
+      "id": "explorer-block-bivariate",
+      "bytes": 386733,
+      "sha256": "ac03aad82784a46b3e5cfeafff1e152ccf49909480034fa9d4a7c1411405ea31"
+    }
+  ],
+  "outputs": [
+    {
+      "bytes": 260195249,
+      "sha256": "6ffff99ea902e34386263e7adbb5868f0a5af8fae8ae8b46eac252f97e0803f9",
+      "unique_ids": 176,
+      "data_blocks_identical": true
+    },
+    {
+      "bytes": 260199850,
+      "sha256": "92dc3cacac1baa80c25566eaf4e6c467909961b9a3423c6f64d159d1523ab887",
+      "unique_ids": 182,
+      "data_blocks_identical": true
+    }
+  ],
+  "elapsed_seconds": 1.926
+}

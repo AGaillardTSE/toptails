@@ -1,0 +1,11 @@
+{
+  "groups_restored": 60,
+  "early_curves_start_at_P70": 60,
+  "overlap_array_values_preserved": 72000,
+  "inequality_observatory.html": "309f20516eb27e8be77b57f02708fd29aa28eccb2ad487b6fcaae4d2144dfc2c",
+  "inequality.html": "fa8f4cc2c22cc5fdef6859a54d5fabed73a146c5fd32ddecb0b5ec386e0fc69e",
+  "status": "PASS",
+  "other_curve_groups_preserved": 7258,
+  "all_KS_objects_unchanged": true,
+  "all_other_data_and_presentation_unchanged": true
+}
