@@ -1,20 +1,20 @@
 {
   "status": "PASS",
   "startup_gzip_bytes_before": 94296480,
-  "startup_gzip_bytes_after": 2467337,
-  "startup_reduction_percent": 97.38342618939753,
+  "startup_gzip_bytes_after": 2545729,
+  "startup_reduction_percent": 97.30029265143301,
   "local_browser_interactive_ms_before": [
     815,
     792,
     740
   ],
   "local_browser_interactive_ms_after": [
-    128,
-    104,
-    103
+    139,
+    123,
+    127
   ],
   "median_ms_before": 792,
-  "median_ms_after": 104,
+  "median_ms_after": 127,
   "timing_scope": "Local browser and loopback server; public-network timing depends on the connection.",
   "opening_chart_export_byte_identical": true,
   "opening_chart_estimates": 127,

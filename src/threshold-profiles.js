@@ -87,13 +87,15 @@ const ThresholdProfiles = (() => {
     const surveySelect=makeSelect('Survey',[...(international?[['all','All surveys']]:[]),...actualSurveys.map(s=>[s,surveyLabel(s)]),...(!international&&actualSurveys.length>1?[['all','All US surveys']]:[])]);
     const countrySelect=international?makeSelect('Country',[['all','All countries']]):null;
     const yearSelect=makeSelect('Year',[['all','All waves']]);
+    yearSelect.closest('.control').classList.add('quantile-year-control');
     const spending=international?null:makeSelect('Variable for consumption',[['auto','Consumption (SCF: expenditure incl. imputed rent)'],...spendingOptions.filter(o=>o.key!=='consump_def1'&&curves.some(c=>c.variable===o.key)).map(o=>[o.key,o.label])]);
     if(spending)spending.closest('.control').classList.add('consumption-variable-control');
     const indicatorSelect=makeSelect('Indicator',[['pareto','Pareto coefficient'],['wealth_ratio','Pareto coefficient / wealth'],['share','Share above quantile']]);
     const methodSelect=makeSelect('Estimator',[['MLE','MLE'],['OLS','OLS']]);
+    methodSelect.closest('.control').classList.add('quantile-estimator-control');
     const referenceSurveys=new Set(allCurves.filter(c=>c.reference_only).map(c=>c.survey));
     const canonicalStage=(survey,variant)=>referenceSurveys.has(survey)||['YODLEE','FORBES'].includes(survey)?'reference':survey==='SCF'&&variant==='full'?'adj':variant;
-    function updateCountries(){if(!countrySelect)return;const old=countrySelect.value,map=new Map();curves.filter(c=>surveySelect.value==='all'||c.survey===surveySelect.value).forEach(c=>{if(c.country)map.set(c.country,c.country_name||c.country);});if(['all','FORBES'].includes(surveySelect.value))(metadata.forbes_reference?.coverage||[]).forEach(c=>map.set(c.country,c.country_name||c.country));countrySelect.replaceChildren();[['all','All countries'],...[...map.entries()].sort((a,b)=>a[1].localeCompare(b[1]))].forEach(([value,text])=>{const o=document.createElement('option');o.value=value;o.textContent=text;countrySelect.append(o);});if([...countrySelect.options].some(o=>o.value===old))countrySelect.value=old;}
+    function updateCountries(){if(!countrySelect)return;const old=countrySelect.value,map=new Map();curves.filter(c=>surveySelect.value==='all'||c.survey===surveySelect.value).forEach(c=>{if(c.country)map.set(c.country,c.country_name||c.country);});countrySelect.replaceChildren();[['all','All countries'],...[...map.entries()].sort((a,b)=>a[1].localeCompare(b[1]))].forEach(([value,text])=>{const o=document.createElement('option');o.value=value;o.textContent=text;countrySelect.append(o);});if([...countrySelect.options].some(o=>o.value===old))countrySelect.value=old;}
     function updateYears(){
       const old=yearSelect.value,available=allCurves.filter(curveMatches).filter(c=>(surveySelect.value==='all'||c.survey===surveySelect.value)&&(!countrySelect||countrySelect.value==='all'||c.country===countrySelect.value)),years=[...new Set(available.map(c=>c.year).filter(finite))].sort((a,b)=>a-b);
       yearSelect.replaceChildren();[['all','All waves'],...years.map(y=>[String(y),String(y)])].forEach(([value,text])=>{const o=document.createElement('option');o.value=value;o.textContent=text;yearSelect.append(o);});if([...yearSelect.options].some(o=>o.value===old))yearSelect.value=old;

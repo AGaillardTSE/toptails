@@ -135,15 +135,15 @@
 .local-housing-control{display:flex;align-items:center;gap:6px}.local-housing-control .small-check{margin:0!important;width:auto!important}.local-housing-control .help-marker{flex:0 0 auto}
 .control#biv-capital-controls label{font-size:13px;line-height:1.4;letter-spacing:0;text-transform:none;font-weight:400}
 .control#biv-capital-controls label.unavailable-option{opacity:.45}
-.paper-composition .adjustment-distribution-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;padding:8px 22px 22px}
+.paper-composition .adjustment-distribution-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:18px 22px 22px}
+.paper-composition .adjustment-distribution-grid.has-two-panels{grid-template-columns:repeat(2,minmax(0,1fr))}
 .paper-composition .adjustment-distribution-grid.show-all-stages{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.paper-composition .adjustment-distribution-card{border:0;border-radius:0;padding:8px 0;background:transparent}
-.paper-composition .adjustment-distribution-card h4{text-align:left;font:400 18px/1.35 Georgia,serif;color:#202020;margin:0 0 10px 8px}
-.paper-composition .adjustment-distribution-chart{height:510px}
-.paper-composition .show-all-stages .adjustment-distribution-chart{height:430px}
-.composition-shared-legend{list-style:none;margin:7px 28px 16px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px 25px}
-.composition-shared-legend li{display:flex;align-items:center;gap:12px;font:400 14px/1.35 Georgia,serif;color:#202020;min-width:0}
-.composition-legend-key{display:inline-block;position:relative;width:27px;flex:0 0 27px;border-top:2px solid currentColor}
+.paper-composition .adjustment-distribution-card{border:1px solid #e6e2db;border-radius:9px;padding:14px 10px 10px;background:#fff}
+.paper-composition .adjustment-distribution-card h4{text-align:center;font:600 13px/1.4 Arial,sans-serif;color:#344a63;margin:0 0 10px;min-height:2.8em}
+.paper-composition .adjustment-distribution-chart,.paper-composition .show-all-stages .adjustment-distribution-chart{height:390px}
+.composition-shared-legend{list-style:none;margin:12px 28px;padding:0;display:flex;align-items:center;flex-wrap:wrap;gap:9px 20px}
+.composition-shared-legend li{display:inline-flex;align-items:center;gap:7px;font:400 13px/1.4 Arial,sans-serif;color:#59677a;min-width:0;max-width:330px}
+.composition-legend-key{display:inline-block;position:relative;width:19px;flex:0 0 19px;border-top:2px solid currentColor}
 .composition-legend-key:after{content:'';position:absolute;left:11px;top:-4px;border:1px solid currentColor;opacity:.5;width:5px;height:5px;border-radius:50%}
 .adjustment-distribution-controls #composition-all-stages-control{align-self:end;margin-bottom:9px;font-size:13px;letter-spacing:0;text-transform:none;line-height:1.4}
 @media(max-width:1050px){.paper-composition .adjustment-distribution-grid,.paper-composition .adjustment-distribution-grid.show-all-stages{grid-template-columns:1fr}.composition-shared-legend{grid-template-columns:repeat(2,minmax(0,1fr))}.paper-composition .adjustment-distribution-chart{height:470px}}
@@ -151,3 +151,12 @@
 .paper-composition #composition-sample-note{margin:0;padding:0 28px 20px;color:#777e88;font:400 12px/1.65 Arial,sans-serif}
 .adjustment-distribution-controls #composition-all-stages-control{display:inline-flex;align-items:center;gap:7px}
 .adjustment-distribution-controls #composition-all-stages{margin:0 5px 0 0}
+.capital-income-choice{display:flex;align-items:center;gap:6px}
+.capital-income-choice .small-check{margin:0!important;width:auto!important;display:inline-flex;align-items:center;gap:7px}
+.capital-income-choice .help-marker{flex:0 0 15px;margin:0;vertical-align:middle}
+@media(max-width:1050px){#adjustment-distribution-results.paper-composition .adjustment-distribution-grid.has-two-panels{grid-template-columns:1fr}}
+#us-quantile-profiles .threshold-profile-controls{display:grid;grid-template-columns:minmax(100px,.8fr) 105px minmax(220px,1.7fr) minmax(150px,1.1fr) 85px max-content;align-items:end;gap:12px}
+#us-quantile-profiles .threshold-profile-controls .control{min-width:0;max-width:none;width:auto}
+#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:auto;flex:0 1 auto;width:auto;min-height:39px;align-self:end;align-items:center;white-space:nowrap;margin:0;padding:0}
+@media(max-width:1050px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:1/-1}}

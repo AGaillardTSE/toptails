@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "relationship_rows": 10788905,
+  "grouped_series": 133726,
+  "minimum_observations": 1,
+  "US_choices": [
+    0,
+    5,
+    10,
+    15,
+    20
+  ],
+  "default_minimum": 5,
+  "rows_by_minimum": {
+    "5": 3439316,
+    "10": 2102595,
+    "20": 1216028,
+    "0": 3059268,
+    "15": 971698
+  },
+  "merging": "Source-recomputed adjacent-bin merges, without discarding small-bin observations. No minimum uses genuine primitive source intervals.",
+  "supersedes": "minimum_five_validation.json"
+}

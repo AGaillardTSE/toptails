@@ -1,13 +1,5 @@
 {
-  "status": "PASS",
-  "relationship_rows": 6757939,
-  "grouped_series": 75933,
-  "minimum_observations": 5,
-  "public_minimum_choices": [
-    5,
-    10,
-    20
-  ],
-  "merging": "Source-recomputed adjacent-bin merges; observations are not discarded to enforce the minimum.",
-  "private_unmerged_alternatives_not_packaged": true
+  "status": "SUPERSEDED",
+  "reason": "The user requested the genuine No minimum option and minimum 15. Five remains the default.",
+  "current_report": "relationship_minima_validation.json"
 }

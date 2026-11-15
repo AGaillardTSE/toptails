@@ -1,0 +1,9 @@
+{
+  "removed_cross_country_forbes_records": {
+    "international": 570,
+    "long_results": 540,
+    "curves": 270
+  },
+  "us_forbes_references_unchanged": true,
+  "forbes_country_coverage_and_international_KS_metadata_removed": true
+}

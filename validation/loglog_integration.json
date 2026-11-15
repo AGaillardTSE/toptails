@@ -1,25 +1,22 @@
 {
   "status": "PASS",
-  "verified_source_rows": 7402057,
-  "public_rows_with_minimum_five": 4342789,
-  "scope_blocks": 36,
-  "public_minimum": 5,
-  "all_six_inputs_used_once": [
-    "PSID_all_grid01.json.gz",
-    "SCF_all_grid01.json.gz",
-    "CEX_networth_val_grid01.json.gz",
-    "CEX_total_income_grid01.json.gz",
-    "CEX_total_labor_income_grid01.json.gz",
-    "CEX_total_capital_income_grid01.json.gz"
+  "rows": 8373755,
+  "groups": 105421,
+  "blocks": 180,
+  "minima": [
+    0,
+    5,
+    10,
+    15,
+    20
   ],
-  "summary_tail_references_international_adjustments_unchanged": true,
-  "source_files": {
-    "PSID_all_grid01.json.gz": "ff7dcc91046f011b1948825afa82354d7a6e9bce2d46d123f5a370c9ce6b5b50",
-    "SCF_all_grid01.json.gz": "52dc66e9f4e6c65fc906b4e9de7ed8d3dc689525942666bb4f6bfe3f0979e0e3",
-    "CEX_networth_val_grid01.json.gz": "4f8e2454abeff28c828a384192ed95059645a57904224ce63c23d5555085bfde",
-    "CEX_total_income_grid01.json.gz": "4574df18967f2e486f0f69160ed2f26f74e835d9de42e63d083b6df4381d19e9",
-    "CEX_total_labor_income_grid01.json.gz": "981699c91fd880f3b54213b04d1ebe5db16f64b77781474aa3abc98213ee793e",
-    "CEX_total_capital_income_grid01.json.gz": "510e3a60a2edb793815bd8731e0bc395f2e48b3c008e7b47bf8a9b176850478f"
+  "default_minimum": 5,
+  "counts_by_minimum": {
+    "0": 3059268,
+    "5": 2244454,
+    "10": 1338150,
+    "20": 760185,
+    "15": 971698
   },
-  "startup_gzip_bytes": 2467337
+  "all_unrelated_blocks_unchanged": true
 }

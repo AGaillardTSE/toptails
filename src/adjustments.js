@@ -9,7 +9,7 @@ function initAdjustments(payload,context) {
   const surveyLabels={PSID:'PSID',CEX_BM_RECON:'CEX',HFCS:'HFCS',HILDA:'HILDA',SHIW:'SHIW',SCF:'SCF'};
   const countryLabels=new Map(rows.filter(r=>r.country).map(r=>[r.country,r.country_name||r.country]));
   let yearCharts=[],distributionCharts=[],figureSurvey='PSID',figureCountry='',figureMode='relative',distributionSurvey='PSID',distributionCountry='',distributionDomain='consumption';
-  let compositionRequest=0,showAllStages=false,psidConsumptionView='consumption_reduced';
+  let compositionRequest=0,psidConsumptionView='consumption_reduced';
   const selections={consumption:'consump_def1',income:'total_income',wealth:'networth_val'};
 
   function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.append(o);}
@@ -74,14 +74,14 @@ function initAdjustments(payload,context) {
     const root=$('adjustment-distribution-results'),grid=root.querySelector('.adjustment-distribution-grid'),legend=$('composition-shared-legend');
     root.classList.add('paper-composition');root.removeAttribute('aria-busy');
     distributionCharts.forEach(chart=>chart.destroy());distributionCharts=[];
-    const hasFull=contracts.some(c=>c.stage==='full'),stages=['raw',...(showAllStages||!hasFull?['reporting']:[]),...(hasFull?['full']:[])].filter(stage=>contracts.some(c=>c.stage===stage));
-    grid.classList.toggle('show-all-stages',stages.length===3);$('composition-all-stages-control').hidden=!hasFull||!contracts.some(c=>c.stage==='reporting');
+    const stages=['raw','reporting','full'].filter(stage=>contracts.some(c=>c.stage===stage));
+    grid.classList.toggle('show-all-stages',stages.length===3);grid.classList.toggle('has-two-panels',stages.length===2);
     const selected=row=>row.survey===distributionSurvey&&row.domain===distributionDomain&&row.view===view&&(!distributionCountry||row.country===distributionCountry)&&compositionMatches(row);
     const points=payload.points.filter(selected),smooth=payload.smooth.filter(selected),primary=contracts.find(c=>c.stage==='raw')||contracts[0];
     legend.replaceChildren();primary.category_order.forEach((category,i)=>{const item=document.createElement('li'),key=document.createElement('i'),label=document.createElement('span');key.className='composition-legend-key';key.style.color=primary.colors[i];key.setAttribute('aria-hidden','true');label.textContent=primary.labels[i]||category;item.append(key,label);legend.append(item);});
     for(const stage of ['raw','reporting','full']){
       const canvas=$('adjustment-distribution-'+stage),card=canvas.closest('.adjustment-distribution-card'),contract=contracts.find(c=>c.stage===stage);card.hidden=!stages.includes(stage);if(card.hidden)continue;
-      const index=stages.indexOf(stage);card.querySelector('h4').textContent='('+String.fromCharCode(97+index)+') '+({raw:'Raw data',reporting:'Adjusted for reporting',full:'Adjusted for reporting and representation'})[stage];
+      card.querySelector('h4').textContent=({raw:'Raw data',reporting:'Adjusted for reporting',full:'Adjusted for reporting and representation'})[stage];
       const datasets=[];let visiblePoints=0,lineCoordinates=0;
       contract.category_order.forEach((category,i)=>{
         const label=contract.labels[i]||category,color=contract.colors[i],line=smooth.filter(row=>row.stage===stage&&row.category===category).sort((a,b)=>a.quantile-b.quantile),raw=points.filter(row=>row.stage===stage&&row.category===category&&row.plot_visible===true).sort((a,b)=>a.quantile-b.quantile);
@@ -91,14 +91,13 @@ function initAdjustments(payload,context) {
       });
       canvas.setAttribute('aria-label',surveyLabels[distributionSurvey]+' '+contract.domain+' component shares: '+stage);
       canvas.dataset.paperContract=JSON.stringify({view,stage,x_type:'linear',tension:0,span_gaps:false,x_range:contract.x_display_range,y_range:contract.y_display_range,x_breaks:contract.xbreaks,y_breaks:contract.ybreaks,visible_points:visiblePoints,smooth_coordinates:lineCoordinates,categories:contract.category_order});
-      distributionCharts.push(new Chart(canvas,{type:'line',data:{datasets},plugins:[compositionGrid(contract)],options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'nearest',intersect:false},plugins:{legend:{display:false},tooltip:{filter:item=>item.dataset.isRaw,callbacks:{title:items=>items.length?'P'+num(100*items[0].parsed.x,1):'',label:item=>item.dataset.label+': '+pct(item.parsed.y)}}},scales:{
-        x:{type:'linear',min:contract.x_display_range[0],max:contract.x_display_range[1],afterBuildTicks:axis=>{axis.ticks=contract.xbreaks.map(value=>({value}));},grid:{display:false},border:{display:false},title:{display:true,text:contract.x_label,font:{family:'Georgia, serif',size:14}},ticks:{font:{family:'Georgia, serif',size:13},maxRotation:0,autoSkip:false,callback:value=>contract.x_format==='percent'?pct(value):Number(value).toFixed(1)}},
-        y:{type:'linear',min:contract.y_display_range[0],max:contract.y_display_range[1],afterBuildTicks:axis=>{if(contract.ybreaks)axis.ticks=contract.ybreaks.map(value=>({value}));},grid:{display:false},border:{display:false},title:{display:true,text:contract.y_label,font:{family:'Georgia, serif',size:14}},ticks:{font:{family:'Georgia, serif',size:13},autoSkip:false,callback:pct}}
+      distributionCharts.push(new Chart(canvas,{type:'line',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'nearest',intersect:false},plugins:{legend:{display:false},tooltip:{filter:item=>item.dataset.isRaw,callbacks:{title:items=>items.length?'P'+num(100*items[0].parsed.x,1):'',label:item=>item.dataset.label+': '+pct(item.parsed.y)}}},scales:{
+        x:{type:'linear',min:contract.x_display_range[0],max:contract.x_display_range[1],afterBuildTicks:axis=>{axis.ticks=contract.xbreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{color:'#d9dce2'},title:{display:true,text:contract.x_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},maxRotation:0,autoSkip:false,callback:value=>contract.x_format==='percent'?pct(value):Number(value).toFixed(1)}},
+        y:{type:'linear',min:contract.y_display_range[0],max:contract.y_display_range[1],afterBuildTicks:axis=>{if(contract.ybreaks)axis.ticks=contract.ybreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{display:false},title:{display:true,text:contract.y_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},autoSkip:false,callback:pct}}
       }}}));
     }
     const country=distributionCountry?' · '+(countryLabels.get(distributionCountry)||distributionCountry):'',weight=distributionSurvey==='PSID'?' · '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[getWeightingMethod()]:'';
     $('adjustment-distribution-readout').textContent=surveyLabels[distributionSurvey]+country+' · '+distributionDomain+weight+' · '+(getHousingMethod()==='bp'&&['PSID','CEX_BM_RECON'].includes(distributionSurvey)?'constant-rate':'benchmark')+' homeowner services';
-    $('composition-sample-note').textContent=distributionSurvey==='PSID'?'Paper composition sample: ages 19–80 and positive wealth, before the food-spending filter. Log–log plots use a different sample.'+(distributionDomain==='wealth'?' Wealth components follow the paper’s component total and source signs.':''):'The percentile and smoothing conventions follow the paper; component coverage and samples remain specific to each survey.';
     $('adjustment-distribution-csv').disabled=!points.length;$('adjustment-distribution-csv')._rows=[...points.map(row=>({kind:'raw_point',...row})),...smooth.map(row=>({kind:'smoothed_line',...row}))];
   }
   function renderDistribution(){
@@ -119,10 +118,8 @@ function initAdjustments(payload,context) {
   fillSurveySelectors();
   if(compositionContracts.length){
     const root=$('adjustment-distribution-results'),controls=root.querySelector('.adjustment-distribution-controls'),detail=document.createElement('div');detail.className='control';detail.id='composition-detail-control';detail.innerHTML='<label for="composition-detail">Consumption detail</label><select id="composition-detail"><option value="consumption_reduced">Grouped categories</option><option value="consumption">Detailed categories</option></select>';controls.append(detail);
-    const all=document.createElement('label');all.id='composition-all-stages-control';all.className='small-check';all.innerHTML='<input type="checkbox" id="composition-all-stages">Show reporting-only stage';controls.append(all);
     const legend=document.createElement('ul');legend.id='composition-shared-legend';legend.className='composition-shared-legend';legend.setAttribute('aria-label','Component legend');root.querySelector('.adjustment-distribution-grid').before(legend);
-    const note=document.createElement('p');note.id='composition-sample-note';note.className='adjustment-footnote';root.append(note);
-    $('composition-detail').addEventListener('change',event=>{psidConsumptionView=event.target.value;renderDistribution();});$('composition-all-stages').addEventListener('change',event=>{showAllStages=event.target.checked;renderDistribution();});
+    $('composition-detail').addEventListener('change',event=>{psidConsumptionView=event.target.value;renderDistribution();});
   }
   $('adjustment-figure-survey').addEventListener('change',e=>{figureSurvey=e.target.value;figureCountry='';renderYears();});$('adjustment-figure-country').addEventListener('change',e=>{figureCountry=e.target.value;renderYears();});$('adjustment-figure-mode').addEventListener('change',e=>{figureMode=e.target.value;renderYears();});
   ['consumption','income','wealth'].forEach(domain=>$('adjustment-figure-'+domain+'-variable').addEventListener('change',e=>{selections[domain]=e.target.value;renderYears();}));
