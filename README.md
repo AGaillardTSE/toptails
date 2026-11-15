@@ -1,6 +1,6 @@
 # Upper-Tail Inequality — Data v1
 
-Complete current website package, updated 14 November 2026.
+Complete current website package, updated 15 November 2026.
 
 ## Put it on GitHub Pages
 

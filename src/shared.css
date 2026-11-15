@@ -160,7 +160,8 @@
 #us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:auto;flex:0 1 auto;width:auto;min-height:39px;align-self:end;align-items:center;white-space:nowrap;margin:0;padding:0}
 @media(max-width:1050px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:1/-1}}
-.adjustment-footnote .decomposition-line{display:block}.adjustment-footnote math{font-size:1.08em;margin-inline:3px;white-space:nowrap}
+.adjustment-footnote{font-size:14px}.adjustment-footnote p{margin:0;line-height:1.7}.adjustment-footnote p+p{margin-top:6px}.sequential-equations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 30px;margin:14px 0}.sequential-step{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;color:#354b65}.sequential-step>span{font:600 14px/1.5 Arial,sans-serif}.sequential-step math{font-family:math;font-size:20px;margin:0;white-space:nowrap}
+@media(max-width:760px){.sequential-equations{grid-template-columns:1fr}.sequential-step math{font-size:18px}}
 .paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(4,minmax(0,1fr))}.paper-composition .adjustment-distribution-controls .control{display:flex;flex-direction:column;align-items:stretch;gap:8px}.paper-composition .adjustment-distribution-controls label{margin:0}.paper-composition .adjustment-distribution-controls select{width:100%;max-width:none;box-sizing:border-box;flex:none}
 @media(max-width:900px){.paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.paper-composition .adjustment-distribution-controls{grid-template-columns:1fr}}

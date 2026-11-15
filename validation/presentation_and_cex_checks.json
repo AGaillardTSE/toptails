@@ -44,7 +44,6 @@
   "cross_country_help_uses_shared_hover_portal": true,
   "US_loglog_PSID_OLS_slope": 0.3569005852295774,
   "methodology_sequential_decomposition_mathml": true,
-  "methodology_SCF_note_starts_second_line": true,
   "procedure_matching_formulas_mathml": true,
   "procedure_visual_labels_captions_body_font_px": 14,
   "procedure_dependency_sentences_in_corresponding_frames": true,
@@ -76,5 +75,12 @@
   "SCF_source_entries_merged": true,
   "CEX_source_entries_merged": true,
   "source_access_vintage_notes_and_download_buttons_removed": true,
-  "useful_papers_reference_count": 5
+  "useful_papers_reference_count": 5,
+  "methodology_sequential_equations_labeled_and_enlarged": true,
+  "methodology_original_adjusted_notation_explained": true,
+  "methodology_SCF_note_separate_paragraph": true,
+  "procedure_page_matches_full_content_width": true,
+  "procedure_sentences_directly_below_frame_titles": true,
+  "procedure_page_and_content_width_px": 1216,
+  "aggregate_payloads_unchanged": true
 }

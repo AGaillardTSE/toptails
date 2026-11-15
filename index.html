@@ -183,7 +183,8 @@
 #us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:auto;flex:0 1 auto;width:auto;min-height:39px;align-self:end;align-items:center;white-space:nowrap;margin:0;padding:0}
 @media(max-width:1050px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:1/-1}}
-.adjustment-footnote .decomposition-line{display:block}.adjustment-footnote math{font-size:1.08em;margin-inline:3px;white-space:nowrap}
+.adjustment-footnote{font-size:14px}.adjustment-footnote p{margin:0;line-height:1.7}.adjustment-footnote p+p{margin-top:6px}.sequential-equations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 30px;margin:14px 0}.sequential-step{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;color:#354b65}.sequential-step>span{font:600 14px/1.5 Arial,sans-serif}.sequential-step math{font-family:math;font-size:20px;margin:0;white-space:nowrap}
+@media(max-width:760px){.sequential-equations{grid-template-columns:1fr}.sequential-step math{font-size:18px}}
 .paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(4,minmax(0,1fr))}.paper-composition .adjustment-distribution-controls .control{display:flex;flex-direction:column;align-items:stretch;gap:8px}.paper-composition .adjustment-distribution-controls label{margin:0}.paper-composition .adjustment-distribution-controls select{width:100%;max-width:none;box-sizing:border-box;flex:none}
 @media(max-width:900px){.paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.paper-composition .adjustment-distribution-controls{grid-template-columns:1fr}}
@@ -246,6 +247,7 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
 .dc-visual-procedure .dc-mini-legend,.dc-visual-procedure .dc-mini-caption,.dc-visual-procedure .dc-mini-label{font:400 14px/1.7 Arial,sans-serif}.dc-visual-procedure .dc-step-visual{height:auto;min-height:190px}.dc-visual-procedure .dc-operation-step{font-size:14px}
 .dc-visual-procedure .operation-equation{display:flex;align-items:center;justify-content:center;padding:16px 12px;min-height:108px}.dc-visual-procedure .operation-equation math{font-family:math;font-size:23px;margin:0}.dc-visual-procedure .fixed-point-operation>.operation-description{width:100%;max-width:none;text-align:justify}
 #data-sources-panel>.source-heading{margin-bottom:8px}#data-sources-panel>.dc-toolbar{padding-top:0;padding-bottom:16px}
+.dc-visual-procedure .method-content,.dc-visual-procedure .psid-adjustments{width:100%;max-width:none;margin:0}.dc-visual-procedure .dc-operation-step{margin-bottom:6px}.dc-visual-procedure .fixed-point-operation>.dc-dependency-note{margin:0 0 20px;padding:0;border:0;min-height:0}
 .source-reference-group{margin:0 0 24px}.source-reference-group h3{font:600 16px/1.5 Arial,sans-serif;color:#344b64;margin:0 0 12px}.source-reference-list{margin:0;padding-left:20px;font:400 14px/1.75 Arial,sans-serif}.source-reference-list li+li{margin-top:12px}.source-reference-list a{color:#355f87;text-underline-offset:3px}
 </style>
 </head>
@@ -334,17 +336,17 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
   <header class="adjustments-heading"><h2>Rescaling and reweighting</h2></header>
   <div class="fixed-point-diagram" aria-label="Iterate between matching income totals and matching the SCF income distribution">
     <article class="fixed-point-operation">
+      <p class="dc-dependency-note">Rescaling determines the relative incomes used for reweighting.</p>
       <div class="operation-visual" aria-hidden="true"><span class="component-bar"></span><span class="component-bar"></span><span class="component-bar"></span><span class="operation-symbol">→</span><span class="target-line"></span></div>
       <h3>Match income totals</h3><p>Using the <strong>current weights</strong>, rescale the income components used in the ranking to their national-account targets.</p>
       <div class="operation-equation"><math display="block" aria-label="lambda k of omega equals target Y k divided by the sum over i of omega i times y i k"><mrow><msub><mi>λ</mi><mi>k</mi></msub><mo stretchy="false">(</mo><mi>ω</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><msub><mi>Y</mi><mi>k</mi></msub><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>ω</mi><mi>i</mi></msub><msub><mi>y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></mrow></mfrac></mrow></math></div>
-      <p class="dc-dependency-note">Rescaling determines the relative incomes used for reweighting.</p>
     </article>
     <div class="fixed-point-arrow dc-causal-arrow"><div class="dc-cause-forward"><span aria-hidden="true">→</span><strong>Rescaling changes relative incomes and income bins</strong></div><div class="dc-cause-back"><span aria-hidden="true">←</span><strong>Reweighting changes the totals used for rescaling</strong></div></div>
     <article class="fixed-point-operation">
+      <p class="dc-dependency-note">Reweighting changes the factors needed for rescaling.</p>
       <div class="operation-visual operation-households" aria-hidden="true"><i></i><i></i><i></i><span class="operation-symbol">→</span><i></i><i></i><i></i></div>
       <h3>Match income-bin shares</h3><p class="operation-description">Compute income relative to its weighted median using the <strong>current rescaling factors</strong>. Reweight these bins to match the reference distribution.</p>
       <div class="operation-equation"><math display="block" aria-label="omega prime i is proportional to omega i times the SCF bin mass divided by the current study-survey bin mass"><mrow><msubsup><mi>ω</mi><mi>i</mi><mo>′</mo></msubsup><mo>∝</mo><msub><mi>ω</mi><mi>i</mi></msub><mspace width="0.2em"/><mfrac><mrow><msub><mi>F</mi><mtext>SCF</mtext></msub><mo stretchy="false">(</mo><msub><mi>B</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><mrow><msub><mi>M</mi><mi>j</mi></msub><mo stretchy="false">(</mo><mi>λ</mi><mo>,</mo><mi>ω</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow></math></div>
-      <p class="dc-dependency-note">Reweighting changes the factors needed for rescaling.</p>
     </article>
   </div>
   <section class="dc-algorithm" aria-labelledby="dc-algorithm-title">
@@ -385,10 +387,29 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
       <article class="adjustment-figure-card"><label class="adjustment-card-selector" for="adjustment-figure-income-variable">Income variable</label><select id="adjustment-figure-income-variable"></select><h4 id="adjustment-figure-income-title">Income</h4><div class="adjustment-mini-chart"><canvas id="adjustment-figure-income" role="img" aria-label="Annual income reporting and representation contributions"></canvas></div></article>
       <article class="adjustment-figure-card"><label class="adjustment-card-selector" for="adjustment-figure-wealth-variable">Wealth variable</label><select id="adjustment-figure-wealth-variable"></select><h4 id="adjustment-figure-wealth-title">Wealth</h4><div class="adjustment-mini-chart"><canvas id="adjustment-figure-wealth" role="img" aria-label="Annual wealth reporting and representation contributions"></canvas></div></article>
     </div>
-    <p class="adjustment-note adjustment-footnote"><span class="decomposition-line"><strong>Sequential decomposition:</strong> change weights first, then amounts:
-      <math aria-label="Representation change equals the sum over households of the change in weights times the reported amount"><mrow><msub><mi>Δ</mi><mtext>rep</mtext></msub><mo>=</mo><msub><mo>∑</mo><mi>i</mi></msub><mrow><mo>(</mo><msubsup><mi>ω</mi><mi>i</mi><mo>*</mo></msubsup><mo>−</mo><msubsup><mi>ω</mi><mi>i</mi><mn>0</mn></msubsup><mo>)</mo></mrow><msub><mi>x</mi><mi>i</mi></msub></mrow></math>,
-      <math aria-label="Reporting change equals the sum over households of final weights times the change in amounts"><mrow><msub><mi>Δ</mi><mtext>report</mtext></msub><mo>=</mo><msub><mo>∑</mo><mi>i</mi></msub><msubsup><mi>ω</mi><mi>i</mi><mo>*</mo></msubsup><mrow><mo>(</mo><msubsup><mi>x</mi><mi>i</mi><mo>*</mo></msubsup><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow></mrow></math>.
-      Shapley gives essentially the same allocation.</span><span class="decomposition-line">SCF has reporting adjustment only. In levels, the charts show the reported, representation-only and fully adjusted aggregates.</span></p>
+    <div class="adjustment-note adjustment-footnote">
+      <p class="decomposition-intro"><strong>Sequential decomposition:</strong> change weights first, then amounts.</p>
+      <div class="sequential-equations">
+        <div class="sequential-step"><span>1. Representation — change weights</span>
+          <math display="block" aria-label="Representation change: the reported amounts under adjusted weights minus the reported amounts under original weights"><mrow>
+            <msub><mi>Δ</mi><mtext>rep</mtext></msub><mo>=</mo>
+            <munder><mo movablelimits="false">∑</mo><mi>i</mi></munder><msubsup><mi>ω</mi><mi>i</mi><mo>*</mo></msubsup><msubsup><mi>x</mi><mi>i</mi><mn>0</mn></msubsup>
+            <mo>−</mo>
+            <munder><mo movablelimits="false">∑</mo><mi>i</mi></munder><msubsup><mi>ω</mi><mi>i</mi><mn>0</mn></msubsup><msubsup><mi>x</mi><mi>i</mi><mn>0</mn></msubsup>
+          </mrow></math>
+        </div>
+        <div class="sequential-step"><span>2. Reporting — change amounts</span>
+          <math display="block" aria-label="Reporting change: adjusted amounts minus reported amounts, both under adjusted weights"><mrow>
+            <msub><mi>Δ</mi><mtext>report</mtext></msub><mo>=</mo>
+            <munder><mo movablelimits="false">∑</mo><mi>i</mi></munder><msubsup><mi>ω</mi><mi>i</mi><mo>*</mo></msubsup><msubsup><mi>x</mi><mi>i</mi><mo>*</mo></msubsup>
+            <mo>−</mo>
+            <munder><mo movablelimits="false">∑</mo><mi>i</mi></munder><msubsup><mi>ω</mi><mi>i</mi><mo>*</mo></msubsup><msubsup><mi>x</mi><mi>i</mi><mn>0</mn></msubsup>
+          </mrow></math>
+        </div>
+      </div>
+      <p>Superscripts 0 and * denote original and adjusted values. Shapley gives essentially the same allocation.</p>
+      <p>SCF has reporting adjustment only. In levels, the charts show the reported, representation-only and fully adjusted aggregates.</p>
+    </div>
   </section>
   <section class="adjustment-distribution-results" id="adjustment-distribution-results" aria-labelledby="adjustment-distribution-title">
     <div class="adjustment-results-header"><div><h3 id="adjustment-distribution-title">Component shares before and after adjustment</h3><p>Component shares across the distribution, before and after adjustment.</p></div><button class="text-button" id="adjustment-distribution-csv" type="button">Results CSV</button></div>
