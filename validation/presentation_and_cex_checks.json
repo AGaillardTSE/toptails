@@ -82,5 +82,10 @@
   "procedure_page_matches_full_content_width": true,
   "procedure_sentences_directly_below_frame_titles": true,
   "procedure_page_and_content_width_px": 1216,
-  "aggregate_payloads_unchanged": true
+  "aggregate_payloads_unchanged": true,
+  "methodology_first_and_default_tab": "Procedure & Algorithm",
+  "reporting_step_label": "Reporting \u2014 rescale amounts",
+  "benchmark_bin_mass_label_expanded": true,
+  "procedure_population_total_caption_removed": true,
+  "procedure_visual_heading_gap_reduced": true
 }

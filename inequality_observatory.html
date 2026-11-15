@@ -249,6 +249,8 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
 #data-sources-panel>.source-heading{margin-bottom:8px}#data-sources-panel>.dc-toolbar{padding-top:0;padding-bottom:16px}
 .dc-visual-procedure .method-content,.dc-visual-procedure .psid-adjustments{width:100%;max-width:none;margin:0}.dc-visual-procedure .dc-operation-step{margin-bottom:6px}.dc-visual-procedure .fixed-point-operation>.dc-dependency-note{margin:0 0 20px;padding:0;border:0;min-height:0}
 .source-reference-group{margin:0 0 24px}.source-reference-group h3{font:600 16px/1.5 Arial,sans-serif;color:#344b64;margin:0 0 12px}.source-reference-list{margin:0;padding-left:20px;font:400 14px/1.75 Arial,sans-serif}.source-reference-list li+li{margin-top:12px}.source-reference-list a{color:#355f87;text-underline-offset:3px}
+.dc-adjustment-nav .dc-nav-procedure:first-child{padding-left:0}.dc-adjustment-nav .dc-nav-procedure:first-child:before{display:none}
+.dc-visual-procedure .dc-step-visual{height:auto;min-height:0}.dc-visual-procedure .fixed-point-operation h3{margin-top:12px}.dc-visual-procedure .dc-mini-legend span:first-child{flex:0 0 auto}.dc-visual-procedure .dc-mini-legend span:last-child{max-width:70%;text-align:right}.dc-visual-procedure .dc-rescale-row:last-child{margin-bottom:0}
 </style>
 </head>
 <body>
@@ -398,7 +400,7 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
             <munder><mo movablelimits="false">∑</mo><mi>i</mi></munder><msubsup><mi>ω</mi><mi>i</mi><mn>0</mn></msubsup><msubsup><mi>x</mi><mi>i</mi><mn>0</mn></msubsup>
           </mrow></math>
         </div>
-        <div class="sequential-step"><span>2. Reporting — change amounts</span>
+        <div class="sequential-step"><span>2. Reporting — rescale amounts</span>
           <math display="block" aria-label="Reporting change: adjusted amounts minus reported amounts, both under adjusted weights"><mrow>
             <msub><mi>Δ</mi><mtext>report</mtext></msub><mo>=</mo>
             <munder><mo movablelimits="false">∑</mo><mi>i</mi></munder><msubsup><mi>ω</mi><mi>i</mi><mo>*</mo></msubsup><msubsup><mi>x</mi><mi>i</mi><mo>*</mo></msubsup>
@@ -1353,7 +1355,7 @@ function initDataAndCorrespondence(metadata) {
   const visibleDatasets=datasets.filter(row=>!archivedSurveys.has(row.survey)).map(row=>({...row,...essentialNotes[row.survey]}));
   if(metadata.forbes_reference)visibleDatasets.push({survey:'FORBES',label:'Forbes',coverage:'United States, 1982–2024.',unit:'Distinct listed person or family fortune.',limitations:['Combines World’s Billionaires and Forbes 400; overlapping fortunes are counted once.','Rich-list wealth only. Valuation dates and historical coverage differ.']});
   const datasetCountries=new Map(),dataCountries=new Map();correspondences.forEach(row=>{if(!row.country||archivedSurveys.has(row.survey))return;const country=String(row.country);dataCountries.set(country,row.country_name||country);if(!datasetCountries.has(row.survey))datasetCountries.set(row.survey,new Set());datasetCountries.get(row.survey).add(country);});datasetCountries.set('FORBES',new Set(['US']));
-  const domainNames={consumption:'Consumption',income:'Income',wealth:'Wealth'},state={view:'figures',dataCountry:'US',consumption:{country:'US',survey:'PSID'},income:{country:'US',survey:'PSID'},wealth:{country:'US',survey:'PSID'}};
+  const domainNames={consumption:'Consumption',income:'Income',wealth:'Wealth'},state={view:'procedure',dataCountry:'US',consumption:{country:'US',survey:'PSID'},income:{country:'US',survey:'PSID'},wealth:{country:'US',survey:'PSID'}};
   const nodes={},el=(tag,className,text)=>{const n=doc.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=String(text);return n;};
   const strings=x=>Array.isArray(x)?x.filter(v=>v!==undefined&&v!==null).map(v=>typeof v==='string'?v:v.label||v.description||v.name||v.code||String(v)):x?[String(x)]:[];
   const surveyName=survey=>datasets.find(r=>r.survey===survey)?.label||metadata?.surveys?.[survey]?.label||survey;
@@ -1391,7 +1393,7 @@ function initDataAndCorrespondence(metadata) {
     panel.classList.add('dc-visual-procedure');const operations=panel.querySelectorAll('.fixed-point-operation');
     operations.forEach((operation,index)=>{const number=el('span','dc-operation-step',index===0?'Rescaling':'Reweighting');operation.prepend(number);const visual=operation.querySelector('.operation-visual');if(!visual)return;visual.replaceChildren();visual.className='dc-step-visual '+(index===0?'dc-reporting-visual':'dc-representation-visual');
       if(index===0){const legend=el('div','dc-mini-legend');legend.append(el('span','','Weighted survey totals'),el('span','','Account targets'));visual.append(legend);[42,66,52].forEach((width,j)=>{const row=el('div','dc-rescale-row');row.append(el('span','dc-mini-label',['Category k','Category ℓ','Category m'][j]));const track=el('span','dc-rescale-track'),bar=el('i','dc-rescale-bar'),target=el('i','dc-rescale-target');bar.style.width=width+'%';track.append(bar,target);row.append(track,el('span','dc-mini-factor',['λk','λℓ','λm'][j]+' →'));visual.append(row);});}
-      else {const legend=el('div','dc-mini-legend');legend.append(el('span','','Original weights'),el('span','','Matched bin mass'));visual.append(legend);const people=el('div','dc-people-comparison');for(const side of ['before','after']){const group=el('div','dc-people-group '+side);for(let j=0;j<12;j++){const person=el('i','dc-person');person.style.setProperty('--person-weight',side==='before'?'1':[.7,.8,1.1,1.5][Math.floor(j/3)]);group.append(person);}people.append(group);if(side==='before')people.append(el('span','dc-people-arrow','→'));}visual.append(people);visual.append(el('p','dc-mini-caption','Change weights within income bins; keep the population total.'));}
+      else {const legend=el('div','dc-mini-legend');legend.append(el('span','','Original weights'),el('span','','Matched bin mass of a benchmark distribution (IRS, SCF, WID data)'));visual.append(legend);const people=el('div','dc-people-comparison');for(const side of ['before','after']){const group=el('div','dc-people-group '+side);for(let j=0;j<12;j++){const person=el('i','dc-person');person.style.setProperty('--person-weight',side==='before'?'1':[.7,.8,1.1,1.5][Math.floor(j/3)]);group.append(person);}people.append(group);if(side==='before')people.append(el('span','dc-people-arrow','→'));}visual.append(people);}
     });
     const detail=panel.querySelector('.fixed-point-detail');if(detail){const notes=el('details','dc-procedure-notes'),summary=el('summary','','Normalization and survey-specific implementation');notes.append(summary);detail.parentNode.insertBefore(notes,detail);notes.append(detail);}
   }
@@ -1410,7 +1412,7 @@ function initDataAndCorrespondence(metadata) {
     const distribution=el('section','dc-distribution-panel');distribution.id='adjustment-distribution-panel';distribution.setAttribute('role','tabpanel');distribution.setAttribute('aria-labelledby','dc-tab-distribution');const distributionSection=procedure.querySelector('#adjustment-distribution-results');if(distributionSection)distribution.append(distributionSection);adjustmentsRoot.append(figures,distribution,procedure);enhanceProcedure(procedure);
     const nav=el('nav','secondary-nav cc-subnav dc-adjustment-nav');nav.setAttribute('aria-label','Methodology views');const navInner=el('div','secondary-nav-inner');navInner.id='dc-adjustments-nav-inner';navInner.setAttribute('role','tablist');navInner.setAttribute('aria-label','Methodology views');nav.append(navInner);nodes.tabs={};nodes.panels={figures,distribution,procedure};
     let navGroup;
-    [['figures','Over years'],['distribution','Along distributions'],['procedure','Procedure & Algorithm'],...Object.entries(domainNames)].forEach(([domain,label])=>{
+    [['procedure','Procedure & Algorithm'],['figures','Over years'],['distribution','Along distributions'],...Object.entries(domainNames)].forEach(([domain,label])=>{
       if(domain==='figures'||domain==='consumption'||domain==='procedure'){
         navGroup=el('div','dc-nav-group'+(domain==='procedure'?' dc-nav-procedure':''));navGroup.setAttribute('role','presentation');navInner.append(navGroup);
         if(domain!=='procedure')navGroup.append(el('strong','dc-nav-group-label',domain==='figures'?'Representation and reporting correction results:':'Correspondence tables:'));
@@ -1419,7 +1421,7 @@ function initDataAndCorrespondence(metadata) {
       if(!domainNames[domain])return;const panel=el('section','dc-domain-panel');panel.id='dc-panel-'+domain;panel.dataset.domain=domain;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',button.id);panel.hidden=true;const toolbar=el('div','dc-toolbar'),country=control('Country','dc-country-'+domain),survey=control('Survey','dc-survey-'+domain);toolbar.append(country.box,survey.box);const scroll=el('div','dc-correspondence-scroll'),table=el('table','dc-correspondence-table'),head=el('thead'),headRow=el('tr'),sourceHeading=el('th','','Survey variables');headRow.append(el('th','','Component'),sourceHeading,el('th','dc-link-heading',''),el('th','','National accounts / controls'));head.append(headRow);const body=el('tbody');table.append(head,body);scroll.append(table);const empty=el('p','dc-empty','No source-verified correspondence is available for this selection.');empty.hidden=true;panel.append(toolbar,scroll,empty);adjustmentsRoot.append(panel);nodes.panels[domain]=panel;nodes[domain]={country:country.select,survey:survey.select,table,body,sourceHeading,empty};country.select.addEventListener('change',e=>{state[domain].country=e.target.value;renderDomain(domain);});survey.select.addEventListener('change',e=>{state[domain].survey=e.target.value;renderDomain(domain);});
     });
     nav.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;const buttons=[...nav.querySelectorAll('button')];let index=buttons.indexOf(doc.activeElement);if(index<0)return;e.preventDefault();index=e.key==='Home'?0:e.key==='End'?buttons.length-1:(index+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;activate(buttons[index].dataset.correspondenceTab,true);});
-    adjustmentsRoot.prepend(nav);activate('figures');
+    adjustmentsRoot.prepend(nav);activate('procedure');
   }
   function render(){if(dataRoot&&!dataRoot.hidden)renderData();if(adjustmentsRoot&&!adjustmentsRoot.hidden&&domainNames[state.view])renderDomain(state.view);}
   return {render,resize:()=>{},isDecompositionVisible:()=>state.view==='figures',isProcedureVisible:()=>['figures','distribution'].includes(state.view),getView:()=>state.view};
