@@ -37,13 +37,14 @@ function initAdjustments(payload,context) {
     const available=currentRows(),used=[];let minYear=Infinity,maxYear=-Infinity;
     [['consumption','adjustment-figure-consumption'],['income','adjustment-figure-income'],['wealth','adjustment-figure-wealth']].forEach(([domain,id])=>{
       const chosen=selections[domain],selected=available.filter(r=>r.variable===chosen&&finite(r.raw_total)).sort((a,b)=>a.year-b.year),canvas=$(id),card=canvas.closest('.adjustment-figure-card'),title=$('adjustment-figure-'+domain+'-title');
-      card.classList.toggle('adjustment-figure-empty',!selected.length);canvas.hidden=!selected.length;title.textContent=selected[0]?.label||domain[0].toUpperCase()+domain.slice(1);if(!selected.length)return;
+      card.hidden=figureSurvey==='CEX_BM_RECON'&&!selected.length;card.classList.toggle('adjustment-figure-empty',!selected.length);canvas.hidden=!selected.length;title.textContent=selected[0]?.label||domain[0].toUpperCase()+domain.slice(1);if(!selected.length)return;
       used.push(...selected);minYear=Math.min(minYear,selected[0].year);maxYear=Math.max(maxYear,selected.at(-1).year);
       let datasets,levels=figureMode==='levels';
       if(levels){datasets=[['Reported','raw_total','#9c9ba3'],['Representation only','weights_only_total','#294766'],['Fully adjusted','adjusted_total','#4D8B69']].map(([label,key,color])=>({label,data:selected.map(r=>finite(r[key])?r[key]/1e9:null),borderColor:color,backgroundColor:color,borderWidth:2,pointRadius:3,tension:0,spanGaps:false}));}
       else{datasets=[['Representation weighting','representation_relative_raw','#294766',[]],['Reporting / component rescaling','reporting_relative_raw','#b94a75',[]],['Total correction','total_relative_raw','#888d96',[5,4]]].map(([label,key,color,dash])=>({label,data:selected.map(r=>r[key]),borderColor:color,backgroundColor:color,borderDash:dash,borderWidth:key==='total_relative_raw'?1.4:2,pointRadius:3,tension:0,spanGaps:false}));}
       const unit=selected[0].unit||'survey currency';yearCharts.push(new Chart(canvas,{type:'line',data:{labels:selected.map(r=>String(r.year)),datasets},options:chartOptions(levels?'Aggregate (billions; '+unit+')':'Change / reported aggregate',levels,ctx=>ctx.dataset.label+': '+(levels?num(ctx.raw,2)+' billion '+unit:pct(ctx.raw)))}));
     });
+    root.querySelector('.adjustment-figure-grid').classList.toggle('single-series',figureSurvey==='CEX_BM_RECON');
     const housing=getHousingMethod()==='bp'?'constant 5.4% imputed-rent rate':'benchmark homeowner services',country=figureCountry?' · '+(countryLabels.get(figureCountry)||figureCountry):'';
     $('adjustment-figure-readout').textContent=surveyLabels[figureSurvey]+country+' · '+housing+' · '+(isFinite(minYear)?minYear+(maxYear!==minYear?'–'+maxYear:''):'no available years')+(figureSurvey==='SCF'?' · reporting adjustment only':'');
     $('adjustment-figure-csv').disabled=!used.length;$('adjustment-figure-csv')._rows=used;
@@ -82,10 +83,11 @@ function initAdjustments(payload,context) {
     for(const stage of ['raw','reporting','full']){
       const canvas=$('adjustment-distribution-'+stage),card=canvas.closest('.adjustment-distribution-card'),contract=contracts.find(c=>c.stage===stage);card.hidden=!stages.includes(stage);if(card.hidden)continue;
       card.querySelector('h4').textContent=({raw:'Raw data',reporting:'Adjusted for reporting',full:'Adjusted for reporting and representation'})[stage];
+      card.querySelector('.composition-year-note')?.remove();if(distributionSurvey==='CEX_BM_RECON'&&contract.years_used?.length){const years=contract.years_used,note=document.createElement('p');note.className='composition-year-note';note.textContent=years.length+' available waves ('+years[0]+'–'+years.at(-1)+')';note.title=years.join(', ');card.querySelector('h4').after(note);}
       const xRange=distributionRange==='top20'?[.8,1]:contract.x_display_range,xBreaks=distributionRange==='top20'?[.8,.85,.9,.95,1]:contract.xbreaks,nipaBasket=distributionSurvey==='PSID'&&contract.domain==='consumption';
       const datasets=[];let visiblePoints=0,lineCoordinates=0;
       contract.category_order.forEach((category,i)=>{
-        const label=contract.labels[i]||category,color=contract.colors[i],line=smooth.filter(row=>row.stage===stage&&row.category===category).sort((a,b)=>a.quantile-b.quantile),raw=points.filter(row=>row.stage===stage&&row.category===category&&row.plot_visible===true).sort((a,b)=>a.quantile-b.quantile);
+        const label=contract.labels[i]||category,color=contract.colors[i],line=smooth.filter(row=>row.stage===stage&&row.category===category).sort((a,b)=>a.quantile-b.quantile),raw=points.filter(row=>row.stage===stage&&row.category===category&&row.plot_visible!==false).sort((a,b)=>a.quantile-b.quantile);
         lineCoordinates+=line.length;visiblePoints+=raw.length;
         datasets.push({label,category,type:'line',data:line.map(row=>({x:row.quantile,y:row.share})),borderColor:color,backgroundColor:color,borderWidth:3,pointRadius:0,pointHoverRadius:0,tension:0,spanGaps:false,showLine:true,order:1,isSmooth:true});
         datasets.push({label,category,type:'scatter',data:raw.map(row=>({x:row.quantile,y:row.share})),borderColor:alphaColor(color),backgroundColor:'transparent',pointBackgroundColor:'transparent',pointBorderColor:alphaColor(color),pointBorderWidth:1.15,pointRadius:2.5,pointHoverRadius:5,pointStyle:'circle',showLine:false,order:0,isRaw:true});

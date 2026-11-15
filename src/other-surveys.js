@@ -35,14 +35,14 @@ function initOtherSurveys(other,usRows,context) {
   const results={survey:'all',country:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',q:.95,period:'both',page:0};
   const relationships={survey:bins.some(r=>r.survey==='HILDA')?'HILDA':bins[0]?.survey||'HFCS',country:'',pair:'wealth_consumption',adjustment:'full',stat:'mean',minN:5,scale:'loglog',fit:'ols',selectedByCountry:new Map(),waves:new Map()};
   const pairs={wealth_consumption:{x:'networth_val',y:'consump_def1'},income_consumption:{x:'total_income',y:'consump_def1'},labor_consumption:{x:'total_labor_income',y:'consump_def1'},capital_consumption:{x:'total_capital_income',y:'consump_def1'},wealth_capital:{x:'networth_val',y:'total_capital_income'}};
-  let view='summary',summaryCharts=[],relationshipChart,thresholdController,tableRows=[],plottedRows=[],tableSignature='';
+  let view='summary',summaryCharts=[],relationshipChart,thresholdController,eyeController,tableRows=[],plottedRows=[],tableSignature='';
   const panel=$('panel-other');
   panel.innerHTML=[
     '<nav class="secondary-nav cc-subnav" id="cc-secondary-nav" aria-label="Cross-country views"><div class="secondary-nav-inner" role="tablist">',
     '<button class="secondary-tab active" role="tab" aria-selected="true" data-country-view="summary" id="cc-tab-summary" aria-controls="cc-summary">Summary figure</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="quantiles" id="cc-tab-quantiles" aria-controls="cc-quantiles">Estimates by quantile</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="results" id="cc-tab-results" aria-controls="cc-results">Table of results</button>',
-    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="loglog" id="cc-tab-loglog" aria-controls="cc-loglog">Log–log relationships</button></div></nav>',
+    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="loglog" id="cc-tab-loglog" aria-controls="cc-loglog">Log–log relationships</button><button class="secondary-tab" role="tab" aria-selected="false" data-country-view="eyeballing" id="cc-tab-eyeballing" aria-controls="cc-eyeballing">Eyeballing</button></div></nav>',
     '<section id="cc-summary" role="tabpanel" aria-labelledby="cc-tab-summary"><div class="other-card">',
     '<header class="other-card-heading"><h2>Cross-country comparison</h2><button class="text-button" id="cc-summary-csv">Results CSV</button></header>',
     '<div class="other-controls"><div class="control"><label for="cc-survey">Survey</label><select id="cc-survey"></select></div>',
@@ -78,6 +78,7 @@ function initOtherSurveys(other,usRows,context) {
     '<p class="slope-readout cc-b-readout" id="cc-b-readout"></p><p class="biv-tail-ratio" id="cc-b-tail-ratio"></p><div class="chart-wrap bivariate-chart"><canvas id="cc-b-chart" role="img"></canvas><p id="cc-b-empty" class="plot-fallback" hidden>No bivariate results are available for these filters.</p></div>',
     '<div id="cc-b-fits" class="fit-results"></div><p id="cc-b-note" class="results-note"></p></div></div></section>'
   ].join('');
+  const eyeHost=document.createElement('section');eyeHost.id='cc-eyeballing';eyeHost.hidden=true;eyeHost.setAttribute('role','tabpanel');eyeHost.setAttribute('aria-labelledby','cc-tab-eyeballing');panel.append(eyeHost);eyeController=context.createEyeballing?.(eyeHost);
   function options(id,items,value){const el=$(id);el.replaceChildren();items.forEach(([v,label])=>{const o=document.createElement('option');o.value=v;o.textContent=label;el.append(o);});if(items.some(i=>i[0]===value))el.value=value;return el.value;}
   const sourceLabel=value=>context.metadata?.surveys?.[value]?.label||value;
   const surveyDescriptions={
@@ -102,7 +103,7 @@ function initOtherSurveys(other,usRows,context) {
     const text=[fields.join(','),...rows.map(r=>fields.map(k=>escape(r[k])).join(','))].join('\r\n'),url=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function active(){return !panel.hidden;}
-  function changeView(value){view=value;panel.querySelectorAll('[data-country-view]').forEach(b=>{const on=b.dataset.countryView===value;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;b.classList.toggle('active',on);});['summary','quantiles','results','loglog'].forEach(v=>$('cc-'+v).hidden=v!==value);render();}
+  function changeView(value){view=value;panel.querySelectorAll('[data-country-view]').forEach(b=>{const on=b.dataset.countryView===value;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;b.classList.toggle('active',on);});['summary','quantiles','results','loglog','eyeballing'].forEach(v=>$('cc-'+v).hidden=v!==value);render();}
   panel.querySelectorAll('[data-country-view]').forEach(button=>{
     button.tabIndex=button.dataset.countryView===view?0:-1;button.addEventListener('click',()=>changeView(button.dataset.countryView));
     button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const buttons=[...panel.querySelectorAll('[data-country-view]')];let index=buttons.indexOf(button);index=event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[index].focus();changeView(buttons[index].dataset.countryView);});
@@ -283,7 +284,7 @@ function initOtherSurveys(other,usRows,context) {
   }
   function render(){
     if(!active())return;refreshHousing();
-    if(view==='summary')renderSummary();else if(view==='quantiles')thresholdController?.render();else if(view==='results')renderResults();else if(relationshipBinsReady){updateRelationshipOptions();$('cc-b-chart').parentElement.removeAttribute('aria-busy');renderRelationships();}else{
+    if(view==='eyeballing')eyeController?.render();else if(view==='summary')renderSummary();else if(view==='quantiles')thresholdController?.render();else if(view==='results')renderResults();else if(relationshipBinsReady){updateRelationshipOptions();$('cc-b-chart').parentElement.removeAttribute('aria-busy');renderRelationships();}else{
       $('cc-b-empty').hidden=false;$('cc-b-empty').textContent='Loading relationship results…';$('cc-b-chart').parentElement.setAttribute('aria-busy','true');$('cc-b-csv').disabled=true;
       ensureRelationshipBins().then(()=>{if(active()&&view==='loglog'){$('cc-b-csv').disabled=false;render();}}).catch(error=>{$('cc-b-empty').textContent='Relationship results could not be loaded. Please reload the page.';console.error(error);});
     }
@@ -298,5 +299,5 @@ function initOtherSurveys(other,usRows,context) {
   if(typeof ThresholdProfiles!=='undefined'){
     thresholdController=ThresholdProfiles.create({host:$('cc-quantile-profiles'),curves:profileCurves,surveys:['HFCS','SHIW','HILDA','PSID','CEX_BM_RECON'],international:true,metadata:context.metadata||{},getHousingMethod,getSpecificationSignature:context.getSpecificationSignature||getHousingMethod,housingMatches});
   }
-  return{render,resize:()=>{if(!active())return;if(view==='summary')renderSummary();else if(view==='quantiles')thresholdController?.resize();else if(view==='loglog')relationshipChart?.resize();}};
+  return{render,resize:()=>{if(!active())return;if(view==='eyeballing')eyeController?.resize();else if(view==='summary')renderSummary();else if(view==='quantiles')thresholdController?.resize();else if(view==='loglog')relationshipChart?.resize();}};
 }

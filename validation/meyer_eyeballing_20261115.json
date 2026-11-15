@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "preserved_unchanged_blocks": 166,
+  "non_CEX_rows_unchanged": true,
+  "Meyer_summary_groups": 66,
+  "Meyer_raw_reporting_full_waves": [
+    37,
+    21,
+    8
+  ],
+  "Meyer_financial_outcomes_not_inherited": true,
+  "Meyer_original_housing_only": true,
+  "all_empirical_payloads_exact": true,
+  "empirical_profiles_checked": 19458,
+  "arithmetic_wave_averages_checked": 2418,
+  "maximum_average_probability_error": 4.440892098500626e-16,
+  "tail_exhaustion_zeros_included_in_averages": true,
+  "cross_country_Forbes_remains_excluded": true
+}

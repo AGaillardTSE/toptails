@@ -1,6 +1,6 @@
 {
-  "source_html_sha256": "5c129c989b6f051a4108ab9900a32afcfc5b09cb320af82274fd9af48ea6a5d7",
-  "source_html_bytes": 437288569,
+  "source_html_sha256": "664a7088125389f7df360b8c2a66a14cfd52fbfeaee71c6ead7d132b76db528d",
+  "source_html_bytes": 268501916,
   "entries": [
     {
       "id": "explorer-block-bins_unmerged_PSID",
@@ -114,34 +114,6 @@
       ]
     },
     {
-      "id": "explorer-block-summary",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-summary\" data-explorer-block=\"summary\" data-lazy=\"false\">",
-      "separator": "\n",
-      "sha256": "f4aeeea8ff4c4af1381e41c359ee766c0658f18ab56cb89fbfb3cce3d6f4d070",
-      "gzip_bytes": 660369,
-      "parts": [
-        {
-          "path": "data/summary.part01.f4aeeea8ff4c4af1.bin",
-          "bytes": 660369,
-          "sha256": "f4aeeea8ff4c4af1381e41c359ee766c0658f18ab56cb89fbfb3cce3d6f4d070"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-tail_curves",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves\" data-explorer-block=\"tail_curves\" data-lazy=\"false\">",
-      "sha256": "ed02a0b07deb8f9943072e0a85e89b97c2f826716befda981068200914939b3a",
-      "gzip_bytes": 396975,
-      "parts": [
-        {
-          "path": "data/tail_curves.ed02a0b07deb8f99.part01.bin",
-          "bytes": 396975,
-          "sha256": "ed02a0b07deb8f9943072e0a85e89b97c2f826716befda981068200914939b3a"
-        }
-      ]
-    },
-    {
       "id": "explorer-block-tail_curves_CEX",
       "separator": "\n",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_CEX\" data-explorer-block=\"tail_curves_CEX\" data-lazy=\"true\">",
@@ -206,50 +178,6 @@
           "path": "data/tail_curves_CEX_BM.90de19490a8773a8.part01.bin",
           "bytes": 977235,
           "sha256": "90de19490a8773a8a199f9aa1b9889096c44a7fade8a1179c5403e2f9a255278"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-tail_curves_CEX_BM_RECON",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_CEX_BM_RECON\" data-explorer-block=\"tail_curves_CEX_BM_RECON\" data-lazy=\"true\">",
-      "sha256": "205cb1d02a053aba7adfb617a94e8c94dcb442f8ad7a6e0582adb139e64ff274",
-      "gzip_bytes": 28274753,
-      "parts": [
-        {
-          "path": "data/tail_curves_CEX_BM_RECON.205cb1d02a053aba.part01.bin",
-          "bytes": 4194304,
-          "sha256": "00aeef00260acecc3706c645c193701d1e9f2847e38e88094c2b45d10bed8aee"
-        },
-        {
-          "path": "data/tail_curves_CEX_BM_RECON.205cb1d02a053aba.part02.bin",
-          "bytes": 4194304,
-          "sha256": "dc8ff217a5fde56f872bb4dd59933cec1b63e0e62b7eb0657fc824cadf36329a"
-        },
-        {
-          "path": "data/tail_curves_CEX_BM_RECON.205cb1d02a053aba.part03.bin",
-          "bytes": 4194304,
-          "sha256": "ffd3aeb94d04c2eede3a6e6c581db8231544fad83c61f611da1ebd4f8b50c2cf"
-        },
-        {
-          "path": "data/tail_curves_CEX_BM_RECON.205cb1d02a053aba.part04.bin",
-          "bytes": 4194304,
-          "sha256": "fe05c521728fa9286d2a2d61a39cf9a6a93682c7f3a6a9f26176ab7ad9cb9656"
-        },
-        {
-          "path": "data/tail_curves_CEX_BM_RECON.205cb1d02a053aba.part05.bin",
-          "bytes": 4194304,
-          "sha256": "3e05ccb437310042fcddef3992a5f56ef57ae0896b17d3a7d22e266755f95d2e"
-        },
-        {
-          "path": "data/tail_curves_CEX_BM_RECON.205cb1d02a053aba.part06.bin",
-          "bytes": 4194304,
-          "sha256": "73314326ad9a356f3a6555b0adb446a83475d74b861084dbc1b6e8adc2777d88"
-        },
-        {
-          "path": "data/tail_curves_CEX_BM_RECON.205cb1d02a053aba.part07.bin",
-          "bytes": 3108929,
-          "sha256": "851845cc2885e42e59dffdad127b790270d245a65e7510323b05b90236e1b90e"
         }
       ]
     },
@@ -321,20 +249,6 @@
       ]
     },
     {
-      "id": "explorer-block-adjustments",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-adjustments\" data-explorer-block=\"adjustments\" data-lazy=\"true\">",
-      "sha256": "f854b9d840d521b00a39ab3aacff4debc81796c2a88ade13ac9fcd7e2594d50a",
-      "gzip_bytes": 619806,
-      "parts": [
-        {
-          "path": "data/adjustments.f854b9d840d521b0.part01.bin",
-          "bytes": 619806,
-          "sha256": "f854b9d840d521b00a39ab3aacff4debc81796c2a88ade13ac9fcd7e2594d50a"
-        }
-      ]
-    },
-    {
       "id": "explorer-block-composition_PSID",
       "separator": "\n",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-composition_PSID\" data-explorer-block=\"composition_PSID\" data-lazy=\"true\">",
@@ -345,20 +259,6 @@
           "path": "data/composition_PSID.a79ea124b08df9f9.part01.bin",
           "bytes": 1114753,
           "sha256": "a79ea124b08df9f9a19d52228c60b260983f4826c759968ba8bccdc3bb1b899a"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-composition_CEX_BM_RECON",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-composition_CEX_BM_RECON\" data-explorer-block=\"composition_CEX_BM_RECON\" data-lazy=\"true\">",
-      "sha256": "e6469091e5d73de408252545ca1c0463cae5726c3a86c5807a4c1491e5c57674",
-      "gzip_bytes": 330820,
-      "parts": [
-        {
-          "path": "data/composition_CEX_BM_RECON.e6469091e5d73de4.part01.bin",
-          "bytes": 330820,
-          "sha256": "e6469091e5d73de408252545ca1c0463cae5726c3a86c5807a4c1491e5c57674"
         }
       ]
     },
@@ -415,34 +315,6 @@
           "path": "data/composition_SCF.aaa2b792a9f1cb63.part01.bin",
           "bytes": 65743,
           "sha256": "aaa2b792a9f1cb639d27459cb38fc4a67f1cfae278dd4f417bc3a05bebb7ee9a"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-metadata",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-metadata\" data-explorer-block=\"metadata\" data-lazy=\"false\">",
-      "separator": "\n",
-      "sha256": "7871c973506b0caf2921b1c06f1599cb7226e89a8faa9fd20ba1e1fb4618e6a3",
-      "gzip_bytes": 1178672,
-      "parts": [
-        {
-          "path": "data/metadata.7871c973506b0caf.part01.bin",
-          "bytes": 1178672,
-          "sha256": "7871c973506b0caf2921b1c06f1599cb7226e89a8faa9fd20ba1e1fb4618e6a3"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bivariate",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bivariate\" data-explorer-block=\"bivariate\" data-lazy=\"false\">",
-      "sha256": "5f3b86829558654c3845c500c467fe610aee0a657ab3580385c03c718c482009",
-      "gzip_bytes": 394394,
-      "parts": [
-        {
-          "path": "data/bivariate.5f3b86829558654c.part01.bin",
-          "bytes": 394394,
-          "sha256": "5f3b86829558654c3845c500c467fe610aee0a657ab3580385c03c718c482009"
         }
       ]
     },
@@ -2015,494 +1887,6 @@
       ]
     },
     {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n0",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n0\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n0\" data-lazy=\"true\">",
-      "sha256": "fb3fa4ed6fc335a6aea0eb6f28fc405ecbd2437fa7fff1d0eb59c509f17ed5a2",
-      "gzip_bytes": 10389785,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n0.fb3fa4ed6fc335a6.part01.bin",
-          "bytes": 4194304,
-          "sha256": "df774fed5af50c66e15d6190964c5794659705401d89ed5870a658850814c231"
-        },
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n0.fb3fa4ed6fc335a6.part02.bin",
-          "bytes": 4194304,
-          "sha256": "d3a11e45789b6f99e319bf101e1bdcbd72b9856746c66f326d7229a45eef7bbf"
-        },
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n0.fb3fa4ed6fc335a6.part03.bin",
-          "bytes": 2001177,
-          "sha256": "e90f81607669995da84d9fa9dd10d864f40b73877f6624ea3421d506fcea7e57"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n5",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n5\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n5\" data-lazy=\"true\">",
-      "sha256": "bf1cba60c6139ef59a92f77ac240352553e50e82a9e3a5cdeb8618de14a40747",
-      "gzip_bytes": 7284180,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n5.bf1cba60c6139ef5.part01.bin",
-          "bytes": 4194304,
-          "sha256": "df191f7b0cf749493e8ff92a7e6994982315b86c7edd3a3cd641be5ec71cffb4"
-        },
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n5.bf1cba60c6139ef5.part02.bin",
-          "bytes": 3089876,
-          "sha256": "7975cd5e8ac646de18ece9e65293d6f5a7e6b9eba7f917e9dcb12bbba56a0cd7"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n10",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n10\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n10\" data-lazy=\"true\">",
-      "sha256": "e52ad96b3b23e0dd94596d6fe23171d52989d383ed8b48e954717cd61e10994a",
-      "gzip_bytes": 4793837,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n10.e52ad96b3b23e0dd.part01.bin",
-          "bytes": 4194304,
-          "sha256": "db7d74a81a88abc164a9d63658dd55f964e7bcf94d4aeff8dcd0b62a3c4e6cb8"
-        },
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n10.e52ad96b3b23e0dd.part02.bin",
-          "bytes": 599533,
-          "sha256": "d0e638472a7d0e43836b0648c8c1924f747ebe728af0aa3df620574ecc75c3b9"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n20",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n20\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n20\" data-lazy=\"true\">",
-      "sha256": "5028d0719d2fec5708a39550c9d6125206b01f3610ad211bfae666a9323a4eb2",
-      "gzip_bytes": 2789012,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n20.5028d0719d2fec57.part01.bin",
-          "bytes": 2789012,
-          "sha256": "5028d0719d2fec5708a39550c9d6125206b01f3610ad211bfae666a9323a4eb2"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n0",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n0\" data-lazy=\"true\">",
-      "sha256": "d42dca99a5fae25c2ca554375a4a945cd39758df4dd2ee2ce468dede0f104648",
-      "gzip_bytes": 3162504,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n0.d42dca99a5fae25c.part01.bin",
-          "bytes": 3162504,
-          "sha256": "d42dca99a5fae25c2ca554375a4a945cd39758df4dd2ee2ce468dede0f104648"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n5",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n5\" data-lazy=\"true\">",
-      "sha256": "411c8d16c4c63b819d00f50d30c51d4b11837bd81a07e130962c099bdc95617b",
-      "gzip_bytes": 2285705,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n5.411c8d16c4c63b81.part01.bin",
-          "bytes": 2285705,
-          "sha256": "411c8d16c4c63b819d00f50d30c51d4b11837bd81a07e130962c099bdc95617b"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n10",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n10\" data-lazy=\"true\">",
-      "sha256": "bbbec7c9df35c8c3224c4bf91e3e9d5ce21b41a35a9b3f0abb14010c88d8f406",
-      "gzip_bytes": 1293398,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n10.bbbec7c9df35c8c3.part01.bin",
-          "bytes": 1293398,
-          "sha256": "bbbec7c9df35c8c3224c4bf91e3e9d5ce21b41a35a9b3f0abb14010c88d8f406"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n20",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n20\" data-lazy=\"true\">",
-      "sha256": "bd740d385a086be9a53adebea7a3666b0882bec4e53d0fe7bdff4dd8db3a0b8d",
-      "gzip_bytes": 727368,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n20.bd740d385a086be9.part01.bin",
-          "bytes": 727368,
-          "sha256": "bd740d385a086be9a53adebea7a3666b0882bec4e53d0fe7bdff4dd8db3a0b8d"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n0",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n0\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n0\" data-lazy=\"true\">",
-      "sha256": "899098b9ab15088d2bbefb605dc4a8730fa2c6ed17a99d5dc032c1392a90a1cd",
-      "gzip_bytes": 3120522,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n0.899098b9ab15088d.part01.bin",
-          "bytes": 3120522,
-          "sha256": "899098b9ab15088d2bbefb605dc4a8730fa2c6ed17a99d5dc032c1392a90a1cd"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n5",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n5\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n5\" data-lazy=\"true\">",
-      "sha256": "9a691ea61d56eb26a4074037660b41c85b62bfca9fe28dd4f3458f22213c08de",
-      "gzip_bytes": 2190846,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n5.9a691ea61d56eb26.part01.bin",
-          "bytes": 2190846,
-          "sha256": "9a691ea61d56eb26a4074037660b41c85b62bfca9fe28dd4f3458f22213c08de"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n10",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n10\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n10\" data-lazy=\"true\">",
-      "sha256": "a3810eb4d47cb257e2b9a4915b076967baec9078759c8bede950bfadc2f22f58",
-      "gzip_bytes": 1259564,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n10.a3810eb4d47cb257.part01.bin",
-          "bytes": 1259564,
-          "sha256": "a3810eb4d47cb257e2b9a4915b076967baec9078759c8bede950bfadc2f22f58"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n20",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n20\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n20\" data-lazy=\"true\">",
-      "sha256": "b3e591ed72a73b0407762f19badf0c00d58a7325919c11d994c9c5fde5f3f6bf",
-      "gzip_bytes": 712022,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n20.b3e591ed72a73b04.part01.bin",
-          "bytes": 712022,
-          "sha256": "b3e591ed72a73b0407762f19badf0c00d58a7325919c11d994c9c5fde5f3f6bf"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n0",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n0\" data-lazy=\"true\">",
-      "sha256": "6c19aa80bcd90cf2bb52d30c48cd83ea87ec319c27342c5fc2d7198bb235c7f6",
-      "gzip_bytes": 3073818,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n0.6c19aa80bcd90cf2.part01.bin",
-          "bytes": 3073818,
-          "sha256": "6c19aa80bcd90cf2bb52d30c48cd83ea87ec319c27342c5fc2d7198bb235c7f6"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n5",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n5\" data-lazy=\"true\">",
-      "sha256": "09b3d821e6660023ab1ff8f4af21b7a921a43f31b3ed4fc282240a390bfe358a",
-      "gzip_bytes": 2100119,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n5.09b3d821e6660023.part01.bin",
-          "bytes": 2100119,
-          "sha256": "09b3d821e6660023ab1ff8f4af21b7a921a43f31b3ed4fc282240a390bfe358a"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n10",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n10\" data-lazy=\"true\">",
-      "sha256": "74008aa620cae7b098e685902d4a4df142617b9ca001b21f643bb30300e57cd2",
-      "gzip_bytes": 1234910,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n10.74008aa620cae7b0.part01.bin",
-          "bytes": 1234910,
-          "sha256": "74008aa620cae7b098e685902d4a4df142617b9ca001b21f643bb30300e57cd2"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n20",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n20\" data-lazy=\"true\">",
-      "sha256": "e39dc3472e842a9f6fc39caa0fea6d65532245457cb27e033efa3fa994176a28",
-      "gzip_bytes": 700293,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n20.e39dc3472e842a9f.part01.bin",
-          "bytes": 700293,
-          "sha256": "e39dc3472e842a9f6fc39caa0fea6d65532245457cb27e033efa3fa994176a28"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n0",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n0\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_benchmark_n0\" data-lazy=\"true\">",
-      "sha256": "d00b15ca08f494dacfd1ab31932355fec7577987dd8e2fbc00f9aa9229156ea5",
-      "gzip_bytes": 10362619,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n0.d00b15ca08f494da.part01.bin",
-          "bytes": 4194304,
-          "sha256": "5ec8eaf2b86fdb14ce64be71ac1d18c0ea880f247fd28d7740389e45e14b75ef"
-        },
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n0.d00b15ca08f494da.part02.bin",
-          "bytes": 4194304,
-          "sha256": "6193309aed6da5c235a419bd7c30971449cbd746f7251ab05c58e5869e92d738"
-        },
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n0.d00b15ca08f494da.part03.bin",
-          "bytes": 1974011,
-          "sha256": "20b39fb35bc04341b5cf2b1701fbe90c3546e5deaefa1ba1880f124eeb8a8372"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n5",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n5\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_benchmark_n5\" data-lazy=\"true\">",
-      "sha256": "181f1a26612ff38b634429059af21ef3255b890c262a85a5e9b9cfa369fd602f",
-      "gzip_bytes": 7235474,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n5.181f1a26612ff38b.part01.bin",
-          "bytes": 4194304,
-          "sha256": "76cc3fda68447cc09614c6ad96a56da78465f21694365abf362cc28b01fc1ab9"
-        },
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n5.181f1a26612ff38b.part02.bin",
-          "bytes": 3041170,
-          "sha256": "820129d174d92ad60ff33797e7b391db0aa5c24fc2f1ba2e1b3d89eb33e6dd27"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n10",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n10\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_benchmark_n10\" data-lazy=\"true\">",
-      "sha256": "350772a873cf9b867e54f75a6eba622175f0d7bc5192906068afaa5349fc083c",
-      "gzip_bytes": 4761801,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n10.350772a873cf9b86.part01.bin",
-          "bytes": 4194304,
-          "sha256": "e03b4a244ef0544f059ee8eb32c0303b1bc4309cda3702d36d083897540f95a1"
-        },
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n10.350772a873cf9b86.part02.bin",
-          "bytes": 567497,
-          "sha256": "6c001cc65ce04da31fc8245bfbb0639a86d6273c9c4a41af9abbffe2b8e1528b"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n20",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n20\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_benchmark_n20\" data-lazy=\"true\">",
-      "sha256": "822415573f9f81d83629f798c7ac2cfd37033739c909cd9539f0b3fafa048315",
-      "gzip_bytes": 2772647,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n20.822415573f9f81d8.part01.bin",
-          "bytes": 2772647,
-          "sha256": "822415573f9f81d83629f798c7ac2cfd37033739c909cd9539f0b3fafa048315"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n0",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n0\" data-lazy=\"true\">",
-      "sha256": "f955ff2adcf252e926f04f491a8a1baff6daadf98355638b628ff5b86fbb5c06",
-      "gzip_bytes": 3162476,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n0.f955ff2adcf252e9.part01.bin",
-          "bytes": 3162476,
-          "sha256": "f955ff2adcf252e926f04f491a8a1baff6daadf98355638b628ff5b86fbb5c06"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n5",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n5\" data-lazy=\"true\">",
-      "sha256": "3b6f8a40896c301117de152688cac485298f5218c5737a5882772e77502a782a",
-      "gzip_bytes": 2260977,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n5.3b6f8a40896c3011.part01.bin",
-          "bytes": 2260977,
-          "sha256": "3b6f8a40896c301117de152688cac485298f5218c5737a5882772e77502a782a"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n10",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n10\" data-lazy=\"true\">",
-      "sha256": "64c28f0f27101a7000dc6dd515621a68259e5deab727f5d182fed73dfda2ccec",
-      "gzip_bytes": 1282349,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n10.64c28f0f27101a70.part01.bin",
-          "bytes": 1282349,
-          "sha256": "64c28f0f27101a7000dc6dd515621a68259e5deab727f5d182fed73dfda2ccec"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n20",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n20\" data-lazy=\"true\">",
-      "sha256": "887b5d9f3a37860ab276e07bed271953a100fb929864d5ebaab65da9338982bf",
-      "gzip_bytes": 723586,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n20.887b5d9f3a37860a.part01.bin",
-          "bytes": 723586,
-          "sha256": "887b5d9f3a37860ab276e07bed271953a100fb929864d5ebaab65da9338982bf"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n0",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n0\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n0\" data-lazy=\"true\">",
-      "sha256": "ce36941a59d0534ab8b4b7c9c42493432fe8ed25b599eb28d1b313f9a912dc3d",
-      "gzip_bytes": 3109250,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n0.ce36941a59d0534a.part01.bin",
-          "bytes": 3109250,
-          "sha256": "ce36941a59d0534ab8b4b7c9c42493432fe8ed25b599eb28d1b313f9a912dc3d"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n5",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n5\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n5\" data-lazy=\"true\">",
-      "sha256": "5dc27fa792f7cc7152e55a82c8b219ec6bc590d7932d599d67fe2b9de3b7fabc",
-      "gzip_bytes": 2186503,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n5.5dc27fa792f7cc71.part01.bin",
-          "bytes": 2186503,
-          "sha256": "5dc27fa792f7cc7152e55a82c8b219ec6bc590d7932d599d67fe2b9de3b7fabc"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n10",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n10\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n10\" data-lazy=\"true\">",
-      "sha256": "4160945e0b2c52c2717fdf420f8cffe6bb61863bfb935951bf4c689e90ea7b81",
-      "gzip_bytes": 1259243,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n10.4160945e0b2c52c2.part01.bin",
-          "bytes": 1259243,
-          "sha256": "4160945e0b2c52c2717fdf420f8cffe6bb61863bfb935951bf4c689e90ea7b81"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n20",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n20\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n20\" data-lazy=\"true\">",
-      "sha256": "fd28c701d62032ea7648bc7e2e336c79ab9c6352cd705244ce6a6c0049a4be5f",
-      "gzip_bytes": 711913,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n20.fd28c701d62032ea.part01.bin",
-          "bytes": 711913,
-          "sha256": "fd28c701d62032ea7648bc7e2e336c79ab9c6352cd705244ce6a6c0049a4be5f"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n0",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n0\" data-lazy=\"true\">",
-      "sha256": "0755c96a6977ee65006b5b1fc27e2868c97e5eedc488cb39dd8d3e81efd61bc3",
-      "gzip_bytes": 3084613,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n0.0755c96a6977ee65.part01.bin",
-          "bytes": 3084613,
-          "sha256": "0755c96a6977ee65006b5b1fc27e2868c97e5eedc488cb39dd8d3e81efd61bc3"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n5",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n5\" data-lazy=\"true\">",
-      "sha256": "e35eb1b6c9ffa240adde2b1efaeaa7986b4f9db352c04dbde4ba426542d92558",
-      "gzip_bytes": 2098746,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n5.e35eb1b6c9ffa240.part01.bin",
-          "bytes": 2098746,
-          "sha256": "e35eb1b6c9ffa240adde2b1efaeaa7986b4f9db352c04dbde4ba426542d92558"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n10",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n10\" data-lazy=\"true\">",
-      "sha256": "621e606e033d2175b7579d9d079e442e10cc3a1b3e8afbd079abf458f3c31f59",
-      "gzip_bytes": 1234015,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n10.621e606e033d2175.part01.bin",
-          "bytes": 1234015,
-          "sha256": "621e606e033d2175b7579d9d079e442e10cc3a1b3e8afbd079abf458f3c31f59"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n20",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n20\" data-lazy=\"true\">",
-      "sha256": "18489fbb389de9eea38a76b0dac8742986ea690c773e7e5408cb6f228a5ceac9",
-      "gzip_bytes": 701315,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n20.18489fbb389de9ee.part01.bin",
-          "bytes": 701315,
-          "sha256": "18489fbb389de9eea38a76b0dac8742986ea690c773e7e5408cb6f228a5ceac9"
-        }
-      ]
-    },
-    {
       "id": "explorer-block-bins_PSID_benchmark_irs_income_benchmark_n15",
       "separator": "\n",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_PSID_benchmark_irs_income_benchmark_n15\" data-explorer-block=\"bins_PSID_benchmark_irs_income_benchmark_n15\" data-lazy=\"true\">",
@@ -2895,118 +2279,6 @@
       ]
     },
     {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n15",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n15\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n15\" data-lazy=\"true\">",
-      "sha256": "8278a3733b3b61aa82d3fad185abcad19861eff80f8999e8a6258f605fc55244",
-      "gzip_bytes": 3549296,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_benchmark_n15.8278a3733b3b61aa.part01.bin",
-          "bytes": 3549296,
-          "sha256": "8278a3733b3b61aa82d3fad185abcad19861eff80f8999e8a6258f605fc55244"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n15",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n15\" data-lazy=\"true\">",
-      "sha256": "92c75fffc87d7368f7f5b0f2074d0254ffd4abeaf1d9beb1911fcc28e2a6b403",
-      "gzip_bytes": 932097,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_before_personal_interest_n15.92c75fffc87d7368.part01.bin",
-          "bytes": 932097,
-          "sha256": "92c75fffc87d7368f7f5b0f2074d0254ffd4abeaf1d9beb1911fcc28e2a6b403"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n15",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n15\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n15\" data-lazy=\"true\">",
-      "sha256": "1d4df336f272f8f1447e9dfd02aa101ff34d83ec2c03ebfb1ec961796d1c923f",
-      "gzip_bytes": 915425,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_n15.1d4df336f272f8f1.part01.bin",
-          "bytes": 915425,
-          "sha256": "1d4df336f272f8f1447e9dfd02aa101ff34d83ec2c03ebfb1ec961796d1c923f"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n15",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n15\" data-lazy=\"true\">",
-      "sha256": "71c9d60eb8f29cfa65f271049305827b94c8043d2d3aa606b94694bd44ae49c6",
-      "gzip_bytes": 894808,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_benchmark_scf_income_exclude_net_rent_before_personal_interest_n15.71c9d60eb8f29cfa.part01.bin",
-          "bytes": 894808,
-          "sha256": "71c9d60eb8f29cfa65f271049305827b94c8043d2d3aa606b94694bd44ae49c6"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n15",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_benchmark_n15\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_benchmark_n15\" data-lazy=\"true\">",
-      "sha256": "0a23e454423f98246063267bad6121f23ab1214315f977c7ed4e3363c5dcde03",
-      "gzip_bytes": 3527213,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_benchmark_n15.0a23e454423f9824.part01.bin",
-          "bytes": 3527213,
-          "sha256": "0a23e454423f98246063267bad6121f23ab1214315f977c7ed4e3363c5dcde03"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n15",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n15\" data-lazy=\"true\">",
-      "sha256": "a0ff2e1015a15e3e4e9d3903f4daf9a8accf1f7adaa6a7d562a029091b6b6773",
-      "gzip_bytes": 925880,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_before_personal_interest_n15.a0ff2e1015a15e3e.part01.bin",
-          "bytes": 925880,
-          "sha256": "a0ff2e1015a15e3e4e9d3903f4daf9a8accf1f7adaa6a7d562a029091b6b6773"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n15",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n15\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n15\" data-lazy=\"true\">",
-      "sha256": "bcce34b73397fa551da96bdd5acf5cc0c16338b5b300db2e8af0089c3daf1f7b",
-      "gzip_bytes": 913654,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_n15.bcce34b73397fa55.part01.bin",
-          "bytes": 913654,
-          "sha256": "bcce34b73397fa551da96bdd5acf5cc0c16338b5b300db2e8af0089c3daf1f7b"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n15",
-      "separator": "\n",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n15\" data-lazy=\"true\">",
-      "sha256": "adc708fa522dceb28a94e7fe9d0d7dc2f25c0d88eb20eb39a7f2fe23b0170129",
-      "gzip_bytes": 895907,
-      "parts": [
-        {
-          "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n15.adc708fa522dceb2.part01.bin",
-          "bytes": 895907,
-          "sha256": "adc708fa522dceb28a94e7fe9d0d7dc2f25c0d88eb20eb39a7f2fe23b0170129"
-        }
-      ]
-    },
-    {
       "id": "explorer-block-tail_curves_SAEZ_ZUCMAN",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_SAEZ_ZUCMAN\" data-explorer-block=\"tail_curves_SAEZ_ZUCMAN\" data-lazy=\"true\">",
       "separator": "\n",
@@ -3092,6 +2364,440 @@
           "path": "data/illustration_ks.f22dc7b9bc550281.part01.bin",
           "bytes": 166445,
           "sha256": "f22dc7b9bc5502811e103621fdaeaf31280afc0abb65cca4f785d4e5d9ccb0ab"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-summary",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-summary\" data-explorer-block=\"summary\" data-lazy=\"false\">",
+      "separator": "\n",
+      "sha256": "ef931a25cf8d26b02e7baeb7a5082940e4e64259a97a22ffaa097cebbab9b83f",
+      "gzip_bytes": 500029,
+      "parts": [
+        {
+          "path": "data/summary.ef931a25cf8d26b0.part01.bin",
+          "bytes": 500029,
+          "sha256": "ef931a25cf8d26b02e7baeb7a5082940e4e64259a97a22ffaa097cebbab9b83f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-tail_curves",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves\" data-explorer-block=\"tail_curves\" data-lazy=\"false\">",
+      "separator": "\n",
+      "sha256": "ba3609c46d0a013aa14cd85f723393ecc2cdcbba0c89b46df392f13b970f49e3",
+      "gzip_bytes": 287220,
+      "parts": [
+        {
+          "path": "data/tail_curves.ba3609c46d0a013a.part01.bin",
+          "bytes": 287220,
+          "sha256": "ba3609c46d0a013aa14cd85f723393ecc2cdcbba0c89b46df392f13b970f49e3"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bivariate",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bivariate\" data-explorer-block=\"bivariate\" data-lazy=\"false\">",
+      "separator": "\n",
+      "sha256": "0db82ce927a699fd17e33c87027436d9e6658f419499ee3796c5130ef2532192",
+      "gzip_bytes": 225498,
+      "parts": [
+        {
+          "path": "data/bivariate.0db82ce927a699fd.part01.bin",
+          "bytes": 225498,
+          "sha256": "0db82ce927a699fd17e33c87027436d9e6658f419499ee3796c5130ef2532192"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-tail_curves_CEX_BM_RECON",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_CEX_BM_RECON\" data-explorer-block=\"tail_curves_CEX_BM_RECON\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "4cd92a434e3b7d4800f14f68388ec846273d1c55f12c6e549b5b024c76572fcb",
+      "gzip_bytes": 1009051,
+      "parts": [
+        {
+          "path": "data/tail_curves_CEX_BM_RECON.4cd92a434e3b7d48.part01.bin",
+          "bytes": 1009051,
+          "sha256": "4cd92a434e3b7d4800f14f68388ec846273d1c55f12c6e549b5b024c76572fcb"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-composition_CEX_BM_RECON",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-composition_CEX_BM_RECON\" data-explorer-block=\"composition_CEX_BM_RECON\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "090b922c082e93aa3cdbc2c07f4385d86859e247fd42b17f1ed387f84abfe710",
+      "gzip_bytes": 75134,
+      "parts": [
+        {
+          "path": "data/composition_CEX_BM_RECON.090b922c082e93aa.part01.bin",
+          "bytes": 75134,
+          "sha256": "090b922c082e93aa3cdbc2c07f4385d86859e247fd42b17f1ed387f84abfe710"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_Meyer_restored",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_Meyer_restored\" data-explorer-block=\"bins_Meyer_restored\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "601fd065d218a1a8e08e42bdfe4b4c019d353d9ef56aac2d42bc290474fb42d1",
+      "gzip_bytes": 1759993,
+      "parts": [
+        {
+          "path": "data/bins_Meyer_restored.601fd065d218a1a8.part01.bin",
+          "bytes": 1759993,
+          "sha256": "601fd065d218a1a8e08e42bdfe4b4c019d353d9ef56aac2d42bc290474fb42d1"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-adjustments",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-adjustments\" data-explorer-block=\"adjustments\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "cb35d333948c9ab2ea16c427dbc302ad23590fc4ee1621e0c90f68435964467e",
+      "gzip_bytes": 523143,
+      "parts": [
+        {
+          "path": "data/adjustments.cb35d333948c9ab2.part01.bin",
+          "bytes": 523143,
+          "sha256": "cb35d333948c9ab2ea16c427dbc302ad23590fc4ee1621e0c90f68435964467e"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_CEX_BM_RECON_US",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_CEX_BM_RECON_US\" data-explorer-block=\"eyeballing_CEX_BM_RECON_US\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "24ef1362f93ee298f706a3f084676bc39c1224616597f37f8845553025bb164f",
+      "gzip_bytes": 120337,
+      "parts": [
+        {
+          "path": "data/eyeballing_CEX_BM_RECON_US.24ef1362f93ee298.part01.bin",
+          "bytes": 120337,
+          "sha256": "24ef1362f93ee298f706a3f084676bc39c1224616597f37f8845553025bb164f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_FORBES_US",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_FORBES_US\" data-explorer-block=\"eyeballing_FORBES_US\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0dbdd2db07308a14d8617acb36bf26122f0024a64ca05f72e082cfb8cff6bab8",
+      "gzip_bytes": 39792,
+      "parts": [
+        {
+          "path": "data/eyeballing_FORBES_US.0dbdd2db07308a14.part01.bin",
+          "bytes": 39792,
+          "sha256": "0dbdd2db07308a14d8617acb36bf26122f0024a64ca05f72e082cfb8cff6bab8"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_AT",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_AT\" data-explorer-block=\"eyeballing_HFCS_AT\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "5334347ce1bbf95ed0a5ce01985c32948f271c811fb4f296b84f8e4bfe4d6857",
+      "gzip_bytes": 142331,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_AT.5334347ce1bbf95e.part01.bin",
+          "bytes": 142331,
+          "sha256": "5334347ce1bbf95ed0a5ce01985c32948f271c811fb4f296b84f8e4bfe4d6857"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_BE",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_BE\" data-explorer-block=\"eyeballing_HFCS_BE\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "96f40e25857b145f3c01132308155896fa1dc452f04303067c519f2add571bed",
+      "gzip_bytes": 130354,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_BE.96f40e25857b145f.part01.bin",
+          "bytes": 130354,
+          "sha256": "96f40e25857b145f3c01132308155896fa1dc452f04303067c519f2add571bed"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_DE",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_DE\" data-explorer-block=\"eyeballing_HFCS_DE\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c61e63c1621e2371396ad80ef1d5d97b06ac23a6cd13039b7f4687311b0cb04d",
+      "gzip_bytes": 173169,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_DE.c61e63c1621e2371.part01.bin",
+          "bytes": 173169,
+          "sha256": "c61e63c1621e2371396ad80ef1d5d97b06ac23a6cd13039b7f4687311b0cb04d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_ES",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_ES\" data-explorer-block=\"eyeballing_HFCS_ES\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0ddcaf898467379b772c57535fc374d1484415463cea0417b21273c6b0741efb",
+      "gzip_bytes": 238226,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_ES.0ddcaf898467379b.part01.bin",
+          "bytes": 238226,
+          "sha256": "0ddcaf898467379b772c57535fc374d1484415463cea0417b21273c6b0741efb"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_FI",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_FI\" data-explorer-block=\"eyeballing_HFCS_FI\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "84072e3a9fc7242ff46ba803c146da6619337b7b76068d2bd0484d8363bb8032",
+      "gzip_bytes": 132533,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_FI.84072e3a9fc7242f.part01.bin",
+          "bytes": 132533,
+          "sha256": "84072e3a9fc7242ff46ba803c146da6619337b7b76068d2bd0484d8363bb8032"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_FR",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_FR\" data-explorer-block=\"eyeballing_HFCS_FR\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "92ed96c5275a5966dcfb52023bd079657a16d84d58c63db938ac699df78e8536",
+      "gzip_bytes": 208459,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_FR.92ed96c5275a5966.part01.bin",
+          "bytes": 208459,
+          "sha256": "92ed96c5275a5966dcfb52023bd079657a16d84d58c63db938ac699df78e8536"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_GR",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_GR\" data-explorer-block=\"eyeballing_HFCS_GR\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "664144a05d0cc3e53a336744a5630c828578ea6b34e51d029b14dbd983808a13",
+      "gzip_bytes": 132893,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_GR.664144a05d0cc3e5.part01.bin",
+          "bytes": 132893,
+          "sha256": "664144a05d0cc3e53a336744a5630c828578ea6b34e51d029b14dbd983808a13"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_HU",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_HU\" data-explorer-block=\"eyeballing_HFCS_HU\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c1f8989accc3976fbd0c8fe440db57d27349fa24d4adce403335ce45667f43e5",
+      "gzip_bytes": 163457,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_HU.c1f8989accc3976f.part01.bin",
+          "bytes": 163457,
+          "sha256": "c1f8989accc3976fbd0c8fe440db57d27349fa24d4adce403335ce45667f43e5"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_IE",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_IE\" data-explorer-block=\"eyeballing_HFCS_IE\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "32abf41e19e21fd828e1cd41dce90f0f029880d7d28a97911c5560fcd588b92f",
+      "gzip_bytes": 130458,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_IE.32abf41e19e21fd8.part01.bin",
+          "bytes": 130458,
+          "sha256": "32abf41e19e21fd828e1cd41dce90f0f029880d7d28a97911c5560fcd588b92f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_IT",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_IT\" data-explorer-block=\"eyeballing_HFCS_IT\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2b187f5b1508b558bcd2ec2e03f183da1ee7cad7c1f9b55503d7bc461c98c35f",
+      "gzip_bytes": 175179,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_IT.2b187f5b1508b558.part01.bin",
+          "bytes": 175179,
+          "sha256": "2b187f5b1508b558bcd2ec2e03f183da1ee7cad7c1f9b55503d7bc461c98c35f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_LU",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_LU\" data-explorer-block=\"eyeballing_HFCS_LU\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "8f4a39e3635b1237f6f40897712b95178b0faa1c85773af6084a8d503afce419",
+      "gzip_bytes": 142167,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_LU.8f4a39e3635b1237.part01.bin",
+          "bytes": 142167,
+          "sha256": "8f4a39e3635b1237f6f40897712b95178b0faa1c85773af6084a8d503afce419"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_NL",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_NL\" data-explorer-block=\"eyeballing_HFCS_NL\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "7849635659dee1b5b2d68caf73c2383fbfa307bf80769c55c96de882aacfd574",
+      "gzip_bytes": 149627,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_NL.7849635659dee1b5.part01.bin",
+          "bytes": 149627,
+          "sha256": "7849635659dee1b5b2d68caf73c2383fbfa307bf80769c55c96de882aacfd574"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_PL",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_PL\" data-explorer-block=\"eyeballing_HFCS_PL\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "610b392c0dd52e536ac5c8b6bcca89d58947d573eee49a22951dc70b54af1ed9",
+      "gzip_bytes": 93266,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_PL.610b392c0dd52e53.part01.bin",
+          "bytes": 93266,
+          "sha256": "610b392c0dd52e536ac5c8b6bcca89d58947d573eee49a22951dc70b54af1ed9"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_PT",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_PT\" data-explorer-block=\"eyeballing_HFCS_PT\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "bd7071b055024387d16a10e1ee31663373cdc43d75f844414efc665c33bc7e52",
+      "gzip_bytes": 166287,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_PT.bd7071b055024387.part01.bin",
+          "bytes": 166287,
+          "sha256": "bd7071b055024387d16a10e1ee31663373cdc43d75f844414efc665c33bc7e52"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_SI",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_SI\" data-explorer-block=\"eyeballing_HFCS_SI\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "a9e06dc5e97a01f6f0d8753a0fd86e83e87296414d805d253d2ffba81566ecab",
+      "gzip_bytes": 129670,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_SI.a9e06dc5e97a01f6.part01.bin",
+          "bytes": 129670,
+          "sha256": "a9e06dc5e97a01f6f0d8753a0fd86e83e87296414d805d253d2ffba81566ecab"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HFCS_SK",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HFCS_SK\" data-explorer-block=\"eyeballing_HFCS_SK\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "e788ae5f21199e5e4ddf7649331a1e6477b8677d3ebda2a24f9ec1873efab142",
+      "gzip_bytes": 130601,
+      "parts": [
+        {
+          "path": "data/eyeballing_HFCS_SK.e788ae5f21199e5e.part01.bin",
+          "bytes": 130601,
+          "sha256": "e788ae5f21199e5e4ddf7649331a1e6477b8677d3ebda2a24f9ec1873efab142"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_HILDA_AU",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_HILDA_AU\" data-explorer-block=\"eyeballing_HILDA_AU\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "11ea2c87e511a6250572eec80b12be71103292608e8aa6d9b34fe5841c107169",
+      "gzip_bytes": 341661,
+      "parts": [
+        {
+          "path": "data/eyeballing_HILDA_AU.11ea2c87e511a625.part01.bin",
+          "bytes": 341661,
+          "sha256": "11ea2c87e511a6250572eec80b12be71103292608e8aa6d9b34fe5841c107169"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_PSID_US",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_PSID_US\" data-explorer-block=\"eyeballing_PSID_US\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "d91ced626584e5022ac578a4a7d072c49da3ebefb4a76fd757f591f19f10ae73",
+      "gzip_bytes": 1179064,
+      "parts": [
+        {
+          "path": "data/eyeballing_PSID_US.d91ced626584e502.part01.bin",
+          "bytes": 1179064,
+          "sha256": "d91ced626584e5022ac578a4a7d072c49da3ebefb4a76fd757f591f19f10ae73"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_SAEZ_ZUCMAN_US",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_SAEZ_ZUCMAN_US\" data-explorer-block=\"eyeballing_SAEZ_ZUCMAN_US\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "dae8711364f99f93c7436a07c1c69ee811972a5b1328db7edd1b996c7ee12785",
+      "gzip_bytes": 902560,
+      "parts": [
+        {
+          "path": "data/eyeballing_SAEZ_ZUCMAN_US.dae8711364f99f93.part01.bin",
+          "bytes": 902560,
+          "sha256": "dae8711364f99f93c7436a07c1c69ee811972a5b1328db7edd1b996c7ee12785"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_SCF_US",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_SCF_US\" data-explorer-block=\"eyeballing_SCF_US\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "00acc750717e095be781cc5254198eac0f80e3f8e6d15c67f263638193db52d6",
+      "gzip_bytes": 671193,
+      "parts": [
+        {
+          "path": "data/eyeballing_SCF_US.00acc750717e095b.part01.bin",
+          "bytes": 671193,
+          "sha256": "00acc750717e095be781cc5254198eac0f80e3f8e6d15c67f263638193db52d6"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_SHIW_IT",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_SHIW_IT\" data-explorer-block=\"eyeballing_SHIW_IT\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "da8da668606a02acc86a0ca2920ca211d5359704a45e8a05e1c4cf8fdb4b5732",
+      "gzip_bytes": 614784,
+      "parts": [
+        {
+          "path": "data/eyeballing_SHIW_IT.da8da668606a02ac.part01.bin",
+          "bytes": 614784,
+          "sha256": "da8da668606a02acc86a0ca2920ca211d5359704a45e8a05e1c4cf8fdb4b5732"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-metadata",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-metadata\" data-explorer-block=\"metadata\" data-lazy=\"false\">",
+      "separator": "\n",
+      "sha256": "f85760cc517fbc8510222dc44ec2cc9445bf8cb82b3522b3342e7d494ff6ca3a",
+      "gzip_bytes": 1188606,
+      "parts": [
+        {
+          "path": "data/metadata.f85760cc517fbc85.part01.bin",
+          "bytes": 1188606,
+          "sha256": "f85760cc517fbc8510222dc44ec2cc9445bf8cb82b3522b3342e7d494ff6ca3a"
         }
       ]
     }
