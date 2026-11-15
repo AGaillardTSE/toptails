@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "verified_source_sha256": "82b78446635431e7225f966c07e7f2ba6c88e99350371397d589aaa9c52e10da",
+  "points": 400,
+  "curves": 200,
+  "preferred_points": 300,
+  "preferred_curves": 150,
+  "years": [
+    1970,
+    2019
+  ],
+  "old_reference_data_unchanged": true,
+  "unrelated_blocks_unchanged": true,
+  "curves_lazy_loaded": true
+}

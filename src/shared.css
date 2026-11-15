@@ -167,3 +167,8 @@
 @media(max-width:600px){.paper-composition .adjustment-distribution-controls{grid-template-columns:1fr}}
 .secondary-nav .secondary-tab,.secondary-nav .dc-nav-group-label{font-size:14px}
 .plot-subtitle,.chart-subtitle,.method-heading p,.other-card-heading p,.results-heading p,.adjustments-heading p,.adjustment-figure-results .adjustment-results-header p,.adjustment-distribution-results .adjustment-results-header p{font-size:14px;line-height:1.7}
+
+.dataset-controls .overlay-choice-saez_zucman{grid-column:1/-1}
+.sidebar .dina-capital-control{min-width:0;grid-column:1/-1}.dina-capital-control select{width:100%}.threshold-profile-controls .dina-capital-control{flex:0 1 270px;min-width:240px}
+.survey-symbol-saez_zucman:before{border:0;height:2px;background:repeating-linear-gradient(to right,currentColor 0 10px,transparent 10px 13px,currentColor 13px 15px,transparent 15px 18px)}
+.survey-symbol-saez_zucman:after{background:#fffefa;border:2px solid currentColor;border-radius:0}

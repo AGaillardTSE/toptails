@@ -1,6 +1,6 @@
 {
-  "source_html_sha256": "2555b331bf09c54d70d7aca5d4e3f3adf5f2c94c8df58e651e74656638662bcb",
-  "source_html_bytes": 421983988,
+  "source_html_sha256": "e81ce2cad01258e8d13b5d15cef8b4b697f69f63a7cad3ae8a535dd73b591315",
+  "source_html_bytes": 424445415,
   "entries": [
     {
       "id": "explorer-block-bins_unmerged_PSID",
@@ -420,15 +420,15 @@
     },
     {
       "id": "explorer-block-metadata",
-      "separator": "\n",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-metadata\" data-explorer-block=\"metadata\" data-lazy=\"false\">",
-      "sha256": "1e7d906de7625112cf8eed57a5cff2ce230295779bc65f0e00046bdc15fdcfd4",
-      "gzip_bytes": 1092634,
+      "separator": "\n",
+      "sha256": "837a708b6a85327ffcd4672a8e3b84e34a6a39b0f288948d4f9d64393cce332b",
+      "gzip_bytes": 1126003,
       "parts": [
         {
-          "path": "data/metadata.1e7d906de7625112.part01.bin",
-          "bytes": 1092634,
-          "sha256": "1e7d906de7625112cf8eed57a5cff2ce230295779bc65f0e00046bdc15fdcfd4"
+          "path": "data/metadata.837a708b6a85327f.part01.bin",
+          "bytes": 1126003,
+          "sha256": "837a708b6a85327ffcd4672a8e3b84e34a6a39b0f288948d4f9d64393cce332b"
         }
       ]
     },
@@ -3003,6 +3003,34 @@
           "path": "data/bins_CEX_BM_RECON_bp_scf_income_exclude_net_rent_before_personal_interest_n15.adc708fa522dceb2.part01.bin",
           "bytes": 895907,
           "sha256": "adc708fa522dceb28a94e7fe9d0d7dc2f25c0d88eb20eb39a7f2fe23b0170129"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-tail_curves_SAEZ_ZUCMAN",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_SAEZ_ZUCMAN\" data-explorer-block=\"tail_curves_SAEZ_ZUCMAN\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
+      "gzip_bytes": 874342,
+      "parts": [
+        {
+          "path": "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin",
+          "bytes": 874342,
+          "sha256": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-reference_archive_SAEZ_ZUCMAN",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-reference_archive_SAEZ_ZUCMAN\" data-explorer-block=\"reference_archive_SAEZ_ZUCMAN\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "82b78446635431e7225f966c07e7f2ba6c88e99350371397d589aaa9c52e10da",
+      "gzip_bytes": 929601,
+      "parts": [
+        {
+          "path": "data/reference_archive_SAEZ_ZUCMAN.82b78446635431e7.part01.bin",
+          "bytes": 929601,
+          "sha256": "82b78446635431e7225f966c07e7f2ba6c88e99350371397d589aaa9c52e10da"
         }
       ]
     }

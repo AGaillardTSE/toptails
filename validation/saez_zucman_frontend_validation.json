@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "numerical_checks": 2720,
+  "old_reference_rows_unchanged": true,
+  "existing_aggregate_blocks_unchanged": true,
+  "both_capital_definitions_verified": true,
+  "all_50_years": true,
+  "strict_native_thresholds": true,
+  "wealth_join_verified": true,
+  "export_definitions_not_mixed": true
+}
