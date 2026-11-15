@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "synthetic_sample_size": 1000,
+  "original_R_seed": 123,
+  "KS_curve_points_compared_with_original_script": 299,
+  "KS_curve_max_absolute_error_below": 1e-14,
+  "optimal_percentile": 93.1,
+  "optimal_tail_count": 69,
+  "exact_left_and_right_empirical_jumps_checked": true,
+  "three_cutoff_coefficients_and_gaps_verified": true,
+  "desktop_and_narrow_layout_verified": true,
+  "no_source_estimation_script_in_public_package": true
+}

@@ -58,10 +58,10 @@ const ThresholdProfiles = (() => {
   const weightFor=(c,contract)=>contract.aggregation==='population'?c[contract.weight_field||'population_weight']:1;
   const cellKey=c=>[c.country||'US',c.year].join('|');
   function profiles(curves,{survey,variant,country='all',year='all',variable,method='MLE',indicator='pareto',minQ=.70,maxQ=.99,contract={},authorVariant=null,wealthAuthorVariant=authorVariant}){
-    minQ=Math.max(minQ,contract.profile_window?.[0]??minQ);maxQ=Math.min(maxQ,contract.profile_window?.[1]??maxQ);
+    const window=indicator==='share'?(contract.share_profile_window||contract.profile_window):contract.profile_window;minQ=Math.max(minQ,window?.[0]??minQ);maxQ=Math.min(maxQ,window?.[1]??maxQ);
     const groups=new Map(),share=indicator==='share',ratio=indicator==='wealth_ratio',wealth=ratio?new Map(selectedCells(curves,{survey,variant,country,year,variable:'networth_val',contract,authorVariant:wealthAuthorVariant}).map(c=>[cellKey(c),c])):null;
-    selectedCells(curves,{survey,variant,country,year,variable,contract,authorVariant}).forEach(c=>(c.qs||[]).forEach((q,i)=>{
-      const denominator=ratio?wealth.get(cellKey(c)):null,j=ratio?(denominator?.qs||[]).findIndex(value=>Math.abs(value-q)<1e-8):-1,numerator=c[method.toLowerCase()]?.[i],denominatorValue=ratio&&j>=0?denominator?.[method.toLowerCase()]?.[j]:null,value=share?c.top_share?.[i]:ratio?(finite(numerator)&&finite(denominatorValue)&&denominatorValue>0?numerator/denominatorValue:null):numerator,n=share?c.n_tail_share?.[i]:ratio&&j>=0&&finite(denominator?.n_tail?.[j])?Math.min(c.n_tail?.[i]??Infinity,denominator.n_tail[j]):c.n_tail?.[i],w=weightFor(c,contract);
+    selectedCells(curves,{survey,variant,country,year,variable,contract,authorVariant}).forEach(c=>(share&&c.share_qs?c.share_qs:c.qs||[]).forEach((q,i)=>{
+      const denominator=ratio?wealth.get(cellKey(c)):null,j=ratio?(denominator?.qs||[]).findIndex(value=>Math.abs(value-q)<1e-8):-1,numerator=c[method.toLowerCase()]?.[i],denominatorValue=ratio&&j>=0?denominator?.[method.toLowerCase()]?.[j]:null,value=share?(c.share_values||c.top_share)?.[i]:ratio?(finite(numerator)&&finite(denominatorValue)&&denominatorValue>0?numerator/denominatorValue:null):numerator,n=share?(c.share_n_tail||c.n_tail_share)?.[i]:ratio&&j>=0&&finite(denominator?.n_tail?.[j])?Math.min(c.n_tail?.[i]??Infinity,denominator.n_tail[j]):c.n_tail?.[i],w=weightFor(c,contract);
       if(q<minQ-1e-8||q>maxQ+1e-8||!finite(value)||!finite(w)||w<=0)return;
       const key=Math.round(q*1e8);if(!groups.has(key))groups.set(key,[]);groups.get(key).push({value,w,n,year:c.year,reference_year:c.reference_year,country:c.country||'US'});
     }));
@@ -129,7 +129,7 @@ const ThresholdProfiles = (() => {
       let any=false,scfShown=false,hfcsShown=false;
       for(const survey of selected){
         if(referenceSurveys.has(survey)&&!(metadata.surveys?.[survey]?.available_profile_indicators||['pareto']).includes(indicator))continue;
-        const sourceContract=contractFor(survey,metadata),contract=survey==='FORBES'?{...sourceContract,profile_window:[.01,.90]}:sourceContract,xMinimum=100*(contract.profile_window?.[0]??.70),xMaximum=100*(contract.profile_window?.[1]??.99),available=curves.filter(c=>c.survey===survey&&(country==='all'||c.country===country)&&(year==='all'||c.year===Number(year)));if(!available.length)continue;
+        const sourceContract=contractFor(survey,metadata),contract=survey==='FORBES'?{...sourceContract,profile_window:[.01,.90]}:share&&sourceContract.share_profile_window?{...sourceContract,profile_window:sourceContract.share_profile_window}:sourceContract,xMinimum=100*(contract.profile_window?.[0]??.70),xMaximum=100*(contract.profile_window?.[1]??.99),available=curves.filter(c=>c.survey===survey&&(country==='all'||c.country===country)&&(year==='all'||c.year===Number(year)));if(!available.length)continue;
         const consumption=international?'consump_def1':spending.value==='auto'?(survey==='SCF'?'expenditure_incl_rent':'consump_def1'):spending.value;
         const consumptionLabel=international?'Consumption':(isCEX(survey)?sourceDisplay(survey)?.labels?.[consumption]:null)||(consumption==='consump_def1'?'Consumption':spendingOptions.find(o=>o.key===consumption)?.label||'Expenditure');
         const cached=new Map(),referencesBySeries=new Map(),limits=[],series=seriesFor(survey),confidence=contract.ci_level||.90;

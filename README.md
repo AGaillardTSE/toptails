@@ -10,11 +10,13 @@ Complete current website package, updated 15 November 2026.
 
 The pages are already built. No installation, Git LFS, backend, API key or build workflow is required. All data paths work under a repository subdirectory. The repository’s existing custom domain, `uppertaildata.com`, is preserved.
 
-Every data chunk is at most 4 MiB. US relationship plots offer No minimum, 5, 10, 15 and 20 observations per bin; five is the default. With a minimum selected, adjacent intervals are merged before calculating their weighted means and medians; small-bin observations are not discarded. The No minimum option uses the exported primitive intervals. Other countries offer the minimum-count options available in their source exports. All univariate estimates and KS results are retained.
+Every data chunk is at most 4 MiB. US relationship plots offer No minimum, 5, 10, 15 and 20 observations per bin; ten is the default. With a minimum selected, adjacent intervals are merged before calculating their weighted means and medians; small-bin observations are not discarded. The No minimum option uses the exported primitive intervals. Other countries offer the minimum-count options available in their source exports. All univariate estimates and KS results are retained.
 
 The opening view loads a small KS bootstrap. Detailed threshold curves, relationship data and composition profiles load only when needed. Data filenames contain content hashes so browser caches cannot mix releases. Previous aggregate asset paths may remain in the repository for compatibility with cached pages. International Forbes estimates and the obsolete assets containing them are removed; US Forbes references are retained.
 
-The current PSID, SCF and CEX relationship inputs use genuine 0.1-percentile primitives and the common age-20–80, positive-food sample. Weighted means and a minimum of five observations are the defaults. Capital-income definition options are independent and use separately recomputed aggregates. Composition plots use precomputed paper-matched percentile points and R LOESS coordinates. All available adjustment stages are always shown, using the website’s fonts and legend styling. Their source composition samples remain distinct from the log–log sample.
+The current PSID, SCF and CEX relationship inputs use genuine 0.1-percentile primitives and the common age-20–80, positive-food sample. Weighted means and a minimum of ten observations are the defaults. Capital-income definition options are independent and use separately recomputed aggregates. Composition plots use precomputed paper-matched percentile points and R LOESS coordinates. All available adjustment stages are always shown, using the website’s fonts and legend styling. Their source composition samples remain distinct from the log–log sample.
+
+Methodology includes a Pareto-estimation explanation and a synthetic illustration of the Kolmogorov–Smirnov cutoff criterion. Its numerical coordinates reproduce the supplied R example; the research script is not part of this package.
 
 ## Preview locally
 

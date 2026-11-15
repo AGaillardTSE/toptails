@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": 3841,
+  "prior_Pareto_fields_unchanged": true,
+  "other_sources_unchanged": true,
+  "DINA_annual_metrics_not_threshold_dependent": true,
+  "DINA_share_profile_reaches_P99": true,
+  "new_relationship_slopes_match_source": true,
+  "CEX_new_inputs_deferred": true,
+  "KS_illustration_matches_R_helper": true
+}
