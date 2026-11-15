@@ -183,6 +183,12 @@
 #us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:auto;flex:0 1 auto;width:auto;min-height:39px;align-self:end;align-items:center;white-space:nowrap;margin:0;padding:0}
 @media(max-width:1050px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:1/-1}}
+.adjustment-footnote .decomposition-line{display:block}.adjustment-footnote math{font-size:1.08em;margin-inline:3px;white-space:nowrap}
+.paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(4,minmax(0,1fr))}.paper-composition .adjustment-distribution-controls .control{display:flex;flex-direction:column;align-items:stretch;gap:8px}.paper-composition .adjustment-distribution-controls label{margin:0}.paper-composition .adjustment-distribution-controls select{width:100%;max-width:none;box-sizing:border-box;flex:none}
+@media(max-width:900px){.paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.paper-composition .adjustment-distribution-controls{grid-template-columns:1fr}}
+.secondary-nav .secondary-tab,.secondary-nav .dc-nav-group-label{font-size:14px}
+.plot-subtitle,.chart-subtitle,.method-heading p,.other-card-heading p,.results-heading p,.adjustments-heading p,.adjustment-figure-results .adjustment-results-header p,.adjustment-distribution-results .adjustment-results-header p{font-size:14px;line-height:1.7}
 
 #panel-other .other-card-heading>h2{margin:0}
 #panel-other #cc-summary-note{padding-top:10px}
@@ -208,6 +214,7 @@
 #panel-other #cc-variable-legend{font:400 14px/1.5 Arial,sans-serif;border:0;margin:0;padding:0;min-width:0}
 #panel-other .cc-variable-legend>label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font:inherit;color:inherit}
 #panel-other .cc-variable-legend input{width:13px;height:13px;margin:0;accent-color:var(--series)}
+#panel-other .cc-variable-legend .series-swatch{margin:0;align-self:center}
 #panel-other #cc-summary-note{display:block;width:100%;max-width:none;box-sizing:border-box}
 @media(max-width:760px){#panel-other #cc-variable-legend{font-size:13px}}
 
@@ -236,6 +243,10 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
 .dc-adjustment-nav .dc-nav-procedure:before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);height:24px;border-left:1px solid #dedbd5}
 .dc-adjustment-nav .dc-nav-procedure:after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);height:24px;border-left:1px solid #dedbd5}
 @media(max-width:760px){.dc-adjustment-nav .secondary-nav-inner{overflow-x:visible;white-space:normal}.dc-adjustment-nav .dc-nav-group{gap:0 15px}.dc-adjustment-nav .dc-nav-group-label{flex-basis:100%;padding-top:12px}.dc-adjustment-nav .dc-nav-procedure{margin-block:8px}}
+.dc-visual-procedure .dc-mini-legend,.dc-visual-procedure .dc-mini-caption,.dc-visual-procedure .dc-mini-label{font:400 14px/1.7 Arial,sans-serif}.dc-visual-procedure .dc-step-visual{height:auto;min-height:190px}.dc-visual-procedure .dc-operation-step{font-size:14px}
+.dc-visual-procedure .operation-equation{display:flex;align-items:center;justify-content:center;padding:16px 12px;min-height:108px}.dc-visual-procedure .operation-equation math{font-family:math;font-size:23px;margin:0}.dc-visual-procedure .fixed-point-operation>.operation-description{width:100%;max-width:none;text-align:justify}
+#data-sources-panel>.source-heading{margin-bottom:8px}#data-sources-panel>.dc-toolbar{padding-top:0;padding-bottom:16px}
+.source-reference-group{margin:0 0 24px}.source-reference-group h3{font:600 16px/1.5 Arial,sans-serif;color:#344b64;margin:0 0 12px}.source-reference-list{margin:0;padding-left:20px;font:400 14px/1.75 Arial,sans-serif}.source-reference-list li+li{margin-top:12px}.source-reference-list a{color:#355f87;text-underline-offset:3px}
 </style>
 </head>
 <body>
@@ -320,18 +331,20 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
   </section></div>
 </section>
 <section id="panel-adjustments" class="tab-panel" role="tabpanel" aria-labelledby="tab-adjustments" hidden><div class="method-content"><div class="psid-adjustments">
-  <header class="adjustments-heading"><h2>Rescaling and reweighting</h2><p class="dc-coupling-lead"><strong>Rescaling determines the relative incomes used for reweighting. Reweighting changes the factors needed for rescaling.</strong></p></header>
+  <header class="adjustments-heading"><h2>Rescaling and reweighting</h2></header>
   <div class="fixed-point-diagram" aria-label="Iterate between matching income totals and matching the SCF income distribution">
     <article class="fixed-point-operation">
       <div class="operation-visual" aria-hidden="true"><span class="component-bar"></span><span class="component-bar"></span><span class="component-bar"></span><span class="operation-symbol">→</span><span class="target-line"></span></div>
       <h3>Match income totals</h3><p>Using the <strong>current weights</strong>, rescale the income components used in the ranking to their national-account targets.</p>
-      <div class="operation-equation" aria-label="lambda k equals target Y k divided by the sum of current weights times reported income component k">λ<sub>k</sub>(ω) = <span class="math-frac"><span>Y<sub>k</sub></span><span>Σ<sub>i</sub> ω<sub>i</sub> y<sub>ik</sub></span></span></div>
+      <div class="operation-equation"><math display="block" aria-label="lambda k of omega equals target Y k divided by the sum over i of omega i times y i k"><mrow><msub><mi>λ</mi><mi>k</mi></msub><mo stretchy="false">(</mo><mi>ω</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><msub><mi>Y</mi><mi>k</mi></msub><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>ω</mi><mi>i</mi></msub><msub><mi>y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></mrow></mfrac></mrow></math></div>
+      <p class="dc-dependency-note">Rescaling determines the relative incomes used for reweighting.</p>
     </article>
     <div class="fixed-point-arrow dc-causal-arrow"><div class="dc-cause-forward"><span aria-hidden="true">→</span><strong>Rescaling changes relative incomes and income bins</strong></div><div class="dc-cause-back"><span aria-hidden="true">←</span><strong>Reweighting changes the totals used for rescaling</strong></div></div>
     <article class="fixed-point-operation">
       <div class="operation-visual operation-households" aria-hidden="true"><i></i><i></i><i></i><span class="operation-symbol">→</span><i></i><i></i><i></i></div>
-      <h3>Match income-bin shares</h3><p>Compute income relative to its weighted median using the <strong>current rescaling factors</strong>. Reweight these bins to match the reference distribution.</p>
-      <div class="operation-equation" aria-label="new weight is proportional to current weight times the SCF bin mass divided by the current PSID bin mass">ω′<sub>i</sub> ∝ ω<sub>i</sub> <span class="math-frac"><span>F<sub>SCF</sub>(B<sub>j</sub>)</span><span>M<sub>j</sub>(λ, ω)</span></span></div>
+      <h3>Match income-bin shares</h3><p class="operation-description">Compute income relative to its weighted median using the <strong>current rescaling factors</strong>. Reweight these bins to match the reference distribution.</p>
+      <div class="operation-equation"><math display="block" aria-label="omega prime i is proportional to omega i times the SCF bin mass divided by the current study-survey bin mass"><mrow><msubsup><mi>ω</mi><mi>i</mi><mo>′</mo></msubsup><mo>∝</mo><msub><mi>ω</mi><mi>i</mi></msub><mspace width="0.2em"/><mfrac><mrow><msub><mi>F</mi><mtext>SCF</mtext></msub><mo stretchy="false">(</mo><msub><mi>B</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><mrow><msub><mi>M</mi><mi>j</mi></msub><mo stretchy="false">(</mo><mi>λ</mi><mo>,</mo><mi>ω</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow></math></div>
+      <p class="dc-dependency-note">Reweighting changes the factors needed for rescaling.</p>
     </article>
   </div>
   <section class="dc-algorithm" aria-labelledby="dc-algorithm-title">
@@ -372,7 +385,10 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
       <article class="adjustment-figure-card"><label class="adjustment-card-selector" for="adjustment-figure-income-variable">Income variable</label><select id="adjustment-figure-income-variable"></select><h4 id="adjustment-figure-income-title">Income</h4><div class="adjustment-mini-chart"><canvas id="adjustment-figure-income" role="img" aria-label="Annual income reporting and representation contributions"></canvas></div></article>
       <article class="adjustment-figure-card"><label class="adjustment-card-selector" for="adjustment-figure-wealth-variable">Wealth variable</label><select id="adjustment-figure-wealth-variable"></select><h4 id="adjustment-figure-wealth-title">Wealth</h4><div class="adjustment-mini-chart"><canvas id="adjustment-figure-wealth" role="img" aria-label="Annual wealth reporting and representation contributions"></canvas></div></article>
     </div>
-    <p class="adjustment-note adjustment-footnote"><strong>Representation first</strong> Δ<sub>rep</sub> = Σω<sup>*</sup>x − Σω<sup>0</sup>x. <strong>Reporting second</strong> Δ<sub>report</sub> = Σω<sup>*</sup>x<sup>*</sup> − Σω<sup>*</sup>x. The Shapley decomposition gives essentially the same allocation. SCF has reporting adjustment only. In levels, the charts show the reported, representation-only and fully adjusted aggregates.</p>
+    <p class="adjustment-note adjustment-footnote"><span class="decomposition-line"><strong>Sequential decomposition:</strong> change weights first, then amounts:
+      <math aria-label="Representation change equals the sum over households of the change in weights times the reported amount"><mrow><msub><mi>Δ</mi><mtext>rep</mtext></msub><mo>=</mo><msub><mo>∑</mo><mi>i</mi></msub><mrow><mo>(</mo><msubsup><mi>ω</mi><mi>i</mi><mo>*</mo></msubsup><mo>−</mo><msubsup><mi>ω</mi><mi>i</mi><mn>0</mn></msubsup><mo>)</mo></mrow><msub><mi>x</mi><mi>i</mi></msub></mrow></math>,
+      <math aria-label="Reporting change equals the sum over households of final weights times the change in amounts"><mrow><msub><mi>Δ</mi><mtext>report</mtext></msub><mo>=</mo><msub><mo>∑</mo><mi>i</mi></msub><msubsup><mi>ω</mi><mi>i</mi><mo>*</mo></msubsup><mrow><mo>(</mo><msubsup><mi>x</mi><mi>i</mi><mo>*</mo></msubsup><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow></mrow></math>.
+      Shapley gives essentially the same allocation.</span><span class="decomposition-line">SCF has reporting adjustment only. In levels, the charts show the reported, representation-only and fully adjusted aggregates.</span></p>
   </section>
   <section class="adjustment-distribution-results" id="adjustment-distribution-results" aria-labelledby="adjustment-distribution-title">
     <div class="adjustment-results-header"><div><h3 id="adjustment-distribution-title">Component shares before and after adjustment</h3><p>Component shares across the distribution, before and after adjustment.</p></div><button class="text-button" id="adjustment-distribution-csv" type="button">Results CSV</button></div>
@@ -383,7 +399,7 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
       <article class="adjustment-distribution-card"><h4>Adjusted for reporting</h4><div class="adjustment-distribution-chart"><canvas id="adjustment-distribution-reporting" role="img" aria-label="Reporting-adjusted component shares along the distribution"></canvas></div></article>
       <article class="adjustment-distribution-card" id="adjustment-distribution-full-card"><h4>Adjusted for reporting and representation</h4><div class="adjustment-distribution-chart"><canvas id="adjustment-distribution-full" role="img" aria-label="Fully adjusted component shares along the distribution"></canvas></div></article>
     </div>
-    <p class="adjustment-note">Each point is a component’s average share within a weighted percentile bin across the displayed survey waves. Lines show LOESS-smoothed average shares. SCF has two panels because its adjustment is reporting-only.</p>
+    <p class="adjustment-note">Each point is a component’s average share within a weighted percentile bin across the displayed survey waves. Lines show LOESS-smoothed average shares. SCF has two panels because its adjustment is reporting-only. <span id="composition-consumption-note" hidden>PSID uses the NIPA consumption basket; final consumption flows are constructed after NIPA adjustment (see the <a href="https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&amp;dl=0" target="_blank" rel="noopener noreferrer">paper</a>).</span></p>
   </section>
   <p class="adjustments-source" id="adjustment-source">The PSID fixed-point procedure and sequential decomposition follow Section 2.3 and Figure 3 of <em>Consumption, Wealth, and Income Inequality: A Tale of Tails</em>. The bars decompose changes in aggregate amounts, not Pareto coefficients. HFCS retains its country-specific reporting corrections and WID representation weights.</p>
 </div>
@@ -430,7 +446,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <script type="application/octet-stream" id="explorer-block-composition_HILDA" data-explorer-block="composition_HILDA" data-lazy="true" data-parts="[&quot;data/composition_HILDA.89351dfe8f594994.part01.bin&quot;]"></script>
 <script type="application/octet-stream" id="explorer-block-composition_SHIW" data-explorer-block="composition_SHIW" data-lazy="true" data-parts="[&quot;data/composition_SHIW.a07bdddaebb08dd4.part01.bin&quot;]"></script>
 <script type="application/octet-stream" id="explorer-block-composition_SCF" data-explorer-block="composition_SCF" data-lazy="true" data-parts="[&quot;data/composition_SCF.aaa2b792a9f1cb63.part01.bin&quot;]"></script>
-<script type="application/octet-stream" id="explorer-block-metadata" data-explorer-block="metadata" data-lazy="false" data-parts="[&quot;data/metadata.c74ccca267ab3c43.part01.bin&quot;]"></script>
+<script type="application/octet-stream" id="explorer-block-metadata" data-explorer-block="metadata" data-lazy="false" data-parts="[&quot;data/metadata.1e7d906de7625112.part01.bin&quot;]"></script>
 <script type="application/octet-stream" id="explorer-block-bivariate" data-explorer-block="bivariate" data-lazy="false" data-parts="[&quot;data/bivariate.5f3b86829558654c.part01.bin&quot;]"></script>
 <script type="application/octet-stream" id="explorer-block-bins_PSID_benchmark_irs_income_benchmark_n0" data-explorer-block="bins_PSID_benchmark_irs_income_benchmark_n0" data-lazy="true" data-parts="[&quot;data/bins_PSID_benchmark_irs_income_benchmark_n0.9b6f925d6705a1a6.part01.bin&quot;]"></script>
 <script type="application/octet-stream" id="explorer-block-bins_PSID_benchmark_irs_income_benchmark_n5" data-explorer-block="bins_PSID_benchmark_irs_income_benchmark_n5" data-lazy="true" data-parts="[&quot;data/bins_PSID_benchmark_irs_income_benchmark_n5.694acd7540f9f878.part01.bin&quot;]"></script>
@@ -833,9 +849,11 @@ function initOtherSurveys(other,usRows,context) {
   usRows=usRows||[];context=context||{};
   const data=other||{},$=id=>document.getElementById(id),finite=x=>typeof x==='number'&&Number.isFinite(x);
   const unpack=t=>{if(Array.isArray(t))return t;if(t?.encoding==='array-pool-v1'){const rows=t.rows.map(values=>Object.fromEntries(t.columns.map((key,j)=>[key,values[j]])));t.array_refs.forEach(([i,j,id])=>rows[i][t.columns[j]]=t.vectors[id]);return rows;}const rows=t?.rows||[],columns=t?.columns||[];for(let i=0;i<rows.length;i++){const values=rows[i],row={};for(let j=0;j<columns.length;j++)row[columns[j]]=values[j];rows[i]=row;}return rows;};
-  let international=unpack(data.international),bins=[...unpack(data.bivariate),...(context.usBinAvailability||context.usBins||[]).map(row=>({...row,country:'US',country_name:'United States'}))],curves=unpack(data.curves),long=unpack(data.long_results);
-  const allBinAvailability=bins;let relationshipAvailability=bins,loadedUSSignature='',usRequest=0;
+  const outsideUS=row=>row.country!=='US'&&row.country_name!=='United States';
+  let international=unpack(data.international),bins=unpack(data.bivariate).filter(outsideUS),curves=unpack(data.curves),long=unpack(data.long_results).filter(outsideUS);
+  const allBinAvailability=bins;let relationshipAvailability=bins;
   const profileCurves=[...curves,...(context.usCurves||[]).map(curve=>({...curve,country:'US',country_name:'United States'}))];
+  curves=curves.filter(outsideUS);
   const variables=[['consump_def1','Consumption'],['total_labor_income','Labor income'],['total_income','Total income'],['networth_val','Net worth'],['total_capital_income','Capital income']];
   const labels=Object.fromEntries(variables),adj={raw:'Raw data',adj:'Reporting adjusted',full:'Reporting + representation',reference:'Standalone reference'};
   // PSID/0_PSID_final_figures.R, series_cols (Consumption, Labor, Total income, Wealth, Capital).
@@ -851,7 +869,7 @@ function initOtherSurveys(other,usRows,context) {
   const curveIndex=new Map(curves.map(r=>[key(r),r]));
   let waveRows=long.filter(r=>r.period_type!=='average'&&finite(r.year)&&labels[r.variable]);
   const annualIndex=new Map(waveRows.map(r=>[key(r),r.method].join('|')).map((k,i)=>[k,waveRows[i]]));
-  const sourceNames=[...new Set(international.map(r=>r.survey))].sort(),summarySources=[...new Set([...international,...usRows].map(r=>r.survey))].sort();
+  const sourceNames=[...new Set(long.map(r=>r.survey))].sort(),summarySources=[...new Set([...international,...usRows].map(r=>r.survey))].sort();
   let summaryData=[...international,...usRows];
   function refreshHousing(){
     international=allInternational.filter(rowMatches);bins=allBins.filter(row=>housingMatches(row)&&(row.capital_income_definition||'benchmark')==='benchmark');relationshipAvailability=allBinAvailability.filter(row=>housingMatches(row)&&(row.capital_income_definition||'benchmark')==='benchmark');curves=allCurves.filter(rowMatches);long=allLong.filter(rowMatches);summaryData=[...international,...usRows.filter(housingMatches)];
@@ -908,6 +926,13 @@ function initOtherSurveys(other,usRows,context) {
   ].join('');
   function options(id,items,value){const el=$(id);el.replaceChildren();items.forEach(([v,label])=>{const o=document.createElement('option');o.value=v;o.textContent=label;el.append(o);});if(items.some(i=>i[0]===value))el.value=value;return el.value;}
   const sourceLabel=value=>context.metadata?.surveys?.[value]?.label||value;
+  const surveyDescriptions={
+    HFCS:'Household Finance and Consumption Survey: harmonized household surveys coordinated by the ECB, covering assets, debts, income and consumption across European countries.',
+    HILDA:'Household, Income and Labour Dynamics in Australia: a longitudinal survey following Australian households, with information on income, spending and wealth.',
+    SHIW:'Survey on Household Income and Wealth: Banca d’Italia’s survey of Italian households, covering income, saving and wealth.',
+    PSID:'Panel Study of Income Dynamics: longitudinal U.S. household panel covering consumption, income and wealth.'
+  };
+  function surveyHelp(survey){const help=document.createElement('span');help.className='help-marker hover-help';help.textContent='?';help.tabIndex=0;help.dataset.tooltip=surveyDescriptions[survey]||sourceLabel(survey);help.setAttribute('aria-label','About '+sourceLabel(survey));return help;}
   options('cc-survey',[['all','All surveys'],...summarySources.map(v=>[v,sourceLabel(v)])],summary.dataset);
   options('cc-r-survey',[['all','All surveys'],...sourceNames.map(v=>[v,sourceLabel(v)])],results.survey);
   options('cc-r-variable',[['all','All variables'],...variables],results.variable);
@@ -942,7 +967,7 @@ function initOtherSurveys(other,usRows,context) {
     variableLegend.replaceChildren();surveyLegend.replaceChildren();
     const icon=(point,color)=>{const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 16 16');svg.setAttribute('aria-hidden','true');const shapes={circle:'<circle cx="8" cy="8" r="4.5"/>',rectRot:'<path d="M8 2 14 8 8 14 2 8Z"/>',triangle:'<path d="M8 2 14 13H2Z"/>',rect:'<path d="M3 3H13V13H3Z"/>',star:'<path d="m8 1.5 1.8 4.4 4.7.4-3.6 3.1 1.1 4.6-4-2.5-4 2.5 1.1-4.6-3.6-3.1 4.7-.4Z"/>'};svg.innerHTML=shapes[point]||shapes.rect;svg.setAttribute('fill',color);return svg;};
     variables.forEach(([variable,title])=>{const item=document.createElement('label'),input=document.createElement('input'),swatch=document.createElement('span');item.className='series-choice';item.style.setProperty('--series',variableColors[variable]);input.type='checkbox';input.value=variable;input.checked=summary.variables.has(variable);input.disabled=!rows.some(row=>finite(row[variable]));input.setAttribute('aria-label',title);swatch.className='series-swatch';swatch.style.backgroundColor=variableColors[variable];input.addEventListener('change',()=>{input.checked?summary.variables.add(variable):summary.variables.delete(variable);renderSummary();});item.append(input,swatch,document.createTextNode(title));variableLegend.append(item);});
-    surveys.forEach(survey=>{const item=document.createElement('span');item.append(icon(styles[survey]?.point||'rect','#5f6875'),document.createTextNode(sourceLabel(survey)));surveyLegend.append(item);});
+    surveys.forEach(survey=>{const item=document.createElement('span');item.append(icon(styles[survey]?.point||'rect','#5f6875'),document.createTextNode(sourceLabel(survey)),surveyHelp(survey));surveyLegend.append(item);});
     if(!displayed.length){$('cc-summary-note').textContent=activeVariables.length?'No estimates are available for these filters.':'Select at least one variable to display.';return;}
     const wrap=document.createElement('div');wrap.className='cc-comparison-wrap';wrap.style.height=Math.max(450,names.length*40+170)+'px';
     const canvas=document.createElement('canvas');canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Pareto tail coefficients of consumption, labor income, total income, wealth and capital income across countries. Color identifies the variable and shape identifies the survey.');wrap.append(canvas);grid.append(wrap);
@@ -1009,13 +1034,13 @@ function initOtherSurveys(other,usRows,context) {
   }
   function updateRelationshipOptions(){
     relationships.country=countries('cc-b-country','all',relationships.country,relationshipAvailability,false);
-    const available=[...new Set(relationshipAvailability.filter(r=>r.country===relationships.country).map(r=>r.survey))].sort(),baseline=['PSID','HILDA','HFCS','SHIW'].find(survey=>available.includes(survey))||available[0],pair=pairs[relationships.pair];
+    const available=[...new Set(relationshipAvailability.filter(r=>r.country===relationships.country).map(r=>r.survey))].sort(),baseline=['HILDA','HFCS','SHIW'].find(survey=>available.includes(survey))||available[0],pair=pairs[relationships.pair];
     let selected=relationships.selectedByCountry.get(relationships.country);if(!selected){selected=new Set([baseline].filter(Boolean));relationships.selectedByCountry.set(relationships.country,selected);}if(baseline)selected.add(baseline);
     [...$('cc-b-bin-min').options].forEach(option=>{option.disabled=!relationshipAvailability.some(r=>r.country===relationships.country&&selected.has(r.survey)&&r.variant===relationships.adjustment&&r.xvar===pair.x&&r.yvar===pair.y&&Number(r.bin_min_n??10)===Number(option.value));});
     const minimumOption=$('cc-b-bin-min').querySelector('option[value="'+relationships.minN+'"]');if(minimumOption?.disabled)relationships.minN=Number([...$('cc-b-bin-min').options].find(option=>option.value==='5'&&!option.disabled)?.value??[...$('cc-b-bin-min').options].find(option=>!option.disabled)?.value??relationships.minN);$('cc-b-bin-min').value=String(relationships.minN);
     $('cc-b-datasets').replaceChildren();$('cc-b-waves').replaceChildren();
     available.forEach(survey=>{
-      const label=document.createElement('label'),input=document.createElement('input');label.className='overlay-choice small-check';input.type='checkbox';input.value=survey;input.checked=selected.has(survey);const supported=relationshipAvailability.some(r=>r.country===relationships.country&&r.survey===survey&&r.variant===relationships.adjustment&&r.xvar===pair.x&&r.yvar===pair.y&&Number(r.bin_min_n??10)===relationships.minN);input.disabled=survey===baseline||!supported;label.classList.toggle('unavailable-option',!supported);label.title=!supported?'This relationship is unavailable for this dataset.':survey===baseline?'Reference dataset for this country':'';label.append(input,document.createTextNode(sourceLabel(survey)));$('cc-b-datasets').append(label);
+      const label=document.createElement('label'),input=document.createElement('input');label.className='overlay-choice small-check';input.type='checkbox';input.value=survey;input.checked=selected.has(survey);input.setAttribute('aria-label',sourceLabel(survey));const supported=relationshipAvailability.some(r=>r.country===relationships.country&&r.survey===survey&&r.variant===relationships.adjustment&&r.xvar===pair.x&&r.yvar===pair.y&&Number(r.bin_min_n??10)===relationships.minN);input.disabled=survey===baseline||!supported;label.classList.toggle('unavailable-option',!supported);input.title=!supported?'This relationship is unavailable for this dataset.':survey===baseline?'Reference dataset for this country':'';label.append(input,document.createTextNode(sourceLabel(survey)),surveyHelp(survey));$('cc-b-datasets').append(label);
       input.addEventListener('change',()=>{if(input.checked)selected.add(survey);else selected.delete(survey);render();});
       if(!selected.has(survey))return;
       const years=[...new Set(relationshipAvailability.filter(r=>r.period_type!=='average'&&finite(r.year)&&Number(r.bin_min_n??10)===relationships.minN&&r.survey===survey&&r.country===relationships.country&&r.variant===relationships.adjustment&&r.xvar===pair.x&&r.yvar===pair.y).map(r=>r.year))].sort((a,b)=>a-b),key=relationships.country+'|'+survey,control=document.createElement('div'),waveLabel=document.createElement('label'),select=document.createElement('select');
@@ -1073,7 +1098,7 @@ function initOtherSurveys(other,usRows,context) {
     const table=$('cc-b-fits');table.replaceChildren();if(fits.length){const t=document.createElement('table');t.innerHTML='<thead><tr><th>Dataset</th><th>Fit</th><th>a / A</th><th>b</th><th>R²</th><th>Bins</th></tr></thead>';const body=document.createElement('tbody');fits.forEach(f=>{const tr=document.createElement('tr');[f.survey,f.method+' · '+f.space,number(f.intercept),number(f.slope),number(f.r2),f.bins].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td);});body.append(tr);});t.append(body);table.append(t);}
     const counts=series.map(({survey,points,allPoints})=>survey+': '+points.length+' bins'+(allPoints.length>points.length?' ('+(allPoints.length-points.length)+' omitted on logarithmic axes)':'')).join(' · ');
     $('cc-b-note').textContent=counts+'.';
-    const intervals=series.map(({survey})=>survey+' '+number(100*(relationships.country==='US'?context.metadata?.relationship_bin_intervals?.[survey]??.001:.001),1)).join('; ');
+    const intervals=series.map(({survey})=>survey+' '+number(100*.001,1)).join('; ');
     help.dataset.tooltip+=' Base intervals, in percentile points: '+intervals+'.'+(relationships.minN===0?' Original cells are used without merging or a minimum observation count; empty cells are omitted. Across-wave averages use each cell’s available waves. SCF and HFCS cells must be nonempty in all five imputations.':' Adjacent intervals are merged to retain at least '+relationships.minN+' observations in every relevant wave/adjustment/imputation cell.')+' Each variable is normalized by its wave-specific weighted mean; across-wave points average wave-specific bin statistics. OLS weights displayed bins equally; NLS minimizes squared residuals in levels. Survey definitions differ; see Definitions.';
     if(!plottedRows.length)return;
     relationshipChart=new Chart($('cc-b-chart'),{type:'scatter',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:series.length>1,labels:{filter:item=>!datasets[item.datasetIndex].isFit,usePointStyle:true}},tooltip:{filter:item=>item.dataset.type==='scatter',callbacks:{title:items=>items[0]?.dataset.label||'',label:ctx=>[labels[pair.x]+' / mean: '+number(ctx.raw.x),labels[pair.y]+' / mean: '+number(ctx.raw.y)],afterLabel:ctx=>percent(ctx.raw.q_lo)+'–'+percent(ctx.raw.q_hi)+' · '+ctx.raw.n_obs+' minimum households'}}},scales:{x:{type:useLog?'logarithmic':'linear',grid:{color:'#ececf0'},title:{display:true,text:labels[pair.x]+' / sample mean',font:{size:13}},ticks:{font:{size:13}}},y:{type:useLog?'logarithmic':'linear',grid:{color:'#ececf0'},title:{display:true,text:labels[pair.y]+' / sample mean',font:{size:13}},ticks:{font:{size:13}}}}}});
@@ -1098,21 +1123,13 @@ function initOtherSurveys(other,usRows,context) {
     }catch(error){$('cc-r-status').textContent='The results download could not be prepared.';console.error(error);}finally{$('cc-results-all').disabled=false;}
   }
   function ensureRelationshipBins(){
-    if(!relationshipBinsPromise)relationshipBinsPromise=Promise.all([context.loadInternationalBins(),context.loadUSBins?context.loadUSBins(['PSID'],{minN:relationships.minN,adjustment:relationships.adjustment}):Promise.resolve(context.usBins||[])]).then(([internationalRows,usBins])=>{
-      allBins=[...internationalRows,...usBins.map(row=>({...row,country:'US',country_name:'United States'}))];relationshipBinsReady=true;refreshHousing();updateRelationshipOptions();
+    if(!relationshipBinsPromise)relationshipBinsPromise=context.loadInternationalBins().then(rows=>{
+      allBins=rows.filter(outsideUS);relationshipBinsReady=true;refreshHousing();updateRelationshipOptions();
     });return relationshipBinsPromise;
-  }
-  function ensureSelectedUSBins(){
-    if(relationships.country!=='US'||!context.loadUSBins)return true;
-    const surveys=[...(relationships.selectedByCountry.get('US')||new Set(['PSID']))].sort(),signature=(context.getSpecificationSignature||getHousingMethod)()+'|'+relationships.adjustment+'|'+relationships.minN+'|'+surveys.join(',');if(signature===loadedUSSignature)return true;
-    const request=++usRequest;$('cc-b-empty').hidden=false;$('cc-b-empty').textContent='Loading relationship results…';$('cc-b-chart').parentElement.setAttribute('aria-busy','true');
-    context.loadUSBins(surveys,{minN:relationships.minN,adjustment:relationships.adjustment}).then(usBins=>{
-      allBins=[...allBins.filter(row=>row.country!=='US'),...usBins.map(row=>({...row,country:'US',country_name:'United States'}))];refreshHousing();if(request!==usRequest)return;loadedUSSignature=signature;render();
-    }).catch(error=>{if(request===usRequest){$('cc-b-chart').parentElement.removeAttribute('aria-busy');$('cc-b-empty').textContent='Relationship results could not be loaded. Please reload the page.';}console.error(error);});return false;
   }
   function render(){
     if(!active())return;refreshHousing();
-    if(view==='summary')renderSummary();else if(view==='quantiles')thresholdController?.render();else if(view==='results')renderResults();else if(relationshipBinsReady){updateRelationshipOptions();if(!ensureSelectedUSBins())return;$('cc-b-chart').parentElement.removeAttribute('aria-busy');renderRelationships();}else{
+    if(view==='summary')renderSummary();else if(view==='quantiles')thresholdController?.render();else if(view==='results')renderResults();else if(relationshipBinsReady){updateRelationshipOptions();$('cc-b-chart').parentElement.removeAttribute('aria-busy');renderRelationships();}else{
       $('cc-b-empty').hidden=false;$('cc-b-empty').textContent='Loading relationship results…';$('cc-b-chart').parentElement.setAttribute('aria-busy','true');$('cc-b-csv').disabled=true;
       ensureRelationshipBins().then(()=>{if(active()&&view==='loglog'){$('cc-b-csv').disabled=false;render();}}).catch(error=>{$('cc-b-empty').textContent='Relationship results could not be loaded. Please reload the page.';console.error(error);});
     }
@@ -1141,7 +1158,7 @@ function initAdjustments(payload,context) {
   const surveyLabels={PSID:'PSID',CEX_BM_RECON:'CEX',HFCS:'HFCS',HILDA:'HILDA',SHIW:'SHIW',SCF:'SCF'};
   const countryLabels=new Map(rows.filter(r=>r.country).map(r=>[r.country,r.country_name||r.country]));
   let yearCharts=[],distributionCharts=[],figureSurvey='PSID',figureCountry='',figureMode='relative',distributionSurvey='PSID',distributionCountry='',distributionDomain='consumption';
-  let compositionRequest=0,psidConsumptionView='consumption_reduced';
+  let compositionRequest=0,psidConsumptionView='consumption_reduced',distributionRange='all';
   const selections={consumption:'consump_def1',income:'total_income',wealth:'networth_val'};
 
   function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.append(o);}
@@ -1214,6 +1231,7 @@ function initAdjustments(payload,context) {
     for(const stage of ['raw','reporting','full']){
       const canvas=$('adjustment-distribution-'+stage),card=canvas.closest('.adjustment-distribution-card'),contract=contracts.find(c=>c.stage===stage);card.hidden=!stages.includes(stage);if(card.hidden)continue;
       card.querySelector('h4').textContent=({raw:'Raw data',reporting:'Adjusted for reporting',full:'Adjusted for reporting and representation'})[stage];
+      const xRange=distributionRange==='top20'?[.8,1]:contract.x_display_range,xBreaks=distributionRange==='top20'?[.8,.85,.9,.95,1]:contract.xbreaks,nipaBasket=distributionSurvey==='PSID'&&contract.domain==='consumption';
       const datasets=[];let visiblePoints=0,lineCoordinates=0;
       contract.category_order.forEach((category,i)=>{
         const label=contract.labels[i]||category,color=contract.colors[i],line=smooth.filter(row=>row.stage===stage&&row.category===category).sort((a,b)=>a.quantile-b.quantile),raw=points.filter(row=>row.stage===stage&&row.category===category&&row.plot_visible===true).sort((a,b)=>a.quantile-b.quantile);
@@ -1222,18 +1240,20 @@ function initAdjustments(payload,context) {
         datasets.push({label,category,type:'scatter',data:raw.map(row=>({x:row.quantile,y:row.share})),borderColor:alphaColor(color),backgroundColor:'transparent',pointBackgroundColor:'transparent',pointBorderColor:alphaColor(color),pointBorderWidth:1.15,pointRadius:2.5,pointHoverRadius:5,pointStyle:'circle',showLine:false,order:0,isRaw:true});
       });
       canvas.setAttribute('aria-label',surveyLabels[distributionSurvey]+' '+contract.domain+' component shares: '+stage);
-      canvas.dataset.paperContract=JSON.stringify({view,stage,x_type:'linear',tension:0,span_gaps:false,x_range:contract.x_display_range,y_range:contract.y_display_range,x_breaks:contract.xbreaks,y_breaks:contract.ybreaks,visible_points:visiblePoints,smooth_coordinates:lineCoordinates,categories:contract.category_order});
+      canvas.dataset.distributionRange=distributionRange;
+      canvas.dataset.paperContract=JSON.stringify({view,stage,x_type:'linear',tension:0,span_gaps:false,x_range:xRange,source_x_range:contract.x_display_range,y_range:contract.y_display_range,x_breaks:xBreaks,y_breaks:contract.ybreaks,visible_points:visiblePoints,smooth_coordinates:lineCoordinates,categories:contract.category_order});
       distributionCharts.push(new Chart(canvas,{type:'line',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'nearest',intersect:false},plugins:{legend:{display:false},tooltip:{filter:item=>item.dataset.isRaw,callbacks:{title:items=>items.length?'P'+num(100*items[0].parsed.x,1):'',label:item=>item.dataset.label+': '+pct(item.parsed.y)}}},scales:{
-        x:{type:'linear',min:contract.x_display_range[0],max:contract.x_display_range[1],afterBuildTicks:axis=>{axis.ticks=contract.xbreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{color:'#d9dce2'},title:{display:true,text:contract.x_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},maxRotation:0,autoSkip:false,callback:value=>contract.x_format==='percent'?pct(value):Number(value).toFixed(1)}},
-        y:{type:'linear',min:contract.y_display_range[0],max:contract.y_display_range[1],afterBuildTicks:axis=>{if(contract.ybreaks)axis.ticks=contract.ybreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{display:false},title:{display:true,text:contract.y_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},autoSkip:false,callback:pct}}
+        x:{type:'linear',min:xRange[0],max:xRange[1],afterBuildTicks:axis=>{axis.ticks=xBreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{color:'#d9dce2'},title:{display:true,text:nipaBasket?'Percentile of NIPA consumption':contract.x_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},maxRotation:0,autoSkip:false,callback:value=>distributionRange==='top20'?'P'+Math.round(100*value):contract.x_format==='percent'?pct(value):Number(value).toFixed(1)}},
+        y:{type:'linear',min:contract.y_display_range[0],max:contract.y_display_range[1],afterBuildTicks:axis=>{if(contract.ybreaks)axis.ticks=contract.ybreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{display:false},title:{display:true,text:nipaBasket?'Share of NIPA consumption':contract.y_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},autoSkip:false,callback:pct}}
       }}}));
     }
     const country=distributionCountry?' · '+(countryLabels.get(distributionCountry)||distributionCountry):'',weight=distributionSurvey==='PSID'?' · '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[getWeightingMethod()]:'';
-    $('adjustment-distribution-readout').textContent=surveyLabels[distributionSurvey]+country+' · '+distributionDomain+weight+' · '+(getHousingMethod()==='bp'&&['PSID','CEX_BM_RECON'].includes(distributionSurvey)?'constant-rate':'benchmark')+' homeowner services';
+    $('adjustment-distribution-readout').textContent=surveyLabels[distributionSurvey]+country+' · '+distributionDomain+weight+' · '+(getHousingMethod()==='bp'&&['PSID','CEX_BM_RECON'].includes(distributionSurvey)?'constant-rate':'benchmark')+' homeowner services'+(distributionRange==='top20'?' · P80–P100':'');
     $('adjustment-distribution-csv').disabled=!points.length;$('adjustment-distribution-csv')._rows=[...points.map(row=>({kind:'raw_point',...row})),...smooth.map(row=>({kind:'smoothed_line',...row}))];
   }
   function renderDistribution(){
     const root=$('adjustment-distribution-results'),panel=root?.closest('[role="tabpanel"]');if(!root||$('panel-adjustments')?.hidden||panel?.hidden)return;
+    $('composition-consumption-note').hidden=distributionSurvey!=='PSID'||distributionDomain!=='consumption';
     if(!compositionContracts.some(row=>row.survey===distributionSurvey)){renderLegacyDistribution();return;}
     const request=++compositionRequest;fillCountry('adjustment-distribution-country','adjustment-distribution-country-control',distributionSurvey,true);
     const available=compositionContracts.filter(row=>row.survey===distributionSurvey&&(!distributionCountry||row.country===distributionCountry)&&compositionMatches(row)),domains=new Set(available.map(row=>row.domain)),select=$('adjustment-distribution-domain');
@@ -1250,8 +1270,10 @@ function initAdjustments(payload,context) {
   fillSurveySelectors();
   if(compositionContracts.length){
     const root=$('adjustment-distribution-results'),controls=root.querySelector('.adjustment-distribution-controls'),detail=document.createElement('div');detail.className='control';detail.id='composition-detail-control';detail.innerHTML='<label for="composition-detail">Consumption detail</label><select id="composition-detail"><option value="consumption_reduced">Grouped categories</option><option value="consumption">Detailed categories</option></select>';controls.append(detail);
+    const range=document.createElement('div');range.className='control';range.innerHTML='<label for="composition-range">Distribution range</label><select id="composition-range"><option value="all">Full distribution</option><option value="top20">Top 20% (P80–P100)</option></select>';controls.append(range);
     const legend=document.createElement('ul');legend.id='composition-shared-legend';legend.className='composition-shared-legend';legend.setAttribute('aria-label','Component legend');root.querySelector('.adjustment-distribution-grid').before(legend);
     $('composition-detail').addEventListener('change',event=>{psidConsumptionView=event.target.value;renderDistribution();});
+    $('composition-range').addEventListener('change',event=>{distributionRange=event.target.value;renderDistribution();});
   }
   $('adjustment-figure-survey').addEventListener('change',e=>{figureSurvey=e.target.value;figureCountry='';renderYears();});$('adjustment-figure-country').addEventListener('change',e=>{figureCountry=e.target.value;renderYears();});$('adjustment-figure-mode').addEventListener('change',e=>{figureMode=e.target.value;renderYears();});
   ['consumption','income','wealth'].forEach(domain=>$('adjustment-figure-'+domain+'-variable').addEventListener('change',e=>{selections[domain]=e.target.value;renderYears();}));
@@ -1269,7 +1291,6 @@ function initSourceCatalogue(root,notesElements) {
   if(!data.sources.some(row=>row.id==='CEX_BM_RECON'))data.sources.push({id:'CEX_BM_RECON',label:'CEX construction used in the explorer',download_url:'https://www.bls.gov/cex/pumd_data.htm',documentation_url:'https://www.journals.uchicago.edu/doi/10.1086/721702',citation_text:'Meyer, Bruce D., and James X. Sullivan (2023). “Consumption and Income Inequality in the United States since the 1960s.” Journal of Political Economy 131(2), 247–284. https://doi.org/10.1086/721702. The explorer uses a public CEX construction based on Meyer–Sullivan with PSID extensions to components, housing and durable services, covering 1996–2024.',citation_url:'https://doi.org/10.1086/721702',access_note:'The public reconstruction uses BLS Interview Survey public-use files. The linked article and its replication package define the Meyer–Sullivan consumption construction; the explorer additions and housing alternatives are documented in Definitions.',coverage:'Explorer coverage: 1996–2024, raw/rescaled/fully adjusted, benchmark and constant-5.4% homeowner-service methods.',group:'US surveys',access_label:'Public data and methodology'});
   if(!data.papers.some(row=>row.url==='https://doi.org/10.1086/721702'))data.papers.push({role:'CEX consumption methodology',citation_text:'Meyer, Bruce D., and James X. Sullivan (2023). Consumption and Income Inequality in the United States since the 1960s. Journal of Political Economy 131(2), 247–284.',url:'https://doi.org/10.1086/721702',why_useful:'Defines the Meyer–Sullivan CEX consumption construction used as the base of the explorer’s public reconstruction.'});
   const link=(url,text)=>{if(!url)return null;const a=el('a','',text);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;};
-  const download=(text,name,type)=>{const a=el('a','text-button');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;return a;};
   const notes=el('section');notes.id='data-notes-panel';notes.setAttribute('role','tabpanel');notes.setAttribute('aria-labelledby','data-notes-tab');notesElements.forEach(n=>notes.append(n));
   const sources=el('section','source-catalogue'),papers=el('section','source-catalogue');sources.id='data-sources-panel';papers.id='data-papers-panel';
   [sources,papers].forEach(panel=>{panel.hidden=true;panel.setAttribute('role','tabpanel');});sources.setAttribute('aria-labelledby','data-sources-tab');papers.setAttribute('aria-labelledby','data-papers-tab');
@@ -1279,21 +1300,39 @@ function initSourceCatalogue(root,notesElements) {
   [['notes','Dataset notes'],['sources','Sources and citations'],['papers','Useful papers']].forEach(([key,title])=>{const button=el('button','secondary-tab',title);button.type='button';button.id='data-'+key+'-tab';button.setAttribute('role','tab');button.setAttribute('aria-controls',panels[key].id);button.addEventListener('click',()=>activate(key));buttons[key]=button;inner.append(button);});
   inner.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;const list=Object.keys(buttons),index=list.findIndex(key=>buttons[key]===doc.activeElement);if(index<0)return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?list.length-1:(index+(event.key==='ArrowRight'?1:-1)+list.length)%list.length;activate(list[next]);buttons[list[next]].focus();});
   root.replaceChildren(nav,notes,sources,papers);
-  const header=el('header','source-heading'),heading=el('div');heading.append(el('h2','','Source data and citations'),el('p','','Official access links and dataset citations. Preserve the observation year, release and aggregate-account vintage used in the analysis.'));const actions=el('div','source-actions'),htmlDownload=download(data.standalone_html,'source_data.html','text/html'),bibDownload=download(data.bibtex,'source_data.bib','text/plain');htmlDownload.textContent='Download sources file';bibDownload.textContent='BibTeX';actions.append(htmlDownload,bibDownload);header.append(heading,actions);sources.append(header);
-  const toolbar=el('div','dc-toolbar'),label=el('label','dc-control'),title=el('span','dc-control-label','Source group'),select=el('select');label.append(title,select);toolbar.append(label);[['all','All sources'],...[...new Set(data.sources.map(r=>r.group))].map(g=>[g,g])].forEach(([value,text])=>{const option=el('option','',text);option.value=value;select.append(option);});sources.append(toolbar);
-  const scroll=el('div','source-table-scroll'),table=el('table','source-table');table.innerHTML='<thead><tr><th scope="col">Dataset / account</th><th scope="col">Access, citation and scope</th></tr></thead>';const body=el('tbody');table.append(body);scroll.append(table);sources.append(scroll);
-  function renderSources(){body.replaceChildren();data.sources.filter(row=>select.value==='all'||row.group===select.value).forEach(row=>{const tr=el('tr'),name=el('th','',row.label);name.scope='row';name.append(el('small','source-access',row.access_label));const cell=el('td'),links=el('div','source-links');[[row.download_url,'Download / request access'],[row.documentation_url,'Documentation'],[row.citation_url,'Citation guidance'],[row.archive_url,'Release archive']].forEach(([url,text])=>{const a=link(url,text);if(a)links.append(a);});cell.append(links,el('p','source-citation',row.citation_text),el('p','source-scope',row.coverage));const detail=el('details'),summary=el('summary','','Access and vintage notes');detail.append(summary,el('p','',row.access_note));cell.append(detail);tr.append(name,cell);body.append(tr);});}
+  const header=el('header','source-heading'),heading=el('div');heading.append(el('h2','','Source data and citations'),el('p','','Official access links and dataset citations.'));header.append(heading);sources.append(header);
+  const bySource=new Map(data.sources.map(row=>[row.id,row])),sourceRows=data.sources.filter(row=>!['SCF_2025_FULL','SCF_2025_SUMMARY','CEX_BM','CEX_BM_RECON'].includes(row.id)).map(row=>{
+    if(row.id==='SCF')return {...row,label:'SCF — Survey of Consumer Finances',links:[[row.download_url,'All waves'],[bySource.get('SCF_2025_FULL')?.download_url,'Full public-use file'],[bySource.get('SCF_2025_SUMMARY')?.download_url,'Summary extract'],[row.documentation_url,'Documentation']]};
+    if(row.id==='CEX')return {...row,label:'CEX — Consumer Expenditure Interview Survey',links:[[row.download_url,'Data'],[row.documentation_url,'Documentation'],[bySource.get('CEX_BM')?.download_url,'Meyer–Sullivan replication'],[bySource.get('CEX_BM')?.documentation_url,'Methodology']],citations:['U.S. Bureau of Labor Statistics. Consumer Expenditure Interview Survey, public-use microdata.','Meyer, B. D., and Sullivan, J. X. (2023). Consumption and Income Inequality in the United States since the 1960s. Journal of Political Economy, 131(2), 247–284.']};
+    return row.id==='YODLEE'?{...row,label:'Yodlee (bank data)'}:row;
+  });
+  const toolbar=el('div','dc-toolbar'),label=el('label','dc-control'),title=el('span','dc-control-label','Source group'),select=el('select');label.append(title,select);toolbar.append(label);[['all','All sources'],...[...new Set(sourceRows.map(r=>r.group))].map(g=>[g,g])].forEach(([value,text])=>{const option=el('option','',text);option.value=value;select.append(option);});sources.append(toolbar);
+  const scroll=el('div','source-table-scroll'),table=el('table','source-table');table.innerHTML='<thead><tr><th scope="col">Dataset / account</th><th scope="col">Links and citation</th></tr></thead>';const body=el('tbody');table.append(body);scroll.append(table);sources.append(scroll);
+  function renderSources(){body.replaceChildren();sourceRows.filter(row=>select.value==='all'||row.group===select.value).forEach(row=>{const tr=el('tr'),name=el('th','',row.label);name.scope='row';const cell=el('td'),links=el('div','source-links'),seen=new Set();(row.links||[[row.download_url,'Data'],[row.documentation_url,'Documentation'],[row.archive_url,'Archive']]).forEach(([url,text])=>{if(!url||seen.has(url))return;seen.add(url);links.append(link(url,text));});cell.append(links);(row.citations||[row.citation_text]).filter(Boolean).forEach(text=>cell.append(el('p','source-citation',text)));tr.append(name,cell);body.append(tr);});}
   select.addEventListener('change',renderSources);renderSources();
-  const paperHeader=el('header','source-heading');paperHeader.append(el('h2','','Useful papers and methods'));papers.append(paperHeader);
-  function paperTable(rows){const t=el('table','source-table source-paper-table'),b=el('tbody');rows.forEach(row=>{const tr=el('tr'),role=el('th','',row.role||row.survey||'Methodology');role.scope='row';const td=el('td'),citation=el('p','source-citation');citation.append(link(row.url,row.citation_text));td.append(citation,el('p','source-scope',row.why_useful||''));tr.append(role,td);b.append(tr);});t.append(b);return t;}
-  const research=el('div','source-table-scroll');research.append(paperTable(data.papers));papers.append(research);const methodology=el('details','source-methodology'),summary=el('summary','','International methodology and benchmark documentation');methodology.append(summary,paperTable(data.methodology));papers.append(methodology);activate('notes');
+  const paperHeader=el('header','source-heading');paperHeader.append(el('h2','','Useful papers'));papers.append(paperHeader);
+  const usefulGroups=[['Consumption and measurement',['10.1086/721702','10.1257/aer.104.5.122','10.1257/aer.20121549','10.1111/roiw.12509']],['Tail estimation',['10.1137/070710111']]];
+  usefulGroups.forEach(([title,identifiers])=>{const section=el('section','source-reference-group'),list=el('ul','source-reference-list');section.append(el('h3','',title));identifiers.forEach(doi=>{const row=data.papers.find(row=>row.citation_text?.includes(doi));if(!row)return;const item=el('li');item.append(link(row.url,row.citation_text));list.append(item);});section.append(list);papers.append(section);});activate('notes');
 }
 
 function initDataAndCorrespondence(metadata) {
   const doc=document,byId=id=>doc.getElementById(id),dataRoot=byId('panel-data'),adjustmentsRoot=byId('panel-adjustments');
   const correspondences=Array.isArray(metadata?.account_correspondences)?metadata.account_correspondences:[],datasets=Array.isArray(metadata?.dataset_limitations)?metadata.dataset_limitations:[];
-  const archivedSurveys=new Set(['CEX','CEX_BM']),visibleDatasets=datasets.filter(row=>!archivedSurveys.has(row.survey));
-  const domainNames={consumption:'Consumption',income:'Income',wealth:'Wealth'},state={view:'figures',dataset:'all',consumption:{country:'US',survey:'PSID'},income:{country:'US',survey:'PSID'},wealth:{country:'US',survey:'PSID'}};
+  const archivedSurveys=new Set(['CEX','CEX_BM']);
+  const essentialNotes={
+    PSID:{label:'PSID',coverage:'Biennial waves, 2005–2023.',unit:'Family unit.',limitations:['Longitudinal panel with broad consumption, income and wealth coverage; construction includes imputations and modeled housing and durable services.','Mapped wealth excludes employer pension entitlements.']},
+    SCF:{label:'SCF',coverage:'Triennial survey; spending detail varies by wave.',unit:'Primary economic unit (family).',limitations:['Strong wealth coverage; consumption coverage is limited.','Five imputed datasets are averaged. Original survey weights are retained.']},
+    CEX_BM_RECON:{label:'CEX',coverage:'1996–2024.',unit:'Consumer unit; partial wealth uses final-interview records.',limitations:['Detailed spending data; income and wealth coverage is limited.','Retains the Meyer–Sullivan equivalence scale and person weights.']},
+    HFCS:{label:'HFCS',coverage:'Available waves vary by country.',unit:'Household.',limitations:['Harmonized European survey with country-specific account definitions and coverage.','Labor income includes pensions and transfers; wealth uses three broad matched groups.']},
+    HILDA:{label:'HILDA',coverage:'2006–2022; wealth is observed in five waves.',unit:'Household.',limitations:['Australian household panel; spending combines expenditure with durable-service proxies.','Labor income includes government transfers; wealth uses four broad groups.']},
+    SHIW:{label:'SHIW',coverage:'1998–2022.',unit:'Household.',limitations:['Italian household survey with a net-of-tax income construction.','Health and financial services are omitted from the selected consumption control basket.']},
+    YODLEE:{label:'Yodlee (bank data)',coverage:'2014–2019; coverage varies by spending measure.',unit:'Bank–individual account.',limitations:['Observes each person’s account within the sampled banking system, rather than a complete household.','Spending outside observed accounts is missing; SCF income weights improve representativeness.']},
+    NIELSEN:{label:'NielsenIQ',coverage:'2004–2023.',unit:'Household retail-purchase panel.',limitations:['Retail purchases have limited consumption coverage. Available only with “Food” under “Variable for consumption”.']}
+  };
+  const visibleDatasets=datasets.filter(row=>!archivedSurveys.has(row.survey)).map(row=>({...row,...essentialNotes[row.survey]}));
+  if(metadata.forbes_reference)visibleDatasets.push({survey:'FORBES',label:'Forbes',coverage:'United States, 1982–2024.',unit:'Distinct listed person or family fortune.',limitations:['Combines World’s Billionaires and Forbes 400; overlapping fortunes are counted once.','Rich-list wealth only. Valuation dates and historical coverage differ.']});
+  const datasetCountries=new Map(),dataCountries=new Map();correspondences.forEach(row=>{if(!row.country||archivedSurveys.has(row.survey))return;const country=String(row.country);dataCountries.set(country,row.country_name||country);if(!datasetCountries.has(row.survey))datasetCountries.set(row.survey,new Set());datasetCountries.get(row.survey).add(country);});datasetCountries.set('FORBES',new Set(['US']));
+  const domainNames={consumption:'Consumption',income:'Income',wealth:'Wealth'},state={view:'figures',dataCountry:'US',consumption:{country:'US',survey:'PSID'},income:{country:'US',survey:'PSID'},wealth:{country:'US',survey:'PSID'}};
   const nodes={},el=(tag,className,text)=>{const n=doc.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=String(text);return n;};
   const strings=x=>Array.isArray(x)?x.filter(v=>v!==undefined&&v!==null).map(v=>typeof v==='string'?v:v.label||v.description||v.name||v.code||String(v)):x?[String(x)]:[];
   const surveyName=survey=>datasets.find(r=>r.survey===survey)?.label||metadata?.surveys?.[survey]?.label||survey;
@@ -1301,8 +1340,8 @@ function initDataAndCorrespondence(metadata) {
   const control=(label,id)=>{const box=el('label','dc-control');box.htmlFor=id;box.append(el('span','dc-control-label',label));const select=el('select');select.id=id;box.append(select);return {box,select};};
   const bullets=(items,className='dc-limit-list')=>{const list=el('ul',className);strings(items).forEach(value=>list.append(el('li','',value)));return list;};
   function renderData(){
-    if(!dataRoot)return;const rows=state.dataset==='all'?visibleDatasets:visibleDatasets.filter(r=>r.survey===state.dataset),grid=nodes.datasetGrid;grid.replaceChildren();
-    rows.forEach(row=>{const card=el('article','dc-dataset-card');card.append(el('h3','',row.label||surveyName(row.survey)));const facts=el('dl','dc-data-facts');[['Coverage',row.coverage],['Unit',row.unit]].forEach(([label,value])=>{if(!value)return;facts.append(el('dt','',label),el('dd','',strings(value).join(' ')));});if(facts.childNodes.length)card.append(facts);if(row.survey==='CEX')card.append(el('p','dc-data-note','All consumer units in the source interview files; no physical-household or single-consumer-unit restriction and no averaging across interviews. Before 2004 the comparison sample requires a complete-income response and an identified market-income ranking index; public imputed means are used thereafter.'));if(strings(row.limitations).length)card.append(bullets(row.limitations));grid.append(card);});
+    if(!dataRoot)return;const rows=visibleDatasets.filter(row=>datasetCountries.get(row.survey)?.has(state.dataCountry)),grid=nodes.datasetGrid;grid.replaceChildren();
+    rows.forEach(row=>{const card=el('article','dc-dataset-card');card.dataset.survey=row.survey;card.append(el('h3','',row.label||surveyName(row.survey)));const facts=el('dl','dc-data-facts');[['Coverage',row.coverage],['Unit',row.unit]].forEach(([label,value])=>{if(!value)return;facts.append(el('dt','',label),el('dd','',strings(value).join(' ')));});if(facts.childNodes.length)card.append(facts);if(strings(row.limitations).length)card.append(bullets(row.limitations));grid.append(card);});
     if(!rows.length)grid.append(el('p','dc-empty','No data description is available for this selection.'));
   }
   function sourceVariable(value,row){
@@ -1340,13 +1379,8 @@ function initDataAndCorrespondence(metadata) {
     if(domainNames[view])renderDomain(view);if(['figures','distribution'].includes(view))requestAnimationFrame(()=>{window.dispatchEvent(new Event('resize'));window.dispatchEvent(new CustomEvent('adjustments-procedure-visible'));});
   }
   if(dataRoot){
-    dataRoot.classList.add('dc-data-root');dataRoot.replaceChildren();const toolbar=el('div','dc-toolbar'),selector=control('Survey','dc-data-survey');choices(selector.select,[['all','All surveys'],...visibleDatasets.map(r=>[r.survey,r.label||surveyName(r.survey)])],state.dataset);selector.select.addEventListener('change',event=>{state.dataset=event.target.value;renderData();});toolbar.append(selector.box);nodes.datasetGrid=el('div','dc-dataset-grid');dataRoot.append(toolbar,nodes.datasetGrid);renderData();
-    const noteElements=[toolbar,nodes.datasetGrid],counts=metadata.forbes_reference?.us_source_counts;
-    if(counts?.length){
-      const section=el('section','other-card forbes-coverage'),header=el('header','source-heading'),heading=el('div');heading.append(el('h2','','Forbes: US coverage'),el('p','','World’s Billionaires supplemented by nonoverlapping Forbes 400 fortunes. Each distinct person or family fortune receives one weight. The lists use different dates within a year; historical coverage and family groupings can produce totals below 400.'));
-      const download=el('button','text-button','Source counts CSV');download.type='button';download.addEventListener('click',()=>{const fields=['year','world_billionaires_retained','forbes400_source_usable','forbes400_overlap_excluded','forbes400_added','final_n'],csv=[fields.join(','),...counts.map(row=>fields.map(key=>row[key]).join(','))].join('\r\n'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=el('a');a.href=url;a.download='Forbes_US_source_counts.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});header.append(heading,download);section.append(header);
-      const detail=el('details'),summary=el('summary','','Annual source contributions, 1982–2024'),scroll=el('div','source-table-scroll'),table=el('table','source-table'),thead=el('thead'),tr=el('tr');['Year','World’s Billionaires retained','Forbes 400 additions','Total fortunes'].forEach(text=>tr.append(el('th','',text)));thead.append(tr);table.append(thead);const tbody=el('tbody');counts.forEach(row=>{const tr=el('tr');['year','world_billionaires_retained','forbes400_added','final_n'].forEach(key=>tr.append(el('td','',row[key])));tbody.append(tr);});table.append(tbody);scroll.append(table);detail.append(summary,scroll);section.append(detail);noteElements.push(section);
-    }
+    dataRoot.classList.add('dc-data-root');dataRoot.replaceChildren();const toolbar=el('div','dc-toolbar'),selector=control('Country','dc-data-country'),countryOptions=[...dataCountries].sort((a,b)=>a[0]==='US'?-1:b[0]==='US'?1:a[1].localeCompare(b[1]));state.dataCountry=choices(selector.select,countryOptions,state.dataCountry);selector.select.addEventListener('change',event=>{state.dataCountry=event.target.value;renderData();});toolbar.append(selector.box);nodes.datasetGrid=el('div','dc-dataset-grid');dataRoot.append(toolbar,nodes.datasetGrid);renderData();
+    const noteElements=[toolbar,nodes.datasetGrid];
     if(typeof initSourceCatalogue==='function')initSourceCatalogue(dataRoot,noteElements);
   }
   if(adjustmentsRoot&&!byId('adjustment-procedure-panel')){
@@ -1545,7 +1579,7 @@ function initDataAndCorrespondence(metadata) {
     CEX_BM_RECON:'Public CEX construction based on Meyer–Sullivan with PSID extensions. '+(META.surveys?.CEX_BM_RECON?.profile_note||'B&M equivalence scale and person weights, with PSID-style housing and durable services.')+' '+(META.surveys?.CEX_BM_RECON?.coverage_note||''),
     YODLEE:'Bank–individual-account transaction data: each observation is one person’s account within the sampled banking system, not a complete household consumption unit. Spending outside the observed account—such as cash or activity at other institutions—is not captured. SCF income weights are always used to improve representativeness.',
     NIELSEN:'NielsenIQ household-panel reference based on annual retail purchases. It is available only when “Variable for consumption” is Food because it does not measure the broader consumption concepts used by the other choices.',
-    FORBES:'World’s Billionaires + Forbes 400, 1982–2024: one weight per distinct listed person or family fortune, with overlaps removed. The lists use different dates within a year; early coverage relies on historical Forbes 400 records. Annual source counts are available in Data.'
+    FORBES:'World’s Billionaires + Forbes 400, 1982–2024: one weight per distinct listed person or family fortune, with overlaps removed. The lists use different dates within a year; early coverage relies on historical Forbes 400 records. Sources and coverage are described in Data.'
   };
   const surveyTooltip=survey=>SURVEY_TOOLTIPS[survey.toUpperCase()]||surveyName(survey);
   const spendingKey = measure => spendingOptions.find(option=>option.value===measure)?.key || FALLBACK_SPENDING.find(option=>option.value===measure)?.key || measure;
@@ -2093,7 +2127,7 @@ function initDataAndCorrespondence(metadata) {
     const addDetails=(title,texts)=>{const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent=title;details.append(summary);texts.filter(Boolean).forEach(text=>{const p=document.createElement('p');p.textContent=text;details.append(p);});root.append(details);return details;};
     addDetails('Estimation and log–log relationships',[
       'The main plot offers survey-weighted Pareto MLE or OLS, Pareto coefficients relative to the corresponding wealth coefficient, Gini coefficients and top 20%, 10%, 5% and 1% shares. A lower Pareto coefficient means a heavier tail. In the relative view, wealth equals one and each numerator is paired with wealth from the same survey, wave, adjustment stage and threshold rule. KS thresholds are selected separately by method, variable and wave using each source’s search window. Custom thresholds use whole percentiles from P70 to P99; unavailable cutoffs remain blank. The table provides numeric values and an aggregate CSV. Quantile figures draw only actual source grid points, with 90% Student-t intervals and the mean wave-specific KS estimate as the horizontal reference.',
-      'Relationship plots use weighted bins in the top 20%. Initial 0.1-percentage-point intervals are merged until every relevant cell has the selected minimum of 5, 10 or 20 households in PSID/SCF, counted within each SCF imputation, or distinct CEX consumer units. '+(META.cex_display?.bivariate_note||cexCountsNote)+' Variables are normalized by their selected-sample weighted means. SCF points first average five imputations; across-wave views give equal weight to available waves.',
+      'Relationship plots use weighted bins in the top 20%. Initial 0.1-percentage-point intervals can be used without a minimum or merged to meet a minimum of 5, 10, 15 or 20 observations, counted within each SCF imputation and using distinct consumer units in CEX. '+(META.cex_display?.bivariate_note||cexCountsNote)+' Variables are normalized by their selected-sample weighted means. SCF points first average five imputations; across-wave views give equal weight to available waves.',
       'OLS fits levels or logarithms according to the selected axes. NLS fits y = A x^b using squared residuals in levels. Both give each displayed bin equal weight. R² is measured in the indicated fit space; only log plots omit nonpositive bin coordinates. Only observed CEX measure definitions are used in its bivariate plots; unavailable legacy definitions are left blank.'
     ]);
     const spending=addDetails('Spending alternatives and aggregate adjustments',[
@@ -2140,7 +2174,7 @@ function initDataAndCorrespondence(metadata) {
       const mean={...annual[0],period_type:'average',year:null,period_label:yearRange(years)+' average',n_waves:annual.length};
       variables.forEach(variable=>{mean[variable]=avg(annual.map(row=>row[variable]));});psidRows.push(...annual,mean);
     }
-    otherController=initOtherSurveys(DATA.other||{},psidRows,{usCurves:ALL_CURVES.filter(curve=>['PSID','CEX_BM_RECON'].includes(curve.survey)),usBinAvailability:BIN_AVAILABILITY.filter(row=>['PSID','SCF','CEX_BM_RECON'].includes(row.survey)),usBins:ALL_BINS.filter(row=>['PSID','SCF','CEX_BM_RECON'].includes(row.survey)&&FINITE(row.q_lo)),loadInternationalBins:separateBlocks?loadInternationalBins:null,loadUSBins:separateBlocks?async(surveys=['PSID'],selection={})=>{await ensureBivariate(surveys,{all:true,...selection});return ALL_BINS.filter(row=>['PSID','SCF','CEX_BM_RECON'].includes(row.survey)&&FINITE(row.q_lo));}:null,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method,housingMatches:specificationMatches,metadata:META});
+    otherController=initOtherSurveys(DATA.other||{},psidRows,{usCurves:ALL_CURVES.filter(curve=>['PSID','CEX_BM_RECON'].includes(curve.survey)),loadInternationalBins:separateBlocks?loadInternationalBins:null,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method,housingMatches:specificationMatches,metadata:META});
     if(otherVisible()){const control=document.querySelector('.global-housing-control:not(.quantile-housing-control)'),nav=$('cc-secondary-nav')?.querySelector('.secondary-nav-inner');if(control&&nav){control.hidden=false;nav.append(control);}}
   }
   function initializeThresholdController(){

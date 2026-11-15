@@ -160,3 +160,9 @@
 #us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:auto;flex:0 1 auto;width:auto;min-height:39px;align-self:end;align-items:center;white-space:nowrap;margin:0;padding:0}
 @media(max-width:1050px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:1/-1}}
+.adjustment-footnote .decomposition-line{display:block}.adjustment-footnote math{font-size:1.08em;margin-inline:3px;white-space:nowrap}
+.paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(4,minmax(0,1fr))}.paper-composition .adjustment-distribution-controls .control{display:flex;flex-direction:column;align-items:stretch;gap:8px}.paper-composition .adjustment-distribution-controls label{margin:0}.paper-composition .adjustment-distribution-controls select{width:100%;max-width:none;box-sizing:border-box;flex:none}
+@media(max-width:900px){.paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.paper-composition .adjustment-distribution-controls{grid-template-columns:1fr}}
+.secondary-nav .secondary-tab,.secondary-nav .dc-nav-group-label{font-size:14px}
+.plot-subtitle,.chart-subtitle,.method-heading p,.other-card-heading p,.results-heading p,.adjustments-heading p,.adjustment-figure-results .adjustment-results-header p,.adjustment-distribution-results .adjustment-results-header p{font-size:14px;line-height:1.7}

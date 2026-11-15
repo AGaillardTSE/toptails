@@ -3,9 +3,7 @@
   "cex_US_pair_minimum_wave_cases": 50,
   "cex_capital_definition_housing_cases": 16,
   "all_CEX_fits_finite": true,
-  "cross_country_cold_US_catalog_preserved": true,
   "precomputed_averages_not_mixed_with_annual_bins": true,
-  "cross_country_minimum_0_5_15_matches_US": true,
   "forbes_absent_from_all_four_cross_country_views": true,
   "US_forbes_selectable_and_default_selected": true,
   "cross_country_variable_checkboxes_work": true,
@@ -38,5 +36,45 @@
     "explorer-block-composition_SHIW",
     "explorer-block-composition_SCF"
   ],
-  "cross_country_results_note": "See the Online Appendix for details."
+  "cross_country_results_note": "See the Online Appendix for details.",
+  "cross_country_US_excluded_from_relationships_and_results": true,
+  "cross_country_results_downloads_exclude_US": true,
+  "cross_country_summary_US_comparator_retained": true,
+  "cross_country_dataset_help_in_summary_and_relationships": true,
+  "cross_country_help_uses_shared_hover_portal": true,
+  "US_loglog_PSID_OLS_slope": 0.3569005852295774,
+  "methodology_sequential_decomposition_mathml": true,
+  "methodology_SCF_note_starts_second_line": true,
+  "procedure_matching_formulas_mathml": true,
+  "procedure_visual_labels_captions_body_font_px": 14,
+  "procedure_dependency_sentences_in_corresponding_frames": true,
+  "procedure_reweighting_paragraph_fills_frame": true,
+  "composition_detail_selector_width_px": 274.5,
+  "composition_top20_zoom_bounds": [
+    0.8,
+    1
+  ],
+  "composition_zoom_preserves_all_points_and_LOESS": true,
+  "PSID_composition_ranking_label": "Percentile of NIPA consumption",
+  "PSID_composition_note_links_to_paper": true,
+  "correspondence_note_cleanup": {
+    "rules_changed": 278,
+    "generic_rules_removed": 147,
+    "limitations_preserved": true
+  },
+  "correspondence_numeric_values_and_other_metadata_unchanged": true,
+  "main_and_secondary_navigation_font_px": 14,
+  "descriptive_subtitles_font_px": 14,
+  "cross_country_variable_legend_vertical_center_error_px": 0,
+  "dataset_notes_country_selector_verified": [
+    "US",
+    "IT",
+    "AU"
+  ],
+  "dataset_notes_US_Forbes_card_documented": true,
+  "source_catalogue_rows": 14,
+  "SCF_source_entries_merged": true,
+  "CEX_source_entries_merged": true,
+  "source_access_vintage_notes_and_download_buttons_removed": true,
+  "useful_papers_reference_count": 5
 }

@@ -9,7 +9,7 @@ function initAdjustments(payload,context) {
   const surveyLabels={PSID:'PSID',CEX_BM_RECON:'CEX',HFCS:'HFCS',HILDA:'HILDA',SHIW:'SHIW',SCF:'SCF'};
   const countryLabels=new Map(rows.filter(r=>r.country).map(r=>[r.country,r.country_name||r.country]));
   let yearCharts=[],distributionCharts=[],figureSurvey='PSID',figureCountry='',figureMode='relative',distributionSurvey='PSID',distributionCountry='',distributionDomain='consumption';
-  let compositionRequest=0,psidConsumptionView='consumption_reduced';
+  let compositionRequest=0,psidConsumptionView='consumption_reduced',distributionRange='all';
   const selections={consumption:'consump_def1',income:'total_income',wealth:'networth_val'};
 
   function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.append(o);}
@@ -82,6 +82,7 @@ function initAdjustments(payload,context) {
     for(const stage of ['raw','reporting','full']){
       const canvas=$('adjustment-distribution-'+stage),card=canvas.closest('.adjustment-distribution-card'),contract=contracts.find(c=>c.stage===stage);card.hidden=!stages.includes(stage);if(card.hidden)continue;
       card.querySelector('h4').textContent=({raw:'Raw data',reporting:'Adjusted for reporting',full:'Adjusted for reporting and representation'})[stage];
+      const xRange=distributionRange==='top20'?[.8,1]:contract.x_display_range,xBreaks=distributionRange==='top20'?[.8,.85,.9,.95,1]:contract.xbreaks,nipaBasket=distributionSurvey==='PSID'&&contract.domain==='consumption';
       const datasets=[];let visiblePoints=0,lineCoordinates=0;
       contract.category_order.forEach((category,i)=>{
         const label=contract.labels[i]||category,color=contract.colors[i],line=smooth.filter(row=>row.stage===stage&&row.category===category).sort((a,b)=>a.quantile-b.quantile),raw=points.filter(row=>row.stage===stage&&row.category===category&&row.plot_visible===true).sort((a,b)=>a.quantile-b.quantile);
@@ -90,18 +91,20 @@ function initAdjustments(payload,context) {
         datasets.push({label,category,type:'scatter',data:raw.map(row=>({x:row.quantile,y:row.share})),borderColor:alphaColor(color),backgroundColor:'transparent',pointBackgroundColor:'transparent',pointBorderColor:alphaColor(color),pointBorderWidth:1.15,pointRadius:2.5,pointHoverRadius:5,pointStyle:'circle',showLine:false,order:0,isRaw:true});
       });
       canvas.setAttribute('aria-label',surveyLabels[distributionSurvey]+' '+contract.domain+' component shares: '+stage);
-      canvas.dataset.paperContract=JSON.stringify({view,stage,x_type:'linear',tension:0,span_gaps:false,x_range:contract.x_display_range,y_range:contract.y_display_range,x_breaks:contract.xbreaks,y_breaks:contract.ybreaks,visible_points:visiblePoints,smooth_coordinates:lineCoordinates,categories:contract.category_order});
+      canvas.dataset.distributionRange=distributionRange;
+      canvas.dataset.paperContract=JSON.stringify({view,stage,x_type:'linear',tension:0,span_gaps:false,x_range:xRange,source_x_range:contract.x_display_range,y_range:contract.y_display_range,x_breaks:xBreaks,y_breaks:contract.ybreaks,visible_points:visiblePoints,smooth_coordinates:lineCoordinates,categories:contract.category_order});
       distributionCharts.push(new Chart(canvas,{type:'line',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'nearest',intersect:false},plugins:{legend:{display:false},tooltip:{filter:item=>item.dataset.isRaw,callbacks:{title:items=>items.length?'P'+num(100*items[0].parsed.x,1):'',label:item=>item.dataset.label+': '+pct(item.parsed.y)}}},scales:{
-        x:{type:'linear',min:contract.x_display_range[0],max:contract.x_display_range[1],afterBuildTicks:axis=>{axis.ticks=contract.xbreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{color:'#d9dce2'},title:{display:true,text:contract.x_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},maxRotation:0,autoSkip:false,callback:value=>contract.x_format==='percent'?pct(value):Number(value).toFixed(1)}},
-        y:{type:'linear',min:contract.y_display_range[0],max:contract.y_display_range[1],afterBuildTicks:axis=>{if(contract.ybreaks)axis.ticks=contract.ybreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{display:false},title:{display:true,text:contract.y_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},autoSkip:false,callback:pct}}
+        x:{type:'linear',min:xRange[0],max:xRange[1],afterBuildTicks:axis=>{axis.ticks=xBreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{color:'#d9dce2'},title:{display:true,text:nipaBasket?'Percentile of NIPA consumption':contract.x_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},maxRotation:0,autoSkip:false,callback:value=>distributionRange==='top20'?'P'+Math.round(100*value):contract.x_format==='percent'?pct(value):Number(value).toFixed(1)}},
+        y:{type:'linear',min:contract.y_display_range[0],max:contract.y_display_range[1],afterBuildTicks:axis=>{if(contract.ybreaks)axis.ticks=contract.ybreaks.map(value=>({value}));},grid:{color:'#ececf0'},border:{display:false},title:{display:true,text:nipaBasket?'Share of NIPA consumption':contract.y_label,font:{family:'Arial, sans-serif',size:13}},ticks:{font:{family:'Arial, sans-serif',size:12},autoSkip:false,callback:pct}}
       }}}));
     }
     const country=distributionCountry?' · '+(countryLabels.get(distributionCountry)||distributionCountry):'',weight=distributionSurvey==='PSID'?' · '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[getWeightingMethod()]:'';
-    $('adjustment-distribution-readout').textContent=surveyLabels[distributionSurvey]+country+' · '+distributionDomain+weight+' · '+(getHousingMethod()==='bp'&&['PSID','CEX_BM_RECON'].includes(distributionSurvey)?'constant-rate':'benchmark')+' homeowner services';
+    $('adjustment-distribution-readout').textContent=surveyLabels[distributionSurvey]+country+' · '+distributionDomain+weight+' · '+(getHousingMethod()==='bp'&&['PSID','CEX_BM_RECON'].includes(distributionSurvey)?'constant-rate':'benchmark')+' homeowner services'+(distributionRange==='top20'?' · P80–P100':'');
     $('adjustment-distribution-csv').disabled=!points.length;$('adjustment-distribution-csv')._rows=[...points.map(row=>({kind:'raw_point',...row})),...smooth.map(row=>({kind:'smoothed_line',...row}))];
   }
   function renderDistribution(){
     const root=$('adjustment-distribution-results'),panel=root?.closest('[role="tabpanel"]');if(!root||$('panel-adjustments')?.hidden||panel?.hidden)return;
+    $('composition-consumption-note').hidden=distributionSurvey!=='PSID'||distributionDomain!=='consumption';
     if(!compositionContracts.some(row=>row.survey===distributionSurvey)){renderLegacyDistribution();return;}
     const request=++compositionRequest;fillCountry('adjustment-distribution-country','adjustment-distribution-country-control',distributionSurvey,true);
     const available=compositionContracts.filter(row=>row.survey===distributionSurvey&&(!distributionCountry||row.country===distributionCountry)&&compositionMatches(row)),domains=new Set(available.map(row=>row.domain)),select=$('adjustment-distribution-domain');
@@ -118,8 +121,10 @@ function initAdjustments(payload,context) {
   fillSurveySelectors();
   if(compositionContracts.length){
     const root=$('adjustment-distribution-results'),controls=root.querySelector('.adjustment-distribution-controls'),detail=document.createElement('div');detail.className='control';detail.id='composition-detail-control';detail.innerHTML='<label for="composition-detail">Consumption detail</label><select id="composition-detail"><option value="consumption_reduced">Grouped categories</option><option value="consumption">Detailed categories</option></select>';controls.append(detail);
+    const range=document.createElement('div');range.className='control';range.innerHTML='<label for="composition-range">Distribution range</label><select id="composition-range"><option value="all">Full distribution</option><option value="top20">Top 20% (P80–P100)</option></select>';controls.append(range);
     const legend=document.createElement('ul');legend.id='composition-shared-legend';legend.className='composition-shared-legend';legend.setAttribute('aria-label','Component legend');root.querySelector('.adjustment-distribution-grid').before(legend);
     $('composition-detail').addEventListener('change',event=>{psidConsumptionView=event.target.value;renderDistribution();});
+    $('composition-range').addEventListener('change',event=>{distributionRange=event.target.value;renderDistribution();});
   }
   $('adjustment-figure-survey').addEventListener('change',e=>{figureSurvey=e.target.value;figureCountry='';renderYears();});$('adjustment-figure-country').addEventListener('change',e=>{figureCountry=e.target.value;renderYears();});$('adjustment-figure-mode').addEventListener('change',e=>{figureMode=e.target.value;renderYears();});
   ['consumption','income','wealth'].forEach(domain=>$('adjustment-figure-'+domain+'-variable').addEventListener('change',e=>{selections[domain]=e.target.value;renderYears();}));

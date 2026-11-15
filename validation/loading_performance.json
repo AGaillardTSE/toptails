@@ -1,8 +1,8 @@
 {
   "status": "PASS",
   "startup_gzip_bytes_before": 94296480,
-  "startup_gzip_bytes_after": 2545729,
-  "startup_reduction_percent": 97.30029265143301,
+  "startup_gzip_bytes_after": 2544372,
+  "startup_reduction_percent": 97.30173172954069,
   "local_browser_interactive_ms_before": [
     815,
     792,

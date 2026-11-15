@@ -22,5 +22,6 @@
 #panel-other #cc-variable-legend{font:400 14px/1.5 Arial,sans-serif;border:0;margin:0;padding:0;min-width:0}
 #panel-other .cc-variable-legend>label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font:inherit;color:inherit}
 #panel-other .cc-variable-legend input{width:13px;height:13px;margin:0;accent-color:var(--series)}
+#panel-other .cc-variable-legend .series-swatch{margin:0;align-self:center}
 #panel-other #cc-summary-note{display:block;width:100%;max-width:none;box-sizing:border-box}
 @media(max-width:760px){#panel-other #cc-variable-legend{font-size:13px}}
