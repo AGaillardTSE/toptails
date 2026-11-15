@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "checks": 896,
+  "max_relative_error": 6.028565178645698e-16,
+  "method": "Independent direct raw-value interval inequalities, sorted weighted-CDF medians, five-MI then equal-wave aggregation, actual distinct-ID counts"
+}

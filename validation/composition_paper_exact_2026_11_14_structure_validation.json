@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "files": [
+    {
+      "file": "CEX_paper_style_composition.json",
+      "contracts": 18,
+      "points": 7464,
+      "smooth": 14880,
+      "max_share_sum_error": 3.1086244689504383e-15
+    },
+    {
+      "file": "HFCS_paper_style_composition.json",
+      "contracts": 144,
+      "points": 28800,
+      "smooth": 57600,
+      "max_share_sum_error": 6.217248937900877e-15
+    },
+    {
+      "file": "HILDA_paper_style_composition.json",
+      "contracts": 9,
+      "points": 1800,
+      "smooth": 3600,
+      "max_share_sum_error": 6.661338147750939e-16
+    },
+    {
+      "file": "PSID_paper_composition.json",
+      "contracts": 72,
+      "points": 25398,
+      "smooth": 50400,
+      "max_share_sum_error": 6.661338147750939e-16
+    },
+    {
+      "file": "SCF_paper_style_composition.json",
+      "contracts": 6,
+      "points": 1434,
+      "smooth": 2880,
+      "max_share_sum_error": 4.884981308350689e-15
+    },
+    {
+      "file": "SHIW_paper_style_composition.json",
+      "contracts": 9,
+      "points": 1932,
+      "smooth": 3840,
+      "max_share_sum_error": 4.440892098500626e-16
+    }
+  ]
+}

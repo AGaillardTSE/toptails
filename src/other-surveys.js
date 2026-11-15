@@ -23,7 +23,7 @@ function initOtherSurveys(other,usRows,context) {
   const sourceNames=[...new Set(international.map(r=>r.survey))].sort(),summarySources=[...new Set([...international,...usRows].map(r=>r.survey))].sort();
   let summaryData=[...international,...usRows];
   function refreshHousing(){
-    international=allInternational.filter(rowMatches);bins=allBins.filter(housingMatches);curves=allCurves.filter(rowMatches);long=allLong.filter(rowMatches);summaryData=[...international,...usRows.filter(housingMatches)];
+    international=allInternational.filter(rowMatches);bins=allBins.filter(row=>housingMatches(row)&&(row.capital_income_definition||'benchmark')==='benchmark');curves=allCurves.filter(rowMatches);long=allLong.filter(rowMatches);summaryData=[...international,...usRows.filter(housingMatches)];
     waveRows=long.filter(row=>row.period_type!=='average'&&finite(row.year)&&labels[row.variable]);
     curveIndex.clear();curves.forEach(row=>curveIndex.set(key(row),row));annualIndex.clear();waveRows.forEach(row=>annualIndex.set([key(row),row.method].join('|'),row));
   }

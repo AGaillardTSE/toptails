@@ -15,11 +15,12 @@
     }});
     return JSON.parse(await new Response(compressed.pipeThrough(new DecompressionStream('gzip'))).text());
   }
-  const blockPromises=new Map();
+  const blockPromises=new Map(),blockTimings=[];
   function loadBlock(key){
     if(!blockPromises.has(key))blockPromises.set(key,(async()=>{
       const node=$('explorer-block-'+key);if(!node)return null;
-      const encoded=node.textContent;node.textContent='';return readCompressed(encoded);
+      const started=performance.now(),encoded=node.textContent;node.textContent='';
+      try{const value=await readCompressed(encoded);blockTimings.push({key,ms:Math.round(performance.now()-started)});loadingMain?.setAttribute('data-block-timings',JSON.stringify(blockTimings));return value;}catch(error){node.textContent=encoded;blockPromises.delete(key);throw error;}
     })());return blockPromises.get(key);
   }
   let DATA;
@@ -53,10 +54,12 @@
     for(let i=0;i<rows.length;i++){const values=rows[i],row={};for(let j=0;j<columns.length;j++)row[columns[j]]=values[j];rows[i]=row;}
     return rows;
   };
-  const ALL_SUMMARY=unpack(DATA.summary),ALL_CURVES=unpack(DATA.tail_curves);
-  let ALL_BINS=unpack(DATA.bivariate),SUMMARY=ALL_SUMMARY,BINS=ALL_BINS,CURVES=ALL_CURVES;
+  const ALL_SUMMARY=unpack(DATA.summary);
+  let ALL_CURVES=unpack(DATA.tail_curves);
+  const BIN_AVAILABILITY=unpack(DATA.bivariate);
+  let ALL_BINS=BIN_AVAILABILITY,SUMMARY=ALL_SUMMARY,BINS=ALL_BINS,CURVES=ALL_CURVES;
   const META = DATA.metadata || {};
-  const loadedBinSurveys=new Set(separateBlocks?[]:ALL_BINS.map(row=>row.survey)),binPromises=new Map();
+  const loadedBinSurveys=new Set(separateBlocks?[]:ALL_BINS.map(row=>row.survey)),loadedBinBlocks=new Set(),binPromises=new Map();
   const housing={method:'benchmark'};
   const weighting={method:'scf_income'};
   const housingMethod=row=>row.housing_method||'benchmark';
@@ -65,8 +68,35 @@
   const housingMatches=row=>housingMethod(row)===housingSource(row.survey||'PSID');
   const weightingMatches=row=>['PSID','CEX'].includes(row.survey)&&row.variant==='full'?weightingMethod(row)===weighting.method:weightingMethod(row)==='scf_income';
   const specificationMatches=row=>housingMatches(row)&&weightingMatches(row);
-  async function ensureBivariate(surveys){
+  const detailedCurveSurveys=[...document.querySelectorAll('[data-explorer-block^="tail_curves_"]')].map(node=>node.dataset.explorerBlock.slice('tail_curves_'.length)),loadedCurveSurveys=new Set(detailedCurveSurveys.length?[]:ALL_CURVES.map(row=>row.survey)),curvePromises=new Map();
+  async function ensureFullCurves(surveys=detailedCurveSurveys){
+    await Promise.all(surveys.filter(survey=>detailedCurveSurveys.includes(survey)).map(survey=>{
+      if(loadedCurveSurveys.has(survey))return;
+      if(!curvePromises.has(survey))curvePromises.set(survey,(async()=>{
+        const key='tail_curves_'+survey,rows=unpack(await loadBlock(key));blockPromises.delete(key);
+        ALL_CURVES=ALL_CURVES.filter(row=>row.survey!==survey).concat(rows);rows.forEach(row=>curveIndex.set(curveKey(row),row));loadedCurveSurveys.add(survey);CURVES=ALL_CURVES.filter(specificationMatches);
+      })().catch(error=>{curvePromises.delete(survey);throw error;}));return curvePromises.get(survey);
+    }));
+  }
+  async function ensureDeferredBlock(key){if(!DATA[key])DATA[key]=await loadBlock(key);return DATA[key];}
+  const binScopeMatches=(row,scope)=>row.survey===scope.survey&&housingMethod(row)===scope.housing_method&&weightingMethod(row)===scope.weighting_method&&(row.capital_income_definition||'benchmark')===scope.capital_income_definition;
+  function selectedBinBlocks(survey,all=false){
+    const scopes=(META.relationship_blocks||[]).filter(scope=>scope.survey===survey);
+    if(!scopes.length)return null;
+    if(all)return scopes.filter(scope=>scope.capital_income_definition==='benchmark');
+    const method=survey==='PSID'&&b.adjustment==='full'?weighting.method:'scf_income',definition=capitalIncomeDefinition();
+    return scopes.filter(scope=>scope.housing_method===housingSource(survey)&&scope.weighting_method===method&&scope.capital_income_definition===definition);
+  }
+  const bivariateReady=survey=>{const scopes=selectedBinBlocks(survey);return scopes?scopes.every(scope=>loadedBinBlocks.has(scope.key)):loadedBinSurveys.has(survey);};
+  async function ensureBivariate(surveys,{all=false}={}){
     await Promise.all(surveys.map(survey=>{
+      const scopes=selectedBinBlocks(survey,all);
+      if(scopes)return Promise.all(scopes.map(scope=>{
+        if(loadedBinBlocks.has(scope.key))return;
+        if(!binPromises.has(scope.key))binPromises.set(scope.key,(async()=>{
+          const rows=unpack(await loadBlock(scope.key));blockPromises.delete(scope.key);ALL_BINS=ALL_BINS.filter(row=>!binScopeMatches(row,scope)).concat(rows);loadedBinBlocks.add(scope.key);BINS=ALL_BINS.filter(specificationMatches);
+        })().catch(error=>{binPromises.delete(scope.key);throw error;}));return binPromises.get(scope.key);
+      }));
       if(loadedBinSurveys.has(survey))return;
       if(!binPromises.has(survey))binPromises.set(survey,(async()=>{
         const [merged,unmerged]=await Promise.all([loadBlock('bins_'+survey),loadBlock('bins_unmerged_'+survey)]),rows=unpack(merged).concat(unpack(unmerged));blockPromises.delete('bins_'+survey);blockPromises.delete('bins_unmerged_'+survey);ALL_BINS=ALL_BINS.filter(row=>row.survey!==survey).concat(rows);loadedBinSurveys.add(survey);BINS=ALL_BINS.filter(specificationMatches);
@@ -76,8 +106,9 @@
   let internationalBinsPromise;
   function loadInternationalBins(){if(!internationalBinsPromise)internationalBinsPromise=(async()=>{let rows;if(separateBlocks){const [merged,unmerged]=await Promise.all([loadBlock('other_bins'),loadBlock('bins_unmerged_international')]);rows=unpack(merged).concat(unpack(unmerged));}else rows=unpack(DATA.other?.bivariate);blockPromises.delete('other_bins');blockPromises.delete('bins_unmerged_international');return rows;})();return internationalBinsPromise;}
   function renderBivariateWhenReady(){
+    syncBivariateCapitalControls();
     const surveys=[...selectedSurveys(b)];
-    if(surveys.every(survey=>loadedBinSurveys.has(survey))){$('biv-chart').parentElement.removeAttribute('aria-busy');renderBivariate();return;}
+    if(surveys.every(bivariateReady)){$('biv-chart').parentElement.removeAttribute('aria-busy');renderBivariate();return;}
     const empty=$('biv-empty');empty.hidden=false;empty.textContent='Loading relationship results…';$('biv-chart').parentElement.setAttribute('aria-busy','true');$('download-biv-csv').disabled=true;$('download-biv-png').disabled=true;
     ensureBivariate(surveys).then(()=>{fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);if(bivVisible())schedule();}).catch(error=>{empty.textContent='Relationship results could not be loaded. Please reload the page.';console.error(error);});
   }
@@ -117,7 +148,7 @@
   const spendingOptions=(Array.isArray(META.spending_options)?META.spending_options:FALLBACK_SPENDING).filter(option=>!hiddenSpending.has(option.key)&&(SUMMARY.some(r=>r.variable===option.key)||BINS.some(r=>r.yvar===option.key)));
   const s = {tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS)};
   const r = {survey:'psid',datasets:new Set(['PSID']),yodleeVariant:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95};
-  const b = {primary:'psid',overlays:new Set(),adjustment:'full',measure:'flow',pair:'wealth_consumption',wave:'average',scfWave:'2025',cexWave:'latest',reconWave:'latest',bmWave:'latest',stat:'mean',minN:5,traces:false,scale:'loglog',fit:'ols'};
+  const b = {primary:'psid',overlays:new Set(),adjustment:'full',measure:'flow',pair:'wealth_consumption',wave:'average',scfWave:'2025',cexWave:'latest',reconWave:'latest',bmWave:'latest',stat:'mean',minN:5,excludeNetRent:false,beforePersonalInterest:false,traces:false,scale:'loglog',fit:'ols'};
   let timeChart,bivChart,otherController,adjustmentController,thresholdController,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality',profileSurvey='PSID';
   const VISIBLE_US_SURVEYS=new Set(['PSID','SCF','CEX_BM_RECON']);
   const BIVARIATE_SURVEYS=new Set(ALL_BINS.map(row=>row.survey)),hasCorrectedCEXBins=BIVARIATE_SURVEYS.has('CEX_BM_RECON');
@@ -183,7 +214,7 @@
       if(!FINITE(fit?.estimate))return {estimate:null,q:fit?.q??null,maxks:fit?.maxks??null,n_tail:count};
       return {estimate:preserve&&method==='MLE'&&FINITE(row.pareto_ks)?row.pareto_ks:fit.estimate,q:preserve&&method==='MLE'&&FINITE(row.q_ks)?row.q_ks:fit.q,maxks:fit.maxks??null,n_tail:count};
     }
-    const q=thresholdQ(rule,customQ),index=Math.round((q-curve.qs[0])/.001);
+    const q=thresholdQ(rule,customQ);if(!curve.qs)return {estimate:null,q,maxks:null,n_tail:null};const index=Math.round((q-curve.qs[0])/.001);
     if(index<0||index>=curve.qs.length||Math.abs(curve.qs[index]-q)>1e-7||!FINITE(curve[key]?.[index]))return {estimate:null,q,maxks:null,n_tail:curve.n_tail?.[index]??null};
     const shortcut=rule!=='custom'&&method==='MLE'&&FINITE(row['pareto_'+rule]);
     return {estimate:preserve&&shortcut?row['pareto_'+rule]:curve[key][index],q,maxks:curve['maxks_'+key]?.[index]??null,n_tail:curve.n_tail?.[index]??null};
@@ -198,9 +229,27 @@
   }
 
   function announce(text) { $('live-announcement').textContent=text; }
+  let viewRequest=0;
+  async function prepareView(){
+    if(mainVisible()&&s.threshold!=='ks')await ensureFullCurves([...selectedSurveys(s)]);
+    if(resultsVisible()&&r.threshold!=='ks')await ensureFullCurves([...resultsSurveys()]);
+    if(quantilesVisible()){await ensureFullCurves(['PSID','SCF','CEX_BM_RECON']);initializeThresholdController();}
+    if(otherVisible()){await Promise.all([ensureDeferredBlock('other'),ensureFullCurves(['PSID','CEX_BM_RECON'])]);initializeOtherController();}
+    if(adjustmentsVisible()){await ensureDeferredBlock('adjustments');initializeAdjustmentController();}
+  }
   function schedule() {
+    const request=++viewRequest;
     cancelAnimationFrame(frame);
-    frame=requestAnimationFrame(()=>{ try { $('page-error').hidden=true;if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())thresholdController?.render();if(bivVisible())renderBivariateWhenReady();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render(); } catch(error) { $('page-error').hidden=false; $('page-error').textContent='The selected plot could not be drawn. Please change the selection or reload the page.'; console.error(error); } });
+    frame=requestAnimationFrame(async()=>{try{
+      $('page-error').hidden=true;
+      const preparation=prepareView();
+      const pending=quantilesVisible()&&!thresholdController||otherVisible()&&!otherController||adjustmentsVisible()&&!adjustmentController||(mainVisible()&&s.threshold!=='ks'?[...selectedSurveys(s)]:resultsVisible()&&r.threshold!=='ks'?[...resultsSurveys()]:[]).some(survey=>detailedCurveSurveys.includes(survey)&&!loadedCurveSurveys.has(survey));
+      if(pending){startupStatus.textContent='Loading selected results…';document.body.append(startupStatus);loadingMain?.setAttribute('aria-busy','true');}
+      await preparation;if(request!==viewRequest)return;
+      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())thresholdController?.render();if(bivVisible())renderBivariateWhenReady();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();
+      if(!loadingMain?.dataset.firstPlotMs)loadingMain?.setAttribute('data-first-plot-ms',String(Math.round(performance.now())));
+      startupStatus.remove();loadingMain?.removeAttribute('aria-busy');
+    }catch(error){if(request!==viewRequest)return;startupStatus.remove();loadingMain?.removeAttribute('aria-busy');$('page-error').hidden=false;$('page-error').textContent='The selected plot could not be drawn. Please change the selection or reload the page.';console.error(error);}});
   }
   function tab(name) {
     const us=['inequality','quantiles','results','loglog'].includes(name);if(us)lastUSTab=name;s.tab=name;
@@ -348,7 +397,7 @@
     fill(adjustment,bankOnly?bankOptions:hasHouseholds?[['full','Reporting + representation'],['adj','Reporting adjustment'],['raw','Raw data']]:[['reference','Not applicable']],bankOnly?r.yodleeVariant:hasHouseholds?r.adjustment:'reference');adjustment.disabled=!hasHouseholds&&!bankOnly;
     adjustment.closest('.control').querySelector('label').textContent=bankOnly?'Durable correction':'Adjustment';
     fillResultsVariables();
-    const householdRows=SUMMARY.filter(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,r.adjustment)&&(r.variable==='all'||row.variable===r.variable)),available=(method,rule)=>householdRows.some(row=>FINITE(tailResult(row,method,rule,r.customQ).estimate))||resultsReferenceRows(method,rule).length>0;
+    const householdRows=SUMMARY.filter(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,r.adjustment)&&(r.variable==='all'||row.variable===r.variable)),available=(method,rule)=>householdRows.some(row=>FINITE(tailResult(row,method,rule,r.customQ).estimate)||(!loadedCurveSurveys.has(row.survey)&&curveIndex.get(curveKey(row))?.available_thresholds?.[method]?.includes(rule)))||resultsReferenceRows(method,rule).length>0;
     [...$('results-method').options].forEach(option=>{option.disabled=!['ks','p80','p90','p95','p98'].some(rule=>available(option.value,rule));option.title=option.disabled?'No stored estimates for this method and selection.':'';});if($('results-method').querySelector('option[value="'+r.method+'"]').disabled)r.method=[...$('results-method').options].find(option=>!option.disabled)?.value||'MLE';
     [...$('results-threshold').options].forEach(option=>{option.disabled=option.value==='custom'?!householdRows.length&&!resultsReferenceRows(r.method,'p80').length:!available(r.method,option.value);option.title=option.disabled?'No stored estimates for this threshold and selection.':'';});if($('results-threshold').querySelector('option[value="'+r.threshold+'"]').disabled)r.threshold=[...$('results-threshold').options].find(option=>!option.disabled)?.value||'ks';
     const custom=$('results-custom-threshold');custom.max=selected.size===1&&selected.has('FORBES')?'90':'99';if(r.threshold==='custom'&&100*r.customQ>Number(custom.max))r.customQ=Number(custom.max)/100;custom.value=String(100*r.customQ);$('results-method').value=r.method;$('results-threshold').value=r.threshold;$('results-custom-threshold-control').hidden=r.threshold!=='custom';
@@ -382,6 +431,7 @@
   async function downloadAllResults() {
     if(allResultsBusy)return;allResultsBusy=true;$('download-results-all').disabled=true;$('all-results-status').textContent='Preparing aggregate results…';
     try{
+      await ensureFullCurves([...VISIBLE_US_SURVEYS]);
       const fields=['survey','housing_method','source_housing_method','weighting_method','country','period_type','period_label','year','variant','source_variant','variable','variable_label','wealth_denominator_label','method','threshold_rule','threshold_quantile','pareto_estimate','max_ks','tail_to_wealth','wealth_pareto_estimate','ratio_numerator_mean','n_waves','n_waves_total','n_waves_pareto','n_waves_ratio','n_waves_gini','n_waves_share_top20','n_waves_share_top10','n_waves_share_top5','n_waves_share_top1','years_available','years_pareto','years_ratio','n_tail','tail_unit_type','n_obs','record_aggregation','gini','share_top20','share_top10','share_top5','share_top1','author_variant','source_label','source_definition','provenance'],escape=value=>value===null||value===undefined?'':'"'+String(value).replace(/"/g,'""')+'"',lines=[fields.join(',')],annualLines=[],averages=new Map();
       const serialize=row=>fields.map(field=>escape(row[field])).join(',');
       const appendAnnual=row=>{annualLines.push(serialize(row));accumulateAverage(averages,row);};let groups=0;
@@ -403,7 +453,23 @@
     return [...grouped.values()].map(group=>({x:avg(group.map(r=>r[b.stat+'_x'])),y:avg(group.map(r=>r[b.stat+'_y'])),q_lo:group[0].q_lo,q_hi:group[0].q_hi,n_obs:Math.min(...group.map(r=>r.n_obs)),waves:new Set(group.map(r=>r.year)).size,years_used:[...new Set(group.map(r=>r.year))].sort((a,b)=>a-b).join(';')})).sort((a,c)=>a.q_lo-c.q_lo);
   }
   const point=row=>({x:row[b.stat+'_x'],y:row[b.stat+'_y'],q_lo:row.q_lo,q_hi:row.q_hi,n_obs:row.n_obs,waves:row.n_waves||1,years_used:row.years_used||String(row.year),n_imputations:row.n_imputations??null});
-  const matchesBinMinimum=row=>Number(row.bin_min_n??10)===b.minN;
+  const capitalIncomePair=()=>Object.values(PAIRS[b.pair]).includes('total_capital_income');
+  const capitalIncomeDefinition=(excludeNetRent=b.excludeNetRent,beforePersonalInterest=b.beforePersonalInterest)=>
+    !capitalIncomePair()?'benchmark':excludeNetRent?(beforePersonalInterest?'exclude_net_rent_before_personal_interest':'exclude_net_rent'):(beforePersonalInterest?'before_personal_interest':'benchmark');
+  const matchesCapitalIncomeDefinition=row=>(row.capital_income_definition||'benchmark')===capitalIncomeDefinition();
+  const matchesBinMinimum=row=>Number(row.bin_min_n??10)===b.minN&&matchesCapitalIncomeDefinition(row);
+  function syncBivariateCapitalControls(){
+    const root=$('biv-capital-controls');if(!root)return;
+    root.hidden=!capitalIncomePair();if(root.hidden)return;
+    const surveys=selectedSurveys(b),pair=PAIRS[b.pair],ykey=sourceKey(pair.y,b.measure),waveFor=survey=>survey==='PSID'?b.wave:survey==='SCF'?b.scfWave:survey==='CEX_BM_RECON'?b.reconWave:survey==='CEX_BM'?b.bmWave:b.cexWave;
+    const available=definition=>BIN_AVAILABILITY.some(row=>specificationMatches(row)&&surveys.has(row.survey)&&Number(row.bin_min_n??10)===b.minN&&row.variant===bivariateVariantFor(row.survey)&&row.xvar===pair.x&&row.yvar===ykey&&(pair.y==='spending'||row.measure==='expenditure')&&(row.capital_income_definition||'benchmark')===definition&&(waveFor(row.survey)==='average'||(row.period_type!=='average'&&row.year===Number(waveFor(row.survey)))));
+    [['biv-exclude-net-rent','excludeNetRent'],['biv-before-personal-interest','beforePersonalInterest']].forEach(([id,key])=>{
+      const input=$(id),nextExclude=key==='excludeNetRent'?!b.excludeNetRent:b.excludeNetRent,nextInterest=key==='beforePersonalInterest'?!b.beforePersonalInterest:b.beforePersonalInterest;
+      input.checked=b[key];input.disabled=!b[key]&&!available(capitalIncomeDefinition(nextExclude,nextInterest));
+      input.closest('label').classList.toggle('unavailable-option',input.disabled);
+    });
+    $('biv-capital-note').textContent=available(capitalIncomeDefinition())?'Cash rental receipts are retained.':'This capital-income definition is unavailable for the selected filters.';
+  }
   const positive=p=>FINITE(p.x)&&FINITE(p.y)&&p.x>0&&p.y>0;
   function olsFit(points,useLog) {
     if(points.length<2) return null;
@@ -446,6 +512,7 @@
     return Array.from({length:81},(_,i)=>{const t=i/80,x=useLog||fit.method==='NLS'?Math.exp(Math.log(xlo)+t*(Math.log(xhi)-Math.log(xlo))):xlo+t*(xhi-xlo);return {x,y:fit.predict(x)};}).filter(p=>FINITE(p.x)&&FINITE(p.y)&&(!useLog||positive(p)));
   }
   function showFitResults(rows,useLog) {
+    $('fit-results')?.setAttribute('data-fit-values',JSON.stringify(rows.map(({name,method,intercept,slope,r2,n})=>({name,method,intercept,slope,r2,n}))));
     const root=$('fit-results');root.replaceChildren();if(!rows.length)return;
     const heading=document.createElement('h3');heading.textContent='Regression results';root.append(heading);
     const scroll=document.createElement('div');scroll.className='table-scroll';
@@ -484,6 +551,7 @@
       $('biv-bin-min').value=String(b.minN);
     }
     syncBivariateWaves();
+    syncBivariateCapitalControls();
     destroy('biv-chart',bivChart); bivChart=null; binRows=[];
     Object.entries(PAIRS).forEach(([key,pair])=>{const option=$('pair-select').querySelector('option[value="'+key+'"]');if(option){option.textContent=(isCEX(b.primary.toUpperCase())?displayLabel(pair.x,b.measure,b.primary.toUpperCase()):pair.x==='networth_val'?'Wealth':LABELS[pair.x])+' → '+displayLabel(pair.y,b.measure,b.primary.toUpperCase());option.title=option.textContent;option.disabled=b.primary==='cex_bm'&&selectedSurveys(b).size===1&&!BINS.some(row=>row.survey==='CEX_BM'&&row.xvar===pair.x&&row.yvar===sourceKey(pair.y,b.measure));}});
     $('pair-select').title=$('pair-select').selectedOptions[0]?.textContent||'';
@@ -509,7 +577,7 @@
       }
       datasets.push({label:name,survey:spec.survey,type:'scatter',data:points,borderColor:spec.color,backgroundColor:spec.color,pointStyle:spec.point,pointRadius:spec.survey==='CEX_BM'?6:spec.survey==='SCF'?4.5:3.5,pointHoverRadius:spec.survey==='CEX_BM'?8:6,pointBorderWidth:spec.survey==='CEX_BM'?2.2:1,showLine:false,isMain:true,order:1});
       plotted.push(...points);
-      points.forEach(p=>binRows.push({survey:spec.survey,housing_method:housing.method,source_housing_method:housingSource(spec.survey),weighting_method:weightingMethod(rows[0]||{}),wave:chosenWave,n_waves:p.waves,years_used:p.years_used,n_imputations:p.n_imputations,adjustment:bivariateVariantFor(spec.survey),source_variant:bivariateVariantFor(spec.survey),measure,xvar:pair.x,yvar:ykey,x_label:displayLabel(pair.x,b.measure,spec.survey),y_label:displayLabel(pair.y,b.measure,spec.survey),statistic:b.stat,axis_scale:b.scale,fit_method:b.fit,bin_min_n:b.minN,q_lo:p.q_lo,q_hi:p.q_hi,x:p.x,y:p.y,min_tail_units:p.n_obs,tail_unit_type:tailUnit(spec.survey),ols_intercept:ols?.intercept??null,ols_slope:ols?.slope??null,ols_r_squared:ols?.r2??null,nls_scale:nls?.intercept??null,nls_exponent:nls?.slope??null,nls_r_squared:nls?.r2??null}));
+      points.forEach(p=>binRows.push({survey:spec.survey,housing_method:housing.method,source_housing_method:housingSource(spec.survey),weighting_method:weightingMethod(rows[0]||{}),capital_income_definition:capitalIncomeDefinition(),wave:chosenWave,n_waves:p.waves,years_used:p.years_used,n_imputations:p.n_imputations,adjustment:bivariateVariantFor(spec.survey),source_variant:bivariateVariantFor(spec.survey),measure,xvar:pair.x,yvar:ykey,x_label:displayLabel(pair.x,b.measure,spec.survey),y_label:displayLabel(pair.y,b.measure,spec.survey),statistic:b.stat,axis_scale:b.scale,fit_method:b.fit,bin_min_n:b.minN,q_lo:p.q_lo,q_hi:p.q_hi,x:p.x,y:p.y,min_tail_units:p.n_obs,tail_unit_type:tailUnit(spec.survey),ols_intercept:ols?.intercept??null,ols_slope:ols?.slope??null,ols_r_squared:ols?.r2??null,nls_scale:nls?.intercept??null,nls_exponent:nls?.slope??null,nls_r_squared:nls?.r2??null}));
       if(spec.survey==='PSID'&&b.traces) {
         const annual=BINS.filter(r=>r.period_type!=='average'&&matchesBinMinimum(r)&&r.survey==='PSID'&&r.variant===b.adjustment&&(pair.y==='spending'||r.measure==='expenditure')&&r.xvar===pair.x&&r.yvar===ykey);
         years.filter(y=>b.wave==='average'||y!==Number(b.wave)).forEach(y=>{
@@ -521,6 +589,7 @@
     const lx=displayLabel(pair.x,b.measure,b.primary.toUpperCase()),ly=displayLabel(pair.y,b.measure,b.primary.toUpperCase());
     $('biv-chart-title').textContent=ly+' and '+(pair.x==='networth_val'&&!isCEX(b.primary.toUpperCase())?'wealth':lx.toLowerCase().replace(/\bcex\b/g,'CEX'));
     $('biv-chart-subtitle').textContent='Normalized weighted '+(b.stat==='mean'?'means':'medians')+' · '+(useLog?'log–log':'level')+' axes'+(b.adjustment==='full'&&selectedSurveys(b).has('PSID')?' · '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]:'')+(housing.method==='bp'?' · Constant imputed rent rate':'');
+    if(capitalIncomePair())$('biv-chart-subtitle').textContent+=(b.excludeNetRent?' · Excludes net imputed rent':'')+(b.beforePersonalInterest?' · Before personal-debt interest':'');
     $('biv-chart').setAttribute('aria-label',ly+' versus '+lx+' in the upper tail');
     $('biv-empty').hidden=!!plotted.length;
     $('biv-empty').textContent='No comparable '+(useLog?'positive ':'')+'results for this selection.';
@@ -543,7 +612,7 @@
     showFitResults(regressions,useLog);
     const notes=[...unavailable],selected=selectedSurveys(b);
     const intervals=[...selected].map(survey=>surveyName(survey)+' '+num(100*(META.relationship_bin_intervals?.[survey]??.001),1)).join('; ');
-    if($('biv-bin-note'))$('biv-bin-note').textContent='Weighted bin statistics in the top 20%. Base intervals, in percentile points: '+intervals+'. '+(b.minN===0?'No minimum observation count or merging.':'Adjacent intervals are merged to retain at least '+b.minN+' '+(selected.size===1&&[...selected].some(isCEX)?tailUnit([...selected][0]):'observations')+' in every relevant wave/adjustment cell.'+(selected.has('SCF')?' The SCF minimum applies within each imputation.':''));
+    if($('biv-bin-note'))$('biv-bin-note').textContent='Weighted bin statistics in the top 20%, ages 20–80 with positive food spending. Base intervals, in percentile points: '+intervals+'. '+(b.minN===0?'No minimum observation count or merging.':'Adjacent intervals are merged to retain at least '+b.minN+' '+(selected.size===1&&[...selected].some(isCEX)?tailUnit([...selected][0]):'observations')+' in every relevant wave/adjustment cell.'+(selected.has('SCF')?' The SCF minimum applies within each imputation.':''));
     if(selected.has('CEX_BM'))notes.push(META.cex_bm_display?.bivariate_note||META.cex_bm_display?.note||META.surveys?.CEX_BM?.definition||'CEX B&M uses the separate author sample with the same displayed measure.');
     if(selectedSurveys(b).has('CEX'))notes.push('CEX (previous construction) retains the earlier PSID-style consumption measure. CEX wealth coverage is partial.');
     if(b.minN===0){if([b.wave,b.scfWave,b.reconWave,b.cexWave].includes('average'))notes.push('Unmerged averages use each bin’s available nonempty waves; the number of waves can differ across bins.');if(selected.has('SCF'))notes.push('SCF cells must be nonempty in all five imputations.');}
@@ -608,6 +677,7 @@
   bind('biv-variant',value=>{b.adjustment=value;fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);}); bind('biv-measure-select',value=>{b.measure=value;$('biv-measure-select').title=spendingName(value);}); bind('pair-select',value=>b.pair=value); bind('wave-select',value=>b.wave=value);
   bind('recon-wave-select',value=>b.reconWave=value);bind('scf-wave-select',value=>b.scfWave=value);bind('cex-wave-select',value=>b.cexWave=value);bind('bm-wave-select',value=>b.bmWave=value);
   bind('biv-bin-min',value=>b.minN=Number(value));
+  [['biv-exclude-net-rent','excludeNetRent'],['biv-before-personal-interest','beforePersonalInterest']].forEach(([id,key])=>$(id)?.addEventListener('change',event=>{b[key]=event.target.checked;schedule();}));
   bind('biv-scale',value=>b.scale=value);bind('biv-fit',value=>b.fit=value);
   $('show-waves').addEventListener('change',event=>{b.traces=event.target.checked;schedule();});
   document.querySelectorAll('[data-stat]').forEach(button=>button.addEventListener('click',()=>{b.stat=button.dataset.stat;document.querySelectorAll('[data-stat]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));schedule();}));
@@ -681,7 +751,8 @@
   fillOverlays('overlay-controls',s,mainOverlayChoices());fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());
   fillSpendingSelect('measure-select',selectedSurveys(s),s,SUMMARY);fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);$('biv-bin-min').value=String(b.minN);$('biv-scale').value=b.scale;$('biv-fit').value=b.fit;
   if($('overview-subtitle'))$('overview-subtitle').textContent='Consumption, income and wealth across survey waves.';
-  if(typeof initOtherSurveys==='function'){
+  function initializeOtherController(){
+    if(otherController||typeof initOtherSurveys!=='function')return;
     const variables=['consump_def1','total_labor_income','total_income','networth_val','total_capital_income'],psidRows=[];
     for(const housing_method of [...new Set(ALL_SUMMARY.filter(row=>row.survey==='PSID').map(housingMethod))])for(const variant of ['raw','adj','full'])for(const weighting_method of (variant==='full'?['scf_income','irs_income','scf_wealth']:['scf_income']))for(const method of ['MLE','OLS']){
       const annual=years.map(year=>{
@@ -691,16 +762,18 @@
       const mean={...annual[0],period_type:'average',year:null,period_label:yearRange(years)+' average',n_waves:annual.length};
       variables.forEach(variable=>{mean[variable]=avg(annual.map(row=>row[variable]));});psidRows.push(...annual,mean);
     }
-    otherController=initOtherSurveys(DATA.other||{},psidRows,{usCurves:ALL_CURVES.filter(curve=>['PSID','CEX_BM_RECON'].includes(curve.survey)),usBins:ALL_BINS.filter(row=>['PSID','SCF','CEX_BM_RECON'].includes(row.survey)),loadInternationalBins:separateBlocks?loadInternationalBins:null,loadUSBins:separateBlocks?async(surveys=['PSID'])=>{await ensureBivariate(surveys);return ALL_BINS.filter(row=>['PSID','SCF','CEX_BM_RECON'].includes(row.survey));}:null,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method,housingMatches:specificationMatches,metadata:META});
+    otherController=initOtherSurveys(DATA.other||{},psidRows,{usCurves:ALL_CURVES.filter(curve=>['PSID','CEX_BM_RECON'].includes(curve.survey)),usBins:ALL_BINS.filter(row=>['PSID','SCF','CEX_BM_RECON'].includes(row.survey)),loadInternationalBins:separateBlocks?loadInternationalBins:null,loadUSBins:separateBlocks?async(surveys=['PSID'])=>{await ensureBivariate(surveys,{all:true});return ALL_BINS.filter(row=>['PSID','SCF','CEX_BM_RECON'].includes(row.survey)&&FINITE(row.q_lo));}:null,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method,housingMatches:specificationMatches,metadata:META});
+    if(otherVisible()){const control=document.querySelector('.global-housing-control:not(.quantile-housing-control)'),nav=$('cc-secondary-nav')?.querySelector('.secondary-nav-inner');if(control&&nav){control.hidden=false;nav.append(control);}}
   }
-  if(typeof ThresholdProfiles!=='undefined'){
+  function initializeThresholdController(){
+    if(thresholdController||typeof ThresholdProfiles==='undefined')return;
     thresholdController=ThresholdProfiles.create({host:$('us-quantile-profiles'),curves:[...ALL_CURVES,...(referenceController?.profileCurves()||[])],surveys:['PSID','SCF','CEX_BM_RECON','YODLEE','FORBES'],spendingOptions,metadata:META,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method,housingMatches:specificationMatches,onSurveyChange:survey=>{profileSurvey=survey;syncHousingAvailability();}});
     const housingControl=document.createElement('div');housingControl.className='global-housing-control quantile-housing-control';
     housingControl.innerHTML='<label class="small-check" for="quantile-constant-housing-service"><input type="checkbox" id="quantile-constant-housing-service">Constant imputed rent rate</label><button class="help-marker detail-help" type="button" data-help-control="constant_imputed_rent" aria-label="About constant imputed rent" aria-expanded="false">?</button>';
     $('us-quantile-profiles').querySelector('.threshold-profile-controls').append(housingControl);
     $('quantile-constant-housing-service').addEventListener('change',event=>{$('constant-housing-service').checked=event.target.checked;applyHousingMethod();});
   }
-  if(typeof initAdjustments==='function')adjustmentController=initAdjustments(DATA.adjustments||{},{getHousingMethod:()=>housing.method,housingMatches});
+  function initializeAdjustmentController(){if(!adjustmentController&&typeof initAdjustments==='function')adjustmentController=initAdjustments(DATA.adjustments||{},{getHousingMethod:()=>housing.method,getWeightingMethod:()=>weighting.method,housingMatches,loadComposition:async survey=>{const key='composition_'+survey,value=await loadBlock(key);blockPromises.delete(key);return value;}});}
   if(typeof initDataAndCorrespondence==='function')dataController=initDataAndCorrespondence(META);
   window.addEventListener('adjustments-procedure-visible',()=>{if(adjustmentsVisible())adjustmentController?.render();});
   function filterSpecificationData(){SUMMARY=ALL_SUMMARY.filter(specificationMatches);CURVES=ALL_CURVES.filter(specificationMatches);BINS=ALL_BINS.filter(specificationMatches);}

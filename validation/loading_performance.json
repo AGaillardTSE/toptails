@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "startup_gzip_bytes_before": 94296480,
+  "startup_gzip_bytes_after": 2467337,
+  "startup_reduction_percent": 97.38342618939753,
+  "local_browser_interactive_ms_before": [
+    815,
+    792,
+    740
+  ],
+  "local_browser_interactive_ms_after": [
+    128,
+    104,
+    103
+  ],
+  "median_ms_before": 792,
+  "median_ms_after": 104,
+  "timing_scope": "Local browser and loopback server; public-network timing depends on the connection.",
+  "opening_chart_export_byte_identical": true,
+  "opening_chart_estimates": 127,
+  "table_MLE_OLS_KS_P90_comparisons_passed": true,
+  "housing_weighting_comparisons_passed": 6,
+  "cold_capital_toggles_without_preloading_passed": true,
+  "capital_definition_reference_slopes_passed": 12,
+  "composition_browser_surveys_passed": 6,
+  "native_survey_independence_passed": true,
+  "final_opening_chart_export_sha256": "d6e71793a75dfe05c322b12f4f2e420f3ebc2bb307cf1181f01d161e39efe58d",
+  "final_release_opening_chart_export_byte_identical": true
+}

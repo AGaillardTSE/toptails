@@ -54,7 +54,7 @@
     <p class="adjustment-note adjustment-footnote"><strong>Representation first</strong> Δ<sub>rep</sub> = Σω<sup>*</sup>x − Σω<sup>0</sup>x. <strong>Reporting second</strong> Δ<sub>report</sub> = Σω<sup>*</sup>x<sup>*</sup> − Σω<sup>*</sup>x. The Shapley decomposition gives essentially the same allocation. SCF has reporting adjustment only. In levels, the charts show the reported, representation-only and fully adjusted aggregates.</p>
   </section>
   <section class="adjustment-distribution-results" id="adjustment-distribution-results" aria-labelledby="adjustment-distribution-title">
-    <div class="adjustment-results-header"><div><h3 id="adjustment-distribution-title">Adjustment along distributions</h3><p>Component shares by percentile, using the same weighted-bin construction and categories as the saved R figures.</p></div><button class="text-button" id="adjustment-distribution-csv" type="button">Results CSV</button></div>
+    <div class="adjustment-results-header"><div><h3 id="adjustment-distribution-title">Component shares before and after adjustment</h3><p>Component shares across the distribution, before and after adjustment.</p></div><button class="text-button" id="adjustment-distribution-csv" type="button">Results CSV</button></div>
     <div class="adjustment-controls adjustment-distribution-controls"><div class="control"><label for="adjustment-distribution-survey">Survey</label><select id="adjustment-distribution-survey"></select></div><div class="control" id="adjustment-distribution-country-control" hidden><label for="adjustment-distribution-country">Country</label><select id="adjustment-distribution-country"></select></div><div class="control"><label for="adjustment-distribution-domain">Variable</label><select id="adjustment-distribution-domain"><option value="consumption">Consumption</option><option value="income">Income</option><option value="wealth">Wealth</option></select></div></div>
     <p class="adjustment-readout" id="adjustment-distribution-readout" aria-live="polite"></p>
     <div class="adjustment-distribution-grid">
@@ -62,7 +62,7 @@
       <article class="adjustment-distribution-card"><h4>(b) Adjusted for reporting</h4><div class="adjustment-distribution-chart"><canvas id="adjustment-distribution-reporting" role="img" aria-label="Reporting-adjusted component shares along the distribution"></canvas></div></article>
       <article class="adjustment-distribution-card" id="adjustment-distribution-full-card"><h4>(c) Adjusted for reporting and representation</h4><div class="adjustment-distribution-chart"><canvas id="adjustment-distribution-full" role="img" aria-label="Fully adjusted component shares along the distribution"></canvas></div></article>
     </div>
-    <p class="adjustment-note">Each point is a component’s share of the selected total within a weighted percentile bin; lines average those bin shares across the displayed survey waves. SCF contains two panels because its adjustment is reporting-only.</p>
+    <p class="adjustment-note">Hollow points show weighted component shares; lines use the paper’s LOESS smoothing. SCF shows reporting adjustments only.</p>
   </section>
   <p class="adjustments-source" id="adjustment-source">The PSID fixed-point procedure and sequential decomposition follow Section 2.3 and Figure 3 of <em>Consumption, Wealth, and Income Inequality: A Tale of Tails</em>. The bars decompose changes in aggregate amounts, not Pareto coefficients. HFCS retains its country-specific reporting corrections and WID representation weights.</p>
 </div>

@@ -1,6 +1,6 @@
 # Upper-Tail Inequality — Data v1
 
-Complete current website package, prepared 13 November 2026.
+Complete current website package, updated 14 November 2026.
 
 ## Put it on GitHub Pages
 
@@ -10,7 +10,11 @@ Complete current website package, prepared 13 November 2026.
 
 The pages are already built. No installation, Git LFS, backend, API key or build workflow is required. All data paths work under a repository subdirectory. The repository’s existing custom domain, `uppertaildata.com`, is preserved.
 
-Every repository file is below 25 MiB, including data chunks. The public site uses the existing source-recomputed bins with at least five observations, or the available larger minimum. Adjacent intervals are merged before calculating their weighted means and medians; small-bin observations are not discarded. Unmerged alternatives are not included in any public data file. All univariate estimates and KS results are retained.
+Every data chunk is at most 4 MiB. The public site uses source-recomputed bins with at least five observations, or the available larger minimum. Adjacent intervals are merged before calculating their weighted means and medians; small-bin observations are not discarded. Unmerged alternatives are not included in any public data file. All univariate estimates and KS results are retained.
+
+The opening view loads a small KS bootstrap. Detailed threshold curves, relationship data and composition profiles load only when needed. Data filenames contain content hashes so browser caches cannot mix releases. Previous aggregate asset paths may remain in the repository for compatibility with cached pages.
+
+The current PSID, SCF and CEX relationship inputs use genuine 0.1-percentile primitives and the common age-20–80, positive-food sample. Weighted means and a minimum of five observations are the defaults. Capital-income definition options are independent and use separately recomputed aggregates. Composition plots use precomputed paper-matched percentile points and R LOESS coordinates, with raw/full panels by default and reporting-only panels available as an option. Their source composition samples remain distinct from the log–log sample.
 
 ## Preview locally
 

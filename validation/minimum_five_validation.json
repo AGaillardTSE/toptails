@@ -1,44 +1,13 @@
 {
   "status": "PASS",
+  "relationship_rows": 6757939,
+  "grouped_series": 75933,
   "minimum_observations": 5,
-  "existing_merged_coordinates_and_medians_preserved": true,
-  "individual_observations_not_dropped": true,
-  "summary_tail_and_KS_unchanged": true,
-  "tables": {
-    "bins_unmerged_PSID": {
-      "unmerged_rows_withheld": 298426
-    },
-    "bins_unmerged_SCF": {
-      "unmerged_rows_withheld": 218070
-    },
-    "bins_unmerged_international": {
-      "unmerged_rows_withheld": 316809
-    },
-    "bins_CEX": {
-      "source_merged_rows_preserved": 2147920,
-      "unmerged_rows_withheld": 0
-    },
-    "bins_CEX_BM": {
-      "source_merged_rows_preserved": 28346,
-      "unmerged_rows_withheld": 0
-    },
-    "bins_CEX_BM_RECON": {
-      "source_merged_rows_preserved": 1629084,
-      "unmerged_rows_withheld": 788873
-    },
-    "bins_PSID": {
-      "source_merged_rows_preserved": 674339,
-      "unmerged_rows_withheld": 0
-    },
-    "bins_SCF": {
-      "source_merged_rows_preserved": 209880,
-      "unmerged_rows_withheld": 0
-    },
-    "other_bins": {
-      "source_merged_rows_preserved": 238884,
-      "unmerged_rows_withheld": 0
-    }
-  },
-  "inequality_observatory.html": "074dd3d13a4ba2b86b3e6a8b12febd25d6ee167ee08c453c4b89aa9bbcb5ca0e",
-  "inequality.html": "8522f3d2b8d6b53c605f7e70798cf16614f24ca1a72efa2d65335239bd72b0dc"
+  "public_minimum_choices": [
+    5,
+    10,
+    20
+  ],
+  "merging": "Source-recomputed adjacent-bin merges; observations are not discarded to enforce the minimum.",
+  "private_unmerged_alternatives_not_packaged": true
 }

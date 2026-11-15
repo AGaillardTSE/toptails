@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "method": "scf_wealth",
+  "checks": [
+    {
+      "view": "income",
+      "stage": "raw",
+      "smooth_vertices": 640,
+      "visible_raw_points": 304,
+      "max_smooth_y_error_pdf_points": 0.005106301432363125,
+      "max_smooth_x_error_pdf_points": 0.00480836849507682,
+      "max_marker_error_pdf_points": 0.004775332598503294
+    },
+    {
+      "view": "income",
+      "stage": "full",
+      "smooth_vertices": 640,
+      "visible_raw_points": 304,
+      "max_smooth_y_error_pdf_points": 0.005016005676793611,
+      "max_smooth_x_error_pdf_points": 0.004808368495105242,
+      "max_marker_error_pdf_points": 0.004816238748314635
+    },
+    {
+      "view": "wealth",
+      "stage": "raw",
+      "smooth_vertices": 480,
+      "visible_raw_points": 246,
+      "max_smooth_y_error_pdf_points": 0.005014778738598125,
+      "max_smooth_x_error_pdf_points": 0.00480836849507682,
+      "max_marker_error_pdf_points": 0.004875652348206374
+    },
+    {
+      "view": "wealth",
+      "stage": "full",
+      "smooth_vertices": 480,
+      "visible_raw_points": 246,
+      "max_smooth_y_error_pdf_points": 0.005071819657757715,
+      "max_smooth_x_error_pdf_points": 0.004808368495105242,
+      "max_marker_error_pdf_points": 0.004818352744148336
+    },
+    {
+      "view": "consumption",
+      "stage": "raw",
+      "smooth_vertices": 960,
+      "visible_raw_points": 492,
+      "max_smooth_y_error_pdf_points": 0.005092136183975526,
+      "max_smooth_x_error_pdf_points": 0.00480836849507682,
+      "max_marker_error_pdf_points": 0.004880954637538266
+    },
+    {
+      "view": "consumption",
+      "stage": "full",
+      "smooth_vertices": 960,
+      "visible_raw_points": 492,
+      "max_smooth_y_error_pdf_points": 0.0050536405400123385,
+      "max_smooth_x_error_pdf_points": 0.004808368495105242,
+      "max_marker_error_pdf_points": 0.004964242450741301
+    },
+    {
+      "view": "consumption_reduced",
+      "stage": "raw",
+      "smooth_vertices": 720,
+      "visible_raw_points": 369,
+      "max_smooth_y_error_pdf_points": 0.00511684141579849,
+      "max_smooth_x_error_pdf_points": 0.004998476324431067,
+      "max_marker_error_pdf_points": 0.004998274513674154
+    },
+    {
+      "view": "consumption_reduced",
+      "stage": "full",
+      "smooth_vertices": 720,
+      "visible_raw_points": 369,
+      "max_smooth_y_error_pdf_points": 0.005215547822245981,
+      "max_smooth_x_error_pdf_points": 0.004949367088670442,
+      "max_marker_error_pdf_points": 0.005140798949315368
+    }
+  ]
+}

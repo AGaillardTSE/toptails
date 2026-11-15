@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "files": [
+    {
+      "file": "CEX_networth_val_grid01.json.gz",
+      "rows": 748737,
+      "groups": 10892,
+      "bytes": 12187976
+    },
+    {
+      "file": "CEX_total_capital_income_grid01.json.gz",
+      "rows": 2342189,
+      "groups": 28182,
+      "bytes": 48960947
+    },
+    {
+      "file": "CEX_total_income_grid01.json.gz",
+      "rows": 557405,
+      "groups": 6015,
+      "bytes": 11613802
+    },
+    {
+      "file": "CEX_total_labor_income_grid01.json.gz",
+      "rows": 653680,
+      "groups": 12636,
+      "bytes": 11828804
+    },
+    {
+      "file": "PSID_all_grid01.json.gz",
+      "rows": 2882923,
+      "groups": 29197,
+      "bytes": 50777744
+    },
+    {
+      "file": "SCF_all_grid01.json.gz",
+      "rows": 217123,
+      "groups": 2623,
+      "bytes": 3208965
+    }
+  ],
+  "total_rows": 7402057,
+  "raw_audit_requests": 896,
+  "released_files_unchanged": 55
+}

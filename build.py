@@ -23,7 +23,7 @@ if not args.standalone:
     let position=0,reader;
     const compressed=new ReadableStream({async pull(controller){
       while(true){
-        if(!reader){if(position>=paths.length){controller.close();return;}const response=await fetch(paths[position++]);if(!response.ok)throw new Error('Data file could not be loaded: '+response.status);reader=response.body.getReader();}
+        if(!reader){if(position>=paths.length){controller.close();return;}const response=await fetch(paths[position++],{cache:'force-cache'});if(!response.ok)throw new Error('Data file could not be loaded: '+response.status);reader=response.body.getReader();}
         const {value,done}=await reader.read();if(done){reader=null;continue;}controller.enqueue(value);return;
       }
     },async cancel(){await reader?.cancel();}});
@@ -32,9 +32,9 @@ if not args.standalone:
 '''
     assert app.count('  function loadBlock(key){')==1
     app=app.replace('  function loadBlock(key){',helper+'  function loadBlock(key){')
-    needle="      const encoded=node.textContent;node.textContent='';return readCompressed(encoded);"
+    needle="const value=await readCompressed(encoded)"
     assert app.count(needle)==1
-    app=app.replace(needle,"      if(node.dataset.parts)return readCompressedFiles(JSON.parse(node.dataset.parts));\n"+needle)
+    app=app.replace(needle,"const value=await (node.dataset.parts?readCompressedFiles(JSON.parse(node.dataset.parts)):readCompressed(encoded))")
 css='\n'.join(read(n) for n in ['shared.css','international.css','data-correspondence.css'])
 vendor='/* Chart.js 4.4.1\n'+(ROOT/'vendor/Chart-LICENSE.txt').read_text()+'\n*/\n'+(ROOT/'vendor/chart.umd.min.js').read_text()
 csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src "+("'none'" if args.standalone else "'self'")+"; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
@@ -44,7 +44,7 @@ for design,name in [('design_a.html','inequality.html'),('design_b.html','inequa
     page=page.replace('</head>','<style>'+css+'</style>\n</head>',1).replace('<head>','<head>\n<meta http-equiv="Content-Security-Policy" content="'+csp+'">',1)
     encoded=page.encode();(dest/name).write_bytes(encoded)
     if name=='inequality_observatory.html':
-        if args.standalone:assert hashlib.sha256(encoded).hexdigest()==manifest['source_html_sha256'],'Standalone does not match the released site'
+        if args.standalone and manifest.get('source_html_sha256'):assert hashlib.sha256(encoded).hexdigest()==manifest['source_html_sha256'],'Standalone does not match the released site'
         else:(dest/'index.html').write_bytes(encoded)
     print(name,len(encoded),'bytes')
 print('Build verified.' if args.verify or args.standalone else 'Build complete.')

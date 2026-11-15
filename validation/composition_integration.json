@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "panels": 258,
+  "raw_points": 66828,
+  "smooth_coordinates": 133200,
+  "annual_adjustment_rows_unchanged": true,
+  "annual_adjustment_rows_sha256": "1399383ffa9a5c4e403dddfca619d05dead2874bd146808568990276d4368f36",
+  "other_adjustment_metadata_unchanged": true,
+  "blocks": [
+    "composition_PSID",
+    "composition_CEX_BM_RECON",
+    "composition_HFCS",
+    "composition_HILDA",
+    "composition_SHIW",
+    "composition_SCF"
+  ],
+  "all_composition_coordinates_lazy": true,
+  "all_unrelated_manifest_entries_unchanged": true
+}
