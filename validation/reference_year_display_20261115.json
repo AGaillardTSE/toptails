@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "aggregate_manifest_entries_unchanged": true,
+  "stored_wave_identifiers_unchanged": true,
+  "PSID_income_and_annual_consumption_use_previous_year": true,
+  "PSID_wealth_and_usual_food_use_interview_year": true,
+  "SCF_income_uses_previous_year_wealth_and_spending_use_interview_year": true,
+  "CEX_reference_years_unchanged": true,
+  "bank_retail_DINA_Forbes_calendar_years_unchanged": true,
+  "HILDA_financial_year_labeled": true,
+  "HFCS_harmonized_waves_explicit_no_calibration_changes": true,
+  "user_confirmed_wealth_valuation_year": true,
+  "user_requested_display_only_no_HFCS_source_audit": true,
+  "short_control_notes_match_plot_footnotes_13px": true,
+  "citation_dialog_and_clipboard_verified": true,
+  "citation_mobile_and_escape_close_verified": true
+}

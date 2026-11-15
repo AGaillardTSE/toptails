@@ -22,6 +22,8 @@ US and cross-country Eyeballing tabs display weighted empirical conditional tail
 
 The active CEX source is the original Meyer specification: 37 raw consumption waves in 1980–2017, 21 reporting-adjusted waves and eight fully adjusted waves. It retains original housing/vehicle services, equivalence and person weights. Reconstructed financial outcomes and constant-rent alternatives are unavailable in this branch. The prior reconstruction and its aggregates are preserved in the release archive and historical asset paths.
 
+The footer includes the paper citation and copy/download BibTeX controls. The time plot dates each series to its reference or valuation year: PSID annual income/consumption use prior calendar years, PSID wealth uses interview years, and SCF income uses prior calendar years. Source-wave keys remain unchanged for filters, matched ratios and estimation. HFCS displays are explicitly labeled as harmonized survey waves; HILDA income is labeled by financial year.
+
 ## Preview locally
 
 Run `python3 -m http.server 8000` from this folder and open `http://localhost:8000`. Use an HTTP server: opening the external-data version directly with `file://` will not load its data files.

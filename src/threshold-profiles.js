@@ -100,6 +100,7 @@ const ThresholdProfiles = (() => {
     const canonicalStage=(survey,variant)=>referenceSurveys.has(survey)||['YODLEE','FORBES'].includes(survey)?'reference':survey==='SCF'&&variant==='full'?'adj':variant;
     function updateCountries(){if(!countrySelect)return;const old=countrySelect.value,map=new Map();curves.filter(c=>surveySelect.value==='all'||c.survey===surveySelect.value).forEach(c=>{if(c.country)map.set(c.country,c.country_name||c.country);});countrySelect.replaceChildren();[['all','All countries'],...[...map.entries()].sort((a,b)=>a[1].localeCompare(b[1]))].forEach(([value,text])=>{const o=document.createElement('option');o.value=value;o.textContent=text;countrySelect.append(o);});if([...countrySelect.options].some(o=>o.value===old))countrySelect.value=old;}
     function updateYears(){
+      yearSelect.closest('.control').querySelector('span').textContent=['PSID','SCF','HFCS'].includes(surveySelect.value)?'Wave':'Year';
       const old=yearSelect.value,available=allCurves.filter(curveMatches).filter(c=>(surveySelect.value==='all'||c.survey===surveySelect.value)&&(!countrySelect||countrySelect.value==='all'||c.country===countrySelect.value)),years=[...new Set(available.map(c=>c.year).filter(finite))].sort((a,b)=>a-b);
       yearSelect.replaceChildren();[['all','All waves'],...years.map(y=>[String(y),String(y)])].forEach(([value,text])=>{const o=document.createElement('option');o.value=value;o.textContent=text;yearSelect.append(o);});if([...yearSelect.options].some(o=>o.value===old))yearSelect.value=old;
     }
