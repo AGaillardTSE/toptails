@@ -259,3 +259,11 @@
 @media(max-width:760px){.budget-definitions{--definition-inset:22px}}
 
 #time-chart-subtitle{font-size:13px}
+
+/* Quantile filters use the same full-width shaded toolbar as numerical results. */
+.quantile-profile-card .threshold-profiles{--quantile-inset:25px}
+.threshold-profile-controls{background:#f5f3ee;width:calc(100% + 2 * var(--quantile-inset,22px));margin-inline:calc(-1 * var(--quantile-inset,22px));padding:18px var(--quantile-inset,22px);border-color:#e8e4dc}
+.threshold-profile-controls label.control>span{font:600 13px/20px Arial,sans-serif;letter-spacing:.055em;color:#747783;text-transform:uppercase}
+.threshold-profile-controls select{min-height:41px;padding:8px 34px 8px 11px;font:400 13px/1.5 Arial,sans-serif}
+#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{min-height:41px}
+@media(max-width:850px){.quantile-profile-card .threshold-profiles{--quantile-inset:17px}}

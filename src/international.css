@@ -44,3 +44,11 @@
 #cc-time .cc-survey-legend svg{width:28px;height:18px}
 @media(max-width:760px){#panel-other .cc-view-heading h2{font-size:25px}#panel-other .cc-time-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#panel-other .cc-time-chart{height:365px;margin:14px 9px 12px}}
 #cc-t-variables{border:0;padding:0;margin:0;min-width:0}
+
+#panel-other .cc-time-controls{display:flex;flex-wrap:nowrap;align-items:flex-end;overflow-x:auto;gap:17px}
+#panel-other .cc-time-controls>.control{flex:1 0 125px;min-width:0}
+#panel-other .cc-time-controls>.control:has(#cc-t-country){flex-basis:170px}
+#panel-other .cc-time-controls>.control:has(#cc-t-survey){flex-basis:140px}
+#panel-other .cc-time-controls>.control:has(#cc-t-adjustment){flex-basis:180px}
+#panel-other .cc-time-controls>.control:has(#cc-t-indicator){flex-basis:190px}
+#panel-other .cc-time-controls>.control>label{white-space:nowrap}
