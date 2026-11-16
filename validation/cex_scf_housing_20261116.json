@@ -1,0 +1,185 @@
+{
+  "status": "PASS",
+  "source_files_verified": 22,
+  "summary_cells": 1760,
+  "new_full_cells": 580,
+  "raw_reporting_literal_summary_cells": 1180,
+  "raw_reporting_literal_curve_cells": 1180,
+  "lossless_relationship_groups": 9918,
+  "lossless_relationship_rows": 682596,
+  "composition_contracts": 12,
+  "eyeballing_profiles": 10920,
+  "no_CEX_income_in_any_active_results": true,
+  "other_dataset_values_and_asset_entries_unchanged": true,
+  "weighting_method": "scf_housing",
+  "source_validation": {
+    "CEX_BM_RECON_summary.json": {
+      "cells": 1760,
+      "unchanged_raw_reporting": 1180,
+      "new_full": 580
+    },
+    "CEX_BM_RECON_tail_curves.json": {
+      "cells": 1760,
+      "unchanged_raw_reporting": 1180,
+      "new_full": 580
+    },
+    "loglog": {
+      "groups": 9918,
+      "raw_reporting_groups_matched": 6498,
+      "max_relative_error": 0,
+      "minimums": [
+        0,
+        5,
+        10,
+        15,
+        20
+      ]
+    },
+    "eyeballing": {
+      "profiles": 10920,
+      "native_marker_shape": "PASS",
+      "native_coefficient_checks": 5280,
+      "maximum_relative_coefficient_error": 2.21870234987294e-16
+    },
+    "composition": {
+      "status": "PASS",
+      "domains": [
+        "consumption",
+        "wealth"
+      ],
+      "weighting_method": "scf_housing",
+      "contracts": 12,
+      "max_identity_error": 3.7253e-08,
+      "raw_reporting_cache_values_unchanged": true,
+      "raw_reporting_components_unchanged": true,
+      "raw_reporting_points_and_smooth_unchanged": true,
+      "max_raw_reporting_coordinate_error": 8.8818e-16,
+      "canonical_source": "Private research archive"
+    },
+    "source_archive": {
+      "hashes_unchanged": 24
+    },
+    "status": "PASS",
+    "benchmark_consumption_wave_counts": {
+      "raw": 44,
+      "adj": 34,
+      "full": 29
+    },
+    "representation_validations": {
+      "summary_full_validation.json": {
+        "status": "PASS",
+        "full_summary_cells": 580,
+        "full_curve_cells": 580,
+        "decomposition_cells": 580,
+        "max_independent_relative_error": 1.1046719095020308e-14,
+        "unavailable_mean_cells": 0,
+        "weighting_method": "scf_housing",
+        "estimator_changed": false,
+        "analysis_sample": "Saved age20\u201380 and positive raw food; exact finite positive new full weights; variable-specific support",
+        "decomposition_sample": "All-age common raw/full supported consumer units, mass-normalized to native CU population; spending unscaled back to annual CU amounts"
+      },
+      "summary_curve_decomposition_validation.json": {
+        "status": "PASS",
+        "retained_variables": [
+          "consump_def1",
+          "expenditure",
+          "expenditure_incl_rent",
+          "food_away",
+          "food_home",
+          "food_housing_vacation",
+          "food_housing_vacation_donations_vehicle",
+          "food_total",
+          "networth_val",
+          "vacation"
+        ],
+        "income_variables_present": false,
+        "raw_adj_literal_preservation": true,
+        "summary": {
+          "total": 1760,
+          "raw_adj_literal": 1180,
+          "new_full": 580
+        },
+        "tail_curves": {
+          "total": 1760,
+          "raw_adj_literal": 1180,
+          "new_full": 580
+        },
+        "full_validation": {
+          "status": "PASS",
+          "full_summary_cells": 580,
+          "full_curve_cells": 580,
+          "decomposition_cells": 580,
+          "max_independent_relative_error": 1.1046719095020308e-14,
+          "unavailable_mean_cells": 0,
+          "weighting_method": "scf_housing",
+          "estimator_changed": false,
+          "analysis_sample": "Saved age20\u201380 and positive raw food; exact finite positive new full weights; variable-specific support",
+          "decomposition_sample": "All-age common raw/full supported consumer units, mass-normalized to native CU population; spending unscaled back to annual CU amounts"
+        },
+        "source_summary_sha256": "fe27d3f162b57c19d975469231958b8c66e918a5afd65d54c7cb4d76c542f391",
+        "source_curves_sha256": "d1b264d769ac9f0887770041af7add99d6bf473c3acdcdf34170606798ad3949"
+      },
+      "CEX_networth_val_grid01_validation.json": {
+        "status": "PASS",
+        "survey": "CEX",
+        "rank": "networth_val",
+        "rows": 682596,
+        "groups": 9918,
+        "vectors": 19382,
+        "years": [
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "housing": [
+          "benchmark",
+          "bp"
+        ],
+        "weighting": "scf_housing",
+        "definitions": "benchmark",
+        "minimums": [
+          0,
+          5,
+          10,
+          15,
+          20
+        ],
+        "primitive_width": 0.001,
+        "source_sample": "Age20--80 and positive reported/raw food; restored archived Meyer public measurement; source weights retained",
+        "MI": "SCF five separate imputations then arithmetic wave average, never pool; minima in each implicate",
+        "normalization": "Pair-specific joint supported population, separately for each wave/implicate/stage/housing/weighting/definition",
+        "defaults": {
+          "statistic": "mean",
+          "definition": "benchmark",
+          "minimum": 10
+        }
+      }
+    }
+  }
+}

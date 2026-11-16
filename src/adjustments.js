@@ -60,7 +60,7 @@ function initAdjustments(payload,context) {
     const country=distributionCountry?' · '+(countryLabels.get(distributionCountry)||distributionCountry):'';$('adjustment-distribution-readout').textContent=surveyLabels[distributionSurvey]+country+' · '+distributionDomain+' · '+(getHousingMethod()==='bp'?'constant-rate':'benchmark')+' homeowner services · weighted percentile bins'+(distributionSurvey==='SCF'?' · reporting adjustment only':'');
     $('adjustment-distribution-csv').disabled=!selected.length;$('adjustment-distribution-csv')._rows=selected;
   }
-  const compositionMatches=row=>(['PSID','CEX_BM_RECON'].includes(row.survey)?housingMatches(row):(row.housing_method||'benchmark')==='benchmark')&&(row.weighting_method===(row.survey==='PSID'?getWeightingMethod():row.survey==='CEX_BM_RECON'?'scf_income':'native'));
+  const compositionMatches=row=>(['PSID','CEX_BM_RECON'].includes(row.survey)?housingMatches(row):(row.housing_method||'benchmark')==='benchmark')&&((row.weighting_method||(row.survey==='CEX_BM_RECON'?'scf_housing':'native'))===(row.survey==='PSID'?getWeightingMethod():row.survey==='CEX_BM_RECON'?'scf_housing':'native'));
   const alphaColor=color=>{const full=/^#[0-9a-f]{3}$/i.test(color)?'#'+[...color.slice(1)].map(value=>value+value).join(''):color;return /^#[0-9a-f]{6}$/i.test(full)?full+'80':full==='red'?'#ff000080':full;};
   function compositionGrid(contract){return{id:'paperCompositionFrame',beforeDatasetsDraw(chart){
     const {ctx,chartArea:a,scales}=chart;ctx.save();ctx.beginPath();ctx.rect(a.left,a.top,a.width,a.height);ctx.clip();ctx.setLineDash([4,4]);
@@ -104,7 +104,9 @@ function initAdjustments(payload,context) {
     $('adjustment-distribution-readout').textContent=surveyLabels[distributionSurvey]+country+' · '+distributionDomain+weight+' · '+(getHousingMethod()==='bp'&&['PSID','CEX_BM_RECON'].includes(distributionSurvey)?'constant-rate':'benchmark')+' homeowner services'+(distributionRange==='top20'?' · P80–P100':'');
     $('adjustment-distribution-csv').disabled=!points.length;$('adjustment-distribution-csv')._rows=[...points.map(row=>({kind:'raw_point',...row})),...smooth.map(row=>({kind:'smoothed_line',...row}))];
   }
+  function refreshDistributionDomainChoices(){const select=$('adjustment-distribution-domain'),value=select.value;select.replaceChildren();[['consumption','Consumption'],['income','Income'],['wealth','Wealth']].filter(([key])=>distributionSurvey!=='CEX_BM_RECON'||key!=='income').forEach(([key,label])=>select.add(new Option(label,key)));select.value=value;}
   function renderDistribution(){
+    refreshDistributionDomainChoices();
     const root=$('adjustment-distribution-results'),panel=root?.closest('[role="tabpanel"]');if(!root||$('panel-adjustments')?.hidden||panel?.hidden)return;
     $('composition-consumption-note').hidden=distributionSurvey!=='PSID'||distributionDomain!=='consumption';
     if(!compositionContracts.some(row=>row.survey===distributionSurvey)){renderLegacyDistribution();return;}

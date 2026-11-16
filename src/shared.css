@@ -191,3 +191,5 @@
 .header-resources{gap:18px}.header-citation{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;background:transparent;color:#c8ccd4;border:1px solid #596477;border-radius:5px;padding:5px 9px;font:400 13px/1.5 Arial,sans-serif;cursor:pointer}.header-citation:hover{color:#fff;border-color:#969eae}.header-citation:focus-visible{outline:2px solid #d993ae;outline-offset:4px}@media(max-width:760px){.header-resources{padding-left:0;justify-content:space-between;gap:12px}}
 
 .citation-format{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:24px 0 14px;font:600 14px/1.5 Arial,sans-serif;color:#4b5d70}.citation-format select{min-width:180px;max-width:100%;min-height:40px;padding:8px 34px 8px 11px;border:1px solid #d9dddf;border-radius:5px;background-color:#fffefa;color:#263a53;font:400 14px/1.5 Arial,sans-serif}
+
+.cex-weighting-options{grid-template-columns:1fr}
