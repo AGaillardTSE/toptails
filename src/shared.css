@@ -257,3 +257,5 @@
 .budget-definitions .budget-housing-option{flex:0 0 auto;white-space:nowrap}
 @media(max-width:1050px){.budget-definitions{--definition-inset:26px}}
 @media(max-width:760px){.budget-definitions{--definition-inset:22px}}
+
+#time-chart-subtitle{font-size:13px}

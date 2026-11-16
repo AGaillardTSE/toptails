@@ -281,6 +281,8 @@
 @media(max-width:1050px){.budget-definitions{--definition-inset:26px}}
 @media(max-width:760px){.budget-definitions{--definition-inset:22px}}
 
+#time-chart-subtitle{font-size:13px}
+
 #panel-other .other-card-heading>h2{margin:0}
 #panel-other #cc-summary-note{padding-top:10px}
 #panel-other .average-row{background:#f3f4f3;font-weight:500}
@@ -924,7 +926,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   };
   const state={survey:'PSID',consumption:'auto',constantRent:getHousingMethod()==='bp',capital:'benchmark',gains:getDinaCapitalDefinition(),wealth:'benchmark',bank:'paper',explicit:false};
   host.replaceChildren();host.classList.add('definitions-box','budget-definitions');
-  const header=el('header','budget-definition-heading');header.append(el('h2','','From the Household Budget Constraint to Variable Construction'));host.append(header);
+  const header=el('header','budget-definition-heading');header.append(el('h2','','Household budget constraint'));host.append(header);
   const intro=el('p','definition-intro','The framework and variable definitions follow Section 2.2, equation (1), of the '),paper=el('a','','paper');paper.href='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';paper.target='_blank';paper.rel='noopener noreferrer';intro.append(paper,'.');host.append(intro);
   const controls=el('div','budget-definition-controls other-controls');host.append(controls);
   function select(labelText,items,field){const box=el('div','control budget-definition-control'),label=el('label','',labelText),input=el('select');input.id='definition-'+field;label.htmlFor=input.id;input.setAttribute('aria-label',labelText);items.forEach(([key,text])=>input.add(new Option(text,key)));box.append(label,input);controls.append(box);input.addEventListener('change',()=>{state[field]=input.value;if(field==='survey'){state.explicit=true;state.consumption='auto';state.capital='benchmark';state.wealth='benchmark';}if(field==='bank')state.consumption=state.bank==='none'?'expenditure':'consump_def1';render();});return{box,input};}
