@@ -199,3 +199,6 @@
 .adjustment-readout,.plot-subtitle,.chart-subtitle,.panel-subtitle,.slope-readout,.eyeballing-readout,.eyeballing-subtitle{font-size:14px;line-height:1.7}
 
 .threshold-legend .threshold-variable-choice{display:inline-flex;align-items:center;gap:6px;margin:0;color:inherit;font:400 13px/1.5 Arial,sans-serif;letter-spacing:0;text-transform:none;cursor:pointer}.threshold-variable-choice input{margin:0;width:14px;height:14px;accent-color:#b34470}
+
+.eyeballing-panel .eyeballing-footnote{display:block}.eyeballing-panel .eyeballing-footnote .eyeballing-note{margin:0;font:400 13px/1.65 Arial,sans-serif;color:#717789}
+#time-note:not(:empty)::before,#biv-note:not(:empty)::before,#cc-summary-note:not(:empty)::before,#cc-b-note:not(:empty)::before,.threshold-note:not(:empty)::before,.eyeballing-note:not(:empty)::before,p.adjustment-note:not(:empty)::before,.adjustment-footnote>.decomposition-intro::before{content:"Notes: ";font-style:italic;font-weight:400}
