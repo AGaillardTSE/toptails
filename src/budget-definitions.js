@@ -25,6 +25,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const gains=select('Capital gains',[['including_fiscal_gains','Include fiscal (realized) capital gains'],['excluding_fiscal_gains','Exclude fiscal capital gains']],'gains');
   const wealth=select('Wealth definition',[['benchmark','Benchmark'],['alternative','Alternative component construction']],'wealth');
   const bank=select('Durable correction',[['paper','Four categories (paper)'],['all','All categories'],['none','Expenditure before correction']],'bank');
+  controls.append(housingBox);
   const selectedTitle=el('h3','budget-selected-dataset');host.append(selectedTitle);
   const diagram=el('div','budget-diagram-scroll'),grid=el('div','budget-definition-grid');grid.setAttribute('role','group');grid.setAttribute('aria-label','Budget constraint: c plus the change in a equals y minus T plus r a');diagram.append(grid);host.append(diagram);
   const symbols={c:'<mi>c</mi>',a:'<mo>(</mo><msup><mi>a</mi><mo data-variable-mark>′</mo></msup><mo>−</mo><mi>a</mi><mo>)</mo>',y:'<mi>y</mi>',tax:'<mi>T</mi>',capital:'<mi>r</mi><mi>a</mi>'},operators={a:'+',y:'=',tax:'−',capital:'+'},cards={};

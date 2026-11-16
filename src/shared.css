@@ -246,3 +246,14 @@
 .budget-definitions .budget-housing-option{font-size:13px;margin:0;min-height:41px}
 @media(max-width:760px){.budget-definitions .budget-definition-controls{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px;gap:16px}}
 @media(max-width:480px){.budget-definitions .budget-definition-controls{grid-template-columns:1fr}}
+
+/* Full-width construction toolbar, with one horizontally scrollable control row. */
+.budget-definitions{--definition-inset:30px}
+.budget-definitions .budget-definition-controls{display:flex;flex-wrap:nowrap;align-items:flex-end;width:calc(100% + 2 * var(--definition-inset));margin-inline:calc(-1 * var(--definition-inset));padding:18px var(--definition-inset);gap:17px;overflow-x:auto}
+.budget-definitions .budget-definition-control{flex:1 0 240px;min-width:0}
+.budget-definitions .budget-definition-control:has(#definition-survey){flex-basis:280px}
+.budget-definitions .budget-definition-control:has(#definition-country){flex-basis:150px}
+.budget-definitions .budget-definition-control>label{white-space:nowrap}
+.budget-definitions .budget-housing-option{flex:0 0 auto;white-space:nowrap}
+@media(max-width:1050px){.budget-definitions{--definition-inset:26px}}
+@media(max-width:760px){.budget-definitions{--definition-inset:22px}}

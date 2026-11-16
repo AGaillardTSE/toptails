@@ -270,6 +270,17 @@
 @media(max-width:760px){.budget-definitions .budget-definition-controls{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px;gap:16px}}
 @media(max-width:480px){.budget-definitions .budget-definition-controls{grid-template-columns:1fr}}
 
+/* Full-width construction toolbar, with one horizontally scrollable control row. */
+.budget-definitions{--definition-inset:30px}
+.budget-definitions .budget-definition-controls{display:flex;flex-wrap:nowrap;align-items:flex-end;width:calc(100% + 2 * var(--definition-inset));margin-inline:calc(-1 * var(--definition-inset));padding:18px var(--definition-inset);gap:17px;overflow-x:auto}
+.budget-definitions .budget-definition-control{flex:1 0 240px;min-width:0}
+.budget-definitions .budget-definition-control:has(#definition-survey){flex-basis:280px}
+.budget-definitions .budget-definition-control:has(#definition-country){flex-basis:150px}
+.budget-definitions .budget-definition-control>label{white-space:nowrap}
+.budget-definitions .budget-housing-option{flex:0 0 auto;white-space:nowrap}
+@media(max-width:1050px){.budget-definitions{--definition-inset:26px}}
+@media(max-width:760px){.budget-definitions{--definition-inset:22px}}
+
 #panel-other .other-card-heading>h2{margin:0}
 #panel-other #cc-summary-note{padding-top:10px}
 #panel-other .average-row{background:#f3f4f3;font-weight:500}
@@ -924,6 +935,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const gains=select('Capital gains',[['including_fiscal_gains','Include fiscal (realized) capital gains'],['excluding_fiscal_gains','Exclude fiscal capital gains']],'gains');
   const wealth=select('Wealth definition',[['benchmark','Benchmark'],['alternative','Alternative component construction']],'wealth');
   const bank=select('Durable correction',[['paper','Four categories (paper)'],['all','All categories'],['none','Expenditure before correction']],'bank');
+  controls.append(housingBox);
   const selectedTitle=el('h3','budget-selected-dataset');host.append(selectedTitle);
   const diagram=el('div','budget-diagram-scroll'),grid=el('div','budget-definition-grid');grid.setAttribute('role','group');grid.setAttribute('aria-label','Budget constraint: c plus the change in a equals y minus T plus r a');diagram.append(grid);host.append(diagram);
   const symbols={c:'<mi>c</mi>',a:'<mo>(</mo><msup><mi>a</mi><mo data-variable-mark>′</mo></msup><mo>−</mo><mi>a</mi><mo>)</mo>',y:'<mi>y</mi>',tax:'<mi>T</mi>',capital:'<mi>r</mi><mi>a</mi>'},operators={a:'+',y:'=',tax:'−',capital:'+'},cards={};
