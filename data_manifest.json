@@ -1,6 +1,6 @@
 {
-  "source_html_sha256": "328ad9d801cb6819619116ba3ee736a7dd07d0e2967902f38d7b42a75a500604",
-  "source_html_bytes": 327866764,
+  "source_html_sha256": "f2c703e81db3ede5aa8f243d0e74b1eeb08f2079a48d59710d5848cf4c38828a",
+  "source_html_bytes": 582260014,
   "entries": [
     {
       "id": "explorer-block-bins_unmerged_PSID",
@@ -2368,118 +2368,6 @@
       ]
     },
     {
-      "id": "explorer-block-summary",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-summary\" data-explorer-block=\"summary\" data-lazy=\"false\">",
-      "separator": "\n",
-      "sha256": "ef931a25cf8d26b02e7baeb7a5082940e4e64259a97a22ffaa097cebbab9b83f",
-      "gzip_bytes": 500029,
-      "parts": [
-        {
-          "path": "data/summary.ef931a25cf8d26b0.part01.bin",
-          "bytes": 500029,
-          "sha256": "ef931a25cf8d26b02e7baeb7a5082940e4e64259a97a22ffaa097cebbab9b83f"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-tail_curves",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves\" data-explorer-block=\"tail_curves\" data-lazy=\"false\">",
-      "separator": "\n",
-      "sha256": "ba3609c46d0a013aa14cd85f723393ecc2cdcbba0c89b46df392f13b970f49e3",
-      "gzip_bytes": 287220,
-      "parts": [
-        {
-          "path": "data/tail_curves.ba3609c46d0a013a.part01.bin",
-          "bytes": 287220,
-          "sha256": "ba3609c46d0a013aa14cd85f723393ecc2cdcbba0c89b46df392f13b970f49e3"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bivariate",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bivariate\" data-explorer-block=\"bivariate\" data-lazy=\"false\">",
-      "separator": "\n",
-      "sha256": "0db82ce927a699fd17e33c87027436d9e6658f419499ee3796c5130ef2532192",
-      "gzip_bytes": 225498,
-      "parts": [
-        {
-          "path": "data/bivariate.0db82ce927a699fd.part01.bin",
-          "bytes": 225498,
-          "sha256": "0db82ce927a699fd17e33c87027436d9e6658f419499ee3796c5130ef2532192"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-tail_curves_CEX_BM_RECON",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_CEX_BM_RECON\" data-explorer-block=\"tail_curves_CEX_BM_RECON\" data-lazy=\"true\">",
-      "separator": "\n",
-      "sha256": "4cd92a434e3b7d4800f14f68388ec846273d1c55f12c6e549b5b024c76572fcb",
-      "gzip_bytes": 1009051,
-      "parts": [
-        {
-          "path": "data/tail_curves_CEX_BM_RECON.4cd92a434e3b7d48.part01.bin",
-          "bytes": 1009051,
-          "sha256": "4cd92a434e3b7d4800f14f68388ec846273d1c55f12c6e549b5b024c76572fcb"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-composition_CEX_BM_RECON",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-composition_CEX_BM_RECON\" data-explorer-block=\"composition_CEX_BM_RECON\" data-lazy=\"true\">",
-      "separator": "\n",
-      "sha256": "090b922c082e93aa3cdbc2c07f4385d86859e247fd42b17f1ed387f84abfe710",
-      "gzip_bytes": 75134,
-      "parts": [
-        {
-          "path": "data/composition_CEX_BM_RECON.090b922c082e93aa.part01.bin",
-          "bytes": 75134,
-          "sha256": "090b922c082e93aa3cdbc2c07f4385d86859e247fd42b17f1ed387f84abfe710"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-bins_Meyer_restored",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_Meyer_restored\" data-explorer-block=\"bins_Meyer_restored\" data-lazy=\"true\">",
-      "separator": "\n",
-      "sha256": "601fd065d218a1a8e08e42bdfe4b4c019d353d9ef56aac2d42bc290474fb42d1",
-      "gzip_bytes": 1759993,
-      "parts": [
-        {
-          "path": "data/bins_Meyer_restored.601fd065d218a1a8.part01.bin",
-          "bytes": 1759993,
-          "sha256": "601fd065d218a1a8e08e42bdfe4b4c019d353d9ef56aac2d42bc290474fb42d1"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-adjustments",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-adjustments\" data-explorer-block=\"adjustments\" data-lazy=\"true\">",
-      "separator": "\n",
-      "sha256": "cb35d333948c9ab2ea16c427dbc302ad23590fc4ee1621e0c90f68435964467e",
-      "gzip_bytes": 523143,
-      "parts": [
-        {
-          "path": "data/adjustments.cb35d333948c9ab2.part01.bin",
-          "bytes": 523143,
-          "sha256": "cb35d333948c9ab2ea16c427dbc302ad23590fc4ee1621e0c90f68435964467e"
-        }
-      ]
-    },
-    {
-      "id": "explorer-block-eyeballing_CEX_BM_RECON_US",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_CEX_BM_RECON_US\" data-explorer-block=\"eyeballing_CEX_BM_RECON_US\" data-lazy=\"true\">",
-      "separator": "\n",
-      "sha256": "d32bdd7882564dd26fc158466c7122aecd75b09320a097260133a009918148e4",
-      "gzip_bytes": 1242228,
-      "parts": [
-        {
-          "path": "data/eyeballing_CEX_BM_RECON_US.d32bdd7882564dd2.part01.bin",
-          "bytes": 1242228,
-          "sha256": "d32bdd7882564dd26fc158466c7122aecd75b09320a097260133a009918148e4"
-        }
-      ]
-    },
-    {
       "id": "explorer-block-eyeballing_FORBES_US",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_FORBES_US\" data-explorer-block=\"eyeballing_FORBES_US\" data-lazy=\"true\">",
       "separator": "\n",
@@ -2808,16 +2696,1984 @@
       ]
     },
     {
+      "id": "explorer-block-summary",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-summary\" data-explorer-block=\"summary\" data-lazy=\"false\">",
+      "separator": "\n",
+      "sha256": "f6f1eee91c40d63076afb40ac0ae64a8deffc5633b8f6084101b84fe5cb93deb",
+      "gzip_bytes": 697679,
+      "parts": [
+        {
+          "path": "data/summary.f6f1eee91c40d630.part01.bin",
+          "bytes": 697679,
+          "sha256": "f6f1eee91c40d63076afb40ac0ae64a8deffc5633b8f6084101b84fe5cb93deb"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-tail_curves",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves\" data-explorer-block=\"tail_curves\" data-lazy=\"false\">",
+      "separator": "\n",
+      "sha256": "005c1e2c381571d57be99e0d38795978bf414b137a5c4aef46a83b604178e321",
+      "gzip_bytes": 384179,
+      "parts": [
+        {
+          "path": "data/tail_curves.005c1e2c381571d5.part01.bin",
+          "bytes": 384179,
+          "sha256": "005c1e2c381571d57be99e0d38795978bf414b137a5c4aef46a83b604178e321"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-tail_curves_CEX_BM_RECON",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_CEX_BM_RECON\" data-explorer-block=\"tail_curves_CEX_BM_RECON\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "644f8a0d423b2b91da74f2840bad36bf3cee50ed83db13a8d78819ff938a4402",
+      "gzip_bytes": 23848732,
+      "parts": [
+        {
+          "path": "data/tail_curves_CEX_BM_RECON.644f8a0d423b2b91.part01.bin",
+          "bytes": 4194304,
+          "sha256": "67cfd69ee245fe60bf447680d0461a61901785a4895c891877b8fac3ce0e1f45"
+        },
+        {
+          "path": "data/tail_curves_CEX_BM_RECON.644f8a0d423b2b91.part02.bin",
+          "bytes": 4194304,
+          "sha256": "7fc0c12e6dc0463bb2c1bd7f2caeb67f2229bbffd2a524b9ef3869a7a29c2b3b"
+        },
+        {
+          "path": "data/tail_curves_CEX_BM_RECON.644f8a0d423b2b91.part03.bin",
+          "bytes": 4194304,
+          "sha256": "77dc4b12430cdc3afb8e6ddb4531262f03705a494f998f5c4b4a4c7f68fbe917"
+        },
+        {
+          "path": "data/tail_curves_CEX_BM_RECON.644f8a0d423b2b91.part04.bin",
+          "bytes": 4194304,
+          "sha256": "d23af458bb8620ba40ace7cedd39a17b7b49b091b16d91aded32add40cb19b8d"
+        },
+        {
+          "path": "data/tail_curves_CEX_BM_RECON.644f8a0d423b2b91.part05.bin",
+          "bytes": 4194304,
+          "sha256": "6ea66c8aa4eac321c09c098531b069426818832a1709ef5c5512de43323b7476"
+        },
+        {
+          "path": "data/tail_curves_CEX_BM_RECON.644f8a0d423b2b91.part06.bin",
+          "bytes": 2877212,
+          "sha256": "f382c5bcae7cbf826f1db188acef1ccce0bab4752e8b9da81cf29d2018671fe1"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bivariate",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bivariate\" data-explorer-block=\"bivariate\" data-lazy=\"false\">",
+      "separator": "\n",
+      "sha256": "a77aa9f7734b2c800663e57d75ea79effa7f20986c1fbd1239b1d01bf2ee67cb",
+      "gzip_bytes": 699094,
+      "parts": [
+        {
+          "path": "data/bivariate.a77aa9f7734b2c80.part01.bin",
+          "bytes": 699094,
+          "sha256": "a77aa9f7734b2c800663e57d75ea79effa7f20986c1fbd1239b1d01bf2ee67cb"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-composition_CEX_BM_RECON",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-composition_CEX_BM_RECON\" data-explorer-block=\"composition_CEX_BM_RECON\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "4e582cad82124c2cbb06d0531a6b28271ad9865a3ccd35b5db48002e91658496",
+      "gzip_bytes": 310706,
+      "parts": [
+        {
+          "path": "data/composition_CEX_BM_RECON.4e582cad82124c2c.part01.bin",
+          "bytes": 310706,
+          "sha256": "4e582cad82124c2cbb06d0531a6b28271ad9865a3ccd35b5db48002e91658496"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-adjustments",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-adjustments\" data-explorer-block=\"adjustments\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "ce43cef4c885b2c4c693034e8459bc8e0970f72da4be4849ed25a7cdb16640f2",
+      "gzip_bytes": 598373,
+      "parts": [
+        {
+          "path": "data/adjustments.ce43cef4c885b2c4.part01.bin",
+          "bytes": 598373,
+          "sha256": "ce43cef4c885b2c4c693034e8459bc8e0970f72da4be4849ed25a7cdb16640f2"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-eyeballing_CEX_BM_RECON_US",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-eyeballing_CEX_BM_RECON_US\" data-explorer-block=\"eyeballing_CEX_BM_RECON_US\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b1b49b929734f863db64ee19303d31c8eb597be5fb6c8ad337bf7d5392e47d61",
+      "gzip_bytes": 23401111,
+      "parts": [
+        {
+          "path": "data/eyeballing_CEX_BM_RECON_US.b1b49b929734f863.part01.bin",
+          "bytes": 4194304,
+          "sha256": "058833e763df3902fa94c838439dd11b06b0326cc334b62e15772e261319c5f7"
+        },
+        {
+          "path": "data/eyeballing_CEX_BM_RECON_US.b1b49b929734f863.part02.bin",
+          "bytes": 4194304,
+          "sha256": "2dcd11d349258d2aad151656315d8abba17e3b1a63bac5bd5b506fd5bf1aa4af"
+        },
+        {
+          "path": "data/eyeballing_CEX_BM_RECON_US.b1b49b929734f863.part03.bin",
+          "bytes": 4194304,
+          "sha256": "68b9c1c940075096932628d9678aba7bb210e20c7cc3d736764b4120e7302ae3"
+        },
+        {
+          "path": "data/eyeballing_CEX_BM_RECON_US.b1b49b929734f863.part04.bin",
+          "bytes": 4194304,
+          "sha256": "fb7ea0ceed6e17efa0c6c38d6940498df46c61290cb49047f1753ac8afdc5186"
+        },
+        {
+          "path": "data/eyeballing_CEX_BM_RECON_US.b1b49b929734f863.part05.bin",
+          "bytes": 4194304,
+          "sha256": "39f30c04f0c18e4b22645778768eb446d0f23b7caf9420fc94a12ab61f2b1144"
+        },
+        {
+          "path": "data/eyeballing_CEX_BM_RECON_US.b1b49b929734f863.part06.bin",
+          "bytes": 2429591,
+          "sha256": "27c09bc24551f3dee3d706413cd83cd10096eefc02505100142b4ace05e9bf7d"
+        }
+      ]
+    },
+    {
       "id": "explorer-block-metadata",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-metadata\" data-explorer-block=\"metadata\" data-lazy=\"false\">",
       "separator": "\n",
-      "sha256": "d2275a6caa95a22de04bac109fee161ba05babd9ec5a77beeca97429bc953985",
-      "gzip_bytes": 1189009,
+      "sha256": "f791adc102d28b5b2fa1e2425a287e1f0f64163b80ebc333f1a6561e4817dca0",
+      "gzip_bytes": 1198200,
       "parts": [
         {
-          "path": "data/metadata.d2275a6caa95a22d.part01.bin",
-          "bytes": 1189009,
-          "sha256": "d2275a6caa95a22de04bac109fee161ba05babd9ec5a77beeca97429bc953985"
+          "path": "data/metadata.f791adc102d28b5b.part01.bin",
+          "bytes": 1198200,
+          "sha256": "f791adc102d28b5b2fa1e2425a287e1f0f64163b80ebc333f1a6561e4817dca0"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0421ae376529f57ee2b408d3d004b01bed36362fc12ef564888faf3cd4cec90a",
+      "gzip_bytes": 3591687,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n0.0421ae376529f57e.part01.bin",
+          "bytes": 3591687,
+          "sha256": "0421ae376529f57ee2b408d3d004b01bed36362fc12ef564888faf3cd4cec90a"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "fc9f6c7e4ec4775bc621823e94b1c5cf9a17c6655257708b21738fed112936e8",
+      "gzip_bytes": 1880037,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n5.fc9f6c7e4ec4775b.part01.bin",
+          "bytes": 1880037,
+          "sha256": "fc9f6c7e4ec4775bc621823e94b1c5cf9a17c6655257708b21738fed112936e8"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "993125bc257e049b5f13945acf59e9147feeb9cc79b571969cc7e196ead2caa7",
+      "gzip_bytes": 1074514,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n10.993125bc257e049b.part01.bin",
+          "bytes": 1074514,
+          "sha256": "993125bc257e049b5f13945acf59e9147feeb9cc79b571969cc7e196ead2caa7"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "4dd00e4217b1ca6c6c5d64755b6257c8ff93b0249a2d37a9ca5b18029fc9082e",
+      "gzip_bytes": 748798,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n15.4dd00e4217b1ca6c.part01.bin",
+          "bytes": 748798,
+          "sha256": "4dd00e4217b1ca6c6c5d64755b6257c8ff93b0249a2d37a9ca5b18029fc9082e"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c5970e3f085e7b322bc7fbd81c2cfcdc8091027a2f2152ceb6f83fc7f1de9dc8",
+      "gzip_bytes": 577339,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_benchmark_n20.c5970e3f085e7b32.part01.bin",
+          "bytes": 577339,
+          "sha256": "c5970e3f085e7b322bc7fbd81c2cfcdc8091027a2f2152ceb6f83fc7f1de9dc8"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "6f8f9e9550ff0e7382419a4c69b530440c9585a8f677e8a37c191b3b5caeae6f",
+      "gzip_bytes": 646815,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n0.6f8f9e9550ff0e73.part01.bin",
+          "bytes": 646815,
+          "sha256": "6f8f9e9550ff0e7382419a4c69b530440c9585a8f677e8a37c191b3b5caeae6f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "991354b32fa5c84660c459674ffdd8731d5a1e7c220c4cc9740804c33455bd74",
+      "gzip_bytes": 343569,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n5.991354b32fa5c846.part01.bin",
+          "bytes": 343569,
+          "sha256": "991354b32fa5c84660c459674ffdd8731d5a1e7c220c4cc9740804c33455bd74"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c5a61600f1771e498500dc52b54016be878326f1c7fad4029e50701cdb1ab3a4",
+      "gzip_bytes": 197979,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n10.c5a61600f1771e49.part01.bin",
+          "bytes": 197979,
+          "sha256": "c5a61600f1771e498500dc52b54016be878326f1c7fad4029e50701cdb1ab3a4"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "48f14bfac90cf4579e89f5831b7cb02120351f4bb4aeaf65a6dbca1bda7d2d88",
+      "gzip_bytes": 138746,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n15.48f14bfac90cf457.part01.bin",
+          "bytes": 138746,
+          "sha256": "48f14bfac90cf4579e89f5831b7cb02120351f4bb4aeaf65a6dbca1bda7d2d88"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "8ce0f2d1f0321cb3eff03fb25e1443a4bbdb6eef0486b65e4285a7689b025091",
+      "gzip_bytes": 107661,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_before_personal_interest_n20.8ce0f2d1f0321cb3.part01.bin",
+          "bytes": 107661,
+          "sha256": "8ce0f2d1f0321cb3eff03fb25e1443a4bbdb6eef0486b65e4285a7689b025091"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "1eab032fbaad643d9b957a5ff702060b47f5335d7baa6891fd203dedffbe6bbd",
+      "gzip_bytes": 628378,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n0.1eab032fbaad643d.part01.bin",
+          "bytes": 628378,
+          "sha256": "1eab032fbaad643d9b957a5ff702060b47f5335d7baa6891fd203dedffbe6bbd"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "da9d70a1fc42dd19cadf4ca46f4ce4d70dfd907885b83cd6215b7cf2c818928a",
+      "gzip_bytes": 331475,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n5.da9d70a1fc42dd19.part01.bin",
+          "bytes": 331475,
+          "sha256": "da9d70a1fc42dd19cadf4ca46f4ce4d70dfd907885b83cd6215b7cf2c818928a"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "32a68af88ae153964c76c9a88b7e54d3c18f8a20786dbc859c5aae79eb93ed50",
+      "gzip_bytes": 189861,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n10.32a68af88ae15396.part01.bin",
+          "bytes": 189861,
+          "sha256": "32a68af88ae153964c76c9a88b7e54d3c18f8a20786dbc859c5aae79eb93ed50"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "82b454743002f8c067f3f8aaf56bb9d0531208ac1fe8e1e78a19197771d014a4",
+      "gzip_bytes": 132599,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n15.82b454743002f8c0.part01.bin",
+          "bytes": 132599,
+          "sha256": "82b454743002f8c067f3f8aaf56bb9d0531208ac1fe8e1e78a19197771d014a4"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "e2fb36b581fc519597f00b4201950b9a611f50a29fe10b49b3ac38a309a47a1d",
+      "gzip_bytes": 102236,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_n20.e2fb36b581fc5195.part01.bin",
+          "bytes": 102236,
+          "sha256": "e2fb36b581fc519597f00b4201950b9a611f50a29fe10b49b3ac38a309a47a1d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0b9371ce7fa7b688b0b0ced207859a9ca1de6405a02987099aacfeabe0b528ec",
+      "gzip_bytes": 594945,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n0.0b9371ce7fa7b688.part01.bin",
+          "bytes": 594945,
+          "sha256": "0b9371ce7fa7b688b0b0ced207859a9ca1de6405a02987099aacfeabe0b528ec"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "8e8985fa2b9d8e96d428e9a26ee97e37f6ba5c7c9a4982930b7098d0d0f32f8b",
+      "gzip_bytes": 322047,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n5.8e8985fa2b9d8e96.part01.bin",
+          "bytes": 322047,
+          "sha256": "8e8985fa2b9d8e96d428e9a26ee97e37f6ba5c7c9a4982930b7098d0d0f32f8b"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "dc41b954cb6d365f3317a0c24e2ae082ad09044bb7a0f4500a7f8d7076e84e46",
+      "gzip_bytes": 188020,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n10.dc41b954cb6d365f.part01.bin",
+          "bytes": 188020,
+          "sha256": "dc41b954cb6d365f3317a0c24e2ae082ad09044bb7a0f4500a7f8d7076e84e46"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "4bf5d1ec70511ef19cc95936b58093254d137bdf37ff58b2b950e882f6fe29be",
+      "gzip_bytes": 132881,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n15.4bf5d1ec70511ef1.part01.bin",
+          "bytes": 132881,
+          "sha256": "4bf5d1ec70511ef19cc95936b58093254d137bdf37ff58b2b950e882f6fe29be"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "ef664512c6483096e342b4999774084f1ccf3ca2202c60e06aa73107677afa18",
+      "gzip_bytes": 103725,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_benchmark_exclude_net_rent_before_personal_interest_n20.ef664512c6483096.part01.bin",
+          "bytes": 103725,
+          "sha256": "ef664512c6483096e342b4999774084f1ccf3ca2202c60e06aa73107677afa18"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_benchmark_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2f8e19e45de3c333eae7956896f40d6109d56e44e2d5f76ebcbf737e776256a5",
+      "gzip_bytes": 3588525,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_benchmark_n0.2f8e19e45de3c333.part01.bin",
+          "bytes": 3588525,
+          "sha256": "2f8e19e45de3c333eae7956896f40d6109d56e44e2d5f76ebcbf737e776256a5"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_benchmark_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "098e5738aeb0e9d5800bc209b4e109d1237cbda8c7a4efbd67706701e8e49642",
+      "gzip_bytes": 1879205,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_benchmark_n5.098e5738aeb0e9d5.part01.bin",
+          "bytes": 1879205,
+          "sha256": "098e5738aeb0e9d5800bc209b4e109d1237cbda8c7a4efbd67706701e8e49642"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_benchmark_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0ce3a9cae00e0ae1e89a6a0a056a8e70e1a47d87090172053f8e86fd91d2a326",
+      "gzip_bytes": 1074614,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_benchmark_n10.0ce3a9cae00e0ae1.part01.bin",
+          "bytes": 1074614,
+          "sha256": "0ce3a9cae00e0ae1e89a6a0a056a8e70e1a47d87090172053f8e86fd91d2a326"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_benchmark_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "6c4a0fd256b1263d4c28cf9071e4b63fe57b4a45f9a8289d79a174bf512dd4db",
+      "gzip_bytes": 748875,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_benchmark_n15.6c4a0fd256b1263d.part01.bin",
+          "bytes": 748875,
+          "sha256": "6c4a0fd256b1263d4c28cf9071e4b63fe57b4a45f9a8289d79a174bf512dd4db"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_benchmark_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_benchmark_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "6744073a54f355e6925b1f3f8c5a94588ce509c401009b9235141ab960b1b60f",
+      "gzip_bytes": 577625,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_benchmark_n20.6744073a54f355e6.part01.bin",
+          "bytes": 577625,
+          "sha256": "6744073a54f355e6925b1f3f8c5a94588ce509c401009b9235141ab960b1b60f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "5f8f584c2d71d6db5c4ff843ca6c829f5935feca38e7db5b3a902df9af32c02d",
+      "gzip_bytes": 648084,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n0.5f8f584c2d71d6db.part01.bin",
+          "bytes": 648084,
+          "sha256": "5f8f584c2d71d6db5c4ff843ca6c829f5935feca38e7db5b3a902df9af32c02d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b5550d3de24543afaa2f626b742eb1896e68f3bbbf0f7e6009cc066913ff2aea",
+      "gzip_bytes": 344255,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n5.b5550d3de24543af.part01.bin",
+          "bytes": 344255,
+          "sha256": "b5550d3de24543afaa2f626b742eb1896e68f3bbbf0f7e6009cc066913ff2aea"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "a015e38521bddbd9e413425deedde8fc84195191d0e6fc5293193f3a51c76d70",
+      "gzip_bytes": 198420,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n10.a015e38521bddbd9.part01.bin",
+          "bytes": 198420,
+          "sha256": "a015e38521bddbd9e413425deedde8fc84195191d0e6fc5293193f3a51c76d70"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "ce55cd3577d17aa67fcb3daa026a3ba62ab99ab765dce306aa2fdbb8ef5858ce",
+      "gzip_bytes": 139051,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n15.ce55cd3577d17aa6.part01.bin",
+          "bytes": 139051,
+          "sha256": "ce55cd3577d17aa67fcb3daa026a3ba62ab99ab765dce306aa2fdbb8ef5858ce"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "07157a952dfbee23ed2d86ebac353d1e958533af1dfdd932ddc12a39ea5df461",
+      "gzip_bytes": 107746,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_before_personal_interest_n20.07157a952dfbee23.part01.bin",
+          "bytes": 107746,
+          "sha256": "07157a952dfbee23ed2d86ebac353d1e958533af1dfdd932ddc12a39ea5df461"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "9a559daf3e4aba4d40559ae1d227a37749b36c2dd816e249429e13a4fcc8312f",
+      "gzip_bytes": 628335,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n0.9a559daf3e4aba4d.part01.bin",
+          "bytes": 628335,
+          "sha256": "9a559daf3e4aba4d40559ae1d227a37749b36c2dd816e249429e13a4fcc8312f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "9177a57b4063ff05cf3e0deecf1c914b82a8da2a1c58729426c608890c07377a",
+      "gzip_bytes": 331372,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n5.9177a57b4063ff05.part01.bin",
+          "bytes": 331372,
+          "sha256": "9177a57b4063ff05cf3e0deecf1c914b82a8da2a1c58729426c608890c07377a"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "d5e4e9767d9581d46a801066b2fb88b0982d78c19a43fd0ecc4ab84ef5029530",
+      "gzip_bytes": 189818,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n10.d5e4e9767d9581d4.part01.bin",
+          "bytes": 189818,
+          "sha256": "d5e4e9767d9581d46a801066b2fb88b0982d78c19a43fd0ecc4ab84ef5029530"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "3e300818bf787ebc509049ee4ac5da6aaca2dd945ea3db410661399b03c9ac20",
+      "gzip_bytes": 132574,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n15.3e300818bf787ebc.part01.bin",
+          "bytes": 132574,
+          "sha256": "3e300818bf787ebc509049ee4ac5da6aaca2dd945ea3db410661399b03c9ac20"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "54b3f65af689531d1bf051c8d36fb0647c8437bc661058744603686740739f81",
+      "gzip_bytes": 102183,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_n20.54b3f65af689531d.part01.bin",
+          "bytes": 102183,
+          "sha256": "54b3f65af689531d1bf051c8d36fb0647c8437bc661058744603686740739f81"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "04878a4dc0cb87fb3fec1f8f91cabccbb69ed4abcb089e512cf8ed44b53ed443",
+      "gzip_bytes": 598172,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n0.04878a4dc0cb87fb.part01.bin",
+          "bytes": 598172,
+          "sha256": "04878a4dc0cb87fb3fec1f8f91cabccbb69ed4abcb089e512cf8ed44b53ed443"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "8c105679725aa288eb8420725c1b5fe9e5ce16ec4e91f72696282162b9b07825",
+      "gzip_bytes": 323117,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n5.8c105679725aa288.part01.bin",
+          "bytes": 323117,
+          "sha256": "8c105679725aa288eb8420725c1b5fe9e5ce16ec4e91f72696282162b9b07825"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "a024c2046ba93aa20e0f99a22508e3ac4e5fce46ce0f8b12746aec00ffc20956",
+      "gzip_bytes": 188472,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n10.a024c2046ba93aa2.part01.bin",
+          "bytes": 188472,
+          "sha256": "a024c2046ba93aa20e0f99a22508e3ac4e5fce46ce0f8b12746aec00ffc20956"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "99bb2f4a7aeb11aad4a9d9a773beaa366fed26bd23d04ee59c0ffe87c8439e9c",
+      "gzip_bytes": 133157,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n15.99bb2f4a7aeb11aa.part01.bin",
+          "bytes": 133157,
+          "sha256": "99bb2f4a7aeb11aad4a9d9a773beaa366fed26bd23d04ee59c0ffe87c8439e9c"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "266ba58e343d18bbd086eebc3db728bc57cd27ebdee48f0835176c12f17b7341",
+      "gzip_bytes": 103957,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_networth_val_bp_exclude_net_rent_before_personal_interest_n20.266ba58e343d18bb.part01.bin",
+          "bytes": 103957,
+          "sha256": "266ba58e343d18bbd086eebc3db728bc57cd27ebdee48f0835176c12f17b7341"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b5731f39639f0d4e96c0fcf980b81b55b8633530064ddf4e49f525f8d4c68ab1",
+      "gzip_bytes": 3513027,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n0.b5731f39639f0d4e.part01.bin",
+          "bytes": 3513027,
+          "sha256": "b5731f39639f0d4e96c0fcf980b81b55b8633530064ddf4e49f525f8d4c68ab1"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "dc792ef372ca76a0afa43b002d9ac6361c1f6bdb26ff6b47106af3b3e780e495",
+      "gzip_bytes": 2407265,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n5.dc792ef372ca76a0.part01.bin",
+          "bytes": 2407265,
+          "sha256": "dc792ef372ca76a0afa43b002d9ac6361c1f6bdb26ff6b47106af3b3e780e495"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "1fc77ca1f53d34e4139345f42f2631fa151df67e4455577a9e5e66c7f15b0088",
+      "gzip_bytes": 1360560,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n10.1fc77ca1f53d34e4.part01.bin",
+          "bytes": 1360560,
+          "sha256": "1fc77ca1f53d34e4139345f42f2631fa151df67e4455577a9e5e66c7f15b0088"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "439e795680f26f3668baf55ea8a3f195f1b02cd17d6ebca991e0a074ba189f23",
+      "gzip_bytes": 961326,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n15.439e795680f26f36.part01.bin",
+          "bytes": 961326,
+          "sha256": "439e795680f26f3668baf55ea8a3f195f1b02cd17d6ebca991e0a074ba189f23"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b50b2f2b7bde1b476618b88a43d26c95a54c9105c2e34cf00bc815f5a8a0b194",
+      "gzip_bytes": 749939,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_benchmark_n20.b50b2f2b7bde1b47.part01.bin",
+          "bytes": 749939,
+          "sha256": "b50b2f2b7bde1b476618b88a43d26c95a54c9105c2e34cf00bc815f5a8a0b194"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c53cb0a8f723cc096a55f5b31e008b770d0780cda5a4da8371a008371b6a1b9c",
+      "gzip_bytes": 645180,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n0.c53cb0a8f723cc09.part01.bin",
+          "bytes": 645180,
+          "sha256": "c53cb0a8f723cc096a55f5b31e008b770d0780cda5a4da8371a008371b6a1b9c"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "bb138c815ca9bc6d71ff9b93870f17702c9bda490a62bc119e29d6d2a755d72a",
+      "gzip_bytes": 457606,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n5.bb138c815ca9bc6d.part01.bin",
+          "bytes": 457606,
+          "sha256": "bb138c815ca9bc6d71ff9b93870f17702c9bda490a62bc119e29d6d2a755d72a"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c60a30c2deebfc0a4f914a926783c5b586983a95bcdbb0e41c2cc49ca5e8c9f0",
+      "gzip_bytes": 260789,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n10.c60a30c2deebfc0a.part01.bin",
+          "bytes": 260789,
+          "sha256": "c60a30c2deebfc0a4f914a926783c5b586983a95bcdbb0e41c2cc49ca5e8c9f0"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "63ae7df2651e3aa1210143f58fad74d6e47c083fa60615a91ba33b8b95cfc386",
+      "gzip_bytes": 186208,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n15.63ae7df2651e3aa1.part01.bin",
+          "bytes": 186208,
+          "sha256": "63ae7df2651e3aa1210143f58fad74d6e47c083fa60615a91ba33b8b95cfc386"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "96d4ecdcce4a53acc4651c0d4cc3bfc5151f4c334621e5f1c701d6abc5310aad",
+      "gzip_bytes": 146261,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_before_personal_interest_n20.96d4ecdcce4a53ac.part01.bin",
+          "bytes": 146261,
+          "sha256": "96d4ecdcce4a53acc4651c0d4cc3bfc5151f4c334621e5f1c701d6abc5310aad"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "dfa781e7234646f55db42579e60657384a14c2eca7a8314486549998c8ef5f8f",
+      "gzip_bytes": 634004,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n0.dfa781e7234646f5.part01.bin",
+          "bytes": 634004,
+          "sha256": "dfa781e7234646f55db42579e60657384a14c2eca7a8314486549998c8ef5f8f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2fab7c09e9e8a70da5e712c8f5630f9f34773d9168570301cdbd526e6c96d238",
+      "gzip_bytes": 447849,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n5.2fab7c09e9e8a70d.part01.bin",
+          "bytes": 447849,
+          "sha256": "2fab7c09e9e8a70da5e712c8f5630f9f34773d9168570301cdbd526e6c96d238"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "bd0390ee0684f100a8a4a47473e2d1e36d25a7d63dc5896980498c4cd3dfdb82",
+      "gzip_bytes": 252994,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n10.bd0390ee0684f100.part01.bin",
+          "bytes": 252994,
+          "sha256": "bd0390ee0684f100a8a4a47473e2d1e36d25a7d63dc5896980498c4cd3dfdb82"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "36130e679f398e1366277538e739a770f6b020f9cf2cf3d93e6d17835f69567f",
+      "gzip_bytes": 179655,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n15.36130e679f398e13.part01.bin",
+          "bytes": 179655,
+          "sha256": "36130e679f398e1366277538e739a770f6b020f9cf2cf3d93e6d17835f69567f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "1f6f680e677696380ef45ab72bb7504f39ec03cd32e90431e014b66f58b9989e",
+      "gzip_bytes": 141098,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_n20.1f6f680e67769638.part01.bin",
+          "bytes": 141098,
+          "sha256": "1f6f680e677696380ef45ab72bb7504f39ec03cd32e90431e014b66f58b9989e"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "7f6537e8dac862e3f06427fcb36b5ce8b6c0dd6a0816f56e37adf80c19fa577a",
+      "gzip_bytes": 596092,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n0.7f6537e8dac862e3.part01.bin",
+          "bytes": 596092,
+          "sha256": "7f6537e8dac862e3f06427fcb36b5ce8b6c0dd6a0816f56e37adf80c19fa577a"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "f426f84d3d0ec251c55441336b8ace363ef20be3d31d03afcaa49c1127c96c1e",
+      "gzip_bytes": 427632,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n5.f426f84d3d0ec251.part01.bin",
+          "bytes": 427632,
+          "sha256": "f426f84d3d0ec251c55441336b8ace363ef20be3d31d03afcaa49c1127c96c1e"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "35353fe48a29fe80b22b5e6653ab65fc493355597a21431f6e625e3bb2901efd",
+      "gzip_bytes": 246088,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n10.35353fe48a29fe80.part01.bin",
+          "bytes": 246088,
+          "sha256": "35353fe48a29fe80b22b5e6653ab65fc493355597a21431f6e625e3bb2901efd"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "5b45ba8e94cb115c31bc829b3e1d209775a39655cbb7105d76c9db6555899ebf",
+      "gzip_bytes": 176972,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n15.5b45ba8e94cb115c.part01.bin",
+          "bytes": 176972,
+          "sha256": "5b45ba8e94cb115c31bc829b3e1d209775a39655cbb7105d76c9db6555899ebf"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2c65b4fe9e1ce013ce6c4f8da2bc364483121c486ba6b8077f828529e56459c6",
+      "gzip_bytes": 139643,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_benchmark_exclude_net_rent_before_personal_interest_n20.2c65b4fe9e1ce013.part01.bin",
+          "bytes": 139643,
+          "sha256": "2c65b4fe9e1ce013ce6c4f8da2bc364483121c486ba6b8077f828529e56459c6"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_benchmark_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b2a97ada75deb1fdb73dc1932594c23f7445734aabefffc7a27820119dceb0fe",
+      "gzip_bytes": 3649120,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_benchmark_n0.b2a97ada75deb1fd.part01.bin",
+          "bytes": 3649120,
+          "sha256": "b2a97ada75deb1fdb73dc1932594c23f7445734aabefffc7a27820119dceb0fe"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_benchmark_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "ca88f3de16dc79063f3fc1b1109db9ce75e61b72c691b4516e071aca8408350b",
+      "gzip_bytes": 2506848,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_benchmark_n5.ca88f3de16dc7906.part01.bin",
+          "bytes": 2506848,
+          "sha256": "ca88f3de16dc79063f3fc1b1109db9ce75e61b72c691b4516e071aca8408350b"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_benchmark_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "1194b3d6cc8e5a8272e5e08350e3127767a1244aa87f3ea90bf1f6530f4ce029",
+      "gzip_bytes": 1421459,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_benchmark_n10.1194b3d6cc8e5a82.part01.bin",
+          "bytes": 1421459,
+          "sha256": "1194b3d6cc8e5a8272e5e08350e3127767a1244aa87f3ea90bf1f6530f4ce029"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_benchmark_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "78cbbd42e77431732d2e4aa26d5472d497e3a64d416998bc2b66e5fecc9af851",
+      "gzip_bytes": 1003156,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_benchmark_n15.78cbbd42e7743173.part01.bin",
+          "bytes": 1003156,
+          "sha256": "78cbbd42e77431732d2e4aa26d5472d497e3a64d416998bc2b66e5fecc9af851"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_benchmark_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_benchmark_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "d64f0f29bf98b57d7d7ed7a4d5cbbd274aaa3815d49bbcb5fcd147b7ccd2f696",
+      "gzip_bytes": 780571,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_benchmark_n20.d64f0f29bf98b57d.part01.bin",
+          "bytes": 780571,
+          "sha256": "d64f0f29bf98b57d7d7ed7a4d5cbbd274aaa3815d49bbcb5fcd147b7ccd2f696"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "9b6f088d534338c6b9a83d61e53ce7b17e3758e7fcbb0fe98dd6f0f9ad7c415d",
+      "gzip_bytes": 651785,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n0.9b6f088d534338c6.part01.bin",
+          "bytes": 651785,
+          "sha256": "9b6f088d534338c6b9a83d61e53ce7b17e3758e7fcbb0fe98dd6f0f9ad7c415d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "f0873b05c6b1798b3f28492bc6717d6c20b76869623cdd2692a1c328050b3b48",
+      "gzip_bytes": 458794,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n5.f0873b05c6b1798b.part01.bin",
+          "bytes": 458794,
+          "sha256": "f0873b05c6b1798b3f28492bc6717d6c20b76869623cdd2692a1c328050b3b48"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "15e82dc897652731c523b7f6ab159bd5146c4c12d1a242387442d20f550abed0",
+      "gzip_bytes": 261881,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n10.15e82dc897652731.part01.bin",
+          "bytes": 261881,
+          "sha256": "15e82dc897652731c523b7f6ab159bd5146c4c12d1a242387442d20f550abed0"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "a8158ebf94ebb9a38dfda7dd4198cac9d49aa2bab0f527b0e86260ab410b4c54",
+      "gzip_bytes": 186514,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n15.a8158ebf94ebb9a3.part01.bin",
+          "bytes": 186514,
+          "sha256": "a8158ebf94ebb9a38dfda7dd4198cac9d49aa2bab0f527b0e86260ab410b4c54"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "ccb70e7e474b2f4207a4833563cf2783000418f7ee1e47bc34ea797fdaeed298",
+      "gzip_bytes": 146256,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_before_personal_interest_n20.ccb70e7e474b2f42.part01.bin",
+          "bytes": 146256,
+          "sha256": "ccb70e7e474b2f4207a4833563cf2783000418f7ee1e47bc34ea797fdaeed298"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "eaaff0aa89596b48733b7cbd9eaa5fc55aeea150a63caf786acc398cc315ef80",
+      "gzip_bytes": 638522,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n0.eaaff0aa89596b48.part01.bin",
+          "bytes": 638522,
+          "sha256": "eaaff0aa89596b48733b7cbd9eaa5fc55aeea150a63caf786acc398cc315ef80"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "33f64996730f192b79f842bae6301923d63f231495b02cef8696e3910eba511d",
+      "gzip_bytes": 448189,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n5.33f64996730f192b.part01.bin",
+          "bytes": 448189,
+          "sha256": "33f64996730f192b79f842bae6301923d63f231495b02cef8696e3910eba511d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "a312b981fa22768b3e2fd3f68b805ae8bfd4cd0c9cda39b1e59272cd5eec243d",
+      "gzip_bytes": 254788,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n10.a312b981fa22768b.part01.bin",
+          "bytes": 254788,
+          "sha256": "a312b981fa22768b3e2fd3f68b805ae8bfd4cd0c9cda39b1e59272cd5eec243d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b940ad3642fb1a18e092fa802d4b40d7b523cab4c2a9fa29c48c9c8d4286ff98",
+      "gzip_bytes": 180775,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n15.b940ad3642fb1a18.part01.bin",
+          "bytes": 180775,
+          "sha256": "b940ad3642fb1a18e092fa802d4b40d7b523cab4c2a9fa29c48c9c8d4286ff98"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "3e578fb3d3a0d36f4b727995d2e8fb2d795d02fee45fe2b4a228e989f8613544",
+      "gzip_bytes": 141103,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_n20.3e578fb3d3a0d36f.part01.bin",
+          "bytes": 141103,
+          "sha256": "3e578fb3d3a0d36f4b727995d2e8fb2d795d02fee45fe2b4a228e989f8613544"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "ba578ebd24eaa7143850000410d41736a20c341ee0177b7af39b18d706bfbeb1",
+      "gzip_bytes": 605003,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n0.ba578ebd24eaa714.part01.bin",
+          "bytes": 605003,
+          "sha256": "ba578ebd24eaa7143850000410d41736a20c341ee0177b7af39b18d706bfbeb1"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0d73e97ec2ec8f77eb326285a84a1087c04f4c9e5d23a3596b890fa4ce0ba2f8",
+      "gzip_bytes": 431265,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n5.0d73e97ec2ec8f77.part01.bin",
+          "bytes": 431265,
+          "sha256": "0d73e97ec2ec8f77eb326285a84a1087c04f4c9e5d23a3596b890fa4ce0ba2f8"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "74d4d1190ef71a41055a62d525176963ba9bb4dc6fafae2a9dccc937081494f9",
+      "gzip_bytes": 248913,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n10.74d4d1190ef71a41.part01.bin",
+          "bytes": 248913,
+          "sha256": "74d4d1190ef71a41055a62d525176963ba9bb4dc6fafae2a9dccc937081494f9"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2c5b7f3fb13d436d3ffcacc7e67544ddfdbaa05ab6921b3c6686f7ff72c487fb",
+      "gzip_bytes": 179092,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n15.2c5b7f3fb13d436d.part01.bin",
+          "bytes": 179092,
+          "sha256": "2c5b7f3fb13d436d3ffcacc7e67544ddfdbaa05ab6921b3c6686f7ff72c487fb"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "df022148b7fcdd859188fb413e2b4b16f88ef06008924d8a5d2abfd5c1b0dc5d",
+      "gzip_bytes": 140980,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_income_bp_exclude_net_rent_before_personal_interest_n20.df022148b7fcdd85.part01.bin",
+          "bytes": 140980,
+          "sha256": "df022148b7fcdd859188fb413e2b4b16f88ef06008924d8a5d2abfd5c1b0dc5d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "3be37a144eb695b160f91594deeb7dd1aa1a6a8f6af15ea3a3272bb4ecde7434",
+      "gzip_bytes": 3000951,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n0.3be37a144eb695b1.part01.bin",
+          "bytes": 3000951,
+          "sha256": "3be37a144eb695b160f91594deeb7dd1aa1a6a8f6af15ea3a3272bb4ecde7434"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2e8f9c740214d240c86f6f6608a62ae4ca58719e10238b75742ef3a19123111b",
+      "gzip_bytes": 2555353,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n5.2e8f9c740214d240.part01.bin",
+          "bytes": 2555353,
+          "sha256": "2e8f9c740214d240c86f6f6608a62ae4ca58719e10238b75742ef3a19123111b"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "a6990f86c03bf772954a4a820279184ff2fd1e810566c68945808a8fad005f57",
+      "gzip_bytes": 2230312,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n10.a6990f86c03bf772.part01.bin",
+          "bytes": 2230312,
+          "sha256": "a6990f86c03bf772954a4a820279184ff2fd1e810566c68945808a8fad005f57"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "d9a9eb0f1c296f83bba8d81d8103130c30b0c1852c8c9b9d560785ae1da2f613",
+      "gzip_bytes": 1747664,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n15.d9a9eb0f1c296f83.part01.bin",
+          "bytes": 1747664,
+          "sha256": "d9a9eb0f1c296f83bba8d81d8103130c30b0c1852c8c9b9d560785ae1da2f613"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "51c59316c79cd986c68def9698d4f2d5aea744a7e87e8a893a1890f55afaccaa",
+      "gzip_bytes": 1407042,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_benchmark_benchmark_n20.51c59316c79cd986.part01.bin",
+          "bytes": 1407042,
+          "sha256": "51c59316c79cd986c68def9698d4f2d5aea744a7e87e8a893a1890f55afaccaa"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "e9f730664e4a5097e011281e2b91327ea7d9a567cd53f1598823a95c27b0098f",
+      "gzip_bytes": 3323142,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n0.e9f730664e4a5097.part01.bin",
+          "bytes": 3323142,
+          "sha256": "e9f730664e4a5097e011281e2b91327ea7d9a567cd53f1598823a95c27b0098f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0f5ba9fadfcafecee4cccebb4e6c33fbb39c1cbfca5654aea6385e60acfcc173",
+      "gzip_bytes": 2850033,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n5.0f5ba9fadfcafece.part01.bin",
+          "bytes": 2850033,
+          "sha256": "0f5ba9fadfcafecee4cccebb4e6c33fbb39c1cbfca5654aea6385e60acfcc173"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "1a8cf272d6ff82519cdc9930b85d4e8d3503c14fdc28342f72dfc2032ddb126a",
+      "gzip_bytes": 2487079,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n10.1a8cf272d6ff8251.part01.bin",
+          "bytes": 2487079,
+          "sha256": "1a8cf272d6ff82519cdc9930b85d4e8d3503c14fdc28342f72dfc2032ddb126a"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "884664d7f5d3bb7cd217f1dfa07c1a7ee74070a3c7e9439e86c68da77cc997ea",
+      "gzip_bytes": 1952304,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n15.884664d7f5d3bb7c.part01.bin",
+          "bytes": 1952304,
+          "sha256": "884664d7f5d3bb7cd217f1dfa07c1a7ee74070a3c7e9439e86c68da77cc997ea"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b976b639f9873a8285e65ecb8080df61284c5be20153c743670c6de2de2e7478",
+      "gzip_bytes": 1567280,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_labor_income_bp_benchmark_n20.b976b639f9873a82.part01.bin",
+          "bytes": 1567280,
+          "sha256": "b976b639f9873a8285e65ecb8080df61284c5be20153c743670c6de2de2e7478"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "7ccc7e91b1bfd8125cfad851ee0b51e5f9ff75865e6d9bd90dd895d049288fa6",
+      "gzip_bytes": 3217375,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n0.7ccc7e91b1bfd812.part01.bin",
+          "bytes": 3217375,
+          "sha256": "7ccc7e91b1bfd8125cfad851ee0b51e5f9ff75865e6d9bd90dd895d049288fa6"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "ac4093c2a9cc159176af62acc8e7ff1ec3430c1cd5a73c5a4b589187a3d469d2",
+      "gzip_bytes": 2449820,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n5.ac4093c2a9cc1591.part01.bin",
+          "bytes": 2449820,
+          "sha256": "ac4093c2a9cc159176af62acc8e7ff1ec3430c1cd5a73c5a4b589187a3d469d2"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "e83bc3a96823f4cc0e908d4fe1f47f3846ad862746400449c69e114633476d18",
+      "gzip_bytes": 1390742,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n10.e83bc3a96823f4cc.part01.bin",
+          "bytes": 1390742,
+          "sha256": "e83bc3a96823f4cc0e908d4fe1f47f3846ad862746400449c69e114633476d18"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "816ecb8fec3251d205bf7b732bc70f30e7f27c5992efec674e14a324889cb32e",
+      "gzip_bytes": 1008679,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n15.816ecb8fec3251d2.part01.bin",
+          "bytes": 1008679,
+          "sha256": "816ecb8fec3251d205bf7b732bc70f30e7f27c5992efec674e14a324889cb32e"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "45434a1f64f6de1aaa2ab09a99cb4ee68b904ec365bbe91520639e445528aeaf",
+      "gzip_bytes": 789304,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_before_personal_interest_n20.45434a1f64f6de1a.part01.bin",
+          "bytes": 789304,
+          "sha256": "45434a1f64f6de1aaa2ab09a99cb4ee68b904ec365bbe91520639e445528aeaf"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2e69a9e656abc6066e8a77c2f3d41d541d4b6ac36f903759e38e8f1675f30e13",
+      "gzip_bytes": 3218259,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n0.2e69a9e656abc606.part01.bin",
+          "bytes": 3218259,
+          "sha256": "2e69a9e656abc6066e8a77c2f3d41d541d4b6ac36f903759e38e8f1675f30e13"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "48ec53d19d95f90a81391e1b9b4321756923032f15c8b4125edd072dbe4ba1d6",
+      "gzip_bytes": 2493960,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n5.48ec53d19d95f90a.part01.bin",
+          "bytes": 2493960,
+          "sha256": "48ec53d19d95f90a81391e1b9b4321756923032f15c8b4125edd072dbe4ba1d6"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0f775bb02ef978a57360d014d44645f8ea28f01f6bc39cd6693ad8cc5f374e4d",
+      "gzip_bytes": 1417139,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n10.0f775bb02ef978a5.part01.bin",
+          "bytes": 1417139,
+          "sha256": "0f775bb02ef978a57360d014d44645f8ea28f01f6bc39cd6693ad8cc5f374e4d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "3a6ddada090d48b11cbaedd8511d08b18f75e4dc03edf0a383fdd7aab85b862b",
+      "gzip_bytes": 1025768,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n15.3a6ddada090d48b1.part01.bin",
+          "bytes": 1025768,
+          "sha256": "3a6ddada090d48b11cbaedd8511d08b18f75e4dc03edf0a383fdd7aab85b862b"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c320c8f7220f21a865eb38ce8fe19d004034e560064fe6bb910d1b2b74ef98a9",
+      "gzip_bytes": 802935,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_benchmark_n20.c320c8f7220f21a8.part01.bin",
+          "bytes": 802935,
+          "sha256": "c320c8f7220f21a865eb38ce8fe19d004034e560064fe6bb910d1b2b74ef98a9"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "cae1673927fe562b34e53d38b734e633ea4e7146c328ae639baf23dcc1756b94",
+      "gzip_bytes": 3136933,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n0.cae1673927fe562b.part01.bin",
+          "bytes": 3136933,
+          "sha256": "cae1673927fe562b34e53d38b734e633ea4e7146c328ae639baf23dcc1756b94"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "fee9f479490ecffd3614af138934d2d3f67a2a833f2bb54866f90abccaa7b268",
+      "gzip_bytes": 2343266,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n5.fee9f479490ecffd.part01.bin",
+          "bytes": 2343266,
+          "sha256": "fee9f479490ecffd3614af138934d2d3f67a2a833f2bb54866f90abccaa7b268"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "a02c3848212022827f871da2c2a47a72877d82fa6443f8365c9e5eff21c9ad92",
+      "gzip_bytes": 1356825,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n10.a02c384821202282.part01.bin",
+          "bytes": 1356825,
+          "sha256": "a02c3848212022827f871da2c2a47a72877d82fa6443f8365c9e5eff21c9ad92"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b34b67cfe941f3c6f911da6a5496c26d089b54583ab328e6adf3b210052fb370",
+      "gzip_bytes": 998985,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n15.b34b67cfe941f3c6.part01.bin",
+          "bytes": 998985,
+          "sha256": "b34b67cfe941f3c6f911da6a5496c26d089b54583ab328e6adf3b210052fb370"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "4f16c4e8e4f44d229de03cca1cd664c80d71647b04ee385573de09d3b1fb9ed8",
+      "gzip_bytes": 778022,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_n20.4f16c4e8e4f44d22.part01.bin",
+          "bytes": 778022,
+          "sha256": "4f16c4e8e4f44d229de03cca1cd664c80d71647b04ee385573de09d3b1fb9ed8"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c144c0a08dbe8ce4c8d8970198791ad954b2dcf01186ad5211d486d7f0a95702",
+      "gzip_bytes": 3104024,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n0.c144c0a08dbe8ce4.part01.bin",
+          "bytes": 3104024,
+          "sha256": "c144c0a08dbe8ce4c8d8970198791ad954b2dcf01186ad5211d486d7f0a95702"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2ba5a3e77d10bd761c2c7151f44ad83a7954f9af4f1bbe38d2eb5abad2f8f0d5",
+      "gzip_bytes": 2199529,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n5.2ba5a3e77d10bd76.part01.bin",
+          "bytes": 2199529,
+          "sha256": "2ba5a3e77d10bd761c2c7151f44ad83a7954f9af4f1bbe38d2eb5abad2f8f0d5"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "e017e602c97add5e302c0ba48235b10ce4938fa355523961d17cc83c34113cee",
+      "gzip_bytes": 1315078,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n10.e017e602c97add5e.part01.bin",
+          "bytes": 1315078,
+          "sha256": "e017e602c97add5e302c0ba48235b10ce4938fa355523961d17cc83c34113cee"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "65d6786e97fa731670cf8c30cc262a086d60e2dadfaf789282845288452c94c5",
+      "gzip_bytes": 964147,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n15.65d6786e97fa7316.part01.bin",
+          "bytes": 964147,
+          "sha256": "65d6786e97fa731670cf8c30cc262a086d60e2dadfaf789282845288452c94c5"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "dde4bafdf78c79fec274202b5d82c1be43eb7e173f3101f4e0d8263dfde1993c",
+      "gzip_bytes": 759779,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_benchmark_exclude_net_rent_before_personal_interest_n20.dde4bafdf78c79fe.part01.bin",
+          "bytes": 759779,
+          "sha256": "dde4bafdf78c79fec274202b5d82c1be43eb7e173f3101f4e0d8263dfde1993c"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "8d390a1c77e9b4dc821122f5a2ecf6b219fdbb392a8122a1854159003e103531",
+      "gzip_bytes": 3341590,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n0.8d390a1c77e9b4dc.part01.bin",
+          "bytes": 3341590,
+          "sha256": "8d390a1c77e9b4dc821122f5a2ecf6b219fdbb392a8122a1854159003e103531"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "139b9a8d64f450c48e4f80dd76812de5bb2090619d6ef80876fd7bbad5fd4ad8",
+      "gzip_bytes": 2565892,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n5.139b9a8d64f450c4.part01.bin",
+          "bytes": 2565892,
+          "sha256": "139b9a8d64f450c48e4f80dd76812de5bb2090619d6ef80876fd7bbad5fd4ad8"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2098710c292e65ffb4dcf4db4bbdfed9cbfb07358b1584832b7bdc51b603a9d0",
+      "gzip_bytes": 1455198,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n10.2098710c292e65ff.part01.bin",
+          "bytes": 1455198,
+          "sha256": "2098710c292e65ffb4dcf4db4bbdfed9cbfb07358b1584832b7bdc51b603a9d0"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "fb8a3f6066ae0ade622d938a95c3a4e3d22ac67714e0b9095da8023de65800c0",
+      "gzip_bytes": 1052645,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n15.fb8a3f6066ae0ade.part01.bin",
+          "bytes": 1052645,
+          "sha256": "fb8a3f6066ae0ade622d938a95c3a4e3d22ac67714e0b9095da8023de65800c0"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "c00a70919b05f595f934912393849691efe4c7f062f14b2cf359c84697bc24b1",
+      "gzip_bytes": 825919,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_before_personal_interest_n20.c00a70919b05f595.part01.bin",
+          "bytes": 825919,
+          "sha256": "c00a70919b05f595f934912393849691efe4c7f062f14b2cf359c84697bc24b1"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "d27691d8dd13f50b39674d04f4348a00b67b678348634fe6e36af74dee8d067f",
+      "gzip_bytes": 3352398,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n0.d27691d8dd13f50b.part01.bin",
+          "bytes": 3352398,
+          "sha256": "d27691d8dd13f50b39674d04f4348a00b67b678348634fe6e36af74dee8d067f"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "93ef013480cb0f10b95916fd000752c358bf482f05c94d35a41e0bbe0937ed8b",
+      "gzip_bytes": 2586295,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n5.93ef013480cb0f10.part01.bin",
+          "bytes": 2586295,
+          "sha256": "93ef013480cb0f10b95916fd000752c358bf482f05c94d35a41e0bbe0937ed8b"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "74ab94434cf8d1534817c3dfaae289d5cd12f007d7dbbf524d6d887d231e06c2",
+      "gzip_bytes": 1468231,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n10.74ab94434cf8d153.part01.bin",
+          "bytes": 1468231,
+          "sha256": "74ab94434cf8d1534817c3dfaae289d5cd12f007d7dbbf524d6d887d231e06c2"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "39f3b0c911957ffb84a9c213af09df59a7d165ac653089d00f452f3ebccfa795",
+      "gzip_bytes": 1070170,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n15.39f3b0c911957ffb.part01.bin",
+          "bytes": 1070170,
+          "sha256": "39f3b0c911957ffb84a9c213af09df59a7d165ac653089d00f452f3ebccfa795"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "71156c31e88203cb6d3632327c3b06e1b5d89d895211d207f8e6124b35ea60ee",
+      "gzip_bytes": 837932,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_benchmark_n20.71156c31e88203cb.part01.bin",
+          "bytes": 837932,
+          "sha256": "71156c31e88203cb6d3632327c3b06e1b5d89d895211d207f8e6124b35ea60ee"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "2710c9c910d41fbb3fb57e464fb1cd97debd614d1a387bd8d5ba05b1f87ba127",
+      "gzip_bytes": 3263902,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n0.2710c9c910d41fbb.part01.bin",
+          "bytes": 3263902,
+          "sha256": "2710c9c910d41fbb3fb57e464fb1cd97debd614d1a387bd8d5ba05b1f87ba127"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "191231849036e3353cd755a1d6f7c61e16cd12bada82f94d81c4052e61cc121d",
+      "gzip_bytes": 2443428,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n5.191231849036e335.part01.bin",
+          "bytes": 2443428,
+          "sha256": "191231849036e3353cd755a1d6f7c61e16cd12bada82f94d81c4052e61cc121d"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "ce9971bc9aa598710812b2c7cbaceb92f2ef920f1a25c848120106c42a481cb4",
+      "gzip_bytes": 1411729,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n10.ce9971bc9aa59871.part01.bin",
+          "bytes": 1411729,
+          "sha256": "ce9971bc9aa598710812b2c7cbaceb92f2ef920f1a25c848120106c42a481cb4"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "148f6fafd28d5737f3b38cbd008e1b8e521b98d94f191b363de81033ea492d12",
+      "gzip_bytes": 1032182,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n15.148f6fafd28d5737.part01.bin",
+          "bytes": 1032182,
+          "sha256": "148f6fafd28d5737f3b38cbd008e1b8e521b98d94f191b363de81033ea492d12"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "450a50abfdc33668ad8a25dc41260eec81dd0a9abd4bbf64d42b3895a5d22235",
+      "gzip_bytes": 806456,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_n20.450a50abfdc33668.part01.bin",
+          "bytes": 806456,
+          "sha256": "450a50abfdc33668ad8a25dc41260eec81dd0a9abd4bbf64d42b3895a5d22235"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n0",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n0\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n0\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "b6b6234ed229a9550c2f38afe5d3f58ae7f9a69f452eb9328b28e97f69740c26",
+      "gzip_bytes": 3233511,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n0.b6b6234ed229a955.part01.bin",
+          "bytes": 3233511,
+          "sha256": "b6b6234ed229a9550c2f38afe5d3f58ae7f9a69f452eb9328b28e97f69740c26"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n5",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n5\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n5\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "d3bae30dc50aa7c00e76ca170ba7b06883ba4cc8e96c26bd7aa183318a63c079",
+      "gzip_bytes": 2295419,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n5.d3bae30dc50aa7c0.part01.bin",
+          "bytes": 2295419,
+          "sha256": "d3bae30dc50aa7c00e76ca170ba7b06883ba4cc8e96c26bd7aa183318a63c079"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n10",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n10\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n10\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "4e2ef47fca662bcccd886cc5788ee15ac853889c8df30eae17413b78a966c626",
+      "gzip_bytes": 1374149,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n10.4e2ef47fca662bcc.part01.bin",
+          "bytes": 1374149,
+          "sha256": "4e2ef47fca662bcccd886cc5788ee15ac853889c8df30eae17413b78a966c626"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n15",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n15\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n15\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "43e76df0ede5243ca2d43d7223d8a7e09563680ffd9206a098adac45aa994294",
+      "gzip_bytes": 1006038,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n15.43e76df0ede5243c.part01.bin",
+          "bytes": 1006038,
+          "sha256": "43e76df0ede5243ca2d43d7223d8a7e09563680ffd9206a098adac45aa994294"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n20",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n20\" data-explorer-block=\"bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n20\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "0e3ad2cf05d667f3d2871dde378ed8145344b04b3d3d5c2e061b59ee2a096271",
+      "gzip_bytes": 791765,
+      "parts": [
+        {
+          "path": "data/bins_CEX_Meyer_extended_total_capital_income_bp_exclude_net_rent_before_personal_interest_n20.0e3ad2cf05d667f3.part01.bin",
+          "bytes": 791765,
+          "sha256": "0e3ad2cf05d667f3d2871dde378ed8145344b04b3d3d5c2e061b59ee2a096271"
         }
       ]
     }

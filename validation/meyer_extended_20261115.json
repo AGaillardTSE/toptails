@@ -1,0 +1,153 @@
+{
+  "summary_other_datasets_unchanged": true,
+  "tail_curves_other_datasets_unchanged": true,
+  "bivariate_other_datasets_unchanged": true,
+  "status": "PASS",
+  "summary_cells": 2282,
+  "curves": 2282,
+  "lossless_loglog_groups": 92505,
+  "lossless_loglog_rows": 6504983,
+  "all_non_CEX_data_entries_unchanged": true,
+  "composition_contracts": 18,
+  "historical_scope_verified": true,
+  "lazy_CEX_blocks": true,
+  "source_validation": {
+    "status": "PASS",
+    "summary_cells": 2282,
+    "curves": 2282,
+    "benchmark_wave_counts": {
+      "raw": 44,
+      "adj": 34,
+      "full": 29
+    },
+    "core": {
+      "status": "PASS",
+      "years": [
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "summary_cells": 2282,
+      "independent_summary_checks": 1218,
+      "independent_control_checks": 1972,
+      "max_summary_relative_error": 7.105427357601002e-14,
+      "max_control_relative_error": 4.7763656796380966e-15,
+      "modern_archive_groups": 40,
+      "modern_archive_max_raw_relative_error": 3.0508196758998803e-15,
+      "modern_archive_max_component_error": 0,
+      "age": "20\u201380",
+      "positive_food": true,
+      "vehicle_service_missing": "zero",
+      "legacy_files_untouched": true
+    },
+    "payloads": {
+      "status": "PASS",
+      "loglog_files": [
+        {
+          "file": "CEX_networth_val_grid01.json.gz",
+          "rows": 975167,
+          "groups": 15199
+        },
+        {
+          "file": "CEX_total_capital_income_grid01.json.gz",
+          "rows": 3353208,
+          "groups": 45896
+        },
+        {
+          "file": "CEX_total_income_grid01.json.gz",
+          "rows": 1156138,
+          "groups": 13603
+        },
+        {
+          "file": "CEX_total_labor_income_grid01.json.gz",
+          "rows": 1020470,
+          "groups": 17807
+        }
+      ],
+      "loglog_rows": 6504983,
+      "loglog_audit_requests": 780,
+      "eyeballing_profiles": 12000,
+      "native_visible_markers": 2741516,
+      "duplicate_marker_levels": 0,
+      "source_coefficient_checks": 5802,
+      "max_coefficient_relative_error": 2.21870234987294e-16,
+      "max_common_grid_average_error": 4.440892098500626e-16,
+      "marker_audit_requests": 216,
+      "preserved_archive_files": 66
+    },
+    "composition": {
+      "status": "PASS",
+      "contracts": 18,
+      "max_identity_error": 4.0978e-08
+    },
+    "loglog_raw_audit": {
+      "status": "PASS",
+      "checks": 780,
+      "max_relative_error": 4.433330162476441e-16,
+      "method": "Independent direct raw-value interval inequalities, sorted weighted-CDF medians, actual distinct consumer-unit counts and equal-wave aggregation; CEX has one source sample per cell."
+    },
+    "marker_raw_audits": 216,
+    "max_marker_probability_error": 1.38777878078145e-15,
+    "official_food_mapping": {
+      "status": "PASS",
+      "source": "https://www.bls.gov/cex/pumd/errata/errata-2023.htm",
+      "official_rule": "80percent store groceries UCC790210 plus100percent trip groceries UCC190904; alcohol separately counted",
+      "independent_family_check": "80percent of GROCERYPQ/CQ total plus20percent of independently observed trip groceries",
+      "family_summary_max_absolute_error": 7.275957614183426e-12,
+      "existing_PSID_food_ex_alcohol_max_absolute_error": 0,
+      "updated_2023_summary_max_absolute_difference": 7.275957614183426e-12,
+      "n_records": 18435,
+      "n_home_positive": 18276,
+      "n_analysis": 17068,
+      "home_mean": 7465.453036163973,
+      "v1_was_held_unpublished": true
+    },
+    "unchanged_earlier_years": {
+      "status": "PASS",
+      "preserved_literal_counts": {
+        "summary": 2204,
+        "tail_curves": 2204,
+        "decomposition": 736,
+        "eyeballing_earlier_wave_profiles": 11208,
+        "previous_public_files_unchanged": 20
+      }
+    }
+  },
+  "corrected_food_package": "Meyer_extended_food_fix_2026_11_15",
+  "held_first_version_not_published": true,
+  "renderer_native_markers_all_profiles": 12000,
+  "performance_strategy": "130 lazy relationship blocks split by rank, housing, capital definition and bin minimum; no materialization of the whole source rank file.",
+  "browser_checks": [
+    "CEX 2024 quantiles: three adjustment stages and both housing methods",
+    "CEX 2024 total-income\u2192capital at minimum 10",
+    "CEX 1996\u20132024 average total-income\u2192capital and wealth\u2192capital at minima 0/15",
+    "Construction & Sample BLS update link verified",
+    "Prior unchanged historical-year, composition and levels checks retained; final source audits cover refreshed data"
+  ]
+}
