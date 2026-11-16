@@ -240,6 +240,8 @@
 
 .primary-tabs .tab-nav-inner{gap:24px;align-items:stretch}.primary-tabs .tab-button{flex:0 0 auto;line-height:1.35}.primary-tabs #tab-definitions{max-width:190px;white-space:normal}.primary-tabs #tab-adjustments{max-width:218px;white-space:normal}
 
+.plot-subtitle .subtitle-tab-link{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
 #panel-other .other-card-heading>h2{margin:0}
 #panel-other #cc-summary-note{padding-top:10px}
 #panel-other .average-row{background:#f3f4f3;font-weight:500}
@@ -2103,15 +2105,24 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
     datasets.push(...(referenceController?.datasets(s)||[]));
     (referenceController?.plotted(s)||[]).forEach(row=>timeRows.push({survey:row.survey,wave:row.year,observation_year:SeriesYears.period(row).year,observation_period:SeriesYears.period(row).label,year_basis:SeriesYears.period(row).basis,adjustment:'Standalone reference: '+row.author_variant,variable:row.variable,variable_label:row.source_label,indicator:s.metric,method:row.method,threshold:row.threshold_rule,estimate:row.estimate,pareto_estimate:isParetoMetric(s.metric)?row.pareto_estimate??row.estimate:null,wealth_pareto_estimate:row.wealth_pareto_estimate??null,threshold_quantile:row.threshold_quantile,ks:row.ks,n_tail:row.n_tail??null,tail_unit_type:row.unit||META.surveys?.[row.survey]?.tail_unit||'',author_variant:row.author_variant,capital_income_definition:row.capital_income_definition||'',source_definition:row.source_definition}));
     $('time-chart-title').textContent=metricLabel();
-    const weightingLabel=s.adjustment==='full'?[selected.has('PSID')?(selected.has('CEX_BM_RECON')?'PSID: ':'')+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]:'',selected.has('CEX_BM_RECON')?'CEX: SCF housing values':''].filter(Boolean).join(' · '):'';
-    $('time-chart-subtitle').textContent=[isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'',weightingLabel].filter(Boolean).join(' · ');
+    const shownHouseholds=new Set(datasets.map(dataset=>dataset.survey).filter(survey=>['PSID','CEX_BM_RECON','SCF'].includes(survey))),adjustmentLabels=[];
+    if(s.adjustment==='full'){
+      if(shownHouseholds.has('PSID'))adjustmentLabels.push('PSID: reporting rescaling + '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]);
+      if(shownHouseholds.has('CEX_BM_RECON'))adjustmentLabels.push('CEX: reporting rescaling + SCF housing weights');
+      if(shownHouseholds.has('SCF'))adjustmentLabels.push('SCF: reporting rescaling only');
+    }else if(shownHouseholds.size){
+      const names=['PSID','CEX_BM_RECON','SCF'].filter(survey=>shownHouseholds.has(survey)).map(survey=>surveyName(survey)).join(', ');
+      adjustmentLabels.push(names+': '+(s.adjustment==='adj'?'reporting rescaling only':'raw data'));
+    }
+    const subtitle=$('time-chart-subtitle');subtitle.replaceChildren(document.createTextNode([isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'',...adjustmentLabels].filter(Boolean).join(' · ')));
+    if(shownHouseholds.size){const link=document.createElement('a');link.className='subtitle-tab-link';link.href='#panel-adjustments';link.textContent='Survey Adjustments';link.addEventListener('click',event=>{event.preventDefault();tab('adjustments');});subtitle.append(' (see ',link,' for details)');}
     $('time-empty').hidden=!!datasets.length;$('time-empty').textContent=s.variables.size?'No comparable results for this selection.':'Select at least one measure.';
     $('download-time-csv').disabled=!timeRows.length;$('download-time-png').disabled=!datasets.length;
     $('time-variant').value=bmOriginalOnly&&selected.size===1&&selected.has('CEX_BM')?'original':s.adjustment;syncMainCapabilities();
     const notes=[];
     if(housing.method==='bp')notes.push('Homeowner services use the constant housing-value-rate version. Only computed or verified equivalent housing definitions are shown.');
-    if(weighting.method==='irs_income')notes.push('PSID fully adjusted results use IRS income weights.');
-    if(weighting.method==='scf_wealth')notes.push('PSID fully adjusted results use SCF wealth weights.');
+    if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='irs_income')notes.push('PSID fully adjusted results use IRS income weights.');
+    if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='scf_wealth')notes.push('PSID fully adjusted results use SCF wealth weights.');
     if(isParetoMetric(s.metric)&&s.threshold==='ks')notes.push('Each coefficient uses its own KS-selected threshold.');
     if(s.metric==='pareto_wealth_ratio')notes.push('Each value divides the selected variable’s Pareto coefficient by the wealth coefficient from the same survey, wave and adjustment stage; wealth equals 1.');
     if(s.variables.has('spending')&&selected.has('SCF')){const rows=SUMMARY.filter(row=>row.survey==='SCF'&&row.variable===spendingKey(s.measure)&&row.variant===variantFor('SCF'));if(!rows.some(row=>FINITE(metricValue(row))))notes.push('Consumption is unavailable in SCF for this adjustment.');}
