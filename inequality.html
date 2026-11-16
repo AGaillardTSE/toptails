@@ -206,7 +206,9 @@
 .weighting-scope-note,.capability-note,.consumption-variable-note,.sidebar .custom-threshold-note{font-size:12px}
 .budget-definitions .definition-intro{font:400 14px/1.75 Arial,sans-serif}
 
-.header-resources{gap:18px}.header-bibtex{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;background:transparent;color:#c8ccd4;border:1px solid #596477;border-radius:5px;padding:5px 9px;font:400 13px/1.5 Arial,sans-serif;cursor:pointer}.header-bibtex:hover{color:#fff;border-color:#969eae}.header-bibtex:focus-visible{outline:2px solid #d993ae;outline-offset:4px}@media(max-width:760px){.header-resources{padding-left:0;justify-content:space-between;gap:12px}}
+.header-resources{gap:18px}.header-citation{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;background:transparent;color:#c8ccd4;border:1px solid #596477;border-radius:5px;padding:5px 9px;font:400 13px/1.5 Arial,sans-serif;cursor:pointer}.header-citation:hover{color:#fff;border-color:#969eae}.header-citation:focus-visible{outline:2px solid #d993ae;outline-offset:4px}@media(max-width:760px){.header-resources{padding-left:0;justify-content:space-between;gap:12px}}
+
+.citation-format{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:24px 0 14px;font:600 14px/1.5 Arial,sans-serif;color:#4b5d70}.citation-format select{min-width:180px;max-width:100%;min-height:40px;padding:8px 34px 8px 11px;border:1px solid #d9dddf;border-radius:5px;background-color:#fffefa;color:#263a53;font:400 14px/1.5 Arial,sans-serif}
 
 #panel-other .other-card-heading>h2{margin:0}
 #panel-other #cc-summary-note{padding-top:10px}
@@ -284,7 +286,7 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
 </head>
 <body>
 <a class="skip-link" href="#panel-inequality">Skip to the charts</a>
-<header class="masthead"><div class="masthead-inner"><a class="brand" href="./index.html"><span class="brand-zeta" aria-hidden="true">ζ</span><span class="brand-name">Upper-Tail Inequality: Consumption, Income, and Wealth<span class="data-version">Data v1</span></span></a><nav class="header-resources" aria-label="Paper, appendix and citation"><a class="paper-link" href="https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&amp;dl=0" target="_blank" rel="noopener noreferrer">Paper <span aria-hidden="true">↗</span></a><span class="header-resource-placeholder" role="link" aria-disabled="true">Online appendix <small>(coming soon)</small></span><button class="header-bibtex" type="button" data-citation-trigger>BibTeX</button></nav></div></header>
+<header class="masthead"><div class="masthead-inner"><a class="brand" href="./index.html"><span class="brand-zeta" aria-hidden="true">ζ</span><span class="brand-name">Upper-Tail Inequality: Consumption, Income, and Wealth<span class="data-version">Data v1</span></span></a><nav class="header-resources" aria-label="Paper, appendix and citation"><a class="paper-link" href="https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&amp;dl=0" target="_blank" rel="noopener noreferrer">Paper <span aria-hidden="true">↗</span></a><span class="header-resource-placeholder" role="link" aria-disabled="true">Online appendix <small>(coming soon)</small></span><button class="header-citation" type="button" data-citation-trigger>Citation</button></nav></div></header>
 <main class="shell">
   <div class="title-row"><h1>Upper-tail <em>inequality</em></h1></div>
   <nav id="primary-nav" class="tabs primary-tabs" role="tablist" aria-label="Explorer sections"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">US upper-tail inequality</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Cross-country comparison</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Methodology</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></nav><nav id="us-secondary-nav" class="secondary-nav cc-subnav" aria-label="US views"><div class="secondary-nav-inner" role="tablist" aria-label="US views"><button class="secondary-tab active" type="button" id="tab-inequality" data-tab="inequality" role="tab" aria-selected="true" aria-controls="panel-inequality">Tails over time</button><button class="secondary-tab" type="button" id="tab-quantiles" data-tab="quantiles" role="tab" aria-selected="false" aria-controls="panel-quantiles">Estimates by quantile</button><button class="secondary-tab" type="button" id="tab-results" data-tab="results" role="tab" aria-selected="false" aria-controls="panel-results">Table of results</button><button class="secondary-tab" type="button" id="tab-loglog" data-tab="loglog" role="tab" aria-selected="false" aria-controls="panel-loglog">Log–log relationships</button><button class="secondary-tab" type="button" id="tab-eyeballing" data-tab="eyeballing" role="tab" aria-selected="false" aria-controls="panel-eyeballing">Eyeballing</button><div class="global-housing-control"><label class="small-check"><input type="checkbox" id="constant-housing-service">Results using constant housing service for homeowners</label></div></div></nav>
@@ -831,35 +833,49 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 if(typeof module!=='undefined'&&module.exports)module.exports=SeriesYears;
 
 (() => {
+  const authors=[['Gaillard','Alexandre'],['Hellwig','Christian'],['Wangner','Philipp'],['Werquin','Nicolas']];
+  const title='Consumption, Wealth, and Income Inequality: A Tale of Tails',year='2026',url='https://uppertaildata.com/';
+  const formats={
+    bibtex:{label:'BibTeX',extension:'bib',mime:'application/x-bibtex',text:`@unpublished{GaillardHellwigWangnerWerquin2026,
+  author = {Gaillard, Alexandre and Hellwig, Christian and
+            Wangner, Philipp and Werquin, Nicolas},
+  title  = {${title}},
+  year   = {${year}},
+  note   = {Working paper},
+  url    = {${url}}
+}`},
+    endnote:{label:'EndNote',extension:'enw',mime:'text/plain',text:['%0 Unpublished Work',...authors.map(([last,first])=>'%A '+last+', '+first),'%D '+year,'%T '+title,'%9 Working paper','%U '+url].join('\n')},
+    refer:{label:'Refer/BibIX',extension:'refer',mime:'text/plain',text:[...authors.map(([last,first])=>'%A '+first+' '+last),'%T '+title,'%D '+year,'%O Working paper','%U '+url].join('\n')},
+    ris:{label:'RIS',extension:'ris',mime:'application/x-research-info-systems',text:['TY  - UNPB',...authors.map(([last,first])=>'AU  - '+last+', '+first),'TI  - '+title,'PY  - '+year,'N1  - Working paper','UR  - '+url,'ER  -'].join('\n')},
+    tsv:{label:'Tab-Delimited',extension:'tsv',mime:'text/tab-separated-values',text:[['Reference Type','Author','Year','Title','URL'].join('\t'),['Working paper',authors.map(([last,first])=>last+', '+first).join('; '),year,title,url].join('\t')].join('\n')}
+  };
+  if(typeof module!=='undefined'&&module.exports)module.exports=formats;
+  if(typeof document==='undefined')return;
   const trigger=document.querySelector('[data-citation-trigger]');
   if(!trigger)return;
   const paperURL='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';
-  const bibtex=`@unpublished{GaillardHellwigWangnerWerquin2026,
-  author = {Gaillard, Alexandre and Hellwig, Christian and
-            Wangner, Philipp and Werquin, Nicolas},
-  title  = {Consumption, Wealth, and Income Inequality: A Tale of Tails},
-  year   = {2026},
-  note   = {Working paper},
-  url    = {https://uppertaildata.com/}
-}`;
   const dialog=document.createElement('dialog');
   dialog.className='citation-dialog';dialog.id='paper-citation-dialog';
   dialog.setAttribute('aria-labelledby','paper-citation-title');
-  dialog.innerHTML='<form method="dialog" class="citation-close-form"><button class="text-button" aria-label="Close citation">Close</button></form><p class="citation-kicker">Reference</p><h2 id="paper-citation-title">Citation</h2><p class="paper-citation">Gaillard, A., Hellwig, C., Wangner, P., and Werquin, N. (2026). “<cite>Consumption, Wealth, and Income Inequality: A Tale of Tails.</cite>” <a class="citation-paper-link" target="_blank" rel="noopener noreferrer">Working paper.</a></p><h3>BibTeX</h3><pre tabindex="0" aria-label="Paper citation in BibTeX"><code></code></pre><div class="citation-actions"><button class="text-button" type="button" data-copy-bibtex>Copy BibTeX</button><button class="text-button" type="button" data-download-bibtex>Download .bib</button><span class="citation-status" role="status" aria-live="polite"></span></div>';
+  dialog.innerHTML='<form method="dialog" class="citation-close-form"><button class="text-button" aria-label="Close citation">Close</button></form><p class="citation-kicker">Reference</p><h2 id="paper-citation-title">Citation</h2><p class="paper-citation">Gaillard, A., Hellwig, C., Wangner, P., and Werquin, N. (2026). “<cite>Consumption, Wealth, and Income Inequality: A Tale of Tails.</cite>” <a class="citation-paper-link" target="_blank" rel="noopener noreferrer">Working paper.</a></p><label class="citation-format">Format<select aria-label="Citation format"></select></label><pre tabindex="0"><code></code></pre><div class="citation-actions"><button class="text-button" type="button" data-copy-citation></button><button class="text-button" type="button" data-download-citation></button><span class="citation-status" role="status" aria-live="polite"></span></div>';
   dialog.querySelector('.citation-paper-link').href=paperURL;
-  const code=dialog.querySelector('code'),status=dialog.querySelector('.citation-status');
-  code.textContent=bibtex;document.body.append(dialog);
+  const select=dialog.querySelector('select'),code=dialog.querySelector('code'),status=dialog.querySelector('.citation-status'),copy=dialog.querySelector('[data-copy-citation]'),download=dialog.querySelector('[data-download-citation]');
+  for(const [key,format] of Object.entries(formats))select.add(new Option(format.label,key));
+  const current=()=>formats[select.value];
+  function render(){const format=current();code.textContent=format.text;code.parentElement.setAttribute('aria-label','Paper citation in '+format.label);copy.textContent='Copy '+format.label;download.textContent='Download .'+format.extension;status.textContent='';}
+  select.addEventListener('change',render);render();document.body.append(dialog);
   trigger.setAttribute('aria-haspopup','dialog');trigger.setAttribute('aria-controls',dialog.id);
   trigger.addEventListener('click',()=>{status.textContent='';dialog.showModal();});
   dialog.addEventListener('close',()=>trigger.focus());
   dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();});
-  dialog.querySelector('[data-copy-bibtex]').addEventListener('click',async()=>{
-    try{await navigator.clipboard.writeText(bibtex);status.textContent='BibTeX copied.';}
-    catch{const range=document.createRange();range.selectNodeContents(code);const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);status.textContent='BibTeX selected. Use your copy shortcut.';}
+  copy.addEventListener('click',async()=>{
+    const format=current();
+    try{await navigator.clipboard.writeText(format.text);if(current()===format)status.textContent=format.label+' copied.';}
+    catch{if(current()!==format)return;const range=document.createRange();range.selectNodeContents(code);const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);status.textContent=format.label+' selected. Use your copy shortcut.';}
   });
-  dialog.querySelector('[data-download-bibtex]').addEventListener('click',()=>{
-    const url=URL.createObjectURL(new Blob([bibtex+'\n'],{type:'application/x-bibtex;charset=utf-8'})),link=document.createElement('a');
-    link.href=url;link.download='Gaillard-Hellwig-Wangner-Werquin-2026.bib';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  download.addEventListener('click',()=>{
+    const format=current(),downloadURL=URL.createObjectURL(new Blob([format.text+'\n'],{type:format.mime+';charset=utf-8'})),link=document.createElement('a');
+    link.href=downloadURL;link.download='Gaillard-Hellwig-Wangner-Werquin-2026.'+format.extension;link.click();setTimeout(()=>URL.revokeObjectURL(downloadURL),1000);
   });
 })();
 
