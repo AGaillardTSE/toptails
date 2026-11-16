@@ -4,7 +4,9 @@ function initUSReferencePoints(metadata,{getCapitalVariant=()=> 'dina_2022_incl_
   const labels={YODLEE:'Yodlee (bank data)',NIELSEN:'NielsenIQ',FORBES:'Forbes',SAEZ_ZUCMAN:'Saez–Zucman (DINA)'},sources=[...new Set(points.map(r=>r.survey))].filter(Boolean);
   const exactKey=r=>[r.survey,r.year,r.variable,r.author_variant].join('|'),simpleKey=r=>[r.survey,r.year,r.variable].join('|'),index=new Map(curves.map(c=>[exactKey(c),c])),simpleIndex=new Map(curves.map(c=>[simpleKey(c),c]));
   const curveFor=row=>index.get(exactKey(row))||(row.survey==='FORBES'?simpleIndex.get(simpleKey(row)):null);
-  const selectedDefinition=row=>row.survey!=='SAEZ_ZUCMAN'||row.variable!=='total_capital_income'||row.author_variant===getCapitalVariant();
+  const selectedDefinitionFor=(row,variant)=>row.survey!=='SAEZ_ZUCMAN'||row.variable!=='total_capital_income'||row.author_variant===variant;
+  const selectedDefinition=row=>selectedDefinitionFor(row,getCapitalVariant());
+  const timeCapitalVariant=metadata.saez_zucman_reference?.capital_income_definitions?.including_fiscal_gains?.author_variant||'dina_2022_incl_gains';
   const supportsMetric=(survey,metric)=>(metadata.surveys?.[survey]?.available_metrics||['pareto']).includes(metric);
   const hasVariable=(survey,variable)=>points.some(row=>row.survey===survey&&row.variable===variable&&selectedDefinition(row));
   function addCurves(rows){rows.forEach(c=>{const key=exactKey(c),j=curves.findIndex(row=>exactKey(row)===key);if(j<0)curves.push(c);else curves[j]=c;index.set(key,c);simpleIndex.set(simpleKey(c),c);});}
@@ -32,15 +34,15 @@ function initUSReferencePoints(metadata,{getCapitalVariant=()=> 'dina_2022_incl_
     const wealth=seed?at(seed,row.method,rule,q):null,value=wealth?.estimate;
     return {...row,wealth_pareto_estimate:value??null,tail_to_wealth:finite(row.estimate)&&finite(value)&&value>0?row.estimate/value:null};
   }
-  function selected(state,{defaults=true}={}){
+  function selected(state,{defaults=true,capitalVariant=getCapitalVariant()}={}){
     const rule=state.threshold,q=rule==='custom'?state.customQ:Number(rule?.slice(1))/100,chosen=new Map();
-    points.filter(p=>selectedDefinition(p)&&(p.survey==='SAEZ_ZUCMAN'||!defaults||p.default_reference)).map(p=>at(p,state.method,rule,q)||(!defaults&&p.survey==='SAEZ_ZUCMAN'&&p.method===state.method?{...p,estimate:null,threshold_rule:rule,threshold_quantile:q,ks:null,n_tail:null}:null)).filter(Boolean).forEach(p=>chosen.set([exactKey(p),p.method,p.threshold_rule,p.threshold_quantile].join('|'),withWealth(p,state)));
+    points.filter(p=>selectedDefinitionFor(p,capitalVariant)&&(p.survey==='SAEZ_ZUCMAN'||!defaults||p.default_reference)).map(p=>at(p,state.method,rule,q)||(!defaults&&p.survey==='SAEZ_ZUCMAN'&&p.method===state.method?{...p,estimate:null,threshold_rule:rule,threshold_quantile:q,ks:null,n_tail:null}:null)).filter(Boolean).forEach(p=>chosen.set([exactKey(p),p.method,p.threshold_rule,p.threshold_quantile].join('|'),withWealth(p,state)));
     return [...chosen.values()];
   }
   function plotted(state){
     const variable={flow:'consump_def1',expenditure:'expenditure',expenditure_incl_rent:'expenditure',food_total:'food_total',vacation:'vacation'}[state.measure];
-    const annual=new Map();if(!['pareto','pareto_wealth_ratio'].includes(state.metric))points.filter(selectedDefinition).forEach(p=>{if(finite(p[state.metric]))annual.set([p.survey,p.year,p.variable,p.author_variant].join('|'),{...p,estimate:p[state.metric],pareto_estimate:null,method:'not_applicable',threshold_rule:'not_applicable',threshold_quantile:null,ks:null,n_tail:null});});
-    return (['pareto','pareto_wealth_ratio'].includes(state.metric)?selected(state):[...annual.values()]).filter(p=>state.overlays.has(p.survey.toLowerCase())&&supportsMetric(p.survey,state.metric)).filter(p=>p.survey==='SAEZ_ZUCMAN'?state.variables.has(p.variable):p.survey==='FORBES'?state.variables.has('networth_val')&&p.variable==='networth_val':state.variables.has('spending')&&variable&&((p.survey==='NIELSEN'&&state.measure==='food_total')||p.variable===variable)).map(p=>state.metric==='pareto_wealth_ratio'?{...p,pareto_estimate:p.estimate,estimate:p.tail_to_wealth}:p).filter(p=>finite(p.estimate));
+    const annual=new Map();if(!['pareto','pareto_wealth_ratio'].includes(state.metric))points.filter(p=>selectedDefinitionFor(p,timeCapitalVariant)).forEach(p=>{if(finite(p[state.metric]))annual.set([p.survey,p.year,p.variable,p.author_variant].join('|'),{...p,estimate:p[state.metric],pareto_estimate:null,method:'not_applicable',threshold_rule:'not_applicable',threshold_quantile:null,ks:null,n_tail:null});});
+    return (['pareto','pareto_wealth_ratio'].includes(state.metric)?selected(state,{capitalVariant:timeCapitalVariant}):[...annual.values()]).filter(p=>state.overlays.has(p.survey.toLowerCase())&&supportsMetric(p.survey,state.metric)).filter(p=>p.survey==='SAEZ_ZUCMAN'?state.variables.has(p.variable):p.survey==='FORBES'?state.variables.has('networth_val')&&p.variable==='networth_val':state.variables.has('spending')&&variable&&((p.survey==='NIELSEN'&&state.measure==='food_total')||p.variable===variable)).map(p=>state.metric==='pareto_wealth_ratio'?{...p,pareto_estimate:p.estimate,estimate:p.tail_to_wealth}:p).filter(p=>finite(p.estimate));
   }
   const pointLabel=row=>[row.source_category,row.source_label].filter(Boolean).join(' · ');
   function datasets(state){

@@ -19,18 +19,18 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
 
 .dc-adjustment-nav .dc-nav-group{display:flex;align-items:center;flex-wrap:wrap;gap:0 20px;max-width:100%}
 .dc-adjustment-nav .dc-nav-group-label{font-weight:700;color:#455267;border:0;padding:0;margin:0;white-space:normal}
-.dc-adjustment-nav .dc-nav-procedure{position:relative;border:0;padding-inline:22px}
-.dc-adjustment-nav .dc-nav-procedure:before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);height:24px;border-left:1px solid #dedbd5}
-.dc-adjustment-nav .dc-nav-procedure:after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);height:24px;border-left:1px solid #dedbd5}
-.dc-adjustment-nav .dc-nav-correspondence{position:relative;padding-left:22px}
-.dc-adjustment-nav .dc-nav-correspondence:before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);height:24px;border-left:1px solid #dedbd5}
-@media(max-width:760px){.dc-adjustment-nav .secondary-nav-inner{overflow-x:visible;white-space:normal}.dc-adjustment-nav .dc-nav-group{gap:0 15px}.dc-adjustment-nav .dc-nav-group-label{flex-basis:100%;padding-top:12px}.dc-adjustment-nav .dc-nav-procedure{margin-block:8px}}
+.dc-adjustment-nav .dc-nav-correspondence,.dc-adjustment-nav .dc-nav-estimation{position:relative;padding-left:18px}
+.dc-adjustment-nav .dc-nav-correspondence:before,.dc-adjustment-nav .dc-nav-estimation:before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);height:24px;border-left:1px solid #dedbd5}
+.dc-adjustment-nav .dc-nav-results-divider{color:#7a7c84}
+.dc-adjustment-nav .secondary-nav-inner{column-gap:8px}
+.dc-adjustment-nav .dc-nav-group{column-gap:8px}
+@media(max-width:760px){.dc-adjustment-nav .secondary-nav-inner{overflow-x:visible;white-space:normal}.dc-adjustment-nav .dc-nav-group{gap:0 15px}.dc-adjustment-nav .dc-nav-group-label{flex-basis:100%;padding-top:12px}}
 .dc-visual-procedure .dc-mini-legend,.dc-visual-procedure .dc-mini-caption,.dc-visual-procedure .dc-mini-label{font:400 14px/1.7 Arial,sans-serif}.dc-visual-procedure .dc-step-visual{height:auto;min-height:190px}.dc-visual-procedure .dc-operation-step{font-size:14px}
 .dc-visual-procedure .operation-equation{display:flex;align-items:center;justify-content:center;padding:16px 12px;min-height:108px}.dc-visual-procedure .operation-equation math{font-family:math;font-size:23px;margin:0}.dc-visual-procedure .fixed-point-operation>.operation-description{width:100%;max-width:none;text-align:justify}
 #data-sources-panel>.source-heading{margin-bottom:8px}#data-sources-panel>.dc-toolbar{padding-top:0;padding-bottom:16px}
 .dc-visual-procedure .method-content,.dc-visual-procedure .psid-adjustments{width:100%;max-width:none;margin:0}.dc-visual-procedure .dc-operation-step{margin-bottom:6px}.dc-visual-procedure .fixed-point-operation>.dc-dependency-note{margin:0 0 20px;padding:0;border:0;min-height:0}
 .source-reference-group{margin:0 0 24px}.source-reference-group h3{font:600 16px/1.5 Arial,sans-serif;color:#344b64;margin:0 0 12px}.source-reference-list{margin:0;padding-left:20px;font:400 14px/1.75 Arial,sans-serif}.source-reference-list li+li{margin-top:12px}.source-reference-list a{color:#355f87;text-underline-offset:3px}
-.dc-adjustment-nav .dc-nav-procedure:first-child{padding-left:0}.dc-adjustment-nav .dc-nav-procedure:first-child:before{display:none}
+
 .dc-visual-procedure .dc-step-visual{height:auto;min-height:0}.dc-visual-procedure .fixed-point-operation h3{margin-top:12px}.dc-visual-procedure .dc-mini-legend span:first-child{flex:0 0 auto}.dc-visual-procedure .dc-mini-legend span:last-child{max-width:70%;text-align:right}.dc-visual-procedure .dc-rescale-row:last-child{margin-bottom:0}
 .operation-formal-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;margin:0 0 20px}.dc-visual-procedure .operation-formal-row>p{font:400 14px/1.7 Arial,sans-serif;color:#57687b;margin:0}.dc-visual-procedure .operation-formal-row .operation-equation{margin:0;min-height:0;padding:12px}
 @media(max-width:420px){.operation-formal-row{grid-template-columns:1fr}.dc-visual-procedure .operation-formal-row .operation-equation{justify-content:flex-start}}
