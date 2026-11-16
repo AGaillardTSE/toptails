@@ -129,7 +129,7 @@
   const pct = x => FINITE(x) ? num(100*x,1)+'%' : '—';
   // Author's series_cols in PSID/0_PSID_final_figures.R.
   const COLORS = {spending:'#477EAD',total_labor_income:'#BF5555',total_capital_income:'#C4A12A',total_income:'#A96F4B',networth_val:'#4D8B69'};
-  const KEYS = ['spending','total_labor_income','total_capital_income','networth_val'];
+  const KEYS = ['spending','total_labor_income','total_capital_income','networth_val','total_income'];
   const LABELS = {total_labor_income:'Labor income',total_capital_income:'Capital income',total_income:'Total income',networth_val:'Net worth'};
   const ADJ = {raw:'Raw data',adj:'Rescaled',full:'Fully adjusted'};
   const adjustmentLabel=row=>isCEX(row.survey)&&row.variable==='networth_val'&&row.variant==='full'&&!ALL_SUMMARY.some(value=>value.survey===row.survey&&value.variable==='networth_val'&&value.variant==='adj'&&housingMethod(value)===housingMethod(row))?'Income reweighted':row.survey==='SCF'&&row.variant==='adj'?'Rescaled':row.variant==='original'?'Original B&M construction':ADJ[row.variant]||row.variant;
@@ -149,7 +149,7 @@
   ];
   const hiddenSpending=new Set(['food_home','food_away','food_housing','food_housing_vehicle']);
   const spendingOptions=(Array.isArray(META.spending_options)?META.spending_options:FALLBACK_SPENDING).filter(option=>!hiddenSpending.has(option.key)&&(SUMMARY.some(r=>r.variable===option.key)||BINS.some(r=>r.yvar===option.key)));
-  const s = {cexIncome:false,tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS)};
+  const s = {cexIncome:false,tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS.filter(key=>key!=='total_income'))};
   const r = {survey:'psid',datasets:new Set(['PSID']),yodleeVariant:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95};
   const b = {primary:'psid',overlays:new Set(),adjustment:'full',measure:'flow',pair:'wealth_consumption',wave:'average',scfWave:'average',dinaWave:'average',autoSCF:false,cexWave:'latest',reconWave:'latest',bmWave:'latest',stat:'mean',minN:10,excludeNetRent:false,beforePersonalInterest:false,traces:false,scale:'loglog',fit:'ols'};
   let eyeController,definitionsController,timeChart,bivChart,otherController,adjustmentController,thresholdController,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality',profileSurvey='PSID';
@@ -157,14 +157,14 @@
   const BIVARIATE_SURVEYS=new Set([...BIN_AVAILABILITY.map(row=>row.survey),...(META.relationship_blocks||[]).map(scope=>scope.survey)]),hasCorrectedCEXBins=BIVARIATE_SURVEYS.has('CEX_BM_RECON');
   const surveyChoices=()=>['psid','scf',...(ALL_SUMMARY.some(row=>row.survey==='CEX_BM_RECON')?['cex_bm_recon']:[])];
   const bivariateSurveyChoices=()=>['psid','scf','cex_bm_recon','saez_zucman'].filter(survey=>BIVARIATE_SURVEYS.has(survey.toUpperCase()));
-  const mainOverlayChoices=()=>[...surveyChoices(),...(referenceController?.sources||[]).map(x=>x.toLowerCase())];
+  const mainOverlayChoices=()=>{const choices=[...surveyChoices(),...(referenceController?.sources||[]).map(x=>x.toLowerCase())],order=['psid','cex_bm_recon','scf','yodlee','nielsen','forbes'];return [...order.filter(key=>choices.includes(key)),...choices.filter(key=>!order.includes(key))];};
   const surveyName=survey=>survey.toUpperCase()==='YODLEE'?'Yodlee (bank data)':survey.toUpperCase()==='CEX_BM_RECON'?'CEX':survey.toUpperCase()==='CEX'&&hasCorrectedCEXBins?'CEX (previous construction)':META.surveys?.[survey.toUpperCase()]?.label||(survey.toUpperCase()==='CEX_BM'?'CEX B&M':referenceController?.labels[survey.toUpperCase()]||survey.toUpperCase());
   const SURVEY_TOOLTIPS={
     PSID:'Panel Study of Income Dynamics: longitudinal U.S. household panel covering consumption, income, and wealth.',
     SCF:'Survey of Consumer Finances: triennial U.S. household survey designed to measure household finances and oversample wealthy families.',
     CEX:'Consumer Expenditure Interview Survey: consumer-unit interviews covering spending, income, and partial wealth.',
     CEX_BM:'Authors’ supplied CEX B&M reference series, retained unchanged.',
-    CEX_BM_RECON:'Consumer Expenditure Interview Survey (CEX), using the Meyer–Sullivan consumption construction and public extension. Consumption and partial wealth are shown by default. Public-use income components are poorly reported at the top: topcoding severely biases upper-tail estimates. In Tails over time, Show income enables these optional estimates. Representation uses SCF primary-home values and nonownership.',
+    CEX_BM_RECON:'Consumer Expenditure Interview Survey (CEX), using the Meyer–Sullivan consumption construction and public extension. Consumption and partial wealth are shown by default. Public-use income components are poorly reported at the top: topcoding severely biases upper-tail estimates. In Tails over time and US Estimates by quantile, Show income enables these optional estimates. Representation uses SCF primary-home values and nonownership.',
     YODLEE:'Bank–individual-account transaction data: each observation is one person’s account within the sampled banking system, not a complete household consumption unit. Spending outside the observed account—such as cash or activity at other institutions—is not captured. SCF income weights are always used to improve representativeness.',
     NIELSEN:'NielsenIQ household-panel reference based on annual retail purchases. It is available only when “Variable for consumption” is Food because it does not measure the broader consumption concepts used by the other choices.',
     SAEZ_ZUCMAN:'Distributional National Accounts (DINA), 1970–2019: synthetic adults aged 20+, reconstructed from tax, survey and national accounts data. Income follows Piketty, Saez and Zucman; wealth follows Saez and Zucman. Capital income includes fiscal capital gains by default.',
@@ -238,7 +238,7 @@
     if(mainVisible()&&s.cexIncome&&selectedSurveys(s).has('CEX_BM_RECON')){await ensureCEXIncome();fillSeries();}
     if(mainVisible()&&isParetoMetric(s.metric)&&s.threshold!=='ks')await ensureFullCurves([...selectedSurveys(s)]);
     if(resultsVisible())await ensureFullCurves([...resultsSurveys()].filter(survey=>r.threshold!=='ks'||META.reference_curve_surveys?.includes(survey)));
-    if(quantilesVisible()){await ensureFullCurves(['PSID','SCF','CEX_BM_RECON',...(META.reference_curve_surveys||[])]);initializeThresholdController();}
+    if(quantilesVisible()){await ensureFullCurves(['PSID','SCF','CEX_BM_RECON',...(META.reference_curve_surveys||[])]);if(s.cexIncome)await ensureCEXIncome();initializeThresholdController();if(s.cexIncome)thresholdController.addCurves(cexIncomeCurves);}
     if(otherVisible()){await Promise.all([ensureDeferredBlock('other'),ensureFullCurves(['PSID','CEX_BM_RECON'])]);initializeOtherController();}
     if(adjustmentsVisible()){await ensureDeferredBlock('adjustments');initializeAdjustmentController();}
   }
@@ -272,25 +272,25 @@
     button.addEventListener('click',()=>tab(button.dataset.section==='us'?lastUSTab:button.dataset.section));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#primary-nav [data-section]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.section==='us'?lastUSTab:all[index].dataset.section);});
   });
 
-  let cexIncomeSummary=[],cexIncomeReady=false;
+  let cexIncomeSummary=[],cexIncomeCurves=[],cexIncomeReady=false;
   const timeSummary=()=>s.cexIncome?SUMMARY.concat(cexIncomeSummary.filter(specificationMatches)):SUMMARY;
-  const timeKeys=()=>s.cexIncome&&selectedSurveys(s).has('CEX_BM_RECON')?[...KEYS,'total_income']:KEYS;
+  const timeKeys=()=>KEYS;
   async function ensureCEXIncome(){
     if(cexIncomeReady)return;
     const payload=await loadBlock('optional_income_CEX_BM_RECON');
     cexIncomeSummary=unpack(payload.summary);
-    unpack(payload.curves).forEach(row=>curveIndex.set(curveKey(row),row));
+    cexIncomeCurves=unpack(payload.curves);cexIncomeCurves.forEach(row=>curveIndex.set(curveKey(row),row));
     cexIncomeReady=true;
   }
   function fillSeries() {
     $('series-controls').replaceChildren();const selection=selectedSurveys(s),labelSurvey=selection.size===1?[...selection][0]:s.primary.toUpperCase();
     timeKeys().forEach(key=>{
-      const onlyCEX=selectedSurveys(s).size===1&&selectedSurveys(s).has('CEX_BM_RECON');if(onlyCEX&&!s.cexIncome&&['total_labor_income','total_capital_income'].includes(key))return;
+      const onlyCEX=selectedSurveys(s).size===1&&selectedSurveys(s).has('CEX_BM_RECON');if(onlyCEX&&!s.cexIncome&&['total_labor_income','total_capital_income','total_income'].includes(key))return;
       const item=document.createElement('label'); item.className='series-choice'; item.style.setProperty('--series',COLORS[key]);
-      const input=document.createElement('input'); input.type='checkbox'; input.checked=s.variables.has(key); input.setAttribute('aria-label',key==='total_income'?'Total income (CEX)':displayLabel(key,s.measure,labelSurvey));
+      const input=document.createElement('input'); input.type='checkbox'; input.checked=s.variables.has(key); input.setAttribute('aria-label',displayLabel(key,s.measure,labelSurvey));
       const selected=selectedSurveys(s),surveyAvailable=timeSummary().some(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,s.adjustment)&&row.variable===sourceKey(key,s.measure)),referenceAvailable=[...selected].some(survey=>referenceController?.hasVariable(survey,sourceKey(key,s.measure))||(key==='spending'&&survey==='NIELSEN'&&s.measure==='food_total'));input.disabled=!surveyAvailable&&!referenceAvailable;
       input.addEventListener('change',()=>{ input.checked?s.variables.add(key):s.variables.delete(key);if(key==='networth_val'&&!input.checked&&s.overlays.has('forbes')){s.overlays.delete('forbes');fillOverlays('overlay-controls',s,mainOverlayChoices());}schedule(); });
-      const swatch=document.createElement('span'); swatch.className='series-swatch'; const text=document.createElement('span'); text.textContent=key==='total_income'?'Total income (CEX)':displayLabel(key,s.measure,labelSurvey);
+      const swatch=document.createElement('span'); swatch.className='series-swatch'; const text=document.createElement('span'); text.textContent=displayLabel(key,s.measure,labelSurvey);
       item.append(input,swatch,text); $('series-controls').append(item);
     });
   }
@@ -325,7 +325,7 @@
         const row=document.createElement('div'),option=document.createElement('label'),income=document.createElement('input'),text=document.createElement('span'),detail=document.createElement('span');
         row.className='cex-dataset-row';option.className='small-check cex-income-option';income.type='checkbox';income.id='cex-show-income';income.checked=s.cexIncome;income.disabled=!selectedSurveys(s).has('CEX_BM_RECON');income.setAttribute('aria-label','Show CEX topcoded income');text.textContent='Show income';
         detail.className='help-marker hover-help';detail.textContent='?';detail.tabIndex=0;detail.setAttribute('aria-label','About CEX topcoded income');detail.dataset.tooltip=META.cex_optional_income?.warning||'Public-use CEX income is incompletely reported and topcoded, severely distorting upper-tail estimates. Corrections do not recover the original high-income observations.';help.remove();
-        income.addEventListener('change',()=>{s.cexIncome=income.checked;s.cexIncome?s.variables.add('total_income'):s.variables.delete('total_income');fillSeries();schedule();});option.append(income,text);row.append(item,option,detail);fieldset.append(row);
+        income.addEventListener('change',()=>{s.cexIncome=income.checked;fillSeries();schedule();});option.append(income,text);row.append(item,option,detail);fieldset.append(row);
       }else fieldset.append(item);
     });
   }
@@ -337,7 +337,6 @@
     timeKeys().filter(key=>s.variables.has(key)).forEach(key=>{
       const variable=sourceKey(key,s.measure),color=COLORS[key];
       [...selected].forEach(survey=>{
-        if(key==='total_income'&&survey!=='CEX_BM_RECON')return;
         if(isParetoMetric(s.metric)&&s.threshold==='p99'&&HOUSEHOLD_SURVEYS.has(survey)&&!['SCF','CEX_BM_RECON'].includes(survey))return;
         const variant=variantFor(survey),style=styles[survey];
         const rows=timeSummary().filter(row=>row.survey===survey&&row.variant===variant&&row.variable===variable).sort((a,b)=>a.year-b.year);
@@ -778,7 +777,7 @@
   function syncDinaControls(){for(const [name,selected] of [['results',resultsSurveys()],['biv',selectedSurveys(b)]]){const select=$('dina-capital-'+name),box=$('dina-capital-'+name+'-control');if(select)select.value=dina.capitalDefinition;if(box)box.hidden=!selected.has('SAEZ_ZUCMAN')||(name==='biv'&&!['wealth_capital','income_capital'].includes(b.pair));}}
   function initializeThresholdController(){
     if(thresholdController||typeof ThresholdProfiles==='undefined')return;
-    thresholdController=ThresholdProfiles.create({host:$('us-quantile-profiles'),curves:[...ALL_CURVES,...(referenceController?.profileCurves()||[])],surveys:['PSID','SCF','CEX_BM_RECON','YODLEE','FORBES',...(META.reference_curve_surveys||[])],spendingOptions,metadata:META,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method+'|'+dina.capitalDefinition,getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,housingMatches:specificationMatches,onSurveyChange:survey=>{profileSurvey=survey;syncHousingAvailability();}});
+    thresholdController=ThresholdProfiles.create({host:$('us-quantile-profiles'),curves:[...ALL_CURVES,...(referenceController?.profileCurves()||[])],surveys:['PSID','SCF','CEX_BM_RECON','YODLEE','FORBES',...(META.reference_curve_surveys||[])],spendingOptions,metadata:META,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method+'|'+dina.capitalDefinition,getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,housingMatches:specificationMatches,onSurveyChange:survey=>{profileSurvey=survey;syncHousingAvailability();},getCEXIncome:()=>s.cexIncome,onCEXIncomeChange:value=>{s.cexIncome=value;fillOverlays('overlay-controls',s,mainOverlayChoices());fillSeries();schedule();},loadCEXIncome:async()=>{await ensureCEXIncome();return cexIncomeCurves;}});
     const housingControl=document.createElement('div');housingControl.className='global-housing-control quantile-housing-control';
     housingControl.innerHTML='<label class="small-check" for="quantile-constant-housing-service"><input type="checkbox" id="quantile-constant-housing-service">Constant imputed rent rate</label><button class="help-marker detail-help" type="button" data-help-control="constant_imputed_rent" aria-label="About constant imputed rent" aria-expanded="false">?</button>';
     $('us-quantile-profiles').querySelector('.threshold-profile-controls').append(housingControl);

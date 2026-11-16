@@ -47,7 +47,7 @@ function initUSReferencePoints(metadata,{getCapitalVariant=()=> 'dina_2022_incl_
   const pointLabel=row=>[row.source_category,row.source_label].filter(Boolean).join(' · ');
   function datasets(state){
     const groups=new Map();plotted(state).forEach(p=>{const key=[p.survey,p.variable,p.author_variant].join('|');if(!groups.has(key))groups.set(key,[]);groups.get(key).push(p);});
-    return [...groups.values()].map(rows=>{const survey=rows[0].survey,forbes=survey==='FORBES',nielsen=survey==='NIELSEN',dina=survey==='SAEZ_ZUCMAN',color=dina?({total_labor_income:'#BF5555',total_capital_income:'#C4A12A',networth_val:'#4D8B69'})[rows[0].variable]:forbes?'#008F5A':'#477EAD';
+    return [...groups.values()].map(rows=>{const survey=rows[0].survey,forbes=survey==='FORBES',nielsen=survey==='NIELSEN',dina=survey==='SAEZ_ZUCMAN',color=dina?({total_labor_income:'#BF5555',total_capital_income:'#C4A12A',total_income:'#A96F4B',networth_val:'#4D8B69'})[rows[0].variable]:forbes?'#008F5A':'#477EAD';
       return {label:pointLabel(rows[0]),survey,key:dina?rows[0].variable:forbes?'networth_val':'spending',variable:rows[0].variable,isReference:true,type:'line',order:forbes?-100:-20,showLine:true,spanGaps:false,data:rows.sort((a,b)=>a.year-b.year).map(r=>({x:r.year,y:r.estimate,q:r.threshold_quantile,maxks:r.ks,n_tail:r.n_tail,author_variant:r.author_variant})),borderColor:color,backgroundColor:color,borderDash:dina?[10,3,2,3]:forbes?[8,4]:nielsen?[5,4]:[],borderWidth:1.8,pointBorderColor:forbes?'#fffefa':color,pointBackgroundColor:dina?'#fffefa':color,pointStyle:forbes||dina?'rect':survey==='YODLEE'?'cross':'crossRot',pointRadius:dina?4.5:forbes?6.5:7,pointHoverRadius:forbes?9.5:9,pointHitRadius:forbes?12:9,pointBorderWidth:forbes?2:1.7};
     });
   }

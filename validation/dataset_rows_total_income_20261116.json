@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "numerical_block_entries_unchanged": true,
+  "dataset_rows": [
+    [
+      "PSID",
+      "CEX (Show income)"
+    ],
+    [
+      "SCF",
+      "Yodlee"
+    ],
+    [
+      "NielsenIQ",
+      "Forbes"
+    ]
+  ],
+  "total_income_default_off_US_time_and_quantiles": true,
+  "time_total_income_draws_PSID_SCF_CEX": true,
+  "CEX_income_opt_in_does_not_enable_total_automatically": true,
+  "CEX_quantile_income_opt_in_and_variable_filter": true,
+  "cross_country_checkboxes_match_series_colors": true,
+  "budget_equation_outside_cards": true,
+  "connecting_arrows": 5,
+  "navigation": [
+    "Estimation & Adjustments",
+    "Data & Variable Construction"
+  ],
+  "preview_console_errors": []
+}

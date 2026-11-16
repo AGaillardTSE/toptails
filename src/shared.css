@@ -196,7 +196,7 @@
 
 .weighting-control .weighting-title{display:flex;align-items:center;gap:6px}
 
-#overlay-controls .cex-dataset-row{display:flex;align-items:center;gap:9px;grid-column:1/-1;min-width:0}#overlay-controls .cex-dataset-row>.overlay-choice{flex:0 0 auto}.sidebar .cex-income-option{display:inline-flex;align-items:center;gap:5px;margin:0;font:400 12px/1.4 Arial,sans-serif!important;letter-spacing:0;text-transform:none;color:#d0d5df;white-space:nowrap}.cex-income-option input{width:13px;height:13px;margin:0;accent-color:#b34470}.cex-income-option:has(input:disabled){opacity:.45}#overlay-controls:has(.cex-dataset-row) .overlay-choice-yodlee{grid-column:1/-1}
+#overlay-controls .cex-dataset-row{display:flex;align-items:center;gap:5px;grid-column:2;min-width:0}#overlay-controls .cex-dataset-row>.overlay-choice{flex:0 0 auto}.sidebar .cex-income-option{display:inline-flex;align-items:center;gap:5px;margin:0;font:400 12px/1.4 Arial,sans-serif!important;letter-spacing:0;text-transform:none;color:#d0d5df;white-space:nowrap}.cex-income-option input{width:13px;height:13px;margin:0;accent-color:#b34470}.cex-income-option:has(input:disabled){opacity:.45}#overlay-controls:has(.cex-dataset-row) .overlay-choice-yodlee{grid-column:auto}#overlay-controls .overlay-choice-saez_zucman{grid-column:1/-1}
 
 .adjustment-readout,.plot-subtitle,.chart-subtitle,.panel-subtitle,.slope-readout,.eyeballing-readout,.eyeballing-subtitle{font-size:14px;line-height:1.7}
 
@@ -208,3 +208,7 @@
 .procedure-paper-note{font:400 14px/1.7 Arial,sans-serif;color:#717789;margin:0 0 20px}.procedure-paper-note a{color:inherit}
 
 .definition-data-extra:not([hidden]){margin-top:12px}
+
+.quantile-cex-income{display:flex;align-items:center;gap:6px}.quantile-cex-income .small-check{display:inline-flex;align-items:center;gap:6px;margin:0;font:400 13px/1.4 Arial,sans-serif;letter-spacing:0;text-transform:none}.quantile-cex-income input{width:14px;height:14px;margin:0;accent-color:#b34470}
+
+.budget-diagram-scroll{max-width:100%;overflow-x:auto;padding-bottom:6px}.budget-definitions .budget-definition-grid{grid-template-columns:repeat(5,minmax(0,1fr));min-width:900px;align-items:stretch}.budget-diagram-column{display:flex;flex-direction:column;min-width:0}.budget-definitions .budget-diagram-column>.budget-component{display:block;flex:1}.budget-definitions .budget-component h4{margin:0 0 10px}.budget-term-arrow{text-align:center;color:var(--component-color,#727c87);font:400 40px/1 Arial,sans-serif;padding:1px 0 14px}.budget-diagram-column .budget-component-symbol{min-height:65px}.budget-diagram-column .budget-component-symbol math{font-size:34px}.budget-component-symbol.definition-unavailable,.budget-term-arrow.definition-unavailable{color:#9aa1a8;opacity:.55}
