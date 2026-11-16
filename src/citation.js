@@ -1,5 +1,5 @@
 (() => {
-  const trigger=document.querySelector('[data-footer-citation]');
+  const trigger=document.querySelector('[data-citation-trigger]');
   if(!trigger)return;
   const paperURL='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';
   const bibtex=`@unpublished{GaillardHellwigWangnerWerquin2026,
