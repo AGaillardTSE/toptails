@@ -168,7 +168,7 @@
     YODLEE:'Bank–individual-account transaction data: each observation is one person’s account within the sampled banking system, not a complete household consumption unit. Spending outside the observed account—such as cash or activity at other institutions—is not captured. SCF income weights are always used to improve representativeness.',
     NIELSEN:'NielsenIQ household-panel reference based on annual retail purchases. It is available only when “Variable for consumption” is Food because it does not measure the broader consumption concepts used by the other choices.',
     SAEZ_ZUCMAN:'Distributional National Accounts (DINA), 1970–2019: synthetic adults aged 20+, reconstructed from tax, survey and national accounts data. Income follows Piketty, Saez and Zucman; wealth follows Saez and Zucman. Capital income includes fiscal capital gains by default.',
-    FORBES:'World’s Billionaires + Forbes 400, 1982–2024: one weight per distinct listed person or family fortune, with overlaps removed. The lists use different dates within a year; early coverage relies on historical Forbes 400 records. Sources and coverage are described in Data.'
+    FORBES:'World’s Billionaires + Forbes 400, 1982–2024: one weight per distinct listed person or family fortune, with overlaps removed. The lists use different dates within a year; early coverage relies on historical Forbes 400 records. Sources and coverage are described in Sources.'
   };
   const surveyTooltip=survey=>SURVEY_TOOLTIPS[survey.toUpperCase()]||surveyName(survey);
   const spendingKey = measure => spendingOptions.find(option=>option.value===measure)?.key || FALLBACK_SPENDING.find(option=>option.value===measure)?.key || measure;
