@@ -193,3 +193,5 @@
 .citation-format{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:24px 0 14px;font:600 14px/1.5 Arial,sans-serif;color:#4b5d70}.citation-format select{min-width:180px;max-width:100%;min-height:40px;padding:8px 34px 8px 11px;border:1px solid #d9dddf;border-radius:5px;background-color:#fffefa;color:#263a53;font:400 14px/1.5 Arial,sans-serif}
 
 .cex-weighting-options{grid-template-columns:1fr}
+
+.weighting-control .weighting-title{display:flex;align-items:center;gap:6px}
