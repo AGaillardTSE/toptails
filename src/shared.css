@@ -195,3 +195,7 @@
 .cex-weighting-options{grid-template-columns:1fr}
 
 .weighting-control .weighting-title{display:flex;align-items:center;gap:6px}
+
+.adjustment-readout,.plot-subtitle,.chart-subtitle,.panel-subtitle,.slope-readout,.eyeballing-readout,.eyeballing-subtitle{font-size:14px;line-height:1.7}
+
+.threshold-legend .threshold-variable-choice{display:inline-flex;align-items:center;gap:6px;margin:0;color:inherit;font:400 13px/1.5 Arial,sans-serif;letter-spacing:0;text-transform:none;cursor:pointer}.threshold-variable-choice input{margin:0;width:14px;height:14px;accent-color:#b34470}
