@@ -353,14 +353,14 @@
     $('time-chart-title').textContent=metricLabel();
     const shownHouseholds=new Set(datasets.map(dataset=>dataset.survey).filter(survey=>['PSID','CEX_BM_RECON','SCF'].includes(survey))),adjustmentLabels=[];
     if(s.adjustment==='full'){
-      if(shownHouseholds.has('PSID'))adjustmentLabels.push('PSID: reporting rescaling + '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]);
-      if(shownHouseholds.has('CEX_BM_RECON'))adjustmentLabels.push('CEX: reporting rescaling + SCF housing weights');
-      if(shownHouseholds.has('SCF'))adjustmentLabels.push('SCF: reporting rescaling only');
+      if(shownHouseholds.has('PSID'))adjustmentLabels.push('PSID is rescaled to national accounts and uses '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]+'.');
+      if(shownHouseholds.has('CEX_BM_RECON'))adjustmentLabels.push('CEX is rescaled to national accounts and uses SCF housing weights.');
+      if(shownHouseholds.has('SCF'))adjustmentLabels.push('SCF is rescaled to national accounts only.');
     }else if(shownHouseholds.size){
       const names=['PSID','CEX_BM_RECON','SCF'].filter(survey=>shownHouseholds.has(survey)).map(survey=>surveyName(survey)).join(', ');
-      adjustmentLabels.push(names+': '+(s.adjustment==='adj'?'reporting rescaling only':'raw data'));
+      adjustmentLabels.push(names+': '+(s.adjustment==='adj'?'rescaled to national accounts only.':'raw data.'));
     }
-    const subtitle=$('time-chart-subtitle');subtitle.replaceChildren(document.createTextNode([isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'',...adjustmentLabels].filter(Boolean).join(' · ')));
+    const subtitle=$('time-chart-subtitle'),estimatorLabel=isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'';subtitle.replaceChildren();if(estimatorLabel){const estimator=document.createElement('span');estimator.className='subtitle-estimator';estimator.textContent=estimatorLabel;subtitle.append(estimator);}subtitle.append(document.createTextNode(adjustmentLabels.join(' ')));
     if(shownHouseholds.size){const link=document.createElement('a');link.className='subtitle-tab-link';link.href='#panel-adjustments';link.textContent='Survey Adjustments';link.addEventListener('click',event=>{event.preventDefault();tab('adjustments');});subtitle.append(' (see ',link,' for details)');}
     $('time-empty').hidden=!!datasets.length;$('time-empty').textContent=s.variables.size?'No comparable results for this selection.':'Select at least one measure.';
     $('download-time-csv').disabled=!timeRows.length;$('download-time-png').disabled=!datasets.length;

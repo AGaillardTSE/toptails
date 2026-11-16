@@ -4,7 +4,7 @@
 #panel-other .results-controls .control{flex:1 1 180px;min-width:155px;max-width:280px}
 #panel-other #cc-r-custom-control input{color:#26364c}
 #panel-other #cc-loglog .plot-surface{overflow:hidden}
-#panel-other .cc-b-readout{padding:0 28px;margin:5px 0 10px;min-height:24px;color:#25877d;font-size:14px}
+#panel-other .cc-b-readout{padding:0 28px;margin:0;min-height:0;color:#25877d;font-size:12px;line-height:1.5}
 #panel-other #cc-b-fits th:first-child,#panel-other #cc-b-fits td:first-child{text-align:left}
 #panel-other .other-table-meta{padding:18px 28px 14px}
 @media(max-width:760px){#panel-other .results-controls .control{max-width:none}#panel-other .cc-b-readout{padding:0 18px}}
@@ -25,3 +25,22 @@
 #panel-other .cc-variable-legend .series-swatch{margin:0;align-self:center}
 #panel-other #cc-summary-note{display:block;width:100%;max-width:none;box-sizing:border-box}
 @media(max-width:760px){#panel-other #cc-variable-legend{font-size:13px}}
+
+/* Cross-country view titles sit above their chart and table frames. */
+#panel-other .cc-plot-column{min-width:0}
+#panel-other .cc-view-heading{padding:0 0 16px;margin:0;border:0;background:transparent}
+#panel-other .cc-view-heading h2{font:normal 29px/1.25 var(--serif,Georgia,serif);margin:0;color:#20354f}
+#panel-other .cc-view-heading .plot-subtitle{margin:6px 0 0;font-size:12px;line-height:1.6}
+#cc-loglog .cc-view-heading{padding-bottom:6px}
+#cc-loglog .cc-view-heading .plot-subtitle{margin:0}
+#panel-other .cc-outside-heading>#cc-b-readout{padding-inline:0}
+#cc-loglog .cc-outside-heading>#cc-b-tail-ratio{padding-left:0;padding-right:0;padding-bottom:12px}
+#cc-eyeballing .cc-outside-heading .eyeballing-readout{padding-left:0;padding-right:0}
+#cc-summary .other-controls,#cc-time .other-controls,#cc-results .results-controls{border-top:0}
+#panel-other .cc-time-controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+#panel-other .cc-time-controls input{width:100%;min-height:41px;border:1px solid #dddfdf;border-radius:5px;padding:7px 10px;font-size:13px;color:#263a53}
+#panel-other .cc-time-chart{height:480px;margin:18px 22px 15px}
+#cc-t-note:not(:empty)::before{content:"Notes: ";font-style:italic;font-weight:400}
+#cc-time .cc-survey-legend svg{width:28px;height:18px}
+@media(max-width:760px){#panel-other .cc-view-heading h2{font-size:25px}#panel-other .cc-time-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#panel-other .cc-time-chart{height:365px;margin:14px 9px 12px}}
+#cc-t-variables{border:0;padding:0;margin:0;min-width:0}

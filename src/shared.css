@@ -215,6 +215,34 @@
 
 .budget-diagram-column{position:relative}.budget-between-operator{position:absolute;left:-7px;top:32.5px;transform:translate(-50%,-50%);color:#171b22;line-height:1;z-index:1}.budget-between-operator math{font-size:34px;color:#171b22}.budget-between-operator mo,.budget-component-symbol mo:not([data-variable-mark]){color:#171b22}.budget-definitions .budget-component-symbol.definition-unavailable{opacity:1;color:#a3a8ad}.budget-definitions .budget-diagram-column>.budget-component{position:relative;margin-top:30px;--budget-frame-bg:#faf9f5}.budget-definitions .budget-diagram-column>.budget-component.definition-unavailable{--budget-frame-bg:#f2f1ee}.budget-diagram-column>.budget-component::before,.budget-diagram-column>.budget-component::after{content:"";position:absolute;left:50%;width:0;height:0;transform:translateX(-50%);border-left:26px solid transparent;border-right:26px solid transparent;border-bottom:26px solid var(--component-color,#9299a0);top:-26px;pointer-events:none}.budget-diagram-column>.budget-component::after{top:-22px;border-left-width:24px;border-right-width:24px;border-bottom:25px solid var(--budget-frame-bg,#faf9f5)}
 
-.primary-tabs .tab-nav-inner{gap:24px;align-items:stretch}.primary-tabs .tab-button{flex:0 0 auto;line-height:1.35}.primary-tabs #tab-definitions{max-width:190px;white-space:normal}.primary-tabs #tab-adjustments{max-width:218px;white-space:normal}
+.primary-tabs .tab-nav-inner{gap:24px;align-items:stretch}.primary-tabs .tab-button{flex:0 0 auto;line-height:1.35}.primary-tabs #tab-definitions{max-width:none;white-space:nowrap}.primary-tabs #tab-adjustments{max-width:218px;white-space:normal}
 
 .plot-subtitle .subtitle-tab-link{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+/* Keep plot details compact and give time-series notes the full plot width. */
+.plot-subtitle,.chart-subtitle{font-size:12px;line-height:1.6}
+.subtitle-estimator{display:block;margin-bottom:3px}
+.plot-top:has(#time-chart-subtitle){display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
+.plot-top:has(#time-chart-subtitle)>div:first-child{display:contents}
+.plot-top:has(#time-chart-subtitle) h2{grid-column:1;grid-row:1}
+.plot-top:has(#time-chart-subtitle) .chart-actions{grid-column:2;grid-row:1}
+#time-chart-subtitle{grid-column:1/-1;grid-row:2}
+
+/* Use the same compact rhythm for U.S. and international relationship readouts. */
+#panel-loglog .plot-top,#cc-loglog .plot-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding-bottom:6px}
+#panel-loglog .plot-top>div:first-child,#cc-loglog .plot-top>div:first-child{display:contents}
+#panel-loglog .plot-top h2,#cc-loglog .plot-top h2{grid-column:1;grid-row:1;margin-bottom:0}
+#panel-loglog .plot-top .chart-actions,#cc-loglog .plot-top>.text-button{grid-column:2;grid-row:1}
+#biv-chart-subtitle,#cc-b-subtitle{grid-column:1/-1;grid-row:2;margin:0}
+#panel-loglog .biv-toolbar{padding-top:0;padding-bottom:0}
+#slope-readout,#panel-other #cc-b-readout{margin:0;min-height:0;font-size:12px;line-height:1.5}
+#biv-tail-ratio,#cc-b-tail-ratio{padding-top:4px;padding-bottom:8px;font-size:12px;line-height:1.5}
+
+#pareto-estimation-content{width:100%;max-width:none}
+.budget-definitions .budget-definition-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:17px;padding:20px 28px;background:#f5f3ee;border-block:1px solid #e9e5dd}
+.budget-definitions .budget-definition-control{margin:0;gap:7px}
+.budget-definitions .budget-definition-control>label{font:600 13px/1.5 Arial,sans-serif;letter-spacing:.045em;text-transform:uppercase;color:#747783;margin:0}
+.budget-definitions .budget-definition-control>select{font-size:13px;background-color:#fff;min-height:41px}
+.budget-definitions .budget-housing-option{font-size:13px;margin:0;min-height:41px}
+@media(max-width:760px){.budget-definitions .budget-definition-controls{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px;gap:16px}}
+@media(max-width:480px){.budget-definitions .budget-definition-controls{grid-template-columns:1fr}}

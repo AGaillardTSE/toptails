@@ -233,9 +233,37 @@
 
 .budget-diagram-column{position:relative}.budget-between-operator{position:absolute;left:-7px;top:32.5px;transform:translate(-50%,-50%);color:#171b22;line-height:1;z-index:1}.budget-between-operator math{font-size:34px;color:#171b22}.budget-between-operator mo,.budget-component-symbol mo:not([data-variable-mark]){color:#171b22}.budget-definitions .budget-component-symbol.definition-unavailable{opacity:1;color:#a3a8ad}.budget-definitions .budget-diagram-column>.budget-component{position:relative;margin-top:30px;--budget-frame-bg:#faf9f5}.budget-definitions .budget-diagram-column>.budget-component.definition-unavailable{--budget-frame-bg:#f2f1ee}.budget-diagram-column>.budget-component::before,.budget-diagram-column>.budget-component::after{content:"";position:absolute;left:50%;width:0;height:0;transform:translateX(-50%);border-left:26px solid transparent;border-right:26px solid transparent;border-bottom:26px solid var(--component-color,#9299a0);top:-26px;pointer-events:none}.budget-diagram-column>.budget-component::after{top:-22px;border-left-width:24px;border-right-width:24px;border-bottom:25px solid var(--budget-frame-bg,#faf9f5)}
 
-.primary-tabs .tab-nav-inner{gap:24px;align-items:stretch}.primary-tabs .tab-button{flex:0 0 auto;line-height:1.35}.primary-tabs #tab-definitions{max-width:190px;white-space:normal}.primary-tabs #tab-adjustments{max-width:218px;white-space:normal}
+.primary-tabs .tab-nav-inner{gap:24px;align-items:stretch}.primary-tabs .tab-button{flex:0 0 auto;line-height:1.35}.primary-tabs #tab-definitions{max-width:none;white-space:nowrap}.primary-tabs #tab-adjustments{max-width:218px;white-space:normal}
 
 .plot-subtitle .subtitle-tab-link{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+/* Keep plot details compact and give time-series notes the full plot width. */
+.plot-subtitle,.chart-subtitle{font-size:12px;line-height:1.6}
+.subtitle-estimator{display:block;margin-bottom:3px}
+.plot-top:has(#time-chart-subtitle){display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
+.plot-top:has(#time-chart-subtitle)>div:first-child{display:contents}
+.plot-top:has(#time-chart-subtitle) h2{grid-column:1;grid-row:1}
+.plot-top:has(#time-chart-subtitle) .chart-actions{grid-column:2;grid-row:1}
+#time-chart-subtitle{grid-column:1/-1;grid-row:2}
+
+/* Use the same compact rhythm for U.S. and international relationship readouts. */
+#panel-loglog .plot-top,#cc-loglog .plot-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding-bottom:6px}
+#panel-loglog .plot-top>div:first-child,#cc-loglog .plot-top>div:first-child{display:contents}
+#panel-loglog .plot-top h2,#cc-loglog .plot-top h2{grid-column:1;grid-row:1;margin-bottom:0}
+#panel-loglog .plot-top .chart-actions,#cc-loglog .plot-top>.text-button{grid-column:2;grid-row:1}
+#biv-chart-subtitle,#cc-b-subtitle{grid-column:1/-1;grid-row:2;margin:0}
+#panel-loglog .biv-toolbar{padding-top:0;padding-bottom:0}
+#slope-readout,#panel-other #cc-b-readout{margin:0;min-height:0;font-size:12px;line-height:1.5}
+#biv-tail-ratio,#cc-b-tail-ratio{padding-top:4px;padding-bottom:8px;font-size:12px;line-height:1.5}
+
+#pareto-estimation-content{width:100%;max-width:none}
+.budget-definitions .budget-definition-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:17px;padding:20px 28px;background:#f5f3ee;border-block:1px solid #e9e5dd}
+.budget-definitions .budget-definition-control{margin:0;gap:7px}
+.budget-definitions .budget-definition-control>label{font:600 13px/1.5 Arial,sans-serif;letter-spacing:.045em;text-transform:uppercase;color:#747783;margin:0}
+.budget-definitions .budget-definition-control>select{font-size:13px;background-color:#fff;min-height:41px}
+.budget-definitions .budget-housing-option{font-size:13px;margin:0;min-height:41px}
+@media(max-width:760px){.budget-definitions .budget-definition-controls{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px;gap:16px}}
+@media(max-width:480px){.budget-definitions .budget-definition-controls{grid-template-columns:1fr}}
 
 #panel-other .other-card-heading>h2{margin:0}
 #panel-other #cc-summary-note{padding-top:10px}
@@ -243,7 +271,7 @@
 #panel-other .results-controls .control{flex:1 1 180px;min-width:155px;max-width:280px}
 #panel-other #cc-r-custom-control input{color:#26364c}
 #panel-other #cc-loglog .plot-surface{overflow:hidden}
-#panel-other .cc-b-readout{padding:0 28px;margin:5px 0 10px;min-height:24px;color:#25877d;font-size:14px}
+#panel-other .cc-b-readout{padding:0 28px;margin:0;min-height:0;color:#25877d;font-size:12px;line-height:1.5}
 #panel-other #cc-b-fits th:first-child,#panel-other #cc-b-fits td:first-child{text-align:left}
 #panel-other .other-table-meta{padding:18px 28px 14px}
 @media(max-width:760px){#panel-other .results-controls .control{max-width:none}#panel-other .cc-b-readout{padding:0 18px}}
@@ -264,6 +292,25 @@
 #panel-other .cc-variable-legend .series-swatch{margin:0;align-self:center}
 #panel-other #cc-summary-note{display:block;width:100%;max-width:none;box-sizing:border-box}
 @media(max-width:760px){#panel-other #cc-variable-legend{font-size:13px}}
+
+/* Cross-country view titles sit above their chart and table frames. */
+#panel-other .cc-plot-column{min-width:0}
+#panel-other .cc-view-heading{padding:0 0 16px;margin:0;border:0;background:transparent}
+#panel-other .cc-view-heading h2{font:normal 29px/1.25 var(--serif,Georgia,serif);margin:0;color:#20354f}
+#panel-other .cc-view-heading .plot-subtitle{margin:6px 0 0;font-size:12px;line-height:1.6}
+#cc-loglog .cc-view-heading{padding-bottom:6px}
+#cc-loglog .cc-view-heading .plot-subtitle{margin:0}
+#panel-other .cc-outside-heading>#cc-b-readout{padding-inline:0}
+#cc-loglog .cc-outside-heading>#cc-b-tail-ratio{padding-left:0;padding-right:0;padding-bottom:12px}
+#cc-eyeballing .cc-outside-heading .eyeballing-readout{padding-left:0;padding-right:0}
+#cc-summary .other-controls,#cc-time .other-controls,#cc-results .results-controls{border-top:0}
+#panel-other .cc-time-controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+#panel-other .cc-time-controls input{width:100%;min-height:41px;border:1px solid #dddfdf;border-radius:5px;padding:7px 10px;font-size:13px;color:#263a53}
+#panel-other .cc-time-chart{height:480px;margin:18px 22px 15px}
+#cc-t-note:not(:empty)::before{content:"Notes: ";font-style:italic;font-weight:400}
+#cc-time .cc-survey-legend svg{width:28px;height:18px}
+@media(max-width:760px){#panel-other .cc-view-heading h2{font-size:25px}#panel-other .cc-time-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#panel-other .cc-time-chart{height:365px;margin:14px 9px 12px}}
+#cc-t-variables{border:0;padding:0;margin:0;min-width:0}
 
 /* Data descriptions, adjustment navigation and source-to-account tables. */
 .dc-data-root,.dc-domain-panel{max-width:1436px;margin:0 auto}.dc-toolbar{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;padding:22px 0}.dc-control{display:flex;flex:0 1 290px;min-width:190px;flex-direction:column;gap:8px;margin:0}.dc-control-label{font:600 14px/1.45 var(--sans,Arial,sans-serif);letter-spacing:.035em;color:#596678}.dc-control select{width:100%;min-height:42px;padding:9px 32px 9px 12px;border:1px solid #dedfdc;border-radius:6px;background:#fffefa;color:#20354f;font:14px/1.5 var(--sans,Arial,sans-serif)}.dc-control select:focus-visible{outline:2px solid #477EAD;outline-offset:2px}.dc-control select:disabled{color:#858b95;background:#f3f2ee}.dc-dataset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.dc-dataset-card{padding:25px 27px;border:1px solid #e3dfd7;border-radius:11px;background:#fffefa;min-width:0}.dc-dataset-card h3{font:normal 23px/1.3 var(--serif,Georgia,serif);color:#20354f;margin:0 0 18px}.dc-data-facts{display:grid;grid-template-columns:80px minmax(0,1fr);gap:9px 12px;margin:0 0 17px;font:14px/1.65 var(--sans,Arial,sans-serif)}.dc-data-facts dt{color:#687281;font-weight:600}.dc-data-facts dd{color:#35445a;margin:0;overflow-wrap:anywhere}.dc-data-note{margin:14px 0 0;color:#4f5d70;font:14px/1.7 var(--sans,Arial,sans-serif)}.dc-limit-list,.dc-map-limitations{padding-left:18px;margin:15px 0 0;color:#606b7a;font:14px/1.75 var(--sans,Arial,sans-serif)}.dc-limit-list li,.dc-map-limitations li{padding-left:3px;margin:5px 0}.dc-limit-list li::marker,.dc-map-limitations li::marker{color:#8693a2}
@@ -868,10 +915,10 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   };
   const state={survey:'PSID',consumption:'auto',constantRent:getHousingMethod()==='bp',capital:'benchmark',gains:getDinaCapitalDefinition(),wealth:'benchmark',bank:'paper',explicit:false};
   host.replaceChildren();host.classList.add('definitions-box','budget-definitions');
-  const header=el('header','budget-definition-heading');header.append(el('h2','','Household budget constraint'));host.append(header);
-  const intro=el('p','definition-intro','Consumption plus the change in wealth equals labor income, less net taxes, plus capital income. The terms follow the paper; the cards below describe the measures available in the selected dataset.');host.append(intro);
-  const controls=el('div','budget-definition-controls');host.append(controls);
-  function select(labelText,items,field){const box=el('label','control budget-definition-control'),label=el('span','',labelText),input=el('select');input.setAttribute('aria-label',labelText);items.forEach(([key,text])=>input.add(new Option(text,key)));box.append(label,input);controls.append(box);input.addEventListener('change',()=>{state[field]=input.value;if(field==='survey'){state.explicit=true;state.consumption='auto';state.capital='benchmark';state.wealth='benchmark';}if(field==='bank')state.consumption=state.bank==='none'?'expenditure':'consump_def1';render();});return{box,input};}
+  const header=el('header','budget-definition-heading');header.append(el('h2','','From the Household Budget Constraint to Variable Construction'));host.append(header);
+  const intro=el('p','definition-intro','The framework and variable definitions follow Section 2.2, equation (1), of the '),paper=el('a','','paper');paper.href='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';paper.target='_blank';paper.rel='noopener noreferrer';intro.append(paper,'.');host.append(intro);
+  const controls=el('div','budget-definition-controls other-controls');host.append(controls);
+  function select(labelText,items,field){const box=el('div','control budget-definition-control'),label=el('label','',labelText),input=el('select');input.id='definition-'+field;label.htmlFor=input.id;input.setAttribute('aria-label',labelText);items.forEach(([key,text])=>input.add(new Option(text,key)));box.append(label,input);controls.append(box);input.addEventListener('change',()=>{state[field]=input.value;if(field==='survey'){state.explicit=true;state.consumption='auto';state.capital='benchmark';state.wealth='benchmark';}if(field==='bank')state.consumption=state.bank==='none'?'expenditure':'consump_def1';render();});return{box,input};}
   const dataset=select('Dataset',Object.entries(sources).map(([key,r])=>[key,r.name]),'survey');
   const country=select('Country',[],'country'),consumption=select('Consumption / spending measure',[],'consumption');
   const housingBox=el('label','budget-housing-option small-check'),housingInput=el('input');housingInput.type='checkbox';housingInput.setAttribute('aria-label','Constant imputed rent rate');housingBox.append(housingInput,doc.createTextNode('Constant imputed rent rate'));controls.append(housingBox);housingInput.addEventListener('change',()=>{state.constantRent=housingInput.checked;render();});
@@ -1208,14 +1255,16 @@ function initOtherSurveys(other,usRows,context) {
   }
   const excluded=r=>r.benchmark_included===false||r.benchmark_included===0;
   const summary={dataset:'all',country:'all',period:'average',specification:'full',method:'MLE',variables:new Set(variables.map(([key])=>key))};
+  const time={survey:'all',country:'AU',adjustment:'full',method:'MLE',threshold:'ks',q:.95,indicator:'pareto',variables:new Set(variables.map(([key])=>key))};
   const results={survey:'all',country:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',q:.95,period:'both',page:0};
   const relationships={survey:bins.some(r=>r.survey==='HILDA')?'HILDA':bins[0]?.survey||'HFCS',country:'',pair:'wealth_consumption',adjustment:'full',stat:'mean',minN:5,scale:'loglog',fit:'ols',selectedByCountry:new Map(),waves:new Map()};
   const pairs={wealth_consumption:{x:'networth_val',y:'consump_def1'},income_consumption:{x:'total_income',y:'consump_def1'},labor_consumption:{x:'total_labor_income',y:'consump_def1'},capital_consumption:{x:'total_capital_income',y:'consump_def1'},wealth_capital:{x:'networth_val',y:'total_capital_income'}};
-  let view='summary',summaryCharts=[],relationshipChart,thresholdController,eyeController,tableRows=[],plottedRows=[],tableSignature='';
+  let view='summary',summaryCharts=[],timeChart,timeRows=[],relationshipChart,thresholdController,eyeController,tableRows=[],plottedRows=[],tableSignature='';
   const panel=$('panel-other');
   panel.innerHTML=[
     '<nav class="secondary-nav cc-subnav" id="cc-secondary-nav" aria-label="Cross-country views"><div class="secondary-nav-inner" role="tablist">',
     '<button class="secondary-tab active" role="tab" aria-selected="true" data-country-view="summary" id="cc-tab-summary" aria-controls="cc-summary">Summary figure</button>',
+    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="time" id="cc-tab-time" aria-controls="cc-time">Tails over time</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="quantiles" id="cc-tab-quantiles" aria-controls="cc-quantiles">Estimates by quantile</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="results" id="cc-tab-results" aria-controls="cc-results">Table of results</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="loglog" id="cc-tab-loglog" aria-controls="cc-loglog">Log–log relationships</button><button class="secondary-tab" role="tab" aria-selected="false" data-country-view="eyeballing" id="cc-tab-eyeballing" aria-controls="cc-eyeballing">Eyeballing</button></div></nav>',
@@ -1230,6 +1279,11 @@ function initOtherSurveys(other,usRows,context) {
     '<div class="cc-comparison-legends"><fieldset id="cc-variable-legend" class="cc-variable-legend" aria-label="Variables to display"></fieldset><div id="cc-survey-legend" class="cc-survey-legend" aria-label="Survey symbols"></div></div>',
     '<div class="cc-comparison-chart" id="cc-chart-grid"></div>',
     '<p id="cc-summary-empty" class="results-empty" hidden>No estimates are available for these filters.</p><p class="results-note" id="cc-summary-note"></p></div></section>',
+    '<section id="cc-time" role="tabpanel" aria-labelledby="cc-tab-time" hidden><header class="other-card-heading cc-view-heading"><div><h2 id="cc-t-title">Tails over time</h2><p class="plot-subtitle" id="cc-t-subtitle"></p></div><div class="chart-actions"><button class="text-button" id="cc-t-csv">Results CSV</button><button class="text-button" id="cc-t-png">Figure PNG</button></div></header><div class="other-card">',
+    '<div class="other-controls cc-time-controls"><div class="control"><label for="cc-t-country">Country</label><select id="cc-t-country"></select></div><div class="control"><label for="cc-t-survey">Survey</label><select id="cc-t-survey"></select></div><div class="control"><label for="cc-t-adjustment">Adjustment</label><select id="cc-t-adjustment"><option value="full">Reporting + representation</option><option value="adj">Reporting only</option><option value="raw">Raw data</option></select></div>',
+    '<div class="control"><label for="cc-t-indicator">Indicator</label><select id="cc-t-indicator"><option value="pareto">Pareto coefficient</option><option value="ratio">Relative to that of wealth</option><option value="gini">Gini</option><option value="share_top20">Top share · P80</option><option value="share_top10">Top share · P90</option><option value="share_top5">Top share · P95</option><option value="share_top1">Top share · P99</option></select></div><div class="control"><label for="cc-t-method">Pareto estimator</label><select id="cc-t-method"><option>MLE</option><option>OLS</option></select></div>',
+    '<div class="control"><label for="cc-t-threshold">Tail threshold</label><select id="cc-t-threshold"><option value="ks">KS selected</option><option value="p80">P80</option><option value="p90">P90</option><option value="p95">P95</option><option value="p98">P98</option><option value="p99">P99</option><option value="custom">Custom percentile</option></select></div><div class="control" id="cc-t-custom-control" hidden><label for="cc-t-custom">Percentile</label><input id="cc-t-custom" type="number" min="70" max="99" step="1" value="95"></div></div>',
+    '<div class="cc-comparison-legends"><fieldset id="cc-t-variables" class="cc-variable-legend" aria-label="Variables to display"></fieldset><div id="cc-t-survey-key" class="cc-survey-legend" aria-label="Survey symbols"></div></div><div class="chart-wrap cc-time-chart"><canvas id="cc-t-chart" role="img" aria-label="Upper-tail inequality over time"></canvas><p id="cc-t-empty" class="plot-fallback" hidden>No estimates are available for these filters.</p></div><p id="cc-t-note" class="results-note"></p></div></section>',
     '<section id="cc-quantiles" role="tabpanel" aria-labelledby="cc-tab-quantiles" hidden><div id="cc-quantile-profiles" class="quantile-profile-card"></div></section>',
     '<section id="cc-results" role="tabpanel" aria-labelledby="cc-tab-results" hidden><div class="results-card">',
     '<header class="results-heading"><div><h2>International results</h2></div><div class="results-actions"><button class="text-button" id="cc-results-csv">Selected results CSV</button><button class="text-button" id="cc-results-all">All international results CSV</button></div></header>',
@@ -1279,12 +1333,34 @@ function initOtherSurveys(other,usRows,context) {
     const text=[fields.join(','),...rows.map(r=>fields.map(k=>escape(r[k])).join(','))].join('\r\n'),url=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function active(){return !panel.hidden;}
-  function changeView(value){view=value;panel.querySelectorAll('[data-country-view]').forEach(b=>{const on=b.dataset.countryView===value;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;b.classList.toggle('active',on);});['summary','quantiles','results','loglog','eyeballing'].forEach(v=>$('cc-'+v).hidden=v!==value);render();}
+  function changeView(value){view=value;panel.querySelectorAll('[data-country-view]').forEach(b=>{const on=b.dataset.countryView===value;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;b.classList.toggle('active',on);});['summary','time','quantiles','results','loglog','eyeballing'].forEach(v=>$('cc-'+v).hidden=v!==value);render();}
   panel.querySelectorAll('[data-country-view]').forEach(button=>{
     button.tabIndex=button.dataset.countryView===view?0:-1;button.addEventListener('click',()=>changeView(button.dataset.countryView));
     button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const buttons=[...panel.querySelectorAll('[data-country-view]')];let index=buttons.indexOf(button);index=event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[index].focus();changeView(buttons[index].dataset.countryView);});
   });
   function summaryRows(){return summaryData.filter(r=>(summary.dataset==='all'||r.survey===summary.dataset)&&(summary.country==='all'||r.country===summary.country)&&r.period_type===summary.period&&(r.specification||r.variant)===summary.specification&&r.method===summary.method&&(!r.threshold||r.threshold==='KS'));}
+  function syncTimeControls(){
+    time.country=countries('cc-t-country','all',time.country,waveRows,false);
+    const surveys=[...new Set(waveRows.filter(row=>row.country===time.country).map(row=>row.survey))].sort();
+    time.survey=options('cc-t-survey',[['all','All surveys'],...surveys.map(survey=>[survey,sourceLabel(survey)])],time.survey);
+  }
+  function renderTime(){
+    syncTimeControls();timeChart?.destroy();timeChart=null;
+    const pareto=['pareto','ratio'].includes(time.indicator),field=time.indicator==='pareto'?'estimate':time.indicator==='ratio'?'ratio_to_wealth':time.indicator,scale=time.indicator.startsWith('share_')?100:1;
+    const rows=resultData({...time,variable:'all',period:'wave',method:pareto?time.method:'MLE'}),available=rows.filter(row=>finite(row[field])),activeVariables=variables.filter(([variable])=>time.variables.has(variable));
+    timeRows=available.filter(row=>time.variables.has(row.variable)).map(row=>{const date=SeriesYears.period(row);return{...row,observation_year:date.year,observation_period:date.label,year_basis:date.basis,indicator:time.indicator,value:row[field]};});
+    const country=rows[0]?.country_name||$('cc-t-country').selectedOptions[0]?.textContent||'',indicatorTitle=time.indicator==='pareto'?'Pareto tail coefficients':time.indicator==='ratio'?'Pareto coefficients relative to wealth':time.indicator==='gini'?'Gini':$('cc-t-indicator').selectedOptions[0].textContent;
+    $('cc-t-title').textContent=indicatorTitle+' over time';$('cc-t-subtitle').textContent=[country,adj[time.adjustment],pareto?time.method+' · '+(time.threshold==='ks'?'KS-selected thresholds':time.threshold==='custom'?'P'+Math.round(time.q*100):time.threshold.toUpperCase()):''].filter(Boolean).join(' · ');
+    $('cc-t-method').disabled=!pareto;$('cc-t-threshold').disabled=!pareto;$('cc-t-custom-control').hidden=!pareto||time.threshold!=='custom';
+    const legend=$('cc-t-variables');legend.replaceChildren();variables.forEach(([variable,title])=>{const item=document.createElement('label'),input=document.createElement('input'),swatch=document.createElement('span');item.className='series-choice';item.style.setProperty('--series',variableColors[variable]);input.type='checkbox';input.checked=time.variables.has(variable);input.disabled=!available.some(row=>row.variable===variable);input.setAttribute('aria-label',title);input.addEventListener('change',()=>{input.checked?time.variables.add(variable):time.variables.delete(variable);renderTime();});swatch.className='series-swatch';item.append(input,swatch,document.createTextNode(title));legend.append(item);});
+    const surveys=[...new Set(timeRows.map(row=>row.survey))].sort(),surveyKey=$('cc-t-survey-key');surveyKey.replaceChildren();surveys.forEach(survey=>{const item=document.createElement('span'),svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 28 18');svg.setAttribute('aria-hidden','true');const dash=survey==='HILDA'?'4 3':survey==='SHIW'?'8 4':'',shape=survey==='HILDA'?'<path d="M14 3 20 14H8Z"/>':survey==='SHIW'?'<path d="M14 3 20 9 14 15 8 9Z"/>':'<circle cx="14" cy="9" r="4.5"/>';svg.innerHTML='<path d="M1 9H27" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="'+dash+'"/>'+shape;svg.setAttribute('fill','#fffefa');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.5');item.append(svg,document.createTextNode(sourceLabel(survey)),surveyHelp(survey));surveyKey.append(item);});
+    $('cc-t-empty').hidden=!!timeRows.length;$('cc-t-empty').textContent=time.variables.size?'No estimates are available for these filters.':'Select at least one variable to display.';$('cc-t-csv').disabled=$('cc-t-png').disabled=!timeRows.length;
+    const notes=[];if(pareto&&time.threshold==='ks')notes.push('Each coefficient uses its own KS-selected threshold.');if(pareto&&time.threshold!=='ks')notes.push('Only available estimates at the selected percentile are shown.');notes.push('Dates follow each series’ reference period; survey waves appear in tooltips.');if(surveys.includes('HFCS'))notes.push('HFCS is shown by survey wave because reference periods differ across countries and variables.');if(surveys.includes('HILDA'))notes.push('HILDA income refers to the financial year ending in the displayed year.');$('cc-t-note').textContent=notes.join(' ');
+    const canvas=$('cc-t-chart');canvas.dataset.observationYears=JSON.stringify(timeRows.map(row=>({survey:row.survey,variable:row.variable,year:row.observation_year,wave:row.year,value:row.value})));if(!timeRows.length)return;
+    const datasets=[];activeVariables.forEach(([variable,title])=>surveys.forEach(survey=>{const points=timeRows.filter(row=>row.variable===variable&&row.survey===survey).sort((a,b)=>a.observation_year-b.observation_year).map(row=>({x:row.observation_year,y:scale*row.value,row}));if(!points.length)return;const color=variableColors[variable];datasets.push({label:title+' · '+sourceLabel(survey),survey,variable,data:points,borderColor:color,backgroundColor:color,pointBackgroundColor:'#fffefa',pointBorderColor:color,pointStyle:styles[survey]?.point||'circle',pointRadius:survey==='HILDA'?5:4,pointHoverRadius:7,borderWidth:1.6,borderDash:survey==='HILDA'?[4,3]:survey==='SHIW'?[8,4]:[],tension:0,showLine:true});}));
+    canvas.setAttribute('aria-label',indicatorTitle+' over time in '+country);
+    timeChart=new Chart(canvas,{type:'scatter',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:items=>items.length?country+' · '+sourceLabel(items[0].raw.row.survey):'',label:item=>labels[item.raw.row.variable]+': '+number(item.raw.y)+(scale===100?'%':''),afterLabel:item=>SeriesYears.period(item.raw.row).detail||('Survey wave '+item.raw.row.year)}}},scales:{x:{type:'linear',title:{display:true,text:surveys.includes('HFCS')?'Reference year / HFCS wave':'Reference year',font:{size:13}},ticks:{precision:0,maxTicksLimit:10,callback:value=>Number.isInteger(value)?String(value):'',font:{size:13}},grid:{color:'#eeece7'}},y:{type:'linear',min:0,title:{display:true,text:indicatorTitle+(scale===100?' (%)':''),font:{size:13}},ticks:{font:{size:13}},grid:{color:'#eeece7'}}}}});
+  }
   function renderSummary(){
     const rows=summaryRows(),activeVariables=variables.filter(([key])=>summary.variables.has(key));summaryCharts.forEach(c=>c.destroy());summaryCharts=[];
     const grid=$('cc-chart-grid');grid.replaceChildren();
@@ -1460,11 +1536,16 @@ function initOtherSurveys(other,usRows,context) {
   }
   function render(){
     if(!active())return;refreshHousing();
-    if(view==='eyeballing')eyeController?.render();else if(view==='summary')renderSummary();else if(view==='quantiles')thresholdController?.render();else if(view==='results')renderResults();else if(relationshipBinsReady){updateRelationshipOptions();$('cc-b-chart').parentElement.removeAttribute('aria-busy');renderRelationships();}else{
+    if(view==='eyeballing')eyeController?.render();else if(view==='summary')renderSummary();else if(view==='time')renderTime();else if(view==='quantiles')thresholdController?.render();else if(view==='results')renderResults();else if(relationshipBinsReady){updateRelationshipOptions();$('cc-b-chart').parentElement.removeAttribute('aria-busy');renderRelationships();}else{
       $('cc-b-empty').hidden=false;$('cc-b-empty').textContent='Loading relationship results…';$('cc-b-chart').parentElement.setAttribute('aria-busy','true');$('cc-b-csv').disabled=true;
       ensureRelationshipBins().then(()=>{if(active()&&view==='loglog'){$('cc-b-csv').disabled=false;render();}}).catch(error=>{$('cc-b-empty').textContent='Relationship results could not be loaded. Please reload the page.';console.error(error);});
     }
   }
+  [['cc-t-country','country'],['cc-t-survey','survey'],['cc-t-adjustment','adjustment'],['cc-t-indicator','indicator'],['cc-t-method','method'],['cc-t-threshold','threshold']].forEach(([id,key])=>$(id).addEventListener('change',event=>{time[key]=event.target.value;if(key==='country')time.survey='all';render();}));
+  $('cc-t-custom').addEventListener('input',event=>{const value=Number(event.target.value);if(Number.isInteger(value)&&value>=70&&value<=99){time.q=value/100;render();}});
+  $('cc-t-custom').addEventListener('change',event=>{const value=Number(event.target.value);if(!Number.isInteger(value)||value<70||value>99){event.target.value=String(Math.round(time.q*100));return;}time.q=value/100;render();});
+  $('cc-t-csv').addEventListener('click',()=>download(timeRows,'international_tails_over_time.csv'));
+  $('cc-t-png').addEventListener('click',()=>{if(!timeChart)return;const link=document.createElement('a');link.href=timeChart.toBase64Image();link.download='international_tails_over_time.png';link.click();});
   [['cc-survey','dataset'],['cc-country','country'],['cc-period','period'],['cc-adjustment','specification'],['cc-method','method']].forEach(([id,k])=>$(id).addEventListener('change',e=>{summary[k]=e.target.value;if(k==='dataset'){summary.country=countries('cc-country',summary.dataset,summary.country,summaryData);}render();}));
   [['cc-r-survey','survey'],['cc-r-country','country'],['cc-r-variable','variable'],['cc-r-adjustment','adjustment'],['cc-r-method','method'],['cc-r-threshold','threshold'],['cc-r-period','period']].forEach(([id,k])=>$(id).addEventListener('change',e=>{results[k]=e.target.value;if(k==='survey'){results.country=countries('cc-r-country',results.survey,results.country,waveRows);}render();}));
   $('cc-r-custom').addEventListener('change',e=>{const q=Number(e.target.value);if(!Number.isInteger(q)||q<70||q>99){$('cc-r-custom-note').textContent='Choose a whole percentile from 70 to 99; unavailable stored cutoffs remain blank.';return;}results.q=q/100;$('cc-r-custom-note').textContent='';render();});
@@ -1475,7 +1556,15 @@ function initOtherSurveys(other,usRows,context) {
   if(typeof ThresholdProfiles!=='undefined'){
     thresholdController=ThresholdProfiles.create({host:$('cc-quantile-profiles'),curves:profileCurves,surveys:['HFCS','SHIW','HILDA','PSID','CEX_BM_RECON'],international:true,metadata:context.metadata||{},getHousingMethod,getSpecificationSignature:context.getSpecificationSignature||getHousingMethod,housingMatches});
   }
-  return{render,resize:()=>{if(!active())return;if(view==='eyeballing')eyeController?.resize();else if(view==='summary')renderSummary();else if(view==='quantiles')thresholdController?.resize();else if(view==='loglog')relationshipChart?.resize();}};
+  function promoteHeading(frame,heading,extras=[]){
+    if(!frame||!heading)return;const column=document.createElement('div');column.className='cc-plot-column';frame.before(column);const header=document.createElement('div');header.className='cc-outside-heading';column.append(header,frame);header.append(heading,...extras);heading.classList.add('cc-view-heading');
+  }
+  promoteHeading($('cc-summary').querySelector('.other-card'),$('cc-summary').querySelector('.other-card-heading'));
+  promoteHeading($('cc-results').querySelector('.results-card'),$('cc-results').querySelector('.results-heading'));
+  const quantileHost=$('cc-quantile-profiles'),quantileHeading=quantileHost.querySelector('.threshold-heading');if(quantileHeading){quantileHeading.classList.add('cc-view-heading');quantileHost.before(quantileHeading);}
+  promoteHeading($('cc-loglog').querySelector('.plot-surface'),$('cc-loglog').querySelector('.plot-top'),[$('cc-b-readout'),$('cc-b-tail-ratio')]);
+  promoteHeading(eyeHost.querySelector('.plot-surface'),eyeHost.querySelector('.plot-top'),[eyeHost.querySelector('.eyeballing-readout')].filter(Boolean));
+  return{render,resize:()=>{if(!active())return;if(view==='eyeballing')eyeController?.resize();else if(view==='summary')renderSummary();else if(view==='time')timeChart?.resize();else if(view==='quantiles')thresholdController?.resize();else if(view==='loglog')relationshipChart?.resize();}};
 }
 
 function initAdjustments(payload,context) {
@@ -2109,14 +2198,14 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
     $('time-chart-title').textContent=metricLabel();
     const shownHouseholds=new Set(datasets.map(dataset=>dataset.survey).filter(survey=>['PSID','CEX_BM_RECON','SCF'].includes(survey))),adjustmentLabels=[];
     if(s.adjustment==='full'){
-      if(shownHouseholds.has('PSID'))adjustmentLabels.push('PSID: reporting rescaling + '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]);
-      if(shownHouseholds.has('CEX_BM_RECON'))adjustmentLabels.push('CEX: reporting rescaling + SCF housing weights');
-      if(shownHouseholds.has('SCF'))adjustmentLabels.push('SCF: reporting rescaling only');
+      if(shownHouseholds.has('PSID'))adjustmentLabels.push('PSID is rescaled to national accounts and uses '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]+'.');
+      if(shownHouseholds.has('CEX_BM_RECON'))adjustmentLabels.push('CEX is rescaled to national accounts and uses SCF housing weights.');
+      if(shownHouseholds.has('SCF'))adjustmentLabels.push('SCF is rescaled to national accounts only.');
     }else if(shownHouseholds.size){
       const names=['PSID','CEX_BM_RECON','SCF'].filter(survey=>shownHouseholds.has(survey)).map(survey=>surveyName(survey)).join(', ');
-      adjustmentLabels.push(names+': '+(s.adjustment==='adj'?'reporting rescaling only':'raw data'));
+      adjustmentLabels.push(names+': '+(s.adjustment==='adj'?'rescaled to national accounts only.':'raw data.'));
     }
-    const subtitle=$('time-chart-subtitle');subtitle.replaceChildren(document.createTextNode([isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'',...adjustmentLabels].filter(Boolean).join(' · ')));
+    const subtitle=$('time-chart-subtitle'),estimatorLabel=isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'';subtitle.replaceChildren();if(estimatorLabel){const estimator=document.createElement('span');estimator.className='subtitle-estimator';estimator.textContent=estimatorLabel;subtitle.append(estimator);}subtitle.append(document.createTextNode(adjustmentLabels.join(' ')));
     if(shownHouseholds.size){const link=document.createElement('a');link.className='subtitle-tab-link';link.href='#panel-adjustments';link.textContent='Survey Adjustments';link.addEventListener('click',event=>{event.preventDefault();tab('adjustments');});subtitle.append(' (see ',link,' for details)');}
     $('time-empty').hidden=!!datasets.length;$('time-empty').textContent=s.variables.size?'No comparable results for this selection.':'Select at least one measure.';
     $('download-time-csv').disabled=!timeRows.length;$('download-time-png').disabled=!datasets.length;

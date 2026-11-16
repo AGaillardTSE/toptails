@@ -50,3 +50,5 @@ See `NOTICE.md` for authorship and licensing. See the site’s Data and Methodol
 GitHub limits: https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github
 
 GitHub Pages limits: https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits
+
+Across Countries includes Tails over time with country, survey, adjustment, estimator, threshold, indicator and variable controls, based on the released annual aggregates.
