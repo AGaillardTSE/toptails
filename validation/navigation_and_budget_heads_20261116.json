@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "numerical_entries_unchanged": true,
+  "primary_navigation": [
+    "United States",
+    "Cross-country comparison",
+    "Variable Construction & Sample",
+    "Reporting and Representation Adjustments",
+    "Pareto Estimation",
+    "Sources",
+    "Replication package"
+  ],
+  "separate_Pareto_page_illustration_panels": 4,
+  "reporting_results_and_correspondence_preserved": true,
+  "frame_heads": 5,
+  "standalone_arrows_removed": true,
+  "binary_operators_black_and_centered_between_terms": true,
+  "desktop_nav_no_overflow": true
+}
