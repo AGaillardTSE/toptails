@@ -1,7 +1,12 @@
 const Eyeballing=(()=>{
   const labels={consump_def1:'Consumption',total_labor_income:'Labor income',total_income:'Total income',total_capital_income:'Capital income',networth_val:'Net worth',expenditure:'Total expenditure (excl. imputed rent)',expenditure_incl_rent:'Total expenditure, including imputed rent',food_total:'Food',food_home:'Food at home',food_away:'Food away',vacation:'Vacation',food_housing:'Food + housing',food_housing_vacation:'Food + housing + vacation',food_housing_vehicle:'Food + housing + vehicle services',food_housing_vacation_donations_vehicle:'Food + housing + vacation + donations + vehicle services'};
   const names={PSID:'PSID',SCF:'SCF',CEX_BM_RECON:'CEX',SAEZ_ZUCMAN:'Saez–Zucman (DINA)',FORBES:'Forbes',HFCS:'HFCS',HILDA:'HILDA',SHIW:'SHIW',YODLEE:'Yodlee (bank data)',NIELSEN:'NielsenIQ'},colors={consump_def1:'#477EAD',total_labor_income:'#BF5555',total_income:'#A96F4B',networth_val:'#4D8B69',total_capital_income:'#C4A12A'},adjustments={full:'Reporting + representation',adj:'Reporting only',raw:'Raw data',reference:'Source reference'};
-  function pointsFor(payload,profile){const vector=payload.vectors[profile.empirical_vector];return payload.x_grid.map((x,i)=>({x,y:vector[i]})).filter(p=>p.x<=profile.xmax*(1+1e-12)&&p.y>0);}
+  function pointsFor(payload,profile){
+    const xs=payload.marker_vectors?.[profile.marker_x_vector],ys=payload.marker_vectors?.[profile.marker_y_vector];
+    if(Array.isArray(xs)&&Array.isArray(ys)&&xs.length===ys.length)return xs.map((x,i)=>({x,y:ys[i]})).filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)&&p.x>0&&p.x<=profile.xmax*(1+1e-12)&&p.y>0);
+    const vector=payload.vectors[profile.empirical_vector],seen=new Set();
+    return payload.x_grid.map((x,i)=>({x,y:vector[i]})).filter(p=>{if(!Number.isFinite(p.x)||!Number.isFinite(p.y)||p.x<=0||p.x>profile.xmax*(1+1e-12)||p.y<=0||seen.has(p.y))return false;seen.add(p.y);return true;});
+  }
   function create({host,international=false,metadata,loadBlock,getHousingMethod=()=> 'benchmark',onHousingChange=()=>{},getWeightingMethod=()=> 'scf_income',onWeightingChange=()=>{},getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=()=>{},surveyTooltip=key=>names[key]}){
     const contract=metadata.eyeballing,availability=contract.availability.filter(r=>international?r.country!=='US':r.country==='US'),prefix=international?'cc-eye':'us-eye',doc=document,el=(tag,cls,text)=>{const n=doc.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},cache=new Map();let chart,request=0,plotted=[];
     const state={country:international?'AU':'US',survey:international?'HILDA':'PSID',variable:'consump_def1',variant:'full',method:'MLE',threshold:'KS',wave:'average'};

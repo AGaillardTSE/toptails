@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "active_files": 23,
+  "profiles": 19458,
+  "old_profile_fields_and_common_grid_unchanged": true,
+  "all_other_data_blocks_unchanged": true,
+  "cross_country_Forbes_excluded": true,
+  "source_direct_validation": {
+    "status": "PASS",
+    "checks": 2155,
+    "source_modes": 23,
+    "max_absolute_error": 2.55351295663786e-15,
+    "scope": "Individual-wave, strict MI and across-wave marker coordinates checked by direct native weighted tail masks; exact IEEE754 x thresholds passed as hex for reproducible discontinuity checks."
+  },
+  "renderer_all_active_profiles": "PASS: 19458 exact native coordinate pairs, strict ordering and stale-grid fallback",
+  "browser_checks": [
+    "PSID consumption full benchmark MLE KS average and 2005",
+    "PSID consumption full benchmark MLE P90 and P95, 2005",
+    "PSID consumption full benchmark P95 average",
+    "France HFCS consumption full MLE KS average and 2014 (five imputations)",
+    "PSID P95 2005 CSV: all 251 marker coordinates and coefficient exactly match source"
+  ]
+}

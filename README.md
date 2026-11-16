@@ -18,7 +18,7 @@ PSID, SCF and the restored original Meyer CEX relationship inputs use genuine 0.
 
 Methodology includes a Pareto-estimation explanation and a synthetic illustration of the Kolmogorov–Smirnov cutoff criterion. Its numerical coordinates reproduce the supplied R example; the research script is not part of this package.
 
-US and cross-country Eyeballing tabs display weighted empirical conditional tail probabilities on logarithmic axes, with MLE/OLS coefficients at KS, P90 or P95. Average curves retain zero probabilities after individual tails end and average imputations before waves. Payloads load by dataset/country. Cross-country Forbes remains excluded.
+US and cross-country Eyeballing tabs display weighted empirical conditional tail probabilities on logarithmic axes, with MLE/OLS coefficients at KS, P90 or P95. Average curves retain zero probabilities after individual tails end and average imputations before waves. Circles use sampled native empirical jump points; common-grid curves and coefficients are preserved. Payloads load by dataset/country. Cross-country Forbes remains excluded.
 
 The active CEX source is the original Meyer specification: 37 raw consumption waves in 1980–2017, 21 reporting-adjusted waves and eight fully adjusted waves. It retains original housing/vehicle services, equivalence and person weights. Reconstructed financial outcomes and constant-rent alternatives are unavailable in this branch. The prior reconstruction and its aggregates are preserved in the release archive and historical asset paths.
 
