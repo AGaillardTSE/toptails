@@ -1,0 +1,302 @@
+{
+  "status": "PASS",
+  "source_files_verified": 8,
+  "summary_cells": 522,
+  "curve_cells": 522,
+  "income_years": [
+    1996,
+    2024
+  ],
+  "weighting_method": "scf_housing",
+  "optional_default_off": true,
+  "lazy_load": true,
+  "scope": "Tails over time only",
+  "all_prior_numerical_block_entries_unchanged": true,
+  "source_validation": {
+    "status": "PASS",
+    "package": {
+      "status": "PASS",
+      "prior_audited_MLE_cases": 12,
+      "prior_audit_max_alpha_error": 5.329070518200751e-15,
+      "prior_audit_max_q_error": 1.1102230246251565e-16,
+      "summary_cells": 522,
+      "curve_cells": 522,
+      "thresholds": 291,
+      "source_manifests_unchanged": {
+        "CEX_housing_representation_2026_11_16": 22,
+        "Meyer_extended_food_fix_2026_11_15": 24
+      },
+      "labor_housing_invariance": true
+    },
+    "estimator": {
+      "status": "PASS",
+      "run_id": "CEX_optional_income_2026_11_16",
+      "construction": "cex_optional_income_mi5_tiesafe_ks_v1_20261116",
+      "summary_cells": 522,
+      "curve_cells": 522,
+      "native_draw_fits": 2034,
+      "all_curve_lengths": 291,
+      "imputations_before2004": 1,
+      "imputations_from2004": 5,
+      "strict_all_imputations_required": true,
+      "partial_valid_curve_points_exported_as_null": 0,
+      "unavailable_annual_KS_values": 0,
+      "default_visible": false,
+      "public_KS_pooling": "Mean separately selected per-imputation coefficients and percentiles; no fabricated common threshold",
+      "internal_validation": {
+        "status": "PASS",
+        "native_fits_checked": 2034,
+        "unit_checks": 12,
+        "max_native_statistic_error": 2.3046785988331288e-14,
+        "max_unit_curve_error": 1.129333006715807e-15
+      },
+      "independent_validation": {
+        "status": "PASS",
+        "native_cells_checked": 180,
+        "expected_native_cells": 180,
+        "pooled_annual_cells_checked": 36,
+        "expected_pooled_annual_cells": 36,
+        "years": [
+          2005,
+          2017,
+          2024
+        ],
+        "housing_methods": [
+          "benchmark",
+          "bp"
+        ],
+        "variants": [
+          "raw",
+          "full"
+        ],
+        "variables": [
+          "total_labor_income",
+          "total_capital_income",
+          "total_income"
+        ],
+        "imputations_per_cell": 5,
+        "missing_selected_checkpoint_count": 0,
+        "independent_methods": [
+          "weighted log moment MLE",
+          "distinct-jump multiplicity-weighted through-origin OLS",
+          "two-sided grouped weighted CDF KS",
+          "trapezoidal weighted Lorenz Gini",
+          "whole-tie weighted quantile top shares",
+          "strict within-wave five-draw averaging and conservative support counts"
+        ],
+        "maximum_errors": {
+          "n_obs_error": 0,
+          "n_obs_CU_error": 0,
+          "MLE_alpha_relative_error": 3.4569595594188697e-16,
+          "MLE_q_error": 0,
+          "MLE_KS_error": 2.220446049250313e-16,
+          "MLE_cutoff_relative_error": 0,
+          "MLE_tail_n_error": 0,
+          "MLE_tail_CU_error": 0,
+          "OLS_alpha_relative_error": 3.77715862249796e-15,
+          "OLS_q_error": 0,
+          "OLS_KS_error": 1.3877787807814457e-15,
+          "OLS_cutoff_relative_error": 0,
+          "OLS_tail_n_error": 0,
+          "OLS_tail_CU_error": 0,
+          "Gini_error": 6.994405055138486e-15,
+          "mean_relative_error": 0,
+          "top_share_summary_error": 9.325873406851315e-15,
+          "curve_MLE_relative_error": 2.875810700686543e-12,
+          "curve_OLS_relative_error": 2.2819524048145468e-12,
+          "curve_KS_MLE_error": 6.797895579779833e-13,
+          "curve_KS_OLS_error": 1.1403100685924983e-12,
+          "curve_cutoff_relative_error": 3.927747016518879e-12,
+          "curve_top_share_error": 1.021405182655144e-14,
+          "curve_tail_n_error": 0,
+          "curve_share_tail_n_error": 0
+        },
+        "maximum_pooling_errors": {
+          "pooled_summary_relative_error": 4.479755174222572e-15,
+          "pooled_summary_count_error": 0,
+          "pooled_curve_relative_error": 0,
+          "pooled_curve_count_relative_error": 0,
+          "pooled_valid_draw_count_error": 0,
+          "pooled_selected_KS_relative_error": 2.732914184134865e-15
+        },
+        "independent_source_cache_validation": {
+          "status": "PASS",
+          "native_income_cells_checked": 180,
+          "max_source_component_relative_error": 0,
+          "max_fixed_cost_and_weight_relative_error": 0,
+          "max_income_vector_relative_error": 2.7112334216147756e-13,
+          "max_person_weight_relative_error": 0
+        },
+        "baseline_preservation": [
+          {
+            "bundle": "current_housing_release",
+            "expected_files": 22,
+            "unchanged_files": 22,
+            "baseline_manifest_sha256": "75a0bc57e1fa01ff31864748aa2a360a377ec65ac1cdb2b42867ec615d22cc8b",
+            "current_manifest_sha256": "75a0bc57e1fa01ff31864748aa2a360a377ec65ac1cdb2b42867ec615d22cc8b",
+            "manifest_unchanged": true
+          },
+          {
+            "bundle": "previous_Meyer_archive",
+            "expected_files": 24,
+            "unchanged_files": 24,
+            "baseline_manifest_sha256": "5c569277b20b8e712e8c3e5cdf5fdfb39c99ad5dd1d72b6a9370638bb0ba783a",
+            "current_manifest_sha256": "5c569277b20b8e712e8c3e5cdf5fdfb39c99ad5dd1d72b6a9370638bb0ba783a",
+            "manifest_unchanged": true
+          }
+        ],
+        "method_only_review_separate": true
+      },
+      "synthetic_currency_permutation_cases": 6,
+      "synthetic_max_relative_error": 2.55351295663786e-15,
+      "native_currency_tests": 12,
+      "native_currency_max_relative_error": 1.129333006715807e-15,
+      "source_floor_would_be_active": 0,
+      "source_floor_would_be_active_in_KS": 0,
+      "minimum_positive_cutoff": 0.05869008802213173,
+      "minimum_positive_KS_cutoff": 1.291730972618389,
+      "published_source_files_unchanged": 24
+    },
+    "independent": {
+      "status": "PASS",
+      "native_cells_checked": 180,
+      "expected_native_cells": 180,
+      "pooled_annual_cells_checked": 36,
+      "expected_pooled_annual_cells": 36,
+      "years": [
+        2005,
+        2017,
+        2024
+      ],
+      "housing_methods": [
+        "benchmark",
+        "bp"
+      ],
+      "variants": [
+        "raw",
+        "full"
+      ],
+      "variables": [
+        "total_labor_income",
+        "total_capital_income",
+        "total_income"
+      ],
+      "imputations_per_cell": 5,
+      "missing_selected_checkpoint_count": 0,
+      "independent_methods": [
+        "weighted log moment MLE",
+        "distinct-jump multiplicity-weighted through-origin OLS",
+        "two-sided grouped weighted CDF KS",
+        "trapezoidal weighted Lorenz Gini",
+        "whole-tie weighted quantile top shares",
+        "strict within-wave five-draw averaging and conservative support counts"
+      ],
+      "maximum_errors": {
+        "n_obs_error": 0,
+        "n_obs_CU_error": 0,
+        "MLE_alpha_relative_error": 3.4569595594188697e-16,
+        "MLE_q_error": 0,
+        "MLE_KS_error": 2.220446049250313e-16,
+        "MLE_cutoff_relative_error": 0,
+        "MLE_tail_n_error": 0,
+        "MLE_tail_CU_error": 0,
+        "OLS_alpha_relative_error": 3.77715862249796e-15,
+        "OLS_q_error": 0,
+        "OLS_KS_error": 1.3877787807814457e-15,
+        "OLS_cutoff_relative_error": 0,
+        "OLS_tail_n_error": 0,
+        "OLS_tail_CU_error": 0,
+        "Gini_error": 6.994405055138486e-15,
+        "mean_relative_error": 0,
+        "top_share_summary_error": 9.325873406851315e-15,
+        "curve_MLE_relative_error": 2.875810700686543e-12,
+        "curve_OLS_relative_error": 2.2819524048145468e-12,
+        "curve_KS_MLE_error": 6.797895579779833e-13,
+        "curve_KS_OLS_error": 1.1403100685924983e-12,
+        "curve_cutoff_relative_error": 3.927747016518879e-12,
+        "curve_top_share_error": 1.021405182655144e-14,
+        "curve_tail_n_error": 0,
+        "curve_share_tail_n_error": 0
+      },
+      "maximum_pooling_errors": {
+        "pooled_summary_relative_error": 4.479755174222572e-15,
+        "pooled_summary_count_error": 0,
+        "pooled_curve_relative_error": 0,
+        "pooled_curve_count_relative_error": 0,
+        "pooled_valid_draw_count_error": 0,
+        "pooled_selected_KS_relative_error": 2.732914184134865e-15
+      },
+      "independent_source_cache_validation": {
+        "status": "PASS",
+        "native_income_cells_checked": 180,
+        "max_source_component_relative_error": 0,
+        "max_fixed_cost_and_weight_relative_error": 0,
+        "max_income_vector_relative_error": 2.7112334216147756e-13,
+        "max_person_weight_relative_error": 0
+      },
+      "baseline_preservation": [
+        {
+          "bundle": "current_housing_release",
+          "expected_files": 22,
+          "unchanged_files": 22,
+          "baseline_manifest_sha256": "75a0bc57e1fa01ff31864748aa2a360a377ec65ac1cdb2b42867ec615d22cc8b",
+          "current_manifest_sha256": "75a0bc57e1fa01ff31864748aa2a360a377ec65ac1cdb2b42867ec615d22cc8b",
+          "manifest_unchanged": true
+        },
+        {
+          "bundle": "previous_Meyer_archive",
+          "expected_files": 24,
+          "unchanged_files": 24,
+          "baseline_manifest_sha256": "5c569277b20b8e712e8c3e5cdf5fdfb39c99ad5dd1d72b6a9370638bb0ba783a",
+          "current_manifest_sha256": "5c569277b20b8e712e8c3e5cdf5fdfb39c99ad5dd1d72b6a9370638bb0ba783a",
+          "manifest_unchanged": true
+        }
+      ],
+      "method_only_review_separate": true
+    },
+    "construction": {
+      "status": "PASS",
+      "n_caches": 58,
+      "n_years": 29,
+      "n_housing": 2,
+      "n_modern_imputations": 5,
+      "n_pre2004_estimates": 1,
+      "max_reporting_control_error": 2.220446049250313e-16,
+      "max_legacy_mean_reconstruction_error": 0,
+      "max_total_component_identity_error": 0,
+      "partial_draw_support": 0,
+      "baseline_datasets_untouched": true
+    },
+    "root_scale_and_row_order_properties": {
+      "status": "PASS",
+      "cases": 6,
+      "maximum_relative_error": 2.55351295663786e-15,
+      "selected_KS_percentiles_identical": true,
+      "tail_record_and_CU_counts_identical": true,
+      "constant_tail_unavailable": true
+    },
+    "optional_default_off": true,
+    "published_consumption_wealth_preserved": true
+  },
+  "optional_payload_sha256": "878343b15d33aa42157b254dc4fb8662503c7c16ed46fda8f3bf202b330a2311",
+  "validation_scope": "Default numerical entry hashes preserved; exact optional core payload equality to the approved source; source MI and estimator independent validations retained.",
+  "preview_checks": {
+    "default_off_has_only_consumption_and_wealth": true,
+    "opt_in_has_all_three_income_measures": true,
+    "all_six_stage_housing_combinations": true,
+    "income_wave_coverage": [
+      1996,
+      2024
+    ],
+    "raw_consumption_years_unchanged": 44,
+    "reporting_consumption_years_unchanged": 34,
+    "full_consumption_years_unchanged": 29,
+    "OLS_P90": true,
+    "opt_out_removes_income_again": true,
+    "cross_country_quantile_variable_toggles": true,
+    "construction_data_and_sources_consolidation": true,
+    "header_academic_paper": true
+  },
+  "actual_plot_coefficient_resolver_checks": 6264,
+  "actual_plot_coefficient_resolver_status": "PASS"
+}

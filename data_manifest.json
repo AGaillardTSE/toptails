@@ -1,6 +1,6 @@
 {
-  "source_html_sha256": "e37243f9b4a4abc6269185f9a7c80e5ffc5f9cc4af1f2f1734fe2927d5fe3f82",
-  "source_html_bytes": 404317922,
+  "source_html_sha256": "feb158d54ac7c83ee467518a179aa8b608938c98e00a7014bfedcbc5bfca4126",
+  "source_html_bytes": 415738007,
   "entries": [
     {
       "id": "explorer-block-bins_unmerged_PSID",
@@ -2844,20 +2844,6 @@
       ]
     },
     {
-      "id": "explorer-block-metadata",
-      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-metadata\" data-explorer-block=\"metadata\" data-lazy=\"false\">",
-      "separator": "\n",
-      "sha256": "a5ac01dab010930c8199c6cab1e0a6d16fc2240cbac4b64f93e56e72eff4630a",
-      "gzip_bytes": 1207907,
-      "parts": [
-        {
-          "path": "data/metadata.a5ac01dab010930c.part01.bin",
-          "bytes": 1207907,
-          "sha256": "a5ac01dab010930c8199c6cab1e0a6d16fc2240cbac4b64f93e56e72eff4630a"
-        }
-      ]
-    },
-    {
       "id": "explorer-block-bins_CEX_scf_housing_benchmark_n0",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-bins_CEX_scf_housing_benchmark_n0\" data-explorer-block=\"bins_CEX_scf_housing_benchmark_n0\" data-lazy=\"true\">",
       "separator": "\n",
@@ -2994,6 +2980,44 @@
           "path": "data/bins_CEX_scf_housing_bp_n20.582112fb3fb9899e.part01.bin",
           "bytes": 458765,
           "sha256": "582112fb3fb9899ef82656702fe42a9c8fe2d627d7bc302bdbfd56fae69259ef"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-metadata",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-metadata\" data-explorer-block=\"metadata\" data-lazy=\"false\">",
+      "separator": "\n",
+      "sha256": "3ca4f5c90181a57c30171c768dde8d5132c7dc7a6bc48a14082a5d6690e758f4",
+      "gzip_bytes": 1210507,
+      "parts": [
+        {
+          "path": "data/metadata.3ca4f5c90181a57c.part01.bin",
+          "bytes": 1210507,
+          "sha256": "3ca4f5c90181a57c30171c768dde8d5132c7dc7a6bc48a14082a5d6690e758f4"
+        }
+      ]
+    },
+    {
+      "id": "explorer-block-optional_income_CEX_BM_RECON",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-optional_income_CEX_BM_RECON\" data-explorer-block=\"optional_income_CEX_BM_RECON\" data-lazy=\"true\">",
+      "separator": "\n",
+      "sha256": "878343b15d33aa42157b254dc4fb8662503c7c16ed46fda8f3bf202b330a2311",
+      "gzip_bytes": 8559301,
+      "parts": [
+        {
+          "path": "data/optional_income_CEX_BM_RECON.878343b15d33aa42.part01.bin",
+          "bytes": 4194304,
+          "sha256": "2edcb6e754484f08a7573a1e84b7d2d657cb85f2efce4ee2c348d40d7bf82898"
+        },
+        {
+          "path": "data/optional_income_CEX_BM_RECON.878343b15d33aa42.part02.bin",
+          "bytes": 4194304,
+          "sha256": "a8d079f29adefc1d33199ee69f5216c4debbe4b51839c6fb2764dd6cfa17a6c3"
+        },
+        {
+          "path": "data/optional_income_CEX_BM_RECON.878343b15d33aa42.part03.bin",
+          "bytes": 170693,
+          "sha256": "3f900f9a548c3ea8c94b8eee4e36cf4189cd018f4e4aa85f416a0f3269525626"
         }
       ]
     }

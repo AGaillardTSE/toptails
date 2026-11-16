@@ -149,7 +149,7 @@
   ];
   const hiddenSpending=new Set(['food_home','food_away','food_housing','food_housing_vehicle']);
   const spendingOptions=(Array.isArray(META.spending_options)?META.spending_options:FALLBACK_SPENDING).filter(option=>!hiddenSpending.has(option.key)&&(SUMMARY.some(r=>r.variable===option.key)||BINS.some(r=>r.yvar===option.key)));
-  const s = {tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS)};
+  const s = {cexIncome:false,tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS)};
   const r = {survey:'psid',datasets:new Set(['PSID']),yodleeVariant:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95};
   const b = {primary:'psid',overlays:new Set(),adjustment:'full',measure:'flow',pair:'wealth_consumption',wave:'average',scfWave:'average',dinaWave:'average',autoSCF:false,cexWave:'latest',reconWave:'latest',bmWave:'latest',stat:'mean',minN:10,excludeNetRent:false,beforePersonalInterest:false,traces:false,scale:'loglog',fit:'ols'};
   let eyeController,definitionsController,timeChart,bivChart,otherController,adjustmentController,thresholdController,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality',profileSurvey='PSID';
@@ -164,7 +164,7 @@
     SCF:'Survey of Consumer Finances: triennial U.S. household survey designed to measure household finances and oversample wealthy families.',
     CEX:'Consumer Expenditure Interview Survey: consumer-unit interviews covering spending, income, and partial wealth.',
     CEX_BM:'Authors’ supplied CEX B&M reference series, retained unchanged.',
-    CEX_BM_RECON:META.meyer_restored.bubble,
+    CEX_BM_RECON:'Consumer Expenditure Interview Survey (CEX), using the Meyer–Sullivan consumption construction and public extension. Consumption and partial wealth are shown by default. Public-use income components are poorly reported at the top: topcoding severely biases upper-tail estimates. In Tails over time, Show income enables these optional estimates. Representation uses SCF primary-home values and nonownership.',
     YODLEE:'Bank–individual-account transaction data: each observation is one person’s account within the sampled banking system, not a complete household consumption unit. Spending outside the observed account—such as cash or activity at other institutions—is not captured. SCF income weights are always used to improve representativeness.',
     NIELSEN:'NielsenIQ household-panel reference based on annual retail purchases. It is available only when “Variable for consumption” is Food because it does not measure the broader consumption concepts used by the other choices.',
     SAEZ_ZUCMAN:'Distributional National Accounts (DINA), 1970–2019: synthetic adults aged 20+, reconstructed from tax, survey and national accounts data. Income follows Piketty, Saez and Zucman; wealth follows Saez and Zucman. Capital income includes fiscal capital gains by default.',
@@ -175,7 +175,7 @@
   const spendingName = measure => spendingOptions.find(option=>option.value===measure)?.label || FALLBACK_SPENDING.find(option=>option.value===measure)?.label || measure;
   const label = (key,measure) => key==='spending' ? spendingName(measure) : LABELS[key] || key;
   const sourceKey = (key,measure) => key==='spending' ? spendingKey(measure) : key;
-  const displayLabel = (key,measure,survey) => isCEX(survey)?(sourceDisplay(survey)?.labels?.[sourceKey(key,measure)]||({networth_val:'Partial net worth (CEX)',total_capital_income:'Observed capital income (CEX)'})[sourceKey(key,measure)]||label(key,measure)):label(key,measure);
+  const displayLabel = (key,measure,survey) => isCEX(survey)?(META.cex_optional_income?.variables?.[sourceKey(key,measure)]||sourceDisplay(survey)?.labels?.[sourceKey(key,measure)]||({networth_val:'Partial net worth (CEX)',total_capital_income:'Observed capital income (CEX)'})[sourceKey(key,measure)]||label(key,measure)):label(key,measure);
   const variableDisplayLabel = (variable,survey) => (isCEX(survey)?sourceDisplay(survey)?.labels?.[variable]:null)||META.variables?.[variable]?.label||spendingOptions.find(option=>option.key===variable)?.label||LABELS[variable]||variable.replace(/_/g,' ');
   const wealthDenominatorLabel = survey => isCEX(survey)?(sourceDisplay(survey)?.labels?.networth_val||'Partial net worth (CEX)'):'Net worth';
   const bmOriginalOnly=!ALL_SUMMARY.some(row=>row.survey==='CEX_BM'&&['raw','adj','full'].includes(row.variant));
@@ -235,6 +235,7 @@
   function announce(text) { $('live-announcement').textContent=text; }
   let viewRequest=0;
   async function prepareView(){
+    if(mainVisible()&&s.cexIncome&&selectedSurveys(s).has('CEX_BM_RECON')){await ensureCEXIncome();fillSeries();}
     if(mainVisible()&&isParetoMetric(s.metric)&&s.threshold!=='ks')await ensureFullCurves([...selectedSurveys(s)]);
     if(resultsVisible())await ensureFullCurves([...resultsSurveys()].filter(survey=>r.threshold!=='ks'||META.reference_curve_surveys?.includes(survey)));
     if(quantilesVisible()){await ensureFullCurves(['PSID','SCF','CEX_BM_RECON',...(META.reference_curve_surveys||[])]);initializeThresholdController();}
@@ -271,15 +272,25 @@
     button.addEventListener('click',()=>tab(button.dataset.section==='us'?lastUSTab:button.dataset.section));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#primary-nav [data-section]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.section==='us'?lastUSTab:all[index].dataset.section);});
   });
 
+  let cexIncomeSummary=[],cexIncomeReady=false;
+  const timeSummary=()=>s.cexIncome?SUMMARY.concat(cexIncomeSummary.filter(specificationMatches)):SUMMARY;
+  const timeKeys=()=>s.cexIncome&&selectedSurveys(s).has('CEX_BM_RECON')?[...KEYS,'total_income']:KEYS;
+  async function ensureCEXIncome(){
+    if(cexIncomeReady)return;
+    const payload=await loadBlock('optional_income_CEX_BM_RECON');
+    cexIncomeSummary=unpack(payload.summary);
+    unpack(payload.curves).forEach(row=>curveIndex.set(curveKey(row),row));
+    cexIncomeReady=true;
+  }
   function fillSeries() {
     $('series-controls').replaceChildren();const selection=selectedSurveys(s),labelSurvey=selection.size===1?[...selection][0]:s.primary.toUpperCase();
-    KEYS.forEach(key=>{
-      const onlyCEX=selectedSurveys(s).size===1&&selectedSurveys(s).has('CEX_BM_RECON');if(onlyCEX&&['total_labor_income','total_capital_income'].includes(key))return;
+    timeKeys().forEach(key=>{
+      const onlyCEX=selectedSurveys(s).size===1&&selectedSurveys(s).has('CEX_BM_RECON');if(onlyCEX&&!s.cexIncome&&['total_labor_income','total_capital_income'].includes(key))return;
       const item=document.createElement('label'); item.className='series-choice'; item.style.setProperty('--series',COLORS[key]);
-      const input=document.createElement('input'); input.type='checkbox'; input.checked=s.variables.has(key); input.setAttribute('aria-label',displayLabel(key,s.measure,labelSurvey));
-      const selected=selectedSurveys(s),surveyAvailable=SUMMARY.some(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,s.adjustment)&&row.variable===sourceKey(key,s.measure)),referenceAvailable=[...selected].some(survey=>referenceController?.hasVariable(survey,sourceKey(key,s.measure))||(key==='spending'&&survey==='NIELSEN'&&s.measure==='food_total'));input.disabled=!surveyAvailable&&!referenceAvailable;
+      const input=document.createElement('input'); input.type='checkbox'; input.checked=s.variables.has(key); input.setAttribute('aria-label',key==='total_income'?'Total income (CEX)':displayLabel(key,s.measure,labelSurvey));
+      const selected=selectedSurveys(s),surveyAvailable=timeSummary().some(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,s.adjustment)&&row.variable===sourceKey(key,s.measure)),referenceAvailable=[...selected].some(survey=>referenceController?.hasVariable(survey,sourceKey(key,s.measure))||(key==='spending'&&survey==='NIELSEN'&&s.measure==='food_total'));input.disabled=!surveyAvailable&&!referenceAvailable;
       input.addEventListener('change',()=>{ input.checked?s.variables.add(key):s.variables.delete(key);if(key==='networth_val'&&!input.checked&&s.overlays.has('forbes')){s.overlays.delete('forbes');fillOverlays('overlay-controls',s,mainOverlayChoices());}schedule(); });
-      const swatch=document.createElement('span'); swatch.className='series-swatch'; const text=document.createElement('span'); text.textContent=displayLabel(key,s.measure,labelSurvey);
+      const swatch=document.createElement('span'); swatch.className='series-swatch'; const text=document.createElement('span'); text.textContent=key==='total_income'?'Total income (CEX)':displayLabel(key,s.measure,labelSurvey);
       item.append(input,swatch,text); $('series-controls').append(item);
     });
   }
@@ -309,7 +320,13 @@
         if(state===s){syncHousingAvailability();syncMainCapabilities();fillSpendingSelect('measure-select',selectedSurveys(s),s,SUMMARY);fillSeries();fillOverlays('overlay-controls',s,mainOverlayChoices());}
         if(state===b){if(survey==='scf')b.autoSCF=false;syncHousingAvailability();fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);}
         schedule();
-      });item.append(input,labelText,help);fieldset.append(item);
+      });item.append(input,labelText,help);
+      if(id==='overlay-controls'&&survey==='cex_bm_recon'){
+        const row=document.createElement('div'),option=document.createElement('label'),income=document.createElement('input'),text=document.createElement('span'),detail=document.createElement('span');
+        row.className='cex-dataset-row';option.className='small-check cex-income-option';income.type='checkbox';income.id='cex-show-income';income.checked=s.cexIncome;income.disabled=!selectedSurveys(s).has('CEX_BM_RECON');income.setAttribute('aria-label','Show CEX topcoded income');text.textContent='Show income';
+        detail.className='help-marker hover-help';detail.textContent='?';detail.tabIndex=0;detail.setAttribute('aria-label','About CEX topcoded income');detail.dataset.tooltip=META.cex_optional_income?.warning||'Public-use CEX income is incompletely reported and topcoded, severely distorting upper-tail estimates. Corrections do not recover the original high-income observations.';help.remove();
+        income.addEventListener('change',()=>{s.cexIncome=income.checked;s.cexIncome?s.variables.add('total_income'):s.variables.delete('total_income');fillSeries();schedule();});option.append(income,text);row.append(item,option,detail);fieldset.append(row);
+      }else fieldset.append(item);
     });
   }
   function destroy(canvas,chart) { const existing=Chart.getChart($(canvas)); if(existing) existing.destroy(); else if(chart) chart.destroy(); }
@@ -317,16 +334,17 @@
     destroy('time-chart',timeChart);timeChart=null;timeRows=[];
     syncMainCapabilities();syncDinaControls();
     const datasets=[],selected=selectedSurveys(s),styles={PSID:{point:'circle',dash:[],radius:4.5},SCF:{point:'rectRot',dash:[5,4],radius:6},CEX:{point:'triangle',dash:[2,4],radius:6},CEX_BM:{point:'crossRot',dash:[8,3,2,3],radius:8},CEX_BM_RECON:{point:'triangle',dash:[2,4],radius:6}};
-    KEYS.filter(key=>s.variables.has(key)).forEach(key=>{
+    timeKeys().filter(key=>s.variables.has(key)).forEach(key=>{
       const variable=sourceKey(key,s.measure),color=COLORS[key];
       [...selected].forEach(survey=>{
+        if(key==='total_income'&&survey!=='CEX_BM_RECON')return;
         if(isParetoMetric(s.metric)&&s.threshold==='p99'&&HOUSEHOLD_SURVEYS.has(survey)&&!['SCF','CEX_BM_RECON'].includes(survey))return;
         const variant=variantFor(survey),style=styles[survey];
-        const rows=SUMMARY.filter(row=>row.survey===survey&&row.variant===variant&&row.variable===variable).sort((a,b)=>a.year-b.year);
+        const rows=timeSummary().filter(row=>row.survey===survey&&row.variant===variant&&row.variable===variable).sort((a,b)=>a.year-b.year);
         if(!rows.some(row=>FINITE(metricValue(row))))return;
         const sourceYears=surveyYears[survey]||[],chartYears=isCEX(survey)&&sourceYears.length?Array.from({length:sourceYears[sourceYears.length-1]-sourceYears[0]+1},(_,i)=>sourceYears[0]+i):sourceYears;
         datasets.push({label:displayLabel(key,s.measure,survey)+' · '+surveyName(survey),survey,key,variable,type:'line',data:chartYears.map(year=>{const row=rows.find(r=>r.year===year),fit=row?tailResult(row):null,period=SeriesYears.period(row||{survey,year,variable});return {x:period.year,wave:year,period_label:period.detail,y:row&&FINITE(metricValue(row))?metricValue(row):null,q:fit?.q,maxks:fit?.maxks,n_tail:fit?.n_tail};}),showLine:rows.length>1,spanGaps:false,tension:0,borderColor:color,backgroundColor:color,borderWidth:survey==='PSID'?2.5:1.7,borderDash:style.dash,pointStyle:style.point,pointRadius:rows.length===1?7:style.radius,pointHoverRadius:survey==='CEX_BM'?10:8.5,pointHitRadius:10,pointBackgroundColor:survey==='PSID'?'#fff':color,pointBorderColor:survey==='PSID'||survey==='CEX_BM'?color:'#fff',pointBorderWidth:survey==='CEX_BM'?2.4:1.3});
-        rows.filter(row=>FINITE(metricValue(row))).forEach(row=>{const fit=tailResult(row),wealth=wealthTail(row),value=metricValue(row);timeRows.push({survey,housing_method:housing.method,source_housing_method:housingMethod(row),weighting_method:weightingMethod(row),wave:row.year,observation_year:SeriesYears.period(row).year,observation_period:SeriesYears.period(row).label,year_basis:SeriesYears.period(row).basis,adjustment:variant,source_variant:variant,variable,variable_label:variableDisplayLabel(variable,survey),indicator:s.metric,method:isParetoMetric(s.metric)?s.method:'',threshold:isParetoMetric(s.metric)?s.threshold:'',estimate:value,pareto_estimate:isParetoMetric(s.metric)?fit.estimate:null,wealth_pareto_estimate:s.metric==='pareto_wealth_ratio'?wealth.estimate:null,threshold_quantile:isParetoMetric(s.metric)?fit.q:null,ks:isParetoMetric(s.metric)?fit.maxks:null,n_tail:isParetoMetric(s.metric)?fit.n_tail:null,tail_unit_type:tailUnit(survey)});});
+        rows.filter(row=>FINITE(metricValue(row))).forEach(row=>{const fit=tailResult(row),wealth=wealthTail(row),value=metricValue(row);timeRows.push({survey,income_topcoded:survey==='CEX_BM_RECON'&&['total_labor_income','total_capital_income','total_income'].includes(variable),housing_method:housing.method,source_housing_method:housingMethod(row),weighting_method:weightingMethod(row),wave:row.year,observation_year:SeriesYears.period(row).year,observation_period:SeriesYears.period(row).label,year_basis:SeriesYears.period(row).basis,adjustment:variant,source_variant:variant,variable,variable_label:variableDisplayLabel(variable,survey),indicator:s.metric,method:isParetoMetric(s.metric)?s.method:'',threshold:isParetoMetric(s.metric)?s.threshold:'',estimate:value,pareto_estimate:isParetoMetric(s.metric)?fit.estimate:null,wealth_pareto_estimate:s.metric==='pareto_wealth_ratio'?wealth.estimate:null,threshold_quantile:isParetoMetric(s.metric)?fit.q:null,ks:isParetoMetric(s.metric)?fit.maxks:null,n_tail:isParetoMetric(s.metric)?fit.n_tail:null,tail_unit_type:tailUnit(survey)});});
       });
     });
     datasets.push(...(referenceController?.datasets(s)||[]));
@@ -344,7 +362,8 @@
     if(isParetoMetric(s.metric)&&s.threshold==='ks')notes.push('Each coefficient uses its own KS-selected threshold.');
     if(s.metric==='pareto_wealth_ratio')notes.push('Each value divides the selected variable’s Pareto coefficient by the wealth coefficient from the same survey, wave and adjustment stage; wealth equals 1.');
     if(s.variables.has('spending')&&selected.has('SCF')){const rows=SUMMARY.filter(row=>row.survey==='SCF'&&row.variable===spendingKey(s.measure)&&row.variant===variantFor('SCF'));if(!rows.some(row=>FINITE(metricValue(row))))notes.push('Consumption is unavailable in SCF for this adjustment.');}
-    if(selected.has('PSID'))notes.push('PSID construction involves extensive cleaning and selected imputations, including for capital income. Other surveys are processed as comparably as their source coverage permits, but the available detail differs: CEX displays consumption and partial wealth, SCF provides little consumption detail, and PSID offers relatively broad and detailed coverage of consumption, labor income, capital income, and wealth—the four displayed components of the household budget constraint.');
+    if(selected.has('PSID'))notes.push('PSID construction involves extensive cleaning and selected imputations, including for capital income. Other surveys are processed as comparably as their source coverage permits, but the available detail differs: CEX shows consumption and partial wealth by default, SCF provides little consumption detail, and PSID offers relatively broad and detailed coverage of consumption, labor income, capital income, and wealth—the four displayed components of the household budget constraint.');
+    if(s.cexIncome&&selected.has('CEX_BM_RECON'))notes.push('CEX income components are topcoded, severely biasing upper-tail estimates.');
     if(selected.has('SAEZ_ZUCMAN'))notes.push('DINA covers synthetic adults aged 20+ in 1970–2019. Capital income includes fiscal capital gains.');
     notes.push('Dates follow each series’ reference period or wealth valuation year; survey waves are identified in tooltips.');
     datasets.forEach(dataset=>{if(dataset.isReference)dataset.data=dataset.data.map(point=>{const period=SeriesYears.period({survey:dataset.survey,variable:dataset.variable,year:point.x});return{...point,x:period.year,wave:period.wave,period_label:period.detail};});});

@@ -196,6 +196,8 @@
 
 .weighting-control .weighting-title{display:flex;align-items:center;gap:6px}
 
+#overlay-controls .cex-dataset-row{display:flex;align-items:center;gap:9px;grid-column:1/-1;min-width:0}#overlay-controls .cex-dataset-row>.overlay-choice{flex:0 0 auto}.sidebar .cex-income-option{display:inline-flex;align-items:center;gap:5px;margin:0;font:400 12px/1.4 Arial,sans-serif!important;letter-spacing:0;text-transform:none;color:#d0d5df;white-space:nowrap}.cex-income-option input{width:13px;height:13px;margin:0;accent-color:#b34470}.cex-income-option:has(input:disabled){opacity:.45}#overlay-controls:has(.cex-dataset-row) .overlay-choice-yodlee{grid-column:1/-1}
+
 .adjustment-readout,.plot-subtitle,.chart-subtitle,.panel-subtitle,.slope-readout,.eyeballing-readout,.eyeballing-subtitle{font-size:14px;line-height:1.7}
 
 .threshold-legend .threshold-variable-choice{display:inline-flex;align-items:center;gap:6px;margin:0;color:inherit;font:400 13px/1.5 Arial,sans-serif;letter-spacing:0;text-transform:none;cursor:pointer}.threshold-variable-choice input{margin:0;width:14px;height:14px;accent-color:#b34470}
@@ -204,3 +206,5 @@
 #time-note:not(:empty)::before,#biv-note:not(:empty)::before,#cc-summary-note:not(:empty)::before,#cc-b-note:not(:empty)::before,.threshold-note:not(:empty)::before,.eyeballing-note:not(:empty)::before,p.adjustment-note:not(:empty)::before,.adjustment-footnote>.decomposition-intro::before{content:"Notes: ";font-style:italic;font-weight:400}
 
 .procedure-paper-note{font:400 14px/1.7 Arial,sans-serif;color:#717789;margin:0 0 20px}.procedure-paper-note a{color:inherit}
+
+.definition-data-extra:not([hidden]){margin-top:12px}
