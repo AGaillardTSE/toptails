@@ -78,7 +78,7 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
     [['procedure','Procedure & Algorithm'],['figures','Over years'],['distribution','Along distributions'],...Object.entries(domainNames),['pareto','Pareto estimation']].forEach(([domain,label])=>{
       if(domain==='procedure'||domain==='consumption'||domain==='pareto'){
         navGroup=el('div','dc-nav-group '+(domain==='procedure'?'dc-nav-representation':domain==='consumption'?'dc-nav-correspondence':'dc-nav-estimation'));navGroup.setAttribute('role','presentation');navInner.append(navGroup);
-        if(domain!=='pareto')navGroup.append(el('strong','dc-nav-group-label dc-nav-section-label',domain==='procedure'?'Representation and reporting:':'Correspondence tables:'));
+        if(domain!=='pareto')navGroup.append(el('strong','dc-nav-group-label dc-nav-section-label',domain==='procedure'?'Representation and reporting corrections:':'Correspondence tables:'));
       }
       if(domain==='figures'){const dash=el('span','dc-nav-results-divider','—');dash.setAttribute('aria-hidden','true');navGroup.append(dash,el('strong','dc-nav-group-label','Results:'));}
       const button=el('button','secondary-tab',label);button.type='button';button.id='dc-tab-'+domain;button.dataset.correspondenceTab=domain;button.setAttribute('role','tab');button.setAttribute('aria-controls',domain==='pareto'?pareto.id:domain==='procedure'?procedure.id:domain==='figures'?figures.id:domain==='distribution'?distribution.id:'dc-panel-'+domain);button.addEventListener('click',()=>activate(domain));navGroup.append(button);nodes.tabs[domain]=button;
