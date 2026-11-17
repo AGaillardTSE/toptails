@@ -89,3 +89,20 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .pareto-method :is(p,li,dd,.pareto-example-readout,.pareto-illustration-status){font-size:14px}
 
 .budget-definitions .definition-sample p{font-size:14px;line-height:1.75}
+
+/* Compare estimators on the same row, followed by the cutoff criterion. */
+.pareto-method-explanation{grid-template-columns:1fr}
+.pareto-estimators{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;margin-top:24px}
+.pareto-estimator{min-width:0}
+.pareto-estimator+ .pareto-estimator{border-left:1px solid #e1ded7;padding-left:28px}
+.pareto-estimator h4{font:600 16px/1.5 Arial,sans-serif;color:#304962;margin:0 0 10px}
+.pareto-estimator .pareto-method-math{display:flex;align-items:center;justify-content:center;min-height:130px}
+.pareto-estimator .pareto-method-math math{font-size:20px}
+@media(max-width:760px){.pareto-estimators{grid-template-columns:1fr}.pareto-estimator+ .pareto-estimator{border-left:0;border-top:1px solid #e1ded7;padding:22px 0 0}}
+
+.dc-visual-procedure .operation-inline-equation{display:inline-block;vertical-align:middle;white-space:nowrap;margin:0 3px;color:#34475e;font-weight:700}
+.dc-visual-procedure .operation-inline-equation math{font-size:20px;font-weight:700;margin:0}
+
+.budget-component .definition-gains-note{margin-top:13px;font-size:14px;line-height:1.5;color:#77818d}
+
+.definition-correspondence-note{font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d;margin:8px 0 0}.definition-correspondence-note a{color:#355f87;text-underline-offset:3px}
