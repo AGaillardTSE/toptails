@@ -54,7 +54,19 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
   function enhanceProcedure(panel){
     panel.classList.add('dc-visual-procedure');const operations=panel.querySelectorAll('.fixed-point-operation');
     operations.forEach((operation,index)=>{const number=el('span','dc-operation-step',index===0?'Rescaling by matching national accounts':'Reweighting: match a benchmark distribution');operation.prepend(number);const visual=operation.querySelector('.operation-visual');if(!visual)return;visual.replaceChildren();visual.className='dc-step-visual '+(index===0?'dc-reporting-visual':'dc-representation-visual');
-      if(index===0){const legend=el('div','dc-mini-legend');legend.append(el('span','','Weighted survey totals'),el('span','','Account targets'));visual.append(legend);[42,66,52].forEach((width,j)=>{const row=el('div','dc-rescale-row');row.append(el('span','dc-mini-label',['Category k','Category ℓ','Category m'][j]));const track=el('span','dc-rescale-track'),bar=el('i','dc-rescale-bar'),target=el('i','dc-rescale-target');bar.style.width=width+'%';track.append(bar,target);row.append(track,el('span','dc-mini-factor',['λk','λℓ','λm'][j]+' →'));visual.append(row);});}
+      if(index===0){
+        visual.classList.add('dc-rescale-schema');visual.removeAttribute('aria-hidden');visual.setAttribute('role','group');visual.setAttribute('aria-label','Rescaling each reported amount by a category factor makes its weighted total match national accounts.');
+        const flow=el('div','dc-rescale-flow');
+        for(const side of ['before','after']){
+          const box=el('div','dc-rescale-amounts '+side);box.append(el('h4','',side==='before'?'Reported amounts':'Rescaled amounts'));
+          const formula=el('div','dc-rescale-amount-formula');formula.innerHTML='<math aria-label="'+(side==='before'?'Reported amount y i k':'Rescaled amount lambda k times y i k')+'"><mrow>'+(side==='after'?'<msub><mi>λ</mi><mi>k</mi></msub>':'')+'<msub><mi>y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></mrow></math>';box.append(formula);
+          const bars=el('div','dc-rescale-sample-bars');bars.setAttribute('aria-hidden','true');[14,23,32,43].forEach(height=>{const bar=el('i');bar.style.height=(height*(side==='after'?1.4:1))+'px';bars.append(bar);});box.append(bars);flow.append(box);
+          if(side==='before'){const factor=el('div','dc-rescale-multiplier');factor.innerHTML='<math aria-label="Multiply by the same category factor lambda k"><mrow><mo>×</mo><msub><mi>λ</mi><mi>k</mi></msub></mrow></math>';factor.append(el('span','dc-rescale-flow-arrow','→'));flow.append(factor);}
+        }
+        const match=el('div','dc-rescale-matched-total');match.append(el('strong','','Weighted total matches national accounts'));
+        const identity=el('div');identity.innerHTML='<math display="block" aria-label="The weighted sum of rescaled amounts equals the national-account target Y k"><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>ω</mi><mi>i</mi></msub><mo stretchy="false">(</mo><msub><mi>λ</mi><mi>k</mi></msub><msub><mi>y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo stretchy="false">)</mo><mo>=</mo><msub><mi>Y</mi><mi>k</mi></msub></mrow></math>';match.append(identity);
+        visual.append(flow,match,el('p','dc-rescale-schema-note','Apply the same factor to every observation in category k.'));
+      }
       else {const legend=el('div','dc-mini-legend dc-reweight-legend');legend.append(el('span','','Original weights'),el('span','','Matched bin mass of a benchmark distribution (IRS, SCF, WID data)'));visual.append(legend);const people=el('div','dc-people-comparison');for(const side of ['before','after']){const group=el('div','dc-people-group '+side);for(let j=0;j<12;j++){const person=el('i','dc-person');person.style.setProperty('--person-weight',side==='before'?'1':[.7,.8,1.1,1.5][Math.floor(j/3)]);group.append(person);}people.append(group);if(side==='before')people.append(el('span','dc-people-arrow','→'));}visual.append(people);}
     });
   }
