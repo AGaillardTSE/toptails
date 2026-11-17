@@ -30,7 +30,7 @@
 #panel-other .cc-plot-column{min-width:0}
 #panel-other .cc-view-heading{padding:0 0 16px;margin:0;border:0;background:transparent}
 #panel-other .cc-view-heading h2{font:normal 29px/1.25 var(--serif,Georgia,serif);margin:0;color:#20354f}
-#panel-other .cc-view-heading .plot-subtitle{margin:6px 0 0;font-size:12px;line-height:1.6}
+#panel-other .cc-view-heading .plot-subtitle{margin:6px 0 0;font-size:13px;line-height:1.6}
 #cc-loglog .cc-view-heading{padding-bottom:6px}
 #cc-loglog .cc-view-heading .plot-subtitle{margin:0}
 #panel-other .cc-outside-heading>#cc-b-readout{padding-inline:0}

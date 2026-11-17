@@ -267,3 +267,6 @@
 .threshold-profile-controls select{min-height:41px;padding:8px 34px 8px 11px;font:400 13px/1.5 Arial,sans-serif}
 #us-quantile-profiles .threshold-profile-controls .quantile-housing-control{min-height:41px}
 @media(max-width:850px){.quantile-profile-card .threshold-profiles{--quantile-inset:17px}}
+
+/* Plot metadata and fitted-tail readouts share one text size. */
+.plot-subtitle,.chart-subtitle,#slope-readout,#panel-other #cc-b-readout,#biv-tail-ratio,#cc-b-tail-ratio,.eyeballing-readout{font-size:13px}

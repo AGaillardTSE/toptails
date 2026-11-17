@@ -4,7 +4,7 @@ function initUSReferencePoints(metadata,{getCapitalVariant=()=> 'dina_2022_incl_
   const labels={YODLEE:'Yodlee (bank data)',NIELSEN:'NielsenIQ',FORBES:'Forbes',SAEZ_ZUCMAN:'Saez–Zucman (DINA)'},sources=[...new Set(points.map(r=>r.survey))].filter(Boolean);
   const exactKey=r=>[r.survey,r.year,r.variable,r.author_variant].join('|'),simpleKey=r=>[r.survey,r.year,r.variable].join('|'),index=new Map(curves.map(c=>[exactKey(c),c])),simpleIndex=new Map(curves.map(c=>[simpleKey(c),c]));
   const curveFor=row=>index.get(exactKey(row))||(row.survey==='FORBES'?simpleIndex.get(simpleKey(row)):null);
-  const selectedDefinitionFor=(row,variant)=>row.survey!=='SAEZ_ZUCMAN'||row.variable!=='total_capital_income'||row.author_variant===variant;
+  const selectedDefinitionFor=(row,variant)=>row.survey!=='SAEZ_ZUCMAN'||!['total_capital_income','total_income'].includes(row.variable)||row.author_variant===variant;
   const selectedDefinition=row=>selectedDefinitionFor(row,getCapitalVariant());
   const timeCapitalVariant=metadata.saez_zucman_reference?.capital_income_definitions?.including_fiscal_gains?.author_variant||'dina_2022_incl_gains';
   const supportsMetric=(survey,metric)=>(metadata.surveys?.[survey]?.available_metrics||['pareto']).includes(metric);

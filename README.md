@@ -52,3 +52,5 @@ GitHub limits: https://docs.github.com/en/repositories/working-with-files/managi
 GitHub Pages limits: https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits
 
 Across Countries includes Tails over time with country, survey, adjustment, estimator, threshold, indicator and variable controls, based on the released annual aggregates.
+
+Saez–Zucman total income is available for 1970–2019 in the US time, quantile and results views. Personal pre-tax income includes fiscal capital gains by default; the selected excluding-gains definition is also available in quantile and table views. Existing estimates are preserved.
