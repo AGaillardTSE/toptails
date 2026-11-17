@@ -78,3 +78,5 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 :is(.dc-procedure-panel,.dc-domain-panel) :is(p,li,td,dd,.dc-variable-meaning,.dc-map-rule,.dc-scope-notes,.dc-mini-label,.dc-mini-legend,.dc-mini-caption,.dc-row-component){font-size:14px}
 
 .dc-weight-update math mtext{font-size:14px;color:#57687b}.dc-weight-update{padding-block:12px!important}
+
+.dc-algorithm>.dc-algorithm-outcome{margin:0;padding:0 29px 20px}
