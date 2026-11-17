@@ -74,3 +74,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .dc-algorithm-damping{display:flex;align-items:center;flex-wrap:nowrap;gap:14px;margin:14px 0;color:#57687b;font:400 14px/1.7 Arial,sans-serif;overflow-x:auto}
 .dc-algorithm-damping>span{flex:0 0 auto}
 .dc-algorithm-damping>math{flex:0 0 auto;font-size:22px;color:#34475e;margin:0}
+
+/* Regular adjustment prose matches the 14px variable-construction descriptions. */
+:is(.dc-procedure-panel,.dc-domain-panel) :is(p,li,td,dd,.dc-variable-meaning,.dc-map-rule,.dc-scope-notes,.dc-mini-label,.dc-mini-legend,.dc-mini-caption,.dc-row-component){font-size:14px}
+
+.dc-weight-update math mtext{font-size:14px;color:#57687b}.dc-weight-update{padding-block:12px!important}
