@@ -142,3 +142,11 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 
 @media(min-width:1101px){.dc-visual-procedure .fixed-point-diagram{grid-template-columns:minmax(0,1.13fr) 150px minmax(0,1fr)}}
 @media(max-width:1100px){.dc-visual-procedure .fixed-point-diagram{grid-template-columns:1fr}.dc-visual-procedure .dc-causal-arrow{flex-direction:row;gap:24px;height:auto;transform:none;padding:20px 12px}.dc-causal-arrow>div{flex:1;max-width:400px}.dc-causal-arrow>div>span{transform:rotate(90deg)}}
+
+/* Distinguish the two Pareto parameters in text and equations. */
+.pareto-method .pareto-shape{color:#a43d60}
+.pareto-method .pareto-scale{color:#2d668d}
+.pareto-parameters{display:grid;gap:14px;margin-top:18px}
+.pareto-parameters p{margin:0;padding:0 0 0 13px;border-left:3px solid #a43d60}
+.pareto-parameters p+ p{border-color:#2d668d}
+@media(min-width:521px){.dc-rescale-amounts.before{padding-inline:12px}.dc-rescale-amounts.after{padding-inline:1px}}
