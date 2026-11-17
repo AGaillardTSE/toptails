@@ -561,6 +561,14 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-connector-layer{display:block;width:100%;min-width:1040px;overflow:visible;pointer-events:none}
 .budget-connector-layer path{fill:none;stroke-width:1.3;opacity:.65}
 .budget-definitions .budget-definition-grid{grid-template-columns:repeat(5,minmax(0,1fr));min-width:1040px}
+
+.budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
+.budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
+.budget-component-list li+li{margin-top:10px}
+.budget-component-label{display:block;color:#263e57}
+.budget-component-label math{font-size:16px;white-space:nowrap}
+.budget-component-detail .budget-component-note{margin-top:10px}
+.budget-component-detail .budget-component-note:first-child{margin-top:0}
 </style>
 </head>
 <body>
@@ -1157,10 +1165,23 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "expenditureIngredients": "Food, out-of-pocket healthcare and health-insurance premiums, paid rent, utilities and communications, furniture and equipment purchases, vehicle purchases and running costs, other transport, education and childcare, recreation, computers, travel, clothing and charitable giving.",
     "name": "Panel Study of Income Dynamics (PSID)",
     "unit": "Family units",
-    "consumption": "Food at home, meals out and deliveries, out-of-pocket healthcare and health-insurance premiums, paid rent and owner housing services, utilities and communications, furniture and equipment services, vehicle services and operating costs, other transport, education and childcare, recreation, computers, travel, clothing and charitable giving.",
+    "consumption": [
+      ["nondurable", "Food at home, meals out and deliveries, healthcare paid out of pocket and insurance premiums, actual rent, utilities, communications, vehicle running costs, other transport, education, childcare, recreation, computers, travel, clothing and charitable giving."],
+      ["housing", "Imputed rental value of owner-occupied housing."],
+      ["durable", "Flows from furniture, equipment and vehicles."]
+    ],
     "labor": "Wages and salaries, bonuses, overtime, tips, commissions, professional-practice income, additional-job income and other labor receipts of the reference person, spouse and other family members, plus 67% of noncorporate business income.",
-    "capital": "The remaining 33% of noncorporate business income, cash rents, interest and other family members’ undifferentiated asset income, dividends, incorporated-business receipts and trust income. Add imputed owner rent net of mortgage interest, property taxes, insurance, repairs and maintenance. Deduct interest on credit-card, student, vehicle and other personal debt.",
-    "wealth": "Primary housing and other real estate, private businesses, stocks and funds, bank accounts, bonds and other financial assets, IRA balances, vehicles and modeled furniture and home-improvement stocks, less mortgages, vehicle loans and other personal debt.",
+    "capital": [
+      ["asset", "Interest, dividends, trust income, other family members’ asset income, cash rents, incorporated-business receipts, and 33% of noncorporate business income. Also includes imputed owner rent after property taxes, insurance, repairs and maintenance."],
+      ["interest", "Subtract mortgage interest and interest on credit-card, student, vehicle and other personal debt."]
+    ],
+    "wealth": [
+      ["financial", "Stocks and funds, bank accounts, bonds, IRA balances and other financial assets."],
+      ["home", "Primary housing."],
+      ["durables", "Vehicles and modeled stocks of furniture and home improvements."],
+      ["real", "Other real estate and private businesses."],
+      ["debt", "Subtract mortgages, vehicle loans and other personal debt."]
+    ],
     "taxes": "Taxes paid minus transfers received. Transfers include Social Security, veterans’ pensions, welfare, food stamps, unemployment and workers’ compensation, and other government benefits. Household income taxes are estimated from household characteristics using NBER’s TAXSIM.",
     "housing": true,
     "financial": true,
@@ -1174,10 +1195,23 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "SCF": {
     "name": "Survey of Consumer Finances (SCF)",
     "unit": "Family units",
-    "consumption": "Food, rent, owner housing services and charitable donations in the earlier spending modules. The 2025 wave adds broad total expenditure and vacation spending.",
+    "consumption": [
+      ["nondurable", "Food, rent paid by tenants and charitable donations in earlier spending modules."],
+      ["housing", "Imputed owner housing services."]
+    ],
     "labor": "Wages and salaries plus half of the combined self-employment, farm, other business and investment-income bundle, which also contains rents, trusts and royalties.",
-    "capital": "The other half of the business, farm, investment, rent, trust and royalty bundle, plus taxable and tax-exempt interest, dividends and realized gains from funds, securities and property. Add owner rent net of mortgage and home-equity interest, property taxes, insurance, repairs and maintenance. Deduct interest on credit-card, student, vehicle and other personal debt.",
-    "wealth": "Main and other residential property, nonresidential real estate, private businesses, stocks, funds, deposits, bonds and other financial assets, IRAs, vehicles and other nonfinancial assets, less mortgages, home-equity borrowing and other debt.",
+    "capital": [
+      ["asset", "Half the combined business, farm, investment, rent, trust and royalty bundle, plus taxable and tax-exempt interest and dividends. Also includes imputed owner rent after property taxes, insurance, repairs and maintenance."],
+      ["gains", "Realized gains from funds, securities and property."],
+      ["interest", "Subtract mortgage and home-equity interest and interest on credit-card, student, vehicle and other personal debt."]
+    ],
+    "wealth": [
+      ["financial", "Stocks, funds, deposits, bonds, IRAs and other financial assets."],
+      ["home", "Principal residence."],
+      ["durables", "Vehicles."],
+      ["real", "Other residential and nonresidential property, private businesses and other nonfinancial assets."],
+      ["debt", "Subtract mortgages, home-equity borrowing and other debt."]
+    ],
     "financial": true,
     "realized": true,
     "timeCoverage": "Income and wealth data are available in the 1989–2025 surveys. Food and housing measures are available from 2004. Total expenditure and vacation spending are available only in 2025. Income refers to the calendar year before each survey. Wealth is measured at interview.",
@@ -1192,14 +1226,26 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "expenditureIngredients": "Food at home and away, school and employer-provided meals, alcohol, paid housing, utilities, household operations, supplies and equipment, other lodging, clothing, transport and vehicle purchases, entertainment and reading, personal care, tobacco and personal insurance net of pension contributions. Health, education and charitable giving are outside the headline basket.",
     "name": "Consumer Expenditure Interview Survey (CEX) — Meyer extension",
     "unit": "Consumer units",
-    "consumption": "Food at home and away, school and employer-provided meals, alcohol, paid and rental-equivalent housing, utilities, household operations, supplies and equipment, other lodging, clothing, transport and vehicle services, entertainment and reading, personal care, tobacco and personal insurance net of pension contributions. Health, education and charitable giving are outside the headline basket.",
+    "consumption": [
+      ["nondurable", "Food at home and away, school and employer-provided meals, alcohol, actual rent, utilities, household operations and supplies, other lodging, clothing, transport, entertainment and reading, personal care, tobacco and personal insurance net of pension contributions."],
+      ["housing", "Rental-equivalent housing services."],
+      ["durable", "Household equipment and vehicle services."]
+    ],
     "spendingScope": "Uses the same Meyer baskets, with vehicle purchases replacing services; health, education and giving are excluded.",
-    "wealth": "Checking and savings accounts, certificates of deposit, directly held securities, primary-home and observed secondary-home equity, vehicles and modeled durables, less recorded nonhousing personal and vehicle debt. Housing equity is already net of its associated debt.",
+    "wealth": [
+      ["financial", "Checking and savings accounts, certificates of deposit and directly held securities."],
+      ["housingEquity", "Primary-home and observed secondary-home equity, already net of associated housing debt."],
+      ["durables", "Vehicles and modeled durables."],
+      ["debt", "Subtract recorded nonhousing personal debt and vehicle debt."]
+    ],
     "housing": true,
     "financial": true,
     "partialWealth": true,
     "optionalLabor": "Optional topcoded income estimates contain wages and salaries plus 67% of business income. Enable Show income in Tails over time or US Estimates by quantile.",
-    "optionalCapital": "Optional topcoded income estimates contain 33% of business income, cash rent, interest and dividends, and net imputed owner rent, less personal-debt interest. Topcoding severely distorts these upper tails.",
+    "optionalCapital": [
+      ["asset", "33% of business income, cash rent, interest, dividends and net imputed owner rent."],
+      ["interest", "Subtract personal-debt interest."]
+    ],
     "timeCoverage": "Consumption covers 1980–2024, except 1982. The public extension and partial-wealth measures start in 1996.",
     "selection": "Reference person aged 20–80 with positive food spending.",
     "representationCorrection": "We reweight the CEX to match homeownership and the distribution of primary-home values in the SCF. We then recalculate the reporting adjustments with these weights.",
@@ -1213,8 +1259,17 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "name": "Distributional National Accounts (DINA) — Saez–Zucman",
     "unit": "Individual adults",
     "labor": "Employee compensation, including wages and supplements, plus the labor share of self-employment income and allocated sales taxes and subsidies. Social-insurance contributions are deducted and the labor share of pension, unemployment and disability benefits is added.",
-    "capital": "Housing, equity, interest, business and pension/insurance asset income, plus allocated sales taxes and subsidies, less debt interest. Pension-fund investment income is deducted and the capital share of social-insurance benefits added.",
-    "wealth": "Housing, corporate equity, private businesses, currency, deposits, bonds and loans, and pension and life-insurance assets, less mortgages and other household debt. Some assets are reconstructed by capitalizing their income flows.",
+    "capital": [
+      ["asset", "Housing, equity, interest, business and pension or insurance asset income, plus allocated sales taxes and subsidies. Pension-fund investment income is deducted and the capital share of social insurance benefits is added."],
+      ["gains", "Fiscal (realized) capital gains are included by default."],
+      ["interest", "Subtract debt interest."]
+    ],
+    "wealth": [
+      ["financial", "Corporate equity, currency, deposits, bonds, loans, and pension and life-insurance assets. Some assets are inferred from their income flows."],
+      ["home", "Housing."],
+      ["real", "Private businesses."],
+      ["debt", "Subtract mortgages and other household debt."]
+    ],
     "financial": true,
     "gainsChoice": true,
     "timeCoverage": "1970–2019.",
@@ -1228,7 +1283,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "YODLEE": {
     "name": "Yodlee (bank data)",
     "unit": "Bank–individual accounts",
-    "consumption": "Spending recorded in the observed bank accounts, classified into transaction categories. Food uses grocery and restaurant purchases, while vacation uses travel transactions.",
+    "consumption": [
+      ["spending", "Spending recorded in observed accounts. Food uses grocery and restaurant purchases. Vacation uses travel transactions."]
+    ],
     "bank": true,
     "timeCoverage": "2014–2019, depending on the spending measure.",
     "selection": "People with observed accounts in the sampled banking system.",
@@ -1241,7 +1298,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "NIELSEN": {
     "name": "NielsenIQ Consumer Panel",
     "unit": "Panel households",
-    "consumption": "Recorded retail purchases intended for home use, including food, beverages, household supplies and personal-care products. Housing, meals in restaurants and most services are outside this retail basket.",
+    "consumption": [
+      ["purchases", "Retail purchases for home use, including food, beverages, household supplies and personal-care products. The basket excludes housing, restaurant meals and most services."]
+    ],
     "retail": true,
     "timeCoverage": "2004–2023.",
     "selection": "Households record retail purchases intended for home use.",
@@ -1254,7 +1313,10 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "FORBES": {
     "name": "Forbes rich lists",
     "unit": "Listed people or family fortunes",
-    "wealth": "Stakes in publicly traded and private businesses, real estate and other assets, less known debts, as valued by Forbes magazine.",
+    "wealth": [
+      ["assets", "Stakes in publicly traded and private businesses, real estate and other assets, as valued by Forbes."],
+      ["debt", "Subtract known debts."]
+    ],
     "timeCoverage": "United States, 1982–2024.",
     "selection": "US fortunes from the Forbes 400 and World’s Billionaires lists. Duplicate entries are removed.",
     "details": "Fortunes are valued by Forbes magazine. This is a list of large fortunes, not a representative household sample.",
@@ -1265,10 +1327,22 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "HFCS": {
     "name": "Household Finance and Consumption Survey (HFCS)",
     "unit": "Households",
-    "consumption": "Food at home, meals out, utilities and communications, other goods and services, holidays and vehicle leasing, paid rent and owner housing services, and service flows from vehicles and valuables. Charitable giving is retained where observed. Coverage varies across countries and waves.",
+    "consumption": [
+      ["nondurable", "Food at home, meals out, utilities, communications, other goods and services, holidays, vehicle leasing and rent paid by tenants. Includes charitable giving where observed."],
+      ["housing", "Owner housing services."],
+      ["durable", "Service flows from vehicles and valuables."]
+    ],
     "labor": "Wages and salaries, pensions and other social transfers, plus two thirds of self-employment income.",
-    "capital": "Reported rent and financial income, one third of self-employment income and owner housing services, less debt-interest payments.",
-    "wealth": "Real estate, businesses, vehicles and valuables, deposits, bonds, mutual funds, listed shares, managed accounts, private pension and life-insurance assets and other financial assets, less mortgage and nonmortgage debt.",
+    "capital": [
+      ["asset", "Reported rent and financial income, one third of self-employment income and owner housing services."],
+      ["interest", "Subtract debt interest."]
+    ],
+    "wealth": [
+      ["financial", "Deposits, bonds, mutual funds, listed shares, managed accounts, private pension and life-insurance assets and other financial assets."],
+      ["propertyAndBusiness", "Real estate and businesses."],
+      ["durables", "Vehicles and valuables."],
+      ["debt", "Subtract mortgage and nonmortgage debt."]
+    ],
     "financial": true,
     "alternativeWealth": true,
     "timeCoverage": "Available survey waves depend on the country.",
@@ -1282,10 +1356,21 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "HILDA": {
     "name": "Household, Income and Labour Dynamics in Australia (HILDA)",
     "unit": "Households",
-    "consumption": "Groceries, alcohol and tobacco, clothing and footwear, paid rent and owner housing services, utilities, furniture, electronics and computers, medicines and health services, fuel and transport, vehicle flows, communications, recreation, meals out, private health and other insurance, education, childcare, donations, noncash fringe benefits and home-repair services.",
+    "consumption": [
+      ["nondurable", "Groceries, alcohol and tobacco, clothing and footwear, paid rent, utilities, medicines and health services, fuel and transport, communications, recreation, meals out, insurance, education, childcare, donations and noncash fringe benefits."],
+      ["housing", "Owner housing services, including home-repair services in the consumption construction."],
+      ["durable", "Furniture, electronics, computers and vehicle flows."]
+    ],
     "labor": "Wages and salaries, government transfers, and two thirds of self-employment income after business losses.",
-    "capital": "Property and investment receipts net of reported losses, one third of self-employment income and imputed owner rent.",
-    "wealth": "Nonfinancial assets, financial assets, vehicles and collections, less total household debt, using the source’s broad asset groups.",
+    "capital": [
+      ["asset", "Property and investment receipts net of reported losses, one third of self-employment income and imputed owner rent."]
+    ],
+    "wealth": [
+      ["financial", "Financial assets."],
+      ["durables", "Vehicles and collections."],
+      ["nonfinancial", "Other nonfinancial assets, using the source’s broad groups."],
+      ["debt", "Subtract total household debt."]
+    ],
     "financial": true,
     "timeCoverage": "2006–2022. Wealth is observed in 2006, 2010, 2014, 2018 and 2022. Income covers the financial year ending in the survey-wave year.",
     "selection": "Reference person aged 20–80 with positive food/recreation spending.",
@@ -1298,10 +1383,23 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "SHIW": {
     "name": "Survey of Household Income and Wealth (SHIW)",
     "unit": "Households",
-    "consumption": "Food, other nondurable goods and services, actual and imputed housing rent, fringe benefits, and service flows from art, jewelry, personal effects, vehicles, furniture, equipment and home maintenance.",
+    "consumption": [
+      ["nondurable", "Food, other nondurable goods and services, actual rent and fringe benefits."],
+      ["housing", "Imputed rent and services from home maintenance."],
+      ["durable", "Service flows from art, jewelry, personal effects, vehicles, furniture and equipment."]
+    ],
     "labor": "After-tax wages and salaries, pensions and transfers, two thirds of self-employment income and fringe benefits.",
-    "capital": "Financial and rental-property receipts, one third of self-employment income and imputed owner rent, less interest payments.",
-    "wealth": "Housing, business and other real assets, deposits, securities and related financial claims, vehicles and other consumer durables, less recorded liabilities.",
+    "capital": [
+      ["asset", "Financial and rental-property receipts, one third of self-employment income and imputed owner rent."],
+      ["interest", "Subtract interest payments."]
+    ],
+    "wealth": [
+      ["financial", "Deposits, securities and related financial claims."],
+      ["home", "Housing."],
+      ["durables", "Vehicles and other consumer durables."],
+      ["real", "Business and other real assets."],
+      ["debt", "Subtract recorded liabilities."]
+    ],
     "financial": true,
     "timeCoverage": "Available Italian survey waves from 1998 to 2022.",
     "selection": "Reference person aged 20–80 with positive food spending.",
@@ -1332,7 +1430,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   grid.setAttribute('role','group');grid.setAttribute('aria-label','Budget constraint: c plus the change in a equals y minus T plus r a');diagram.append(equationRow,connections,grid);host.append(fullEquation,diagram);
   const cards={};
   for(const [key,title] of [['c','Consumption'],['a','Wealth / saving'],['y','Labor income'],['tax','Net taxes'],['capital','Capital income']]){
-    const card=el('article','budget-component budget-component-'+key),symbol=expandedEquation.querySelector('[data-budget-term="'+key+'"]'),heading=el('h4','',title),detail=el('p'),status=el('span','budget-component-status'),column=el('div','budget-diagram-column budget-component-'+key);
+    const card=el('article','budget-component budget-component-'+key),symbol=expandedEquation.querySelector('[data-budget-term="'+key+'"]'),heading=el('h4','',title),detail=el(['c','a','capital'].includes(key)?'div':'p','budget-component-detail'),status=el('span','budget-component-status'),column=el('div','budget-diagram-column budget-component-'+key);
     let origin=symbol;
     if(['c','capital'].includes(key)){origin=symbol.firstElementChild.lastElementChild;origin.classList.add('budget-underbrace-label');const brace=symbol.firstElementChild.firstElementChild,expression=brace.firstElementChild,padded=doc.createElementNS('http://www.w3.org/1998/Math/MathML','mpadded');padded.setAttribute('depth','25px');expression.replaceWith(padded);padded.append(expression);brace.lastElementChild.classList.add('budget-equation-brace');}
     else{const expression=symbol.firstElementChild.firstElementChild.firstElementChild;symbol.replaceChildren(expression);symbol.classList.add('budget-direct-term');}
@@ -1349,9 +1447,84 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   }
   new ResizeObserver(()=>requestAnimationFrame(drawConnections)).observe(diagram);
   const scfCoverage=el('div','definition-scf-coverage');cards.c.card.append(scfCoverage);
-  const gainTypes=el('p','definition-gains-note');cards.capital.card.append(gainTypes);
   const sample=el('section','definition-sample'),sampleFields=el('dl','definition-data-facts');sample.append(el('h3','','Data and sample'),sampleFields);host.append(sample);
   const appendix=el('p','definition-appendix');appendix.append('See the paper’s ');const link=el('a','','Online Appendix');link.href='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';link.target='_blank';link.rel='noopener noreferrer';appendix.append(link,' for detailed definitions and construction.');host.append(appendix);
+  const mathSub=(letter,index)=>`<msub><mi>${letter}</mi><mi>${index}</mi></msub>`;
+  const price=asset=>mathSub('p',asset)+'<mi>'+asset+'</mi>';
+  const componentTerms={
+    nondurable:['Nondurable consumption','<msup><mi>c</mi><mtext>ND</mtext></msup>'],
+    housing:['Owner housing services','<mo>(</mo>'+mathSub('r','h')+'<mo>+</mo>'+mathSub('δ','h')+'<mo>)</mo>'+price('h')],
+    durable:['Durable services',mathSub('δ','d')+price('d')],
+    financial:['Financial assets',price('b')],
+    home:['Housing',price('h')],
+    housingEquity:['Housing equity'],
+    propertyAndBusiness:['Real estate and businesses',price('h')+'<mo>+</mo>'+price('k')],
+    durables:['Consumer durables',price('d')],
+    real:['Real assets',price('k')],
+    debt:['Debt','<mo>−</mo><mi>m</mi>'],
+    asset:['Asset income',mathSub('r','x')+price('x')],
+    gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
+    interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
+    spending:['Recorded spending'],
+    purchases:['Purchases'],
+    assets:['Assets'],
+    nonfinancial:['Other nonfinancial assets'],
+    conversion:['Durable correction'],
+  };
+  function renderComponents(detail,rows,notes=[]){
+    detail.replaceChildren();
+    if(rows?.length){
+      const list=el('ul','budget-component-list');
+      for(const [key,description] of rows){
+        const [name,formula]=componentTerms[key];
+        const item=el('li'),label=el('strong','budget-component-label');
+        if(formula){
+          const math=doc.createElementNS('http://www.w3.org/1998/Math/MathML','math');
+          math.innerHTML='<mrow>'+formula+'</mrow>';
+          label.append(math,' ');
+        }
+        label.append(name);
+        item.append(label,' ',description);
+        list.append(item);
+      }
+      detail.append(list);
+    }
+    for(const note of notes)if(note)detail.append(el('p','budget-component-note',note));
+    if(!detail.childNodes.length)detail.append(el('p','','Unavailable in the current estimates.'));
+  }
+  function consumptionComponents(source){
+    if(!source.consumption)return {rows:[],notes:[]};
+    const measure=state.consumption,owner=['consump_def1','expenditure_incl_rent','food_housing_vacation','food_housing_vacation_donations_vehicle'].includes(measure);
+    const scf=state.survey==='SCF';
+    const notes=[];
+    let rows=source.consumption.slice();
+    if(['expenditure','expenditure_incl_rent'].includes(measure)){
+      const description=scf
+        ? 'The 2025 total covers durable and nondurable purchases in the previous 12 months. It excludes rent, mortgage payments and retirement contributions. Rent paid by tenants is added.'
+        : source.bank?'Purchases recorded in the observed bank accounts.':source.expenditureIngredients||'Purchases of goods and services, including durable purchases.';
+      rows=[['purchases',description]];
+      if(owner)rows.push(['housing','Imputed rental value of owner-occupied housing.']);
+    }else if(measure==='food_total'){
+      rows=[['nondurable','Food bought for home use, meals eaten out and food deliveries, where observed.']];
+    }else if(measure==='vacation'){
+      rows=[['nondurable',scf?'Vacation spending reported in the 2025 wave.':'Spending on trips and holidays, including the source’s observed travel and lodging items.']];
+    }else if(['food_housing_vacation','food_housing_vacation_donations_vehicle'].includes(measure)){
+      const vehicle=measure==='food_housing_vacation_donations_vehicle';
+      rows=[['nondurable','Food, rent paid by tenants and vacation spending'+(vehicle?', plus donations.':'.')],['housing','Imputed rent for owner-occupied housing.']];
+      if(vehicle)rows.push(['durable','Modeled vehicle services.']);
+    }else if(measure!=='consump_def1'&&measure!=='retail'){
+      notes.push('The list describes the source’s consumption components. Coverage depends on the selected measure.');
+    }
+    if(source.housing&&owner&&state.constantRent)notes.push('Owner services use the constant NIPA-matched rent-rate alternative.');
+    if(source.bank)rows.push(['conversion',state.bank==='paper'
+      ? 'The paper’s service-flow correction applies to ATM or cash withdrawals, check payments, loans and other expenses.'
+      : state.bank==='all'
+        ? 'Durable services are constructed across all saved categories.'
+        : 'Spending before conversion to durable service flows.']);
+    if(state.survey==='CEX_BM_RECON'&&measure==='consump_def1')notes.push('Health, education and charitable giving are outside the headline basket.');
+    if(state.survey==='HFCS')notes.push('Coverage varies across countries and waves.');
+    return {rows,notes};
+  }
   function render(){
     const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;selectedTitle.textContent='Variable construction — '+source.name;
     const international=['HFCS','SHIW','HILDA'].includes(state.survey);
@@ -1361,25 +1534,37 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     housingInput.disabled=!source.housing;housingInput.checked=!!source.housing&&state.constantRent;housingBox.classList.toggle('definition-unavailable',!source.housing);
     wealth.box.hidden=!source.alternativeWealth;wealth.input.value=state.wealth;bank.box.hidden=!source.bank;bank.input.value=state.bank;
     const countries=metadata.other_survey_methods?.international?.availability?.HFCS?.countries||[];country.box.hidden=state.survey!=='HFCS';if(!country.box.hidden){const old=country.input.value;country.input.replaceChildren();countries.forEach(code=>country.input.add(new Option(metadata.other_survey_methods.international.country_labels[code]||code,code)));country.input.value=countries.includes(state.country)?state.country:countries.includes(old)?old:countries[0];state.country=country.input.value;}
-    const cLabel=options.find(o=>o.key===state.consumption)?.label;
-    const alternatives={expenditure:'Purchases of goods and services, excluding owner-occupied imputed rent; durable purchases count as spending.',expenditure_incl_rent:'Purchase expenditure plus constructed owner-occupied imputed rent.',food_total:'Food bought for home use, meals eaten out and food deliveries, where observed.',vacation:'Spending on trips and holidays, including the source’s observed travel and lodging items.',food_housing_vacation:'Food, housing (including actual and imputed rent) and vacation spending.',food_housing_vacation_donations_vehicle:'Food, housing, vacation, donations and modeled vehicle services.'},ownerInMeasure=['consump_def1','expenditure_incl_rent','food_housing_vacation','food_housing_vacation_donations_vehicle'].includes(state.consumption);const consumptionText=source.consumption?(cLabel&&cLabel!=='Consumption'?cLabel+'. ':'')+(alternatives[state.consumption]||source.consumption):'Unavailable in the current estimates.';
-    let selectedConsumptionText=consumptionText;
-    if(state.survey==='SCF'){
-      if(['expenditure','expenditure_incl_rent'].includes(state.consumption))selectedConsumptionText='Available only in the 2025 wave. The reported total covers purchases of durable and nondurable goods and services over the previous 12 months. It excludes rent, mortgage payments and retirement contributions. We add rent paid by tenants.'+(state.consumption==='expenditure_incl_rent'?' For homeowners, we also add an estimate of what it would cost to rent their home.':'');
-      else if(state.consumption==='vacation')selectedConsumptionText='Vacation spending reported in the 2025 wave only.';
-      else if(state.consumption==='food_total')selectedConsumptionText='Food bought for home use, meals out and food deliveries.';
-      scfCoverage.hidden=false;scfCoverage.replaceChildren();for(const [label,text] of [['2004–2022','Food, paid rent, owner housing services and charitable donations.'],['2025','Adds broad total expenditure and vacation spending.']]){const line=el('p');line.append(el('strong','',label+': '),text);scfCoverage.append(line);}
-    }else{scfCoverage.hidden=true;scfCoverage.replaceChildren();}
-    cards.c.detail.textContent=selectedConsumptionText;if(source.expenditureIngredients&&['expenditure','expenditure_incl_rent'].includes(state.consumption))cards.c.detail.append(' '+source.expenditureIngredients);cards.a.detail.textContent=source.wealth?source.wealth+' The estimates describe wealth held at a point in time, a. In the budget constraint, a′ − a is the change in wealth between periods.':'Unavailable in the current estimates.';cards.y.detail.textContent=source.labor||source.optionalLabor||(state.survey==='CEX_BM_RECON'?'Optional topcoded income estimates are available in Tails over time and US Estimates by quantile.':'Unavailable in the current estimates.');cards.tax.detail.textContent=source.taxes||'Taxes paid minus transfers received. A separate estimate of this component is unavailable for this dataset.';
-    let capitalText=source.capital||'Unavailable in the current estimates.';
-    if(source.gainsChoice)capitalText+=' Includes fiscal (realized) capital gains.';
-    if(source.housing&&state.constantRent){if(ownerInMeasure)cards.c.detail.append(' Owner services use the constant NIPA-matched rent-rate alternative.');if(source.capital)capitalText+=' Net owner rent uses the same constant-rate construction.';}
-    if(source.bank){cards.c.detail.append(state.bank==='paper'?' The paper’s service-flow correction applies to ATM/cash withdrawals, check payments, loans and other expenses.':state.bank==='all'?' Durable services are constructed across all saved categories.':' This option keeps spending before the durable-service conversion.');}
-    if(source.alternativeWealth&&state.wealth==='alternative')cards.a.detail.textContent='Alternative detailed component construction: dwellings, business assets, consumer durables, deposits and other financial assets, less liabilities. The estimates describe wealth held at a point in time, a. In the budget constraint, a′ − a is the change in wealth between periods.';
-    cards.capital.detail.textContent=source.optionalCapital||capitalText;
+    const selectedConsumption=consumptionComponents(source);
+    renderComponents(cards.c.detail,selectedConsumption.rows,selectedConsumption.notes);
+    scfCoverage.hidden=state.survey!=='SCF';
+    scfCoverage.replaceChildren();
+    if(!scfCoverage.hidden){
+      for(const [label,text] of [['2004–2022','Food, paid rent, owner housing services and charitable donations.'],['2025','Adds broad total expenditure and vacation spending.']]){
+        const line=el('p');
+        line.append(el('strong','',label+' '),text);
+        scfCoverage.append(line);
+      }
+    }
+    const wealthRows=source.alternativeWealth&&state.wealth==='alternative'?[
+      ['financial','Deposits and other financial assets.'],
+      ['home','Dwellings.'],
+      ['durables','Consumer durables.'],
+      ['real','Business assets.'],
+      ['debt','Subtract liabilities.'],
+    ]:source.wealth;
+    renderComponents(cards.a.detail,wealthRows,wealthRows?['The estimates measure wealth at a point in time. The term a′ − a is the change in wealth between periods.']:[]);
+    cards.y.detail.textContent=source.labor||source.optionalLabor||'Unavailable in the current estimates.';
+    cards.tax.detail.textContent=source.taxes||'Taxes paid minus transfers received. A separate estimate of this component is unavailable for this dataset.';
+    const capitalNotes=[];
+    if(source.optionalCapital)capitalNotes.push('Optional topcoded income estimates. Topcoding severely distorts these upper tails.');
+    if(source.housing&&state.constantRent&&source.capital)capitalNotes.push('Net owner rent uses the same constant-rate construction.');
+    const capitalRows=(source.capital||source.optionalCapital||[]).slice();
+    if(source.capital&&!source.realized&&!source.gainsChoice){
+      capitalRows.splice(1,0,['gains','Capital gains are not reported separately.']);
+    }
+    renderComponents(cards.capital.detail,capitalRows,capitalNotes);
     for(const [key,available] of [['c',!!source.consumption],['a',!!source.wealth],['y',!!source.labor],['tax',!!source.taxAvailable],['capital',!!source.capital]]){cards[key].card.classList.toggle('definition-unavailable',!available);cards[key].symbol.classList.toggle('definition-unavailable',!available);cards[key].status.textContent=key==='tax'&&source.taxStatus?source.taxStatus:!available?(state.survey==='CEX_BM_RECON'&&['y','capital'].includes(key)?'Optional: topcoded':'Unavailable'):key==='a'&&source.partialWealth?'Partial coverage':'';}
     expandedEquation.querySelector('.budget-price-gains').classList.toggle('definition-unavailable',!source.realized&&!source.gainsChoice);
-    gainTypes.hidden=!source.capital;gainTypes.textContent=source.realized||source.gainsChoice?'Capital gains: realized only.':'Capital gains: not separated.';
     sampleFields.replaceChildren();
     const addFact=(label,value)=>{if(!value)return;sampleFields.append(el('dt','',label+':'),el('dd','',value));};
     addFact('Unit of observation',source.unit);
