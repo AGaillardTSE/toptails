@@ -106,3 +106,39 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-component .definition-gains-note{margin-top:13px;font-size:14px;line-height:1.5;color:#77818d}
 
 .definition-correspondence-note{font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d;margin:8px 0 0}.definition-correspondence-note a{color:#355f87;text-underline-offset:3px}
+
+/* Restore the two main estimation panels while retaining MLE/OLS columns. */
+.pareto-method-explanation{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pareto-estimators{gap:18px}
+.pareto-estimator+ .pareto-estimator{padding-left:14px}
+.pareto-estimator .pareto-method-math math{font-size:18px}
+.pareto-estimator>p:first-of-type{min-height:50px}
+.pareto-paper-reference{margin-top:20px!important}
+.dc-rescale-flow{grid-template-columns:max-content 24px minmax(max-content,1fr);gap:6px}
+.dc-rescale-amounts.before{padding-left:4px;padding-right:4px}
+.dc-rescale-amount-heading{display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+.dc-visual-procedure .dc-rescale-amount-heading h4{margin:0}
+.dc-rescale-amount-formula{display:inline-flex}
+.dc-rescale-account-match strong{white-space:nowrap}
+.definition-correspondence-note,.definition-correspondence-note a{font:inherit;line-height:inherit;margin:0}
+.budget-definitions .definition-appendix,.budget-definitions .definition-appendix a{font-size:14px;line-height:1.75}
+@media(max-width:1100px){.pareto-method-explanation{grid-template-columns:1fr}}
+@media(max-width:760px){.pareto-estimators{grid-template-columns:1fr}.pareto-estimator+ .pareto-estimator{border-left:0;padding-left:0}.pareto-estimator>p:first-of-type{min-height:0}}
+@media(max-width:520px){.dc-rescale-flow{grid-template-columns:1fr}.dc-rescale-multiplier{flex-direction:row}.dc-rescale-flow-arrow{transform:rotate(90deg)}}
+
+/* Full paper equation above the component explanations. */
+.budget-full-equation{padding:8px 0 18px;min-width:1040px}
+.budget-full-equation .budget-full-math{font-size:21px;margin:0 auto 16px;color:#263b53}
+.budget-full-equation .budget-full-term{color:var(--component-color,#727c87)}
+.budget-full-equation .budget-full-term.definition-unavailable{opacity:.48;color:#969ca5}
+.budget-full-equation mo{color:#171b22}
+.budget-full-equation .budget-wealth-definition math{font-size:19px;color:#394b60;margin:0 auto 9px}
+.budget-definitions .budget-variable-key{font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d;max-width:1100px;margin:0 auto}
+.budget-definitions .definition-data-facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 20px;margin:0;font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d}
+.budget-definitions .definition-data-facts dt{font-size:14px;font-weight:600;color:#34485f}
+.budget-definitions .definition-data-facts dd{font-size:14px;margin:0}
+.budget-component .definition-scf-coverage p{margin-top:12px;font-size:14px;line-height:1.65}
+@media(max-width:680px){.budget-definitions .definition-data-facts{grid-template-columns:1fr;gap:3px}.budget-definitions .definition-data-facts dd+dt{margin-top:9px}}
+
+@media(min-width:1101px){.dc-visual-procedure .fixed-point-diagram{grid-template-columns:minmax(0,1.13fr) 150px minmax(0,1fr)}}
+@media(max-width:1100px){.dc-visual-procedure .fixed-point-diagram{grid-template-columns:1fr}.dc-visual-procedure .dc-causal-arrow{flex-direction:row;gap:24px;height:auto;transform:none;padding:20px 12px}.dc-causal-arrow>div{flex:1;max-width:400px}.dc-causal-arrow>div>span{transform:rotate(90deg)}}
