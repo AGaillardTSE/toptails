@@ -6,7 +6,7 @@ const ThresholdProfiles = (() => {
   const colors={consumption:'#477EAD',total_labor_income:'#BF5555',total_income:'#A96F4B',networth_val:'#4D8B69',total_capital_income:'#C4A12A'};
   const fourSeries=[['consumption','Consumption'],['total_labor_income','Labor income'],['networth_val','Wealth'],['total_capital_income','Capital income']];
   const fiveSeries=[fourSeries[0],fourSeries[1],['total_income','Total income'],fourSeries[2],fourSeries[3]];
-  const variants=[['raw','Raw data'],['adj','Reporting adjustment'],['full','Reporting + representation'],['original','Original B&M construction'],['reference','Standalone reference']];
+  const variants=[['raw','Raw data'],['adj','Reporting adjustment'],['full','Reporting + representation adjustments'],['original','Original B&M construction'],['reference','Standalone reference']];
 
   // Invert the Student t CDF, including fractional effective degrees of freedom for HFCS.
   function logGamma(z){

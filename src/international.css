@@ -42,3 +42,5 @@
 #panel-other .cc-time-controls>.control>label{white-space:nowrap}
 
 @media(max-width:760px){#panel-other .cc-time-chart{height:365px;margin:14px 9px 12px}}
+
+#cc-time .cc-comparison-legends{padding-top:16px}
