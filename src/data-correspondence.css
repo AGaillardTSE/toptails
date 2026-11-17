@@ -65,10 +65,9 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .dc-rescale-amounts.after .dc-rescale-sample-bars i{background:#b94a75}
 .dc-rescale-multiplier{display:flex;flex-direction:column;align-items:center;gap:4px;color:#a04e70}
 .dc-rescale-multiplier math{font-size:21px}.dc-rescale-flow-arrow{font:26px/1 Arial,sans-serif}
-.dc-rescale-matched-total{margin-top:12px;padding:12px 10px;border:1px solid #dfc3ce;border-radius:6px;background:#faf3f6;text-align:center}
-.dc-rescale-matched-total strong{font:600 14px/1.5 Arial,sans-serif;color:#92516d}
-.dc-rescale-matched-total math{font-size:22px;color:#34475e;margin:8px 0 0}
-.dc-visual-procedure .dc-rescale-schema-note{font:400 14px/1.6 Arial,sans-serif;color:#6c7480;margin:9px 0 0}
+.dc-rescale-account-match{margin-top:12px;text-align:center}
+.dc-rescale-account-match strong{display:block;font:600 14px/1.5 Arial,sans-serif;color:#92516d}
+.dc-rescale-account-match math{font-size:19px;color:#34475e;margin:8px 0 0}
 @media(max-width:420px){.dc-rescale-flow{grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);gap:5px}.dc-rescale-amounts{padding-inline:6px}.dc-rescale-multiplier math{font-size:18px}}
 
 .dc-algorithm-damping{display:flex;align-items:center;flex-wrap:nowrap;gap:14px;margin:14px 0;color:#57687b;font:400 14px/1.7 Arial,sans-serif;overflow-x:auto}

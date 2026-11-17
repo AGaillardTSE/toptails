@@ -63,9 +63,9 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
           const bars=el('div','dc-rescale-sample-bars');bars.setAttribute('aria-hidden','true');[14,23,32,43].forEach(height=>{const bar=el('i');bar.style.height=(height*(side==='after'?1.4:1))+'px';bars.append(bar);});box.append(bars);flow.append(box);
           if(side==='before'){const factor=el('div','dc-rescale-multiplier');factor.innerHTML='<math aria-label="Multiply by the same category factor lambda k"><mrow><mo>×</mo><msub><mi>λ</mi><mi>k</mi></msub></mrow></math>';factor.append(el('span','dc-rescale-flow-arrow','→'));flow.append(factor);}
         }
-        const match=el('div','dc-rescale-matched-total');match.append(el('strong','','Weighted total matches national accounts'));
+        const match=el('div','dc-rescale-account-match');match.append(el('strong','','Weighted total matches national accounts'));
         const identity=el('div');identity.innerHTML='<math display="block" aria-label="The weighted sum of rescaled amounts equals the national-account target Y k"><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>ω</mi><mi>i</mi></msub><mo stretchy="false">(</mo><msub><mi>λ</mi><mi>k</mi></msub><msub><mi>y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo stretchy="false">)</mo><mo>=</mo><msub><mi>Y</mi><mi>k</mi></msub></mrow></math>';match.append(identity);
-        visual.append(flow,match,el('p','dc-rescale-schema-note','Apply the same factor to every observation in category k.'));
+        flow.querySelector('.dc-rescale-amounts.after').append(match);visual.append(flow);
       }
       else {const legend=el('div','dc-mini-legend dc-reweight-legend');legend.append(el('span','','Original weights'),el('span','','Matched bin mass of a benchmark distribution (IRS, SCF, WID data)'));visual.append(legend);const people=el('div','dc-people-comparison');for(const side of ['before','after']){const group=el('div','dc-people-group '+side);for(let j=0;j<12;j++){const person=el('i','dc-person');person.style.setProperty('--person-weight',side==='before'?'1':[.7,.8,1.1,1.5][Math.floor(j/3)]);group.append(person);}people.append(group);if(side==='before')people.append(el('span','dc-people-arrow','→'));}visual.append(people);}
     });

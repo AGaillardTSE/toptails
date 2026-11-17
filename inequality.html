@@ -417,10 +417,9 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .dc-rescale-amounts.after .dc-rescale-sample-bars i{background:#b94a75}
 .dc-rescale-multiplier{display:flex;flex-direction:column;align-items:center;gap:4px;color:#a04e70}
 .dc-rescale-multiplier math{font-size:21px}.dc-rescale-flow-arrow{font:26px/1 Arial,sans-serif}
-.dc-rescale-matched-total{margin-top:12px;padding:12px 10px;border:1px solid #dfc3ce;border-radius:6px;background:#faf3f6;text-align:center}
-.dc-rescale-matched-total strong{font:600 14px/1.5 Arial,sans-serif;color:#92516d}
-.dc-rescale-matched-total math{font-size:22px;color:#34475e;margin:8px 0 0}
-.dc-visual-procedure .dc-rescale-schema-note{font:400 14px/1.6 Arial,sans-serif;color:#6c7480;margin:9px 0 0}
+.dc-rescale-account-match{margin-top:12px;text-align:center}
+.dc-rescale-account-match strong{display:block;font:600 14px/1.5 Arial,sans-serif;color:#92516d}
+.dc-rescale-account-match math{font-size:19px;color:#34475e;margin:8px 0 0}
 @media(max-width:420px){.dc-rescale-flow{grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);gap:5px}.dc-rescale-amounts{padding-inline:6px}.dc-rescale-multiplier math{font-size:18px}}
 
 .dc-algorithm-damping{display:flex;align-items:center;flex-wrap:nowrap;gap:14px;margin:14px 0;color:#57687b;font:400 14px/1.7 Arial,sans-serif;overflow-x:auto}
@@ -1875,9 +1874,9 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
           const bars=el('div','dc-rescale-sample-bars');bars.setAttribute('aria-hidden','true');[14,23,32,43].forEach(height=>{const bar=el('i');bar.style.height=(height*(side==='after'?1.4:1))+'px';bars.append(bar);});box.append(bars);flow.append(box);
           if(side==='before'){const factor=el('div','dc-rescale-multiplier');factor.innerHTML='<math aria-label="Multiply by the same category factor lambda k"><mrow><mo>×</mo><msub><mi>λ</mi><mi>k</mi></msub></mrow></math>';factor.append(el('span','dc-rescale-flow-arrow','→'));flow.append(factor);}
         }
-        const match=el('div','dc-rescale-matched-total');match.append(el('strong','','Weighted total matches national accounts'));
+        const match=el('div','dc-rescale-account-match');match.append(el('strong','','Weighted total matches national accounts'));
         const identity=el('div');identity.innerHTML='<math display="block" aria-label="The weighted sum of rescaled amounts equals the national-account target Y k"><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>ω</mi><mi>i</mi></msub><mo stretchy="false">(</mo><msub><mi>λ</mi><mi>k</mi></msub><msub><mi>y</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo stretchy="false">)</mo><mo>=</mo><msub><mi>Y</mi><mi>k</mi></msub></mrow></math>';match.append(identity);
-        visual.append(flow,match,el('p','dc-rescale-schema-note','Apply the same factor to every observation in category k.'));
+        flow.querySelector('.dc-rescale-amounts.after').append(match);visual.append(flow);
       }
       else {const legend=el('div','dc-mini-legend dc-reweight-legend');legend.append(el('span','','Original weights'),el('span','','Matched bin mass of a benchmark distribution (IRS, SCF, WID data)'));visual.append(legend);const people=el('div','dc-people-comparison');for(const side of ['before','after']){const group=el('div','dc-people-group '+side);for(let j=0;j<12;j++){const person=el('i','dc-person');person.style.setProperty('--person-weight',side==='before'?'1':[.7,.8,1.1,1.5][Math.floor(j/3)]);group.append(person);}people.append(group);if(side==='before')people.append(el('span','dc-people-arrow','→'));}visual.append(people);}
     });
