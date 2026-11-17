@@ -105,7 +105,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 
 .budget-component .definition-gains-note{margin-top:13px;font-size:14px;line-height:1.5;color:#77818d}
 
-.definition-correspondence-note{font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d;margin:8px 0 0}.definition-correspondence-note a{color:#355f87;text-underline-offset:3px}
+.definition-correspondence-note a{color:#355f87;text-underline-offset:3px}
 
 /* Restore the two main estimation panels while retaining MLE/OLS columns. */
 .pareto-method-explanation{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -120,7 +120,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .dc-visual-procedure .dc-rescale-amount-heading h4{margin:0}
 .dc-rescale-amount-formula{display:inline-flex}
 .dc-rescale-account-match strong{white-space:nowrap}
-.definition-correspondence-note,.definition-correspondence-note a{font:inherit;line-height:inherit;margin:0}
+.budget-definitions .definition-intro :is(a,.definition-correspondence-note){font:inherit}
 .budget-definitions .definition-appendix,.budget-definitions .definition-appendix a{font-size:14px;line-height:1.75}
 @media(max-width:1100px){.pareto-method-explanation{grid-template-columns:1fr}}
 @media(max-width:760px){.pareto-estimators{grid-template-columns:1fr}.pareto-estimator+ .pareto-estimator{border-left:0;padding-left:0}.pareto-estimator>p:first-of-type{min-height:0}}
@@ -133,7 +133,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-full-equation .budget-full-term.definition-unavailable{opacity:.48;color:#969ca5}
 .budget-full-equation mo{color:#171b22}
 .budget-full-equation .budget-wealth-definition math{font-size:19px;color:#394b60;margin:0 auto 9px}
-.budget-definitions .budget-variable-key{font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d;max-width:1100px;margin:0 auto}
+.budget-definitions :is(.definition-intro,.budget-variable-key){font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d;margin:0}
 .budget-definitions .definition-data-facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 20px;margin:0;font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d}
 .budget-definitions .definition-data-facts dt{font-size:14px;font-weight:600;color:#34485f}
 .budget-definitions .definition-data-facts dd{font-size:14px;margin:0}
@@ -154,7 +154,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 /* Introduce the notation before the equation and align its compact terms to the cards. */
 .budget-definitions .budget-wealth-intro,.budget-definitions .budget-equation-lead{font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d;margin:0 0 12px}
 .budget-full-equation .budget-wealth-definition math{margin:0 0 14px}
-.budget-definitions .budget-variable-key{margin:0 0 18px}
 .budget-full-equation .budget-full-math{margin:0 auto 4px}
 
 /* The expanded equation, its underbrace labels and cards share the same columns. */
@@ -191,7 +190,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .pareto-overview-grid .pareto-range-key{gap:6px 12px;font-size:13px}
 }
 .budget-full-equation{min-width:0;padding:8px 0 0}
-.budget-definitions .budget-variable-key{max-width:none;margin:0;font-size:14px;line-height:1.75}
 .budget-variable-key math{font-size:18px;vertical-align:middle}
 
 /* Align the expanded equation on one baseline, with balanced explanation cards. */
