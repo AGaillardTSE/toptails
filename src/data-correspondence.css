@@ -80,3 +80,12 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .dc-weight-update math mtext{font-size:14px;color:#57687b}.dc-weight-update{padding-block:12px!important}
 
 .dc-algorithm>.dc-algorithm-outcome{margin:0;padding:0 29px 20px}
+
+/* Light dropdowns for the annual adjustment results. */
+#adjustment-figures-panel select:not([multiple]){background-color:#fffefa!important;color:#263a53!important;border-color:#d7d9de!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m2 2 4 4 4-4' fill='none' stroke='%236a7484' stroke-width='1.5'/%3E%3C/svg%3E")!important}
+#adjustment-figures-panel select option{background:#fffefa!important;color:#263a53!important}
+#adjustment-figures-panel select:disabled{background-color:#f0efeb!important;color:#8a8e96!important}
+
+.pareto-method :is(p,li,dd,.pareto-example-readout,.pareto-illustration-status){font-size:14px}
+
+.budget-definitions .definition-sample p{font-size:14px;line-height:1.75}
