@@ -156,3 +156,29 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-full-equation .budget-wealth-definition math{margin:0 0 14px}
 .budget-definitions .budget-variable-key{margin:0 0 18px}
 .budget-full-equation .budget-full-math{margin:0 auto 4px}
+
+/* The expanded equation, its underbrace labels and cards share the same columns. */
+.budget-definitions .budget-definition-grid{grid-template-columns:minmax(260px,1.1fr) repeat(3,minmax(130px,.55fr)) minmax(340px,1.5fr);min-width:1046px}
+.budget-diagram-column .budget-component-symbol{height:116px;min-height:116px;align-items:flex-end}
+.budget-diagram-column .budget-component-symbol math{font-size:21px}
+.budget-component-symbol .budget-underbrace-label{font-size:32px}
+.budget-component-symbol mo{color:#171b22}
+.budget-diagram-column .budget-between-operator{top:48px}
+.budget-component-symbol .budget-price-gains.definition-unavailable{opacity:.4}
+.budget-full-equation{padding-bottom:0}
+/* Leave room for both the causal explanation and the rescaling multiplier. */
+@media(min-width:1101px){.dc-visual-procedure .fixed-point-diagram{grid-template-columns:minmax(0,1.13fr) 200px minmax(0,1fr)}}
+.dc-visual-procedure .dc-causal-arrow{gap:44px}
+@media(min-width:521px){.dc-rescale-flow{grid-template-columns:minmax(0,1fr) 44px minmax(0,1.35fr);gap:8px}.dc-rescale-amounts.before{padding-inline:8px}.dc-rescale-amounts.after{padding-inline:8px}}
+.dc-rescale-account-match strong{white-space:normal}
+.pareto-overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:24px}
+.pareto-overview-grid .pareto-example-chart{height:350px}
+.pareto-range-key{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;margin:0 0 15px;font:400 14px/1.5 Arial,sans-serif}
+.pareto-range-key span{display:inline-flex;align-items:center;gap:7px}
+.pareto-range-key i{display:inline-block;width:20px;height:10px;border:1px solid currentColor;background:currentColor;opacity:.25}
+@media(max-width:760px){.pareto-overview-grid{grid-template-columns:1fr}.dc-visual-procedure .dc-causal-arrow{gap:24px}}
+.budget-definitions .budget-definition-grid{grid-template-columns:minmax(260px,1.1fr) repeat(3,minmax(150px,.55fr)) minmax(340px,1.5fr);min-width:1106px}
+.budget-diagram-column .budget-between-operator{top:73px}
+.budget-component-capital .budget-component-symbol math{font-size:20px}
+.budget-diagram-column .budget-component-symbol{height:92px;min-height:92px}
+.budget-diagram-column .budget-between-operator{top:49px}
