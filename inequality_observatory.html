@@ -294,6 +294,10 @@
 /* Plot metadata and fitted-tail readouts share one text size. */
 .plot-subtitle,.chart-subtitle,#slope-readout,#panel-other #cc-b-readout,#biv-tail-ratio,#cc-b-tail-ratio,.eyeballing-readout{font-size:13px}
 
+/* Keep the Eyeballing summary and coefficient readout together. */
+.eyeballing-panel .plot-top{padding-bottom:6px}
+.eyeballing-panel .eyeballing-readout{margin-block:0;line-height:1.5}
+
 #panel-other .other-card-heading>h2{margin:0}
 #panel-other #cc-summary-note{padding-top:10px}
 #panel-other .average-row{background:#f3f4f3;font-weight:500}
@@ -348,6 +352,8 @@
 #panel-other .cc-time-controls>.control:has(#cc-t-adjustment){flex-basis:180px}
 #panel-other .cc-time-controls>.control:has(#cc-t-indicator){flex-basis:190px}
 #panel-other .cc-time-controls>.control>label{white-space:nowrap}
+
+#cc-eyeballing .cc-outside-heading .plot-top{padding-bottom:6px}
 
 /* Data descriptions, adjustment navigation and source-to-account tables. */
 .dc-data-root,.dc-domain-panel{max-width:1436px;margin:0 auto}.dc-toolbar{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;padding:22px 0}.dc-control{display:flex;flex:0 1 290px;min-width:190px;flex-direction:column;gap:8px;margin:0}.dc-control-label{font:600 14px/1.45 var(--sans,Arial,sans-serif);letter-spacing:.035em;color:#596678}.dc-control select{width:100%;min-height:42px;padding:9px 32px 9px 12px;border:1px solid #dedfdc;border-radius:6px;background:#fffefa;color:#20354f;font:14px/1.5 var(--sans,Arial,sans-serif)}.dc-control select:focus-visible{outline:2px solid #477EAD;outline-offset:2px}.dc-control select:disabled{color:#858b95;background:#f3f2ee}.dc-dataset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.dc-dataset-card{padding:25px 27px;border:1px solid #e3dfd7;border-radius:11px;background:#fffefa;min-width:0}.dc-dataset-card h3{font:normal 23px/1.3 var(--serif,Georgia,serif);color:#20354f;margin:0 0 18px}.dc-data-facts{display:grid;grid-template-columns:80px minmax(0,1fr);gap:9px 12px;margin:0 0 17px;font:14px/1.65 var(--sans,Arial,sans-serif)}.dc-data-facts dt{color:#687281;font-weight:600}.dc-data-facts dd{color:#35445a;margin:0;overflow-wrap:anywhere}.dc-data-note{margin:14px 0 0;color:#4f5d70;font:14px/1.7 var(--sans,Arial,sans-serif)}.dc-limit-list,.dc-map-limitations{padding-left:18px;margin:15px 0 0;color:#606b7a;font:14px/1.75 var(--sans,Arial,sans-serif)}.dc-limit-list li,.dc-map-limitations li{padding-left:3px;margin:5px 0}.dc-limit-list li::marker,.dc-map-limitations li::marker{color:#8693a2}

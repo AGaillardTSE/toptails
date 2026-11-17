@@ -52,3 +52,5 @@
 #panel-other .cc-time-controls>.control:has(#cc-t-adjustment){flex-basis:180px}
 #panel-other .cc-time-controls>.control:has(#cc-t-indicator){flex-basis:190px}
 #panel-other .cc-time-controls>.control>label{white-space:nowrap}
+
+#cc-eyeballing .cc-outside-heading .plot-top{padding-bottom:6px}

@@ -270,3 +270,7 @@
 
 /* Plot metadata and fitted-tail readouts share one text size. */
 .plot-subtitle,.chart-subtitle,#slope-readout,#panel-other #cc-b-readout,#biv-tail-ratio,#cc-b-tail-ratio,.eyeballing-readout{font-size:13px}
+
+/* Keep the Eyeballing summary and coefficient readout together. */
+.eyeballing-panel .plot-top{padding-bottom:6px}
+.eyeballing-panel .eyeballing-readout{margin-block:0;line-height:1.5}
