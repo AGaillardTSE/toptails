@@ -150,3 +150,9 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .pareto-parameters p{margin:0;padding:0 0 0 13px;border-left:3px solid #a43d60}
 .pareto-parameters p+ p{border-color:#2d668d}
 @media(min-width:521px){.dc-rescale-amounts.before{padding-inline:12px}.dc-rescale-amounts.after{padding-inline:1px}}
+
+/* Introduce the notation before the equation and align its compact terms to the cards. */
+.budget-definitions .budget-wealth-intro,.budget-definitions .budget-equation-lead{font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d;margin:0 0 12px}
+.budget-full-equation .budget-wealth-definition math{margin:0 0 14px}
+.budget-definitions .budget-variable-key{margin:0 0 18px}
+.budget-full-equation .budget-full-math{margin:0 auto 4px}
