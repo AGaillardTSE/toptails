@@ -2224,7 +2224,7 @@ function createUSQuantileComparison({
     drawSegment();
   }
 
-  function plotAnnotations(groups, labels) {
+  function plotAnnotations(groups, labels, inside) {
     return {
       id:'usQuantileReferencesAndBands',
       beforeDatasetsDraw({ctx,scales,chartArea}) {
@@ -2266,18 +2266,23 @@ function createUSQuantileComparison({
           positions[i].y = Math.min(positions[i].y,upper);
           upper = positions[i].y-spacing;
         }
-        const edge = scales.y.left-10;
+        const edge = inside ? chartArea.left+13 : scales.y.left-10;
+        const leaderDirection = inside ? -1 : 1;
         ctx.save();
         ctx.font = referenceFont;
-        ctx.textAlign = 'right';
+        ctx.textAlign = inside ? 'left' : 'right';
         ctx.textBaseline = 'middle';
         ctx.lineWidth = 1;
         for (const {text,color,y,anchor} of positions) {
+          if (inside) {
+            ctx.fillStyle = 'rgba(255,254,250,.94)';
+            ctx.fillRect(edge-2,y-7,ctx.measureText(text).width+4,14);
+          }
           ctx.fillStyle = ctx.strokeStyle = color;
           ctx.fillText(text,edge,y);
           ctx.beginPath();
-          ctx.moveTo(edge+3,y);
-          ctx.lineTo(edge+8,anchor);
+          ctx.moveTo(edge+leaderDirection*3,y);
+          ctx.lineTo(edge+leaderDirection*8,anchor);
           ctx.stroke();
         }
         ctx.restore();
@@ -2319,7 +2324,7 @@ function createUSQuantileComparison({
     const unavailable = [...selected].filter(survey=>!shownSurveys.has(survey)).map(surveyName);
     const ratio = ['wealth_ratio','income_ratio'].includes(indicator);
     note.textContent = 'Shaded bands show ±1 standard error across available waves or years at each percentile. A standard error requires at least two estimates.'
-      +(hasReference?' The labels beside the vertical axis identify the dashed lines for mean KS-selected estimates. Colors match the variables.':'')
+      +(hasReference?' The labels '+(includeRaw?'inside each plot':'beside the vertical axis')+' identify the dashed lines for mean KS-selected estimates. Colors match the variables.':'')
       +(ratio?' Ratios pair coefficients within each dataset and wave or year. Each variable uses its own KS cutoff for the dashed lines.':'')
       +(unavailable.length?' No estimates for '+unavailable.join(', ')+' in this selection.':'');
 
@@ -2329,7 +2334,7 @@ function createUSQuantileComparison({
     ctx.font = referenceFont;
     const textWidth = Math.max(0,...referenceLabels(groups).map(label=>ctx.measureText(label.text).width));
     ctx.restore();
-    const paddingLeft = textWidth ? Math.ceil(textWidth)+14 : 0;
+    const paddingLeft = !includeRaw && textWidth ? Math.ceil(textWidth)+14 : 0;
     for (const panel of panels) {
       panel.chart?.destroy();
       panel.chart = null;
@@ -2356,7 +2361,7 @@ function createUSQuantileComparison({
       });
       const panelSurveys = new Set(panel.groups.map(({survey})=>survey));
       panel.chart = new Chart(panel.canvas,{
-        type:'line',data:{datasets},plugins:[plotAnnotations(panel.groups,labels)],
+        type:'line',data:{datasets},plugins:[plotAnnotations(panel.groups,labels,includeRaw)],
         options:{
           responsive:true,maintainAspectRatio:false,animation:false,parsing:false,
           interaction:{mode:'nearest',intersect:false},
