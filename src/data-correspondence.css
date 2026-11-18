@@ -267,28 +267,22 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .quantile-preview-button:hover{text-decoration:underline}
 .us-total-income-choice{display:inline-flex;align-items:center;gap:7px}
 .us-total-income-choice .help-marker{margin:0;flex:none}
-.quantile-comparison-sidebar .dataset-control{margin-bottom:16px}
-.quantile-comparison-sidebar .quantile-comparison-datasets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 7px}
-.quantile-survey-choice{display:inline-flex;align-items:center;gap:5px;min-width:0}
-.quantile-survey-choice[data-survey="SAEZ_ZUCMAN"],.quantile-cex-income-toggle{grid-column:1/-1}
-.quantile-survey-choice .small-check,.quantile-cex-income-toggle,.quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0;color:#d0d5df;font-size:13px}
-.quantile-survey-choice .small-check,.quantile-cex-income-toggle{font-weight:400;text-transform:none;letter-spacing:0}
-.quantile-survey-choice .small-check input{flex:none}
+.quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0;color:#d0d5df;font-size:13px}
 .quantile-comparison-sidebar .indicator-kind-options{justify-content:flex-start;gap:12px}
 .quantile-comparison-options,.quantile-comparison-sidebar>.control{grid-column:1/-1}
 .quantile-comparison-header{flex-wrap:wrap;padding-bottom:6px}
 .quantile-comparison-body{padding:0 28px 22px;color:#425367}
-.quantile-comparison-chart{height:455px;position:relative;min-width:0}
+.quantile-comparison-chart{height:620px;position:relative;min-width:0}
 .quantile-comparison-status{margin:12px 0;font-size:14px}
-.quantile-ks-summary{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:13px}
+.quantile-ks-summary{display:grid;gap:5px;margin-top:12px;font:400 14px/1.55 Arial,sans-serif}
 .quantile-ks-summary[hidden]{display:none}
-.quantile-ks-value{color:var(--dataset-color);font-variant-numeric:tabular-nums}
-.quantile-ks-value::before{content:"";display:inline-block;width:14px;border-top:2px dashed currentColor;margin:0 5px 3px 0}
+.quantile-ks-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
+.quantile-ks-variable{color:var(--series-color)}
+.quantile-ks-value{font-variant-numeric:tabular-nums}
+.quantile-ks-value::before{content:"";display:inline-block;width:14px;border-top:2px dashed var(--series-color);margin:0 5px 3px 0}
 .quantile-comparison-note{margin:10px 0 0;color:#627388;font:400 13px/1.5 Arial,sans-serif}
 @media(max-width:760px){
   .quantile-comparison-sidebar{grid-template-columns:minmax(0,1fr)}
-  .quantile-comparison-sidebar .dataset-control{margin-bottom:0}
-  .quantile-comparison-sidebar .quantile-comparison-datasets{grid-template-columns:repeat(2,minmax(0,1fr))}
   .quantile-comparison-body{padding:0 18px 18px}
-  .quantile-comparison-chart{height:360px}
+  .quantile-comparison-chart{height:490px}
 }

@@ -18,12 +18,12 @@ function createUSQuantileComparison({
   getCapitalDefinition, onCapitalDefinitionChange, getCEXIncome, onCEXIncomeChange
 }) {
   const style = {
-    PSID: ['#315f87', 'circle', []],
-    SCF: ['#7e5687', 'rectRot', [7, 4]],
-    CEX_BM_RECON: ['#ad572b', 'crossRot', [5, 4]],
-    YODLEE: ['#267c86', 'cross', [9, 4, 2, 4]],
-    FORBES: ['#00815a', 'rect', [9, 5]],
-    SAEZ_ZUCMAN: ['#a04662', 'triangle', [3, 3]],
+    PSID: ['circle', []],
+    SCF: ['rectRot', [7, 4]],
+    CEX_BM_RECON: ['crossRot', [3, 4]],
+    YODLEE: ['cross', [9, 4, 2, 4]],
+    FORBES: ['rect', [11, 5]],
+    SAEZ_ZUCMAN: ['triangle', [5, 3]],
   };
   const variables = [
     ['consumption','Consumption','#477eac'],
@@ -44,7 +44,7 @@ function createUSQuantileComparison({
   host.innerHTML = `<aside class="sidebar quantile-comparison-sidebar" aria-label="Quantile comparison controls">
     <div class="control dataset-control">
       <span class="control-label" id="quantile-v2-datasets-label">Datasets</span>
-      <fieldset class="overlay-controls dataset-controls quantile-comparison-datasets" aria-labelledby="quantile-v2-datasets-label"></fieldset>
+      <fieldset class="overlay-controls dataset-controls" aria-labelledby="quantile-v2-datasets-label"></fieldset>
     </div>
     <div class="adjustment-block"></div>
     <section class="indicator-block" aria-labelledby="quantile-v2-indicator-heading">
@@ -60,7 +60,7 @@ function createUSQuantileComparison({
     </header>
     <div class="plot-series-controls">
       <span class="control-label series-label">Variables</span>
-      <fieldset class="series-bar" aria-label="Variable to display"></fieldset>
+      <fieldset class="series-bar" aria-label="Variables to display"></fieldset>
     </div>
     <div class="quantile-comparison-body">
       <p class="quantile-comparison-status" role="status" hidden></p>
@@ -82,7 +82,7 @@ function createUSQuantileComparison({
   const indicators = find('.indicator-block');
   const paretoOptions = find('.quantile-v2-pareto-options');
   const options = find('.quantile-comparison-options');
-  const datasetChoices = find('.quantile-comparison-datasets');
+  const datasetChoices = find('.dataset-controls');
   const status = find('.quantile-comparison-status');
   const subtitle = find('.plot-subtitle');
   const canvas = find('canvas');
@@ -180,37 +180,47 @@ function createUSQuantileComparison({
     Object.entries(capitalDefinitions).map(([key,value])=>[key,value.label]),onCapitalDefinitionChange);
 
   const surveyOrder = ['PSID','CEX_BM_RECON','SCF','YODLEE','FORBES','SAEZ_ZUCMAN'];
+  let cexIncome;
   for (const survey of [...surveys].sort((a,b) => surveyOrder.indexOf(a)-surveyOrder.indexOf(b))) {
-    const item = make('span','quantile-survey-choice');
-    item.dataset.survey = survey;
-    const control = choice(item,'checkbox','dataset',survey,surveyName(survey),input => {
+    const name = surveyName(survey);
+    const row = survey==='CEX_BM_RECON' ? make('div','cex-dataset-row') : datasetChoices;
+    const {wrapper,input} = choice(row,'checkbox','dataset',survey,make('span','',name),input => {
       if (input.checked) selected.add(survey);
       else selected.delete(survey);
       render();
     });
-    control.input.checked = selected.has(survey);
+    wrapper.className = 'overlay-choice small-check overlay-choice-'+survey.toLowerCase();
+    input.checked = selected.has(survey);
     const marker = make('span','help-marker hover-help','?');
     marker.tabIndex = 0;
     marker.dataset.tooltip = surveyTooltip(survey);
-    marker.setAttribute('aria-label','About '+surveyName(survey));
-    item.append(marker);
-    datasetChoices.append(item);
+    marker.setAttribute('aria-label','About '+name);
+    if (survey==='CEX_BM_RECON') {
+      cexIncome = choice(row,'checkbox','cex-income','cex_income',make('span','','Show income'),
+        input=>onCEXIncomeChange(input.checked)).input;
+      cexIncome.parentElement.classList.add('cex-income-option');
+      cexIncome.setAttribute('aria-label','Show CEX topcoded income');
+      marker.setAttribute('aria-label','About CEX topcoded income');
+      marker.dataset.tooltip = metadata.cex_optional_income?.warning || 'Topcoding distorts CEX income estimates at the top.';
+      row.append(marker);
+      datasetChoices.append(row);
+    } else {
+      if (survey==='SCF') marker.dataset.tooltip += ' Select an expenditure measure to compare SCF spending.';
+      wrapper.append(marker);
+    }
   }
-  const cexIncome = choice(datasetChoices,'checkbox','cex-income','cex_income','Show CEX income',
-    input=>onCEXIncomeChange(input.checked));
-  cexIncome.wrapper.classList.add('quantile-cex-income-toggle');
-  cexIncome.wrapper.title = metadata.cex_optional_income?.warning || 'Topcoding distorts CEX income estimates at the top.';
+  const scfInput = datasetChoices.querySelector('input[value="SCF"]');
 
   const seriesBar = find('.series-bar');
-  const variableInputs = variables.map(([value,label,color], index) => {
+  const variableInputs = variables.map(([value,label,color]) => {
     const item = make('span','us-total-income-choice');
-    const {wrapper,input} = choice(item,'radio','variable',value,label,render);
+    const {wrapper,input} = choice(item,'checkbox','variable',value,label,render);
     wrapper.className = 'series-choice';
     wrapper.style.setProperty('--series',color);
     const swatch = make('span','series-swatch');
     swatch.setAttribute('aria-hidden','true');
     input.after(swatch);
-    input.checked = index === 0;
+    input.checked = value !== 'total_income';
     if (value === 'total_income') item.append(createUSTotalIncomeHelp());
     seriesBar.append(item);
     return input;
@@ -260,18 +270,18 @@ function createUSQuantileComparison({
       ctx.beginPath();
       ctx.rect(chartArea.left,chartArea.top,chartArea.width,chartArea.height);
       ctx.clip();
-      ctx.globalAlpha = .13;
-      for (const {survey,points} of comparison) {
-        ctx.fillStyle = ctx.strokeStyle = style[survey][0];
+      ctx.globalAlpha = .12;
+      for (const {color,points} of comparison) {
+        ctx.fillStyle = ctx.strokeStyle = color;
         drawStandardErrors(ctx,scales,points);
       }
       ctx.globalAlpha = .85;
       ctx.lineWidth = 1.5;
       ctx.setLineDash([8,5]);
-      for (const {survey,reference} of comparison) {
+      for (const {color,reference} of comparison) {
         if (!reference?.n) continue;
         const y = scales.y.getPixelForValue(reference.mean);
-        ctx.strokeStyle = style[survey][0];
+        ctx.strokeStyle = color;
         ctx.beginPath();
         ctx.moveTo(chartArea.left,y);
         ctx.lineTo(chartArea.right,y);
@@ -281,17 +291,18 @@ function createUSQuantileComparison({
     },
   };
 
-  function drawPlot(title, variableLabel, shares) {
+  function drawPlot(title, activeVariables, shares) {
     chart?.destroy();
     chart = null;
     const groups = comparison.filter(({points,reference}) => points.length || reference?.n);
-    const datasets = groups.map(({survey,points}) => {
-      const [color,pointStyle,borderDash] = style[survey];
+    const datasets = groups.map(({survey,label,color,points}) => {
+      const [pointStyle,borderDash] = style[survey];
       return {
-        label:surveyName(survey), survey,
+        label:label+' · '+surveyName(survey), survey,
         data:points.map(({q,mean,n,se}) => ({x:q*100,y:mean,n,se})),
         borderColor:color, backgroundColor:color, pointStyle, borderDash,
-        pointRadius:points.length === 1 ? 4 : 0, pointHoverRadius:5, borderWidth:2.4,
+        pointRadius:({raw})=>points.length === 1 || [80,90,95].some(p=>Math.abs(raw?.x-p)<1e-6) ? 4 : 0,
+        pointHoverRadius:5, borderWidth:2.2,
       };
     });
     const visible = groups.length > 0;
@@ -302,39 +313,53 @@ function createUSQuantileComparison({
     ksSummary.hidden = !groups.some(group => group.reference?.n);
     note.parentElement.hidden = !visible;
     if (!visible) {
-      status.textContent = selected.size ? 'No estimates are available in this window for these selections.' : 'Choose a dataset to see its estimates.';
+      status.textContent = !selected.size ? 'Choose a dataset to see its estimates.'
+        : !activeVariables.length ? 'Choose a variable to see its estimates.'
+        : 'No estimates are available in this window for these selections.';
       return;
     }
     const limits = groups.flatMap(({points,reference}) => [
       ...points.flatMap(({mean,se})=>[mean-(se??0),mean+(se??0)]),
       ...(reference?.n ? [reference.mean] : []),
     ]);
-    const unavailable = comparison.filter(group=>!groups.includes(group)).map(({survey})=>surveyName(survey));
+    const shownSurveys = new Set(groups.map(({survey})=>survey));
+    const unavailable = [...selected].filter(survey=>!shownSurveys.has(survey)).map(surveyName);
     note.textContent = 'Shaded bands show ±1 standard error across available waves or years at each percentile. A standard error requires at least two estimates.'
       +(ksSummary.hidden?'':' Dashed horizontal lines show the mean of the wave- or year-specific KS-selected estimates.')
-      +(groups.some(group=>group.variable==='expenditure_incl_rent'&&group.survey==='SCF')&&spending.value==='consump_def1'
-        ?' SCF uses expenditure including imputed rent.':'')
       +(unavailable.length?' No estimates for '+unavailable.join(', ')+' in this selection.':'');
     if (!ksSummary.hidden) {
       ksSummary.append(make('strong','','Mean KS-selected estimates'));
-      for (const {survey,reference} of groups) {
-        if (!reference?.n) continue;
-        const estimate = make('span','quantile-ks-value',surveyName(survey)+' '+displayValue(reference.mean,false));
-        estimate.style.setProperty('--dataset-color',style[survey][0]);
-        estimate.title = waveLabel(survey,reference.n)
-          +(Number.isFinite(reference.se)?' · SE '+displayValue(reference.se,false):'');
-        ksSummary.append(estimate);
+      for (const [key,label,color] of activeVariables) {
+        const references = groups.filter(group=>group.key===key&&group.reference?.n);
+        if (!references.length) continue;
+        const row = make('div','quantile-ks-row');
+        const variable = make('strong','quantile-ks-variable',references[0].label || label);
+        row.style.setProperty('--series-color',color);
+        row.append(variable);
+        for (const {survey,reference} of references) {
+          const estimate = make('span','quantile-ks-value',surveyName(survey)+' '+displayValue(reference.mean,false));
+          estimate.title = waveLabel(survey,reference.n)
+            +(Number.isFinite(reference.se)?' · SE '+displayValue(reference.se,false):'');
+          row.append(estimate);
+        }
+        ksSummary.append(row);
       }
     }
-    canvas.setAttribute('aria-label',title+' for '+variableLabel+' by percentile, '+period.replace('-',' to '));
+    canvas.setAttribute('aria-label',title+' by percentile, '+period.replace('-',' to '));
     chart = new Chart(canvas, {
       type:'line', data:{datasets}, plugins:[referencesAndBands],
       options:{
         responsive:true, maintainAspectRatio:false, animation:false, parsing:false,
-        interaction:{axis:'x',mode:'nearest',intersect:false},
+        interaction:{mode:'nearest',intersect:false},
         layout:{padding:{right:10}},
         plugins:{
-          legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,padding:18,font:{size:13}}},
+          legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,padding:18,font:{size:13},
+            generateLabels:()=>[...shownSurveys].map(survey=>{
+              const [pointStyle,lineDash] = style[survey];
+              return {text:surveyName(survey),pointStyle,lineDash,lineWidth:1.5,hidden:false,
+                fontColor:'#425367',fillStyle:'#59677a',strokeStyle:'#59677a'};
+            }),
+          }},
           tooltip:{callbacks:{
             title:items => percentile(items[0].parsed.x),
             label:item => item.dataset.label+': '+displayValue(item.parsed.y,shares)
@@ -358,8 +383,8 @@ function createUSQuantileComparison({
   function tenYearWindows(years) {
     const windows = new Map();
     const latest = years[0];
-    const earliestEnd = Math.min(latest,years.at(-1)+9);
-    for (let end=latest; end>=earliestEnd; end--) {
+    const earliestEnd = Math.min(latest,years.at(-1)+7);
+    for (let end=latest; end>=earliestEnd; end-=3) {
       const start = end-9;
       if (years.some(year=>year>=start&&year<=end)) windows.set(start+'-'+end,[start,end]);
     }
@@ -370,14 +395,15 @@ function createUSQuantileComparison({
   }
 
   async function render() {
-    const variable = variableInputs.find(input=>input.checked).value;
+    const activeVariables = variables.filter((_,index)=>variableInputs[index].checked);
+    const showsConsumption = activeVariables.some(([key])=>key==='consumption');
+    const activeKeys = activeVariables.map(([key])=>key);
     const shares = kind.value === 'share';
     const indicator = shares ? 'share' : paretoMeasure.value;
     const method = estimator.value;
     const title = shares ? 'Share above percentile'
       : indicator === 'wealth_ratio' ? 'Pareto coefficient relative to wealth' : 'Pareto coefficient';
-    const variableLabel = variable === 'consumption' ? spending.selectedOptions[0].textContent
-      : variables.find(([key])=>key===variable)[1];
+    const spendingLabel = spending.selectedOptions[0].textContent;
     const ids = surveys.filter(survey=>selected.has(survey));
     const hasSurvey = ids.some(household);
     paretoOptions.hidden = shares;
@@ -385,15 +411,22 @@ function createUSQuantileComparison({
     adjustments.classList.toggle('adjustment-unavailable',!hasSurvey);
     weightingBox.hidden = !selected.has('PSID') || adjustment.value !== 'full';
     for (const input of weighting.inputs) input.checked = input.value === getWeightingMethod();
-    spending.disabled = variable !== 'consumption';
+    spending.disabled = !showsConsumption;
     housing.input.checked = getHousingMethod() === 'bp';
     housingRow.hidden = !hasSurvey;
-    cexIncome.input.checked = getCEXIncome();
-    cexIncome.wrapper.hidden = !selected.has('CEX_BM_RECON');
-    capital.closest('.control').hidden = !selected.has('SAEZ_ZUCMAN') || !['total_capital_income','total_income'].includes(variable);
+    if (cexIncome) {
+      cexIncome.checked = getCEXIncome();
+      cexIncome.disabled = !selected.has('CEX_BM_RECON');
+    }
+    if (scfInput) {
+      scfInput.disabled = activeVariables.length === 1 && showsConsumption && spending.value === 'consump_def1';
+      scfInput.parentElement.classList.toggle('unavailable-option',scfInput.disabled);
+      scfInput.title = scfInput.disabled ? 'Select an expenditure measure to compare SCF spending.' : '';
+    }
+    capital.closest('.control').hidden = !selected.has('SAEZ_ZUCMAN') || !activeKeys.some(key=>['total_capital_income','total_income'].includes(key));
     capital.value = Object.keys(capitalDefinitions).find(key=>capitalDefinitions[key].author_variant===getCapitalDefinition()) || '';
 
-    const filter = JSON.stringify([ids,variable,spending.value,indicator,method,adjustment.value,selectedPeriod,
+    const filter = JSON.stringify([ids,activeKeys,spending.value,indicator,method,adjustment.value,selectedPeriod,
       getHousingMethod(),getWeightingMethod(),getCapitalDefinition(),getCEXIncome()]);
     if (filter === lastFilter && !pending) { chart?.resize(); return; }
     if (filter === pending) return;
@@ -405,9 +438,10 @@ function createUSQuantileComparison({
     try {
       const curves = await loadCurves(ids);
       if (sequence !== request) return;
-      const curveOptions = ids.map(survey => {
-        const measure = variable !== 'consumption' ? variable
-          : survey==='SCF'&&spending.value==='consump_def1' ? 'expenditure_incl_rent' : spending.value;
+      const curveOptions = ids.flatMap(survey => activeVariables.flatMap(([key,variableLabel,color]) => {
+        const measure = key === 'consumption' ? spending.value : key;
+        if (survey==='SCF'&&measure==='consump_def1') return [];
+        const label = key==='consumption' ? spendingLabel : variableLabel;
         const variant = survey === 'SCF' && adjustment.value === 'full' ? 'adj'
           : household(survey) ? adjustment.value : survey === 'YODLEE' ? 'raw' : 'reference';
         const authorVariant = survey === 'SAEZ_ZUCMAN'
@@ -418,9 +452,9 @@ function createUSQuantileComparison({
           })[measure] : null;
         const source = ThresholdProfiles.contractFor(survey,metadata);
         const contract = survey === 'FORBES' ? {...source,profile_window:[.70,.90]} : source;
-        return {survey,variant,variable:measure,authorVariant,contract,
-          wealthAuthorVariant:survey==='SAEZ_ZUCMAN'?'dina_2022':authorVariant,indicator,method};
-      });
+        return [{survey,variant,variable:measure,key,label,color,authorVariant,contract,
+          wealthAuthorVariant:survey==='SAEZ_ZUCMAN'?'dina_2022':authorVariant,indicator,method}];
+      }));
       const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
       const years = [...new Set(curves.filter(row=>curveOptions.some(config=>supported(row,config)))
@@ -432,12 +466,12 @@ function createUSQuantileComparison({
       range.value = period;
       const span = windows.get(period);
       const profileCurves = span ? curves.filter(row=>row.year>=span[0]&&row.year<=span[1]) : [];
-      subtitle.textContent = span ? variableLabel+' · '+span.join('–')+' average' : 'Ten-year averages';
+      subtitle.textContent = span ? span.join('–')+' average' : 'Ten-year averages';
       comparison = curveOptions.map(config=>({...config,
         points:ThresholdProfiles.profiles(profileCurves,config),
         reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),
       }));
-      drawPlot(title,variableLabel,shares);
+      drawPlot(title,activeVariables,shares);
       lastFilter = filter;
     } catch (error) {
       if (sequence !== request) return;

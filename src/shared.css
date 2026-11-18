@@ -195,7 +195,7 @@
 
 .weighting-control .weighting-title{display:flex;align-items:center;gap:6px}
 
-#overlay-controls .cex-dataset-row{display:flex;align-items:center;gap:5px;grid-column:2;min-width:0}#overlay-controls .cex-dataset-row>.overlay-choice{flex:0 0 auto}.sidebar .cex-income-option{display:inline-flex;align-items:center;gap:5px;margin:0;font:400 12px/1.4 Arial,sans-serif!important;letter-spacing:0;text-transform:none;color:#d0d5df;white-space:nowrap}.cex-income-option input{width:13px;height:13px;margin:0;accent-color:#b34470}.cex-income-option:has(input:disabled){opacity:.45}#overlay-controls:has(.cex-dataset-row) .overlay-choice-yodlee{grid-column:auto}#overlay-controls .overlay-choice-saez_zucman{grid-column:1/-1}
+:is(#overlay-controls,.dataset-controls) .cex-dataset-row{display:flex;align-items:center;gap:5px;grid-column:2;min-width:0}:is(#overlay-controls,.dataset-controls) .cex-dataset-row>.overlay-choice{flex:0 0 auto}.sidebar .cex-income-option{display:inline-flex;align-items:center;gap:5px;margin:0;font:400 12px/1.4 Arial,sans-serif!important;letter-spacing:0;text-transform:none;color:#d0d5df;white-space:nowrap}.cex-income-option input{width:13px;height:13px;margin:0;accent-color:#b34470}.cex-income-option:has(input:disabled){opacity:.45}#overlay-controls:has(.cex-dataset-row) .overlay-choice-yodlee{grid-column:auto}#overlay-controls .overlay-choice-saez_zucman{grid-column:1/-1}
 
 .adjustment-readout,.plot-subtitle,.chart-subtitle,.panel-subtitle,.slope-readout,.eyeballing-readout,.eyeballing-subtitle{font-size:14px;line-height:1.7}
 
