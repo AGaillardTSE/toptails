@@ -588,42 +588,51 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-component-detail .budget-component-note{margin-top:10px}
 .budget-component-detail .budget-component-note:first-child{margin-top:0}
 
-/* US quantile overlays and the cutoff readout use the same card and controls as the other views. */
+/* Keep quantile controls in the same sidebar pattern as Tails over time. */
 .us-total-income-choice{display:inline-flex;align-items:center;gap:7px}
 .us-total-income-choice .help-marker{margin:0;flex:none}
-#us-quantile-comparison{padding:24px 28px;color:#425367}
-.quantile-comparison-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px}
-.quantile-comparison-header h2{font:400 27px/1.3 Georgia,serif;color:#22354b;margin:0}
-.quantile-comparison-header p{font-size:14px;margin:8px 0 0}
-.quantile-comparison-datasets{display:flex;align-items:center;flex-wrap:wrap;gap:10px 20px;border:0;padding:0;margin:22px 0 16px;min-width:0}
-.quantile-comparison-datasets legend{font-weight:600;font-size:13px;margin:0 0 8px}
-.quantile-survey-choice{display:inline-flex;align-items:center;gap:5px}
-.quantile-comparison-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(146px,1fr));gap:12px}
-.quantile-comparison-controls .control{min-width:0;display:flex;flex-direction:column;gap:6px;margin:0}
-.quantile-comparison-controls .control>label{display:flex;align-items:center;gap:6px;font:600 13px/1.4 Arial,sans-serif;color:#536478;min-height:20px}
-.quantile-comparison-controls select,.quantile-cutoff input{border:1px solid #d7dce1;background-color:#fff;color:#20354f;border-radius:5px;min-height:39px;padding:7px 9px;font:14px Arial,sans-serif}
-.quantile-comparison-options{display:flex;flex-wrap:wrap;gap:10px 22px;margin:14px 0 16px}
-.quantile-cutoff{display:flex;align-items:center;flex-wrap:wrap;gap:9px 13px;padding:12px 14px;background:#f4f6f8;border:1px solid #e3e8ed;border-radius:7px;font-size:14px}
-.quantile-cutoff-presets{display:flex;flex-wrap:wrap;gap:6px}
-.quantile-cutoff-presets button{min-width:45px}
-.quantile-cutoff-presets button[aria-pressed="true"]{background:#2e4e6a;color:white;border-color:#2e4e6a}
-.quantile-cutoff input{max-width:83px;min-height:34px}
-.quantile-comparison-chart{height:475px;position:relative;min-width:0;margin-top:14px}
+.quantile-comparison-sidebar .dataset-control{margin-bottom:16px}
+.quantile-comparison-sidebar .quantile-comparison-datasets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 7px}
+.quantile-survey-choice{display:inline-flex;align-items:center;gap:5px;min-width:0}
+.quantile-survey-choice[data-survey="SAEZ_ZUCMAN"]{grid-column:1/-1}
+.quantile-survey-choice .small-check,.quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0;color:#d0d5df;font-size:13px}
+.quantile-survey-choice .small-check{font-weight:400;text-transform:none;letter-spacing:0}
+.quantile-survey-choice .small-check input{flex:none}
+.quantile-comparison-controls{display:grid;grid-template-columns:minmax(72px,.72fr) minmax(0,1.28fr);gap:13px 10px}
+.quantile-comparison-controls .control{grid-column:1/-1;min-width:0;margin:0}
+.quantile-comparison-controls :is([data-field="estimator"],[data-field="year"]){grid-column:auto}
+.quantile-comparison-controls .us-total-income-choice{margin-bottom:6px}
+.quantile-comparison-controls .us-total-income-choice label{margin:0}
+.quantile-comparison-options{display:flex;flex-direction:column;gap:8px;margin:13px 0 15px}
+.quantile-cutoff{padding:13px 0;margin:0 0 15px;border-block:1px solid #414a5d}
+.quantile-cutoff-presets{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin:8px 0 10px}
+.quantile-cutoff-presets .text-button{padding:6px 0;background:#232c3e;border-color:#485166;color:#eef0f4}
+.quantile-cutoff-presets .text-button:hover{background:#35435a;color:#fff}
+.quantile-cutoff-presets .text-button[aria-pressed="true"]{background:#f3e8ee;border-color:#f3e8ee;color:#582644;font-weight:700}
+.quantile-custom-cutoff{display:flex;align-items:center;gap:9px;color:#d0d5df;font-size:13px}
+.quantile-custom-cutoff input{width:76px;min-height:32px;padding:5px 7px;background:#232c3e;color:#f7f7fa;border:1px solid #485166;border-radius:5px;font:14px Arial,sans-serif}
+.quantile-comparison-header{flex-wrap:wrap;padding-bottom:6px}
+.quantile-comparison-body{padding:0 28px 22px;color:#425367}
+.quantile-comparison-chart{height:455px;position:relative;min-width:0}
 .quantile-comparison-chart canvas{cursor:crosshair}
-.quantile-comparison-status{margin:20px 0;font-size:14px}
+.quantile-comparison-status{margin:12px 0;font-size:14px}
 .quantile-cutoff-readout{margin-top:15px}
 .quantile-cutoff-readout h3{font:600 15px/1.4 Arial,sans-serif;margin:0 0 9px;color:#263e57}
-.quantile-cutoff-values{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:9px}
+.quantile-cutoff-values{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:9px}
 .quantile-cutoff-value{display:grid;gap:4px;padding:9px 12px;background:#faf9f6;border:1px solid #e4e0d8;border-left:4px solid var(--dataset-color);border-radius:5px}
 .quantile-cutoff-value strong,.quantile-value-context,.quantile-comparison-note{font-size:13px}
 .quantile-value{font:500 23px/1.1 Georgia,serif;color:var(--dataset-color);font-variant-numeric:tabular-nums}
 .quantile-value-context,.quantile-comparison-note{color:#627388}
 .quantile-comparison-note{margin:14px 0 0;line-height:1.5}
-#us-quantile-comparison [hidden],.us-total-income-choice [hidden]{display:none!important}
-@media(max-width:700px){#us-quantile-comparison{padding:18px 14px}.quantile-comparison-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.quantile-comparison-chart{height:360px}.quantile-cutoff-values{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.quantile-survey-choice .small-check,.quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0}
-.quantile-comparison-controls .control>label,.quantile-comparison-controls .us-total-income-choice{min-height:33px}
-.quantile-comparison-controls .control:has(#quantile-v2-measure){grid-column:span 2}
+@media(max-width:760px){
+  .quantile-comparison-sidebar{grid-template-columns:minmax(0,1fr)}
+  .quantile-comparison-sidebar .dataset-control{margin-bottom:0}
+  .quantile-comparison-sidebar .quantile-comparison-datasets{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .quantile-cutoff,.quantile-comparison-options{margin:0}
+  .quantile-comparison-body{padding:0 18px 18px}
+  .quantile-comparison-chart{height:360px}
+  .quantile-cutoff-values{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style>
 </head>
 <body>
@@ -1913,23 +1922,36 @@ function createUSQuantileComparison({
     ...spendingOptions.filter(item => item.key !== 'consump_def1').map(item => [item.key,item.label]),
   ];
 
-  host.innerHTML = `<header class="quantile-comparison-header">
-    <div><h2>Compare estimates by quantile</h2><p>Overlay U.S. datasets and compare estimates at the same tail cutoff.</p></div>
-    <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
-  </header>
-  <fieldset class="quantile-comparison-datasets" aria-label="Datasets"><legend>Datasets</legend></fieldset>
-  <div class="quantile-comparison-controls"></div>
-  <div class="quantile-comparison-options"></div>
-  <div class="quantile-cutoff">
-    <strong>Highlight a cutoff</strong>
-    <div class="quantile-cutoff-presets" role="group" aria-label="Cutoff presets"></div>
-    <label for="quantile-v2-percentile">Percentile</label>
-    <input id="quantile-v2-percentile" type="number" min="70" max="99" step="0.05" value="95">
-  </div>
-  <p class="quantile-comparison-status" role="status" hidden></p>
-  <div class="quantile-comparison-chart"><canvas role="img" aria-label="Estimates by quantile for the selected U.S. datasets"></canvas></div>
-  <div class="quantile-cutoff-readout" aria-live="polite"></div>
-  <p class="quantile-comparison-note">Across-wave curves average available estimates separately at each percentile. Coverage can differ across datasets. Click the plot or choose a cutoff above to compare stored estimates.</p>`;
+  host.classList.remove('quantile-profile-card');
+  host.classList.add('explorer-grid');
+  host.innerHTML = `<aside class="sidebar quantile-comparison-sidebar" aria-label="Quantile comparison controls">
+    <div class="control dataset-control">
+      <span class="control-label" id="quantile-v2-datasets-label">Datasets</span>
+      <fieldset class="overlay-controls quantile-comparison-datasets" aria-labelledby="quantile-v2-datasets-label"></fieldset>
+    </div>
+    <section class="quantile-cutoff" aria-labelledby="quantile-v2-cutoff-label">
+      <span class="control-label" id="quantile-v2-cutoff-label">Highlight a cutoff</span>
+      <div class="quantile-cutoff-presets" role="group" aria-label="Cutoff presets"></div>
+      <div class="quantile-custom-cutoff">
+        <label for="quantile-v2-percentile">Percentile</label>
+        <input id="quantile-v2-percentile" type="number" min="70" max="99" step="0.05" value="95">
+      </div>
+    </section>
+    <div class="quantile-comparison-controls"></div>
+    <div class="quantile-comparison-options"></div>
+  </aside>
+  <div class="plot-surface quantile-comparison-plot">
+    <header class="plot-top quantile-comparison-header">
+      <div><h2>Compare estimates by quantile</h2><p class="plot-subtitle">Overlay U.S. datasets and compare estimates at the same tail cutoff.</p></div>
+      <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
+    </header>
+    <div class="quantile-comparison-body">
+      <p class="quantile-comparison-status" role="status" hidden></p>
+      <div class="quantile-comparison-chart"><canvas role="img" aria-label="Estimates by quantile for the selected U.S. datasets"></canvas></div>
+      <div class="quantile-cutoff-readout" aria-live="polite"></div>
+      <p class="quantile-comparison-note">Across-wave curves average available estimates separately at each percentile. Coverage can differ across datasets. Click the plot or choose a cutoff in the controls to compare stored estimates.</p>
+    </div>
+  </div>`;
 
   const find = selector => host.querySelector(selector);
   const make = (tag, cls, text) => {
@@ -1954,6 +1976,7 @@ function createUSQuantileComparison({
     const label = make('label','',title);
     const input = make('select');
     input.id = label.htmlFor = 'quantile-v2-' + key;
+    box.dataset.field = key;
     input.append(...values.map(([value,text]) => new Option(text,value)));
     box.append(label,input);
     controls.append(box);
@@ -1971,10 +1994,10 @@ function createUSQuantileComparison({
     ['share','Share above percentile'],
   ]);
   const estimator = select('estimator','Estimator',[['MLE','MLE'],['OLS','OLS']]);
+  const year = select('year','Wave / year',[['all','Across-wave average']]);
   const adjustment = select('adjustment','Adjustment',[
     ['full','Reporting + representation'], ['adj','Reporting only'], ['raw','Raw data'],
   ]);
-  const year = select('year','Wave / year',[['all','Across-wave average']]);
   const weighting = select('weighting','PSID weighting',[
     ['scf_income','SCF income'],['irs_income','IRS income'],['scf_wealth','SCF wealth'],
   ]);
@@ -1997,8 +2020,10 @@ function createUSQuantileComparison({
   const housing = checkbox(options,'Constant imputed rent rate','bp',onHousingChange);
   const cexIncome = checkbox(options,'Show CEX topcoded income','cex_income',onCEXIncomeChange);
   cexIncome.wrapper.title = metadata.cex_optional_income?.warning || 'Topcoding distorts CEX income estimates at the top.';
-  for (const survey of surveys) {
+  const surveyOrder = ['PSID','CEX_BM_RECON','SCF','YODLEE','NIELSEN','FORBES','SAEZ_ZUCMAN'];
+  for (const survey of [...surveys].sort((a,b) => surveyOrder.indexOf(a)-surveyOrder.indexOf(b))) {
     const item = make('span','quantile-survey-choice');
+    item.dataset.survey = survey;
     const control = checkbox(item,surveyName(survey),survey,checked => {
       if (checked) selected.add(survey);
       else selected.delete(survey);

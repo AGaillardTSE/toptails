@@ -35,23 +35,36 @@ function createUSQuantileComparison({
     ...spendingOptions.filter(item => item.key !== 'consump_def1').map(item => [item.key,item.label]),
   ];
 
-  host.innerHTML = `<header class="quantile-comparison-header">
-    <div><h2>Compare estimates by quantile</h2><p>Overlay U.S. datasets and compare estimates at the same tail cutoff.</p></div>
-    <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
-  </header>
-  <fieldset class="quantile-comparison-datasets" aria-label="Datasets"><legend>Datasets</legend></fieldset>
-  <div class="quantile-comparison-controls"></div>
-  <div class="quantile-comparison-options"></div>
-  <div class="quantile-cutoff">
-    <strong>Highlight a cutoff</strong>
-    <div class="quantile-cutoff-presets" role="group" aria-label="Cutoff presets"></div>
-    <label for="quantile-v2-percentile">Percentile</label>
-    <input id="quantile-v2-percentile" type="number" min="70" max="99" step="0.05" value="95">
-  </div>
-  <p class="quantile-comparison-status" role="status" hidden></p>
-  <div class="quantile-comparison-chart"><canvas role="img" aria-label="Estimates by quantile for the selected U.S. datasets"></canvas></div>
-  <div class="quantile-cutoff-readout" aria-live="polite"></div>
-  <p class="quantile-comparison-note">Across-wave curves average available estimates separately at each percentile. Coverage can differ across datasets. Click the plot or choose a cutoff above to compare stored estimates.</p>`;
+  host.classList.remove('quantile-profile-card');
+  host.classList.add('explorer-grid');
+  host.innerHTML = `<aside class="sidebar quantile-comparison-sidebar" aria-label="Quantile comparison controls">
+    <div class="control dataset-control">
+      <span class="control-label" id="quantile-v2-datasets-label">Datasets</span>
+      <fieldset class="overlay-controls quantile-comparison-datasets" aria-labelledby="quantile-v2-datasets-label"></fieldset>
+    </div>
+    <section class="quantile-cutoff" aria-labelledby="quantile-v2-cutoff-label">
+      <span class="control-label" id="quantile-v2-cutoff-label">Highlight a cutoff</span>
+      <div class="quantile-cutoff-presets" role="group" aria-label="Cutoff presets"></div>
+      <div class="quantile-custom-cutoff">
+        <label for="quantile-v2-percentile">Percentile</label>
+        <input id="quantile-v2-percentile" type="number" min="70" max="99" step="0.05" value="95">
+      </div>
+    </section>
+    <div class="quantile-comparison-controls"></div>
+    <div class="quantile-comparison-options"></div>
+  </aside>
+  <div class="plot-surface quantile-comparison-plot">
+    <header class="plot-top quantile-comparison-header">
+      <div><h2>Compare estimates by quantile</h2><p class="plot-subtitle">Overlay U.S. datasets and compare estimates at the same tail cutoff.</p></div>
+      <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
+    </header>
+    <div class="quantile-comparison-body">
+      <p class="quantile-comparison-status" role="status" hidden></p>
+      <div class="quantile-comparison-chart"><canvas role="img" aria-label="Estimates by quantile for the selected U.S. datasets"></canvas></div>
+      <div class="quantile-cutoff-readout" aria-live="polite"></div>
+      <p class="quantile-comparison-note">Across-wave curves average available estimates separately at each percentile. Coverage can differ across datasets. Click the plot or choose a cutoff in the controls to compare stored estimates.</p>
+    </div>
+  </div>`;
 
   const find = selector => host.querySelector(selector);
   const make = (tag, cls, text) => {
@@ -76,6 +89,7 @@ function createUSQuantileComparison({
     const label = make('label','',title);
     const input = make('select');
     input.id = label.htmlFor = 'quantile-v2-' + key;
+    box.dataset.field = key;
     input.append(...values.map(([value,text]) => new Option(text,value)));
     box.append(label,input);
     controls.append(box);
@@ -93,10 +107,10 @@ function createUSQuantileComparison({
     ['share','Share above percentile'],
   ]);
   const estimator = select('estimator','Estimator',[['MLE','MLE'],['OLS','OLS']]);
+  const year = select('year','Wave / year',[['all','Across-wave average']]);
   const adjustment = select('adjustment','Adjustment',[
     ['full','Reporting + representation'], ['adj','Reporting only'], ['raw','Raw data'],
   ]);
-  const year = select('year','Wave / year',[['all','Across-wave average']]);
   const weighting = select('weighting','PSID weighting',[
     ['scf_income','SCF income'],['irs_income','IRS income'],['scf_wealth','SCF wealth'],
   ]);
@@ -119,8 +133,10 @@ function createUSQuantileComparison({
   const housing = checkbox(options,'Constant imputed rent rate','bp',onHousingChange);
   const cexIncome = checkbox(options,'Show CEX topcoded income','cex_income',onCEXIncomeChange);
   cexIncome.wrapper.title = metadata.cex_optional_income?.warning || 'Topcoding distorts CEX income estimates at the top.';
-  for (const survey of surveys) {
+  const surveyOrder = ['PSID','CEX_BM_RECON','SCF','YODLEE','NIELSEN','FORBES','SAEZ_ZUCMAN'];
+  for (const survey of [...surveys].sort((a,b) => surveyOrder.indexOf(a)-surveyOrder.indexOf(b))) {
     const item = make('span','quantile-survey-choice');
+    item.dataset.survey = survey;
     const control = checkbox(item,surveyName(survey),survey,checked => {
       if (checked) selected.add(survey);
       else selected.delete(survey);
