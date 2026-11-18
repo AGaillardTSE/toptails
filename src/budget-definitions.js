@@ -266,7 +266,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const wealth=select('Wealth definition',[['benchmark','Benchmark'],['alternative','Alternative component construction']],'wealth');
   const bank=select('Durable correction',[['paper','Four categories (paper)'],['all','All categories'],['none','Expenditure before correction']],'bank');
   controls.append(housingBox);
-  const selectedTitle=el('h3','budget-selected-dataset');
+  const accountingTitle=el('h3','budget-selected-dataset','Accounting framework for variable construction and mapping');
   const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-equation-lead\"></p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
   const diagram=el('div','budget-diagram-scroll');
   const grid=el('div','budget-definition-grid');
@@ -276,7 +276,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   equationRows.setAttribute('aria-label','Household budget constraint: consumption plus the change in wealth equals labor income less net taxes plus capital income.');
   grid.append(equationRows);
   diagram.append(grid);
-  host.append(selectedTitle,fullEquation,diagram);
+  host.append(accountingTitle,fullEquation,diagram);
 
   function termMath(expression){
     const math=doc.createElementNS('http://www.w3.org/1998/Math/MathML','math');
@@ -287,7 +287,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const inlineMath=(expression,key)=>`<math class="budget-component-${key}">${expression}</math>`;
   const sub=(letter,index,key)=>inlineMath(mathSub(letter,index),key);
   const notation=fullEquation.querySelector('.budget-equation-lead');
-  notation.before(el('h4','budget-framework-heading','Accounting framework'));
   notation.innerHTML=[
     `Households hold financial assets <var class="budget-component-a">b</var>, owner-occupied housing <var class="budget-component-a">h</var>, consumer durables <var class="budget-component-a">d</var>, and other real assets <var class="budget-component-a">k</var>. Net wealth <var class="budget-component-a">a</var> is the value of these assets at prices ${sub('p','x','a')} less debt <var class="budget-component-a">m</var>.`,
     `Each asset earns a return at rate ${sub('r','x','capital')}. For owner-occupied housing, ${sub('r','h','capital')} is the net rental return rate and ${sub('δ','h','c')} is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest.`,
@@ -412,7 +411,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const shortDatasetNames={CEX_BM_RECON:'CEX',SAEZ_ZUCMAN:'DINA',YODLEE:'Yodlee',NIELSEN:'NielsenIQ',FORBES:'Forbes'};
   function render(){
     const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;
-    selectedTitle.textContent=state.survey==='PSID'?'Variable construction/mapping in the '+source.name:'Variable construction/mapping — '+source.name;
     const datasetName=shortDatasetNames[state.survey]||state.survey;
     for(const {heading,title} of Object.values(cards))heading.textContent=title+' in '+datasetName;
     const international=['HFCS','SHIW','HILDA'].includes(state.survey);

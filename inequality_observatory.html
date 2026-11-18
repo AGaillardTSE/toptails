@@ -546,7 +546,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .pareto-overview-grid .pareto-range-key{gap:6px 12px;font-size:13px}
 }
 .budget-full-equation{min-width:0;padding:8px 0 0}
-.budget-framework-heading{margin:0 0 6px;color:#304960;font:600 14px/1.5 Arial,sans-serif}
 
 /* Keep each expression over its variable card. The long terms get more room. */
 .budget-definitions .budget-definition-grid{
@@ -627,44 +626,27 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .quantile-comparison-sidebar .dataset-control{margin-bottom:16px}
 .quantile-comparison-sidebar .quantile-comparison-datasets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 7px}
 .quantile-survey-choice{display:inline-flex;align-items:center;gap:5px;min-width:0}
-.quantile-survey-choice[data-survey="SAEZ_ZUCMAN"]{grid-column:1/-1}
-.quantile-survey-choice .small-check,.quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0;color:#d0d5df;font-size:13px}
-.quantile-survey-choice .small-check{font-weight:400;text-transform:none;letter-spacing:0}
+.quantile-survey-choice[data-survey="SAEZ_ZUCMAN"],.quantile-cex-income-toggle{grid-column:1/-1}
+.quantile-survey-choice .small-check,.quantile-cex-income-toggle,.quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0;color:#d0d5df;font-size:13px}
+.quantile-survey-choice .small-check,.quantile-cex-income-toggle{font-weight:400;text-transform:none;letter-spacing:0}
 .quantile-survey-choice .small-check input{flex:none}
-.quantile-comparison-controls{display:grid;grid-template-columns:minmax(72px,.72fr) minmax(0,1.28fr);gap:13px 10px}
-.quantile-comparison-controls .control{grid-column:1/-1;min-width:0;margin:0}
-.quantile-comparison-controls :is([data-field="estimator"],[data-field="year"]){grid-column:auto}
-.quantile-comparison-controls .us-total-income-choice{margin-bottom:6px}
-.quantile-comparison-controls .us-total-income-choice label{margin:0}
-.quantile-comparison-options{display:flex;flex-direction:column;gap:8px;margin:13px 0 15px}
-.quantile-cutoff{padding:13px 0;margin:0 0 15px;border-block:1px solid #414a5d}
-.quantile-cutoff-presets{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin:8px 0 10px}
-.quantile-cutoff-presets .text-button{padding:6px 0;background:#232c3e;border-color:#485166;color:#eef0f4}
-.quantile-cutoff-presets .text-button:hover{background:#35435a;color:#fff}
-.quantile-cutoff-presets .text-button[aria-pressed="true"]{background:#f3e8ee;border-color:#f3e8ee;color:#582644;font-weight:700}
-.quantile-custom-cutoff{display:flex;align-items:center;gap:9px;color:#d0d5df;font-size:13px}
-.quantile-custom-cutoff input{width:76px;min-height:32px;padding:5px 7px;background:#232c3e;color:#f7f7fa;border:1px solid #485166;border-radius:5px;font:14px Arial,sans-serif}
+.quantile-comparison-sidebar .indicator-kind-options{justify-content:flex-start;gap:12px}
+.quantile-comparison-options,.quantile-comparison-sidebar>.control{grid-column:1/-1}
 .quantile-comparison-header{flex-wrap:wrap;padding-bottom:6px}
 .quantile-comparison-body{padding:0 28px 22px;color:#425367}
 .quantile-comparison-chart{height:455px;position:relative;min-width:0}
-.quantile-comparison-chart canvas{cursor:crosshair}
 .quantile-comparison-status{margin:12px 0;font-size:14px}
-.quantile-cutoff-readout{margin-top:15px}
-.quantile-cutoff-readout h3{font:600 15px/1.4 Arial,sans-serif;margin:0 0 9px;color:#263e57}
-.quantile-cutoff-values{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:9px}
-.quantile-cutoff-value{display:grid;gap:4px;padding:9px 12px;background:#faf9f6;border:1px solid #e4e0d8;border-left:4px solid var(--dataset-color);border-radius:5px}
-.quantile-cutoff-value strong,.quantile-value-context,.quantile-comparison-note{font-size:13px}
-.quantile-value{font:500 23px/1.1 Georgia,serif;color:var(--dataset-color);font-variant-numeric:tabular-nums}
-.quantile-value-context,.quantile-comparison-note{color:#627388}
-.quantile-comparison-note{margin:14px 0 0;line-height:1.5}
+.quantile-ks-summary{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:13px}
+.quantile-ks-summary[hidden]{display:none}
+.quantile-ks-value{color:var(--dataset-color);font-variant-numeric:tabular-nums}
+.quantile-ks-value::before{content:"";display:inline-block;width:14px;border-top:2px dashed currentColor;margin:0 5px 3px 0}
+.quantile-comparison-note{margin:10px 0 0;color:#627388;font:400 13px/1.5 Arial,sans-serif}
 @media(max-width:760px){
   .quantile-comparison-sidebar{grid-template-columns:minmax(0,1fr)}
   .quantile-comparison-sidebar .dataset-control{margin-bottom:0}
   .quantile-comparison-sidebar .quantile-comparison-datasets{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .quantile-cutoff,.quantile-comparison-options{margin:0}
   .quantile-comparison-body{padding:0 18px 18px}
   .quantile-comparison-chart{height:360px}
-  .quantile-cutoff-values{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 </style>
 </head>
@@ -1531,7 +1513,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const wealth=select('Wealth definition',[['benchmark','Benchmark'],['alternative','Alternative component construction']],'wealth');
   const bank=select('Durable correction',[['paper','Four categories (paper)'],['all','All categories'],['none','Expenditure before correction']],'bank');
   controls.append(housingBox);
-  const selectedTitle=el('h3','budget-selected-dataset');
+  const accountingTitle=el('h3','budget-selected-dataset','Accounting framework for variable construction and mapping');
   const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-equation-lead\"></p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
   const diagram=el('div','budget-diagram-scroll');
   const grid=el('div','budget-definition-grid');
@@ -1541,7 +1523,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   equationRows.setAttribute('aria-label','Household budget constraint: consumption plus the change in wealth equals labor income less net taxes plus capital income.');
   grid.append(equationRows);
   diagram.append(grid);
-  host.append(selectedTitle,fullEquation,diagram);
+  host.append(accountingTitle,fullEquation,diagram);
 
   function termMath(expression){
     const math=doc.createElementNS('http://www.w3.org/1998/Math/MathML','math');
@@ -1552,7 +1534,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const inlineMath=(expression,key)=>`<math class="budget-component-${key}">${expression}</math>`;
   const sub=(letter,index,key)=>inlineMath(mathSub(letter,index),key);
   const notation=fullEquation.querySelector('.budget-equation-lead');
-  notation.before(el('h4','budget-framework-heading','Accounting framework'));
   notation.innerHTML=[
     `Households hold financial assets <var class="budget-component-a">b</var>, owner-occupied housing <var class="budget-component-a">h</var>, consumer durables <var class="budget-component-a">d</var>, and other real assets <var class="budget-component-a">k</var>. Net wealth <var class="budget-component-a">a</var> is the value of these assets at prices ${sub('p','x','a')} less debt <var class="budget-component-a">m</var>.`,
     `Each asset earns a return at rate ${sub('r','x','capital')}. For owner-occupied housing, ${sub('r','h','capital')} is the net rental return rate and ${sub('δ','h','c')} is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest.`,
@@ -1677,7 +1658,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const shortDatasetNames={CEX_BM_RECON:'CEX',SAEZ_ZUCMAN:'DINA',YODLEE:'Yodlee',NIELSEN:'NielsenIQ',FORBES:'Forbes'};
   function render(){
     const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;
-    selectedTitle.textContent=state.survey==='PSID'?'Variable construction/mapping in the '+source.name:'Variable construction/mapping — '+source.name;
     const datasetName=shortDatasetNames[state.survey]||state.survey;
     for(const {heading,title} of Object.values(cards))heading.textContent=title+' in '+datasetName;
     const international=['HFCS','SHIW','HILDA'].includes(state.survey);
@@ -1971,44 +1951,48 @@ function createUSQuantileComparison({
     FORBES: ['#00815a', 'rect', [9, 5]],
     SAEZ_ZUCMAN: ['#a04662', 'triangle', [3, 3]],
   };
-  const selected = new Set(surveys.filter(s => ['PSID','CEX_BM_RECON'].includes(s)));
+  const variables = [
+    ['consumption','Consumption','#477eac'],
+    ['total_labor_income','Labor income','#bf5555'],
+    ['total_income','Total income','#a96f4b'],
+    ['networth_val','Net worth','#4d8b69'],
+    ['total_capital_income','Capital income','#a88421'],
+  ];
+  const selected = new Set(surveys.filter(survey => ['PSID','CEX_BM_RECON'].includes(survey)));
   const household = survey => ['PSID','SCF','CEX_BM_RECON'].includes(survey);
   const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
   const percentile = value => 'P' + number.format(value);
-  const measureOptions = [
-    ['consump_def1','Consumption'], ['total_labor_income','Labor income'],
-    ['total_income','Total income'], ['networth_val','Net worth'], ['total_capital_income','Capital income'],
-    ...spendingOptions.filter(item => item.key !== 'consump_def1').map(item => [item.key,item.label]),
-  ];
+  const xMin = 70;
+  const xMax = 99.25;
 
   host.classList.remove('quantile-profile-card');
   host.classList.add('explorer-grid');
   host.innerHTML = `<aside class="sidebar quantile-comparison-sidebar" aria-label="Quantile comparison controls">
     <div class="control dataset-control">
       <span class="control-label" id="quantile-v2-datasets-label">Datasets</span>
-      <fieldset class="overlay-controls quantile-comparison-datasets" aria-labelledby="quantile-v2-datasets-label"></fieldset>
+      <fieldset class="overlay-controls dataset-controls quantile-comparison-datasets" aria-labelledby="quantile-v2-datasets-label"></fieldset>
     </div>
-    <section class="quantile-cutoff" aria-labelledby="quantile-v2-cutoff-label">
-      <span class="control-label" id="quantile-v2-cutoff-label">Highlight a cutoff</span>
-      <div class="quantile-cutoff-presets" role="group" aria-label="Cutoff presets"></div>
-      <div class="quantile-custom-cutoff">
-        <label for="quantile-v2-percentile">Percentile</label>
-        <input id="quantile-v2-percentile" type="number" min="70" max="99" step="0.05" value="95">
-      </div>
+    <div class="adjustment-block"></div>
+    <section class="indicator-block" aria-labelledby="quantile-v2-indicator-heading">
+      <span class="control-label indicator-heading" id="quantile-v2-indicator-heading">Tail and concentration indicator</span>
+      <div class="indicator-detail quantile-v2-pareto-options"></div>
     </section>
-    <div class="quantile-comparison-controls"></div>
     <div class="quantile-comparison-options"></div>
   </aside>
   <div class="plot-surface quantile-comparison-plot">
     <header class="plot-top quantile-comparison-header">
-      <div><h2>Compare estimates by quantile</h2><p class="plot-subtitle">Overlay U.S. datasets and compare estimates at the same tail cutoff.</p></div>
+      <div><h2>Compare estimates by quantile</h2><p class="plot-subtitle">Ten-year averages</p></div>
       <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
     </header>
+    <div class="plot-series-controls">
+      <span class="control-label series-label">Variables</span>
+      <fieldset class="series-bar" aria-label="Variable to display"></fieldset>
+    </div>
     <div class="quantile-comparison-body">
       <p class="quantile-comparison-status" role="status" hidden></p>
       <div class="quantile-comparison-chart"><canvas role="img" aria-label="Estimates by quantile for the selected U.S. datasets"></canvas></div>
-      <div class="quantile-cutoff-readout" aria-live="polite"></div>
-      <p class="quantile-comparison-note">Averages give equal weight to the available waves or years at each percentile. Coverage can differ across datasets. Click the plot or choose a cutoff in the controls to compare estimates.</p>
+      <div class="quantile-ks-summary" aria-live="polite" hidden></div>
+      <p class="quantile-comparison-note"><em>Notes:</em> <span></span></p>
     </div>
   </div>`;
 
@@ -2019,77 +2003,114 @@ function createUSQuantileComparison({
     if (text) node.textContent = text;
     return node;
   };
-  const controls = find('.quantile-comparison-controls');
+  const sidebar = find('.quantile-comparison-sidebar');
+  const adjustments = find('.adjustment-block');
+  const indicators = find('.indicator-block');
+  const paretoOptions = find('.quantile-v2-pareto-options');
   const options = find('.quantile-comparison-options');
+  const datasetChoices = find('.quantile-comparison-datasets');
   const status = find('.quantile-comparison-status');
   const subtitle = find('.plot-subtitle');
   const canvas = find('canvas');
   const csvButton = find('[data-action="csv"]');
   const pngButton = find('[data-action="png"]');
-  const cutoffInput = find('#quantile-v2-percentile');
-  const presets = new Map();
-  let chart, comparison = [], cutoff = 95, request = 0, pending, lastFilter;
-  let period = 'all';
+  const ksSummary = find('.quantile-ks-summary');
+  const note = find('.quantile-comparison-note span');
+  let chart, comparison = [], request = 0, pending, lastFilter, period;
+  let selectedPeriod = '';
 
-  function select(key, title, values) {
+  function select(parent, key, title, values, onChange = render) {
     const box = make('div','control');
     const label = make('label','',title);
     const input = make('select');
     input.id = label.htmlFor = 'quantile-v2-' + key;
-    box.dataset.field = key;
     input.append(...values.map(([value,text]) => new Option(text,value)));
     box.append(label,input);
-    controls.append(box);
-    input.addEventListener('change', () => render());
+    parent.append(box);
+    input.addEventListener('change', () => onChange(input.value));
     return input;
   }
-  const measure = select('measure','Measure',measureOptions);
-  const incomeHelp = createUSTotalIncomeHelp();
-  const measureLabel=measure.previousElementSibling;
-  const measureTitle=make('span','us-total-income-choice');
-  measureLabel.replaceWith(measureTitle);
-  measureTitle.append(measureLabel,incomeHelp);
-  const indicator = select('indicator','Indicator',[
-    ['pareto','Pareto coefficient'], ['wealth_ratio','Relative to that of wealth'],
-    ['share','Share above percentile'],
-  ]);
-  const estimator = select('estimator','Estimator',[['MLE','MLE'],['OLS','OLS']]);
-  const year = select('year','Wave / year',[['all','Across-wave average']]);
-  const fiveYearWindows = make('optgroup');
-  fiveYearWindows.label = 'Five-year averages';
-  const individualYears = make('optgroup');
-  individualYears.label = 'Individual waves / years';
-  const adjustment = select('adjustment','Adjustment',[
-    ['full','Reporting + representation'], ['adj','Reporting only'], ['raw','Raw data'],
-  ]);
-  const weighting = select('weighting','PSID weighting',[
-    ['scf_income','SCF income'],['irs_income','IRS income'],['scf_wealth','SCF wealth'],
-  ]);
-  weighting.addEventListener('change', () => onWeightingChange(weighting.value));
-  const capitalDefinitions = metadata.saez_zucman_reference?.capital_income_definitions || {};
-  const capital = select('capital','DINA capital gains',Object.entries(capitalDefinitions).map(([key,value])=>[key,value.label]));
-  capital.addEventListener('change',()=>onCapitalDefinitionChange(capital.value));
 
-  function checkbox(parent, label, name, onChange) {
+  function choice(parent, type, name, value, label, onChange) {
     const wrapper = make('label','small-check');
     const input = make('input');
-    input.type = 'checkbox';
-    input.value = name;
-    input.addEventListener('change', () => onChange(input.checked));
+    input.type = type;
+    input.name = 'quantile-v2-' + name;
+    input.value = value;
+    input.addEventListener('change', () => onChange(input));
     wrapper.append(input,label);
     parent.append(wrapper);
     return {wrapper,input};
   }
 
-  const housing = checkbox(options,'Constant imputed rent rate','bp',onHousingChange);
-  const cexIncome = checkbox(options,'Show CEX topcoded income','cex_income',onCEXIncomeChange);
-  cexIncome.wrapper.title = metadata.cex_optional_income?.warning || 'Topcoding distorts CEX income estimates at the top.';
-  const surveyOrder = ['PSID','CEX_BM_RECON','SCF','YODLEE','NIELSEN','FORBES','SAEZ_ZUCMAN'];
+  function radioGroup(parent, name, label, values, classes, onChange = render) {
+    const fieldset = make('fieldset',classes);
+    fieldset.setAttribute('aria-label',label);
+    parent.append(fieldset);
+    const inputs = values.map(([value,text]) => choice(fieldset,'radio',name,value,text,input => onChange(input.value)).input);
+    inputs[0].checked = true;
+    return {fieldset, inputs, get value(){return inputs.find(input=>input.checked).value;}};
+  }
+
+  function help(key, label) {
+    const button = make('button','help-marker detail-help','?');
+    button.type = 'button';
+    button.dataset.helpControl = key;
+    button.setAttribute('aria-label',label);
+    button.setAttribute('aria-expanded','false');
+    return button;
+  }
+
+  const range = select(sidebar,'year','Ten-year window',[],value => {
+    selectedPeriod = value;
+    render();
+  });
+  sidebar.insertBefore(range.closest('.control'),adjustments);
+  const adjustment = select(adjustments,'adjustment','Reporting and Representation Adjustments (PSID, CEX, SCF)',[
+    ['full','Reporting + representation'], ['adj','Reporting only'], ['raw','Raw data'],
+  ]);
+  const weightingBox = make('div','control weighting-control');
+  weightingBox.append(make('span','control-label weighting-title','Weighting correction for PSID'));
+  adjustments.append(weightingBox);
+  const weighting = radioGroup(weightingBox,'weighting','Weighting correction for PSID',[
+    ['scf_income','SCF income'],['irs_income','IRS income'],['scf_wealth','SCF wealth'],
+  ],'weighting-options',onWeightingChange);
+  for (const input of weighting.inputs) {
+    const label = input.parentElement;
+    const wrapper = make('span','weighting-choice');
+    label.replaceWith(wrapper);
+    wrapper.append(label,help(input.value,'About '+label.textContent+' weights'));
+  }
+
+  const kind = radioGroup(indicators,'indicator','Tail and concentration indicator',
+    [['pareto','Pareto coefficient'],['share','Top shares']],'indicator-kind-options choice-row');
+  indicators.insertBefore(kind.fieldset,paretoOptions);
+  paretoOptions.append(make('span','subcontrol-label','Pareto measure'));
+  const paretoMeasure = radioGroup(paretoOptions,'pareto','Pareto measure',[
+    ['pareto','Pareto coefficient'],['wealth_ratio','Relative to that of wealth'],
+  ],'compact-choice-row');
+  paretoOptions.append(make('span','subcontrol-label','Pareto estimator'));
+  const estimator = radioGroup(paretoOptions,'estimator','Pareto estimator',[['MLE','MLE'],['OLS','OLS']],'compact-choice-row');
+  const spending = select(options,'measure','Variable for consumption',[
+    ['consump_def1','Consumption'],
+    ...spendingOptions.filter(item => item.key !== 'consump_def1').map(item => [item.key,item.label]),
+  ]);
+  spending.closest('.control').append(make('p','consumption-variable-note',
+    'Consumption includes imputed housing and durable services. Expenditure records purchases.'));
+  const housingRow = make('div','sidebar-inline-check weighting-choice');
+  options.append(housingRow);
+  const housing = choice(housingRow,'checkbox','housing','bp','Constant imputed rent rate',input=>onHousingChange(input.checked));
+  housingRow.append(help('constant_imputed_rent','About constant imputed rent'));
+  const capitalDefinitions = metadata.saez_zucman_reference?.capital_income_definitions || {};
+  const capital = select(options,'capital','DINA capital gains',
+    Object.entries(capitalDefinitions).map(([key,value])=>[key,value.label]),onCapitalDefinitionChange);
+
+  const surveyOrder = ['PSID','CEX_BM_RECON','SCF','YODLEE','FORBES','SAEZ_ZUCMAN'];
   for (const survey of [...surveys].sort((a,b) => surveyOrder.indexOf(a)-surveyOrder.indexOf(b))) {
     const item = make('span','quantile-survey-choice');
     item.dataset.survey = survey;
-    const control = checkbox(item,surveyName(survey),survey,checked => {
-      if (checked) selected.add(survey);
+    const control = choice(item,'checkbox','dataset',survey,surveyName(survey),input => {
+      if (input.checked) selected.add(survey);
       else selected.delete(survey);
       render();
     });
@@ -2099,155 +2120,206 @@ function createUSQuantileComparison({
     marker.dataset.tooltip = surveyTooltip(survey);
     marker.setAttribute('aria-label','About '+surveyName(survey));
     item.append(marker);
-    find('.quantile-comparison-datasets').append(item);
+    datasetChoices.append(item);
+  }
+  const cexIncome = choice(datasetChoices,'checkbox','cex-income','cex_income','Show CEX income',
+    input=>onCEXIncomeChange(input.checked));
+  cexIncome.wrapper.classList.add('quantile-cex-income-toggle');
+  cexIncome.wrapper.title = metadata.cex_optional_income?.warning || 'Topcoding distorts CEX income estimates at the top.';
+
+  const seriesBar = find('.series-bar');
+  const variableInputs = variables.map(([value,label,color], index) => {
+    const item = make('span','us-total-income-choice');
+    const {wrapper,input} = choice(item,'radio','variable',value,label,render);
+    wrapper.className = 'series-choice';
+    wrapper.style.setProperty('--series',color);
+    const swatch = make('span','series-swatch');
+    swatch.setAttribute('aria-hidden','true');
+    input.after(swatch);
+    input.checked = index === 0;
+    if (value === 'total_income') item.append(createUSTotalIncomeHelp());
+    seriesBar.append(item);
+    return input;
+  });
+
+  function displayValue(value, shares) {
+    return shares ? (value * 100).toFixed(1) + '%' : value.toFixed(3);
   }
 
-  for (const value of [70,80,90,95,98,99]) {
-    const button = make('button','text-button',percentile(value));
-    button.type = 'button';
-    button.addEventListener('click', () => setCutoff(value));
-    presets.set(value,button);
-    find('.quantile-cutoff-presets').append(button);
-  }
-  cutoffInput.addEventListener('change', () => setCutoff(cutoffInput.valueAsNumber));
-
-  function atCutoff(points) {
-    return points.find(point => Math.abs(point.q * 100 - cutoff) < 1e-6);
-  }
-  const displayValue = value => indicator.value === 'share'
-    ? (value * 100).toFixed(1) + '%' : value.toFixed(3);
-  function setCutoff(value) {
-    if (Number.isFinite(value)) cutoff = Math.round(Math.max(70,Math.min(99,value))*100)/100;
-    cutoffInput.value = String(cutoff);
-    for (const [key,button] of presets) button.setAttribute('aria-pressed', String(key === cutoff));
-    if (chart) chart.draw();
-    updateReadout();
-  }
-  function updateReadout() {
-    const readout = find('.quantile-cutoff-readout');
-    readout.replaceChildren();
-    if (!comparison.length) return;
-    readout.append(make('h3','', 'Estimates at '+percentile(cutoff)));
-    const list = make('div','quantile-cutoff-values');
-    for (const {survey,points,variable} of comparison) {
-      const point = atCutoff(points);
-      const item = make('div','quantile-cutoff-value');
-      item.style.setProperty('--dataset-color',style[survey][0]);
-      item.append(make('strong','',surveyName(survey)),make('span','quantile-value',point ? displayValue(point.mean) : '—'));
-      const years = point?.years_used.split(';') || [];
-      const coverage = years.length > 1 ? years[0] + '–' + years.at(-1) : years[0];
-      const unit = ['PSID','SCF'].includes(survey) ? 'wave' : 'year';
-      const comment = point
-        ? point.n + ' ' + unit + (point.n === 1 ? '' : 's') + ' · ' + coverage +
-          (survey === 'CEX_BM_RECON' && variable === 'networth_val' ? ' · Partial net worth' : '')
-        : points.length ? 'No stored estimate at ' + percentile(cutoff) : 'Unavailable for this selection';
-      item.append(make('span','quantile-value-context',comment));
-      list.append(item);
-    }
-    readout.append(list);
+  function waveLabel(survey, n) {
+    const unit = ['PSID','SCF'].includes(survey) ? 'wave' : 'year';
+    return n+' '+unit+(n===1?'':'s');
   }
 
-  const highlight = {
-    id:'usQuantileHighlight',
-    afterDatasetsDraw({ctx, scales, chartArea}) {
-      const x = scales.x.getPixelForValue(cutoff);
-      ctx.save();
-      ctx.strokeStyle = '#283d51';
-      ctx.lineWidth = 1.25;
-      ctx.setLineDash([5,4]);
+  function drawStandardErrors(ctx, scales, points) {
+    // End each band where there are too few waves to estimate a standard error.
+    let segment = [];
+    function drawSegment() {
+      if (!segment.length) return;
+      const x = point => scales.x.getPixelForValue(point.q * 100);
+      const y = (point, direction) => scales.y.getPixelForValue(point.mean + direction * point.se);
       ctx.beginPath();
-      ctx.moveTo(x,chartArea.top);
-      ctx.lineTo(x,chartArea.bottom);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      for (const {survey,points} of comparison) {
-        const point = atCutoff(points);
-        if (!point) continue;
-        ctx.beginPath();
-        ctx.arc(x,scales.y.getPixelForValue(point.mean),4.25,0,2*Math.PI);
-        ctx.fillStyle = style[survey][0];
+      if (segment.length === 1) {
+        const [point] = segment;
+        ctx.moveTo(x(point),y(point,1));
+        ctx.lineTo(x(point),y(point,-1));
+        ctx.stroke();
+      } else {
+        for (const point of segment) ctx.lineTo(x(point),y(point,1));
+        for (let i=segment.length-1; i>=0; i--) ctx.lineTo(x(segment[i]),y(segment[i],-1));
+        ctx.closePath();
         ctx.fill();
-        ctx.strokeStyle = '#fffefa';
+      }
+      segment = [];
+    }
+    for (const point of points) {
+      if (Number.isFinite(point.se)) segment.push(point);
+      else drawSegment();
+    }
+    drawSegment();
+  }
+
+  const referencesAndBands = {
+    id:'usQuantileReferencesAndBands',
+    beforeDatasetsDraw({ctx, scales, chartArea}) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(chartArea.left,chartArea.top,chartArea.width,chartArea.height);
+      ctx.clip();
+      ctx.globalAlpha = .13;
+      for (const {survey,points} of comparison) {
+        ctx.fillStyle = ctx.strokeStyle = style[survey][0];
+        drawStandardErrors(ctx,scales,points);
+      }
+      ctx.globalAlpha = .85;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([8,5]);
+      for (const {survey,reference} of comparison) {
+        if (!reference?.n) continue;
+        const y = scales.y.getPixelForValue(reference.mean);
+        ctx.strokeStyle = style[survey][0];
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left,y);
+        ctx.lineTo(chartArea.right,y);
         ctx.stroke();
       }
-      ctx.font = '600 13px Arial';
-      ctx.textAlign = cutoff >= 96 ? 'right' : 'left';
-      ctx.fillStyle = '#283d51';
-      ctx.fillText(percentile(cutoff),x + (cutoff >= 96 ? -7 : 7),chartArea.top - 7);
       ctx.restore();
     },
   };
 
-  function drawPlot() {
+  function drawPlot(title, variableLabel, shares) {
     chart?.destroy();
     chart = null;
-    const datasets = comparison.filter(group => group.points.length).map(({survey,points}) => {
+    const groups = comparison.filter(({points,reference}) => points.length || reference?.n);
+    const datasets = groups.map(({survey,points}) => {
       const [color,pointStyle,borderDash] = style[survey];
       return {
-        label:surveyName(survey), data:points.map(p => ({x:p.q*100,y:p.mean,n:p.n})),
+        label:surveyName(survey), survey,
+        data:points.map(({q,mean,n,se}) => ({x:q*100,y:mean,n,se})),
         borderColor:color, backgroundColor:color, pointStyle, borderDash,
         pointRadius:points.length === 1 ? 4 : 0, pointHoverRadius:5, borderWidth:2.4,
       };
     });
-    const visible = datasets.length > 0;
+    const visible = groups.length > 0;
     canvas.parentElement.hidden = !visible;
     csvButton.disabled = pngButton.disabled = !visible;
     status.hidden = visible;
+    ksSummary.replaceChildren();
+    ksSummary.hidden = !groups.some(group => group.reference?.n);
+    note.parentElement.hidden = !visible;
     if (!visible) {
-      status.textContent = selected.size ? 'No estimates are available for these selections.' : 'Choose a dataset to see its estimates.';
-      setCutoff(cutoff);
+      status.textContent = selected.size ? 'No estimates are available in this window for these selections.' : 'Choose a dataset to see its estimates.';
       return;
     }
-    const title = indicator.selectedOptions[0].textContent;
-    canvas.setAttribute('aria-label', title+' for '+measure.selectedOptions[0].textContent+' by tail percentile');
+    const limits = groups.flatMap(({points,reference}) => [
+      ...points.flatMap(({mean,se})=>[mean-(se??0),mean+(se??0)]),
+      ...(reference?.n ? [reference.mean] : []),
+    ]);
+    const unavailable = comparison.filter(group=>!groups.includes(group)).map(({survey})=>surveyName(survey));
+    note.textContent = 'Shaded bands show ±1 standard error across available waves or years at each percentile. A standard error requires at least two estimates.'
+      +(ksSummary.hidden?'':' Dashed horizontal lines show the mean of the wave- or year-specific KS-selected estimates.')
+      +(groups.some(group=>group.variable==='expenditure_incl_rent'&&group.survey==='SCF')&&spending.value==='consump_def1'
+        ?' SCF uses expenditure including imputed rent.':'')
+      +(unavailable.length?' No estimates for '+unavailable.join(', ')+' in this selection.':'');
+    if (!ksSummary.hidden) {
+      ksSummary.append(make('strong','','Mean KS-selected estimates'));
+      for (const {survey,reference} of groups) {
+        if (!reference?.n) continue;
+        const estimate = make('span','quantile-ks-value',surveyName(survey)+' '+displayValue(reference.mean,false));
+        estimate.style.setProperty('--dataset-color',style[survey][0]);
+        estimate.title = waveLabel(survey,reference.n)
+          +(Number.isFinite(reference.se)?' · SE '+displayValue(reference.se,false):'');
+        ksSummary.append(estimate);
+      }
+    }
+    canvas.setAttribute('aria-label',title+' for '+variableLabel+' by percentile, '+period.replace('-',' to '));
     chart = new Chart(canvas, {
-      type:'line', data:{datasets}, plugins:[highlight],
+      type:'line', data:{datasets}, plugins:[referencesAndBands],
       options:{
         responsive:true, maintainAspectRatio:false, animation:false, parsing:false,
         interaction:{axis:'x',mode:'nearest',intersect:false},
-        layout:{padding:{top:20,right:10}},
-        onClick(event, elements, activeChart) {
-          if (!activeChart.isPointInArea(event)) return;
-          const x = activeChart.scales.x.getValueForPixel(event.x);
-          const points = datasets.flatMap(dataset => dataset.data);
-          const nearest = points.reduce((best,p)=>Math.abs(p.x-x)<Math.abs(best.x-x)?p:best);
-          setCutoff(nearest.x);
-        },
+        layout:{padding:{right:10}},
         plugins:{
           legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,padding:18,font:{size:13}}},
           tooltip:{callbacks:{
             title:items => percentile(items[0].parsed.x),
-            label:item => item.dataset.label+': '+displayValue(item.parsed.y)+' · '+item.raw.n+(item.raw.n===1?' estimate':' estimates'),
+            label:item => item.dataset.label+': '+displayValue(item.parsed.y,shares)
+              +(Number.isFinite(item.raw.se)?' ± '+displayValue(item.raw.se,shares)+' SE':'')
+              +' · '+waveLabel(item.dataset.survey,item.raw.n),
           }},
         },
         scales:{
-          x:{type:'linear',min:70,max:99.25,
+          x:{type:'linear',min:xMin,max:xMax,
             afterBuildTicks:scale=>{scale.ticks=[70,75,80,85,90,95,99].map(value=>({value}));},
             ticks:{callback:percentile,maxRotation:0,font:{size:13}},grid:{display:false},
-            title:{display:true,text:'Tail cutoff percentile',font:{size:13}}},
-          y:{title:{display:true,text:title,font:{size:13}},grid:{color:'#e8e8ed'},
-            ticks:{font:{size:13},callback:value=>indicator.value==='share'?number.format(value*100)+'%':number.format(value)}},
+            title:{display:true,text:shares?'Distribution percentile':'Tail cutoff percentile',font:{size:13}}},
+          y:{suggestedMin:Math.min(...limits),suggestedMax:Math.max(...limits),
+            title:{display:true,text:title,font:{size:13}},grid:{color:'#e8e8ed'},
+            ticks:{font:{size:13},callback:value=>shares?number.format(value*100)+'%':number.format(value)}},
         },
       },
     });
-    setCutoff(cutoff);
+  }
+
+  function tenYearWindows(years) {
+    const windows = new Map();
+    const latest = years[0];
+    const earliestEnd = Math.min(latest,years.at(-1)+9);
+    for (let end=latest; end>=earliestEnd; end--) {
+      const start = end-9;
+      if (years.some(year=>year>=start&&year<=end)) windows.set(start+'-'+end,[start,end]);
+    }
+    if (selectedPeriod && !windows.has(selectedPeriod)) {
+      windows.set(selectedPeriod,selectedPeriod.split('-').map(Number));
+    }
+    return windows;
   }
 
   async function render() {
-    period = year.value || period;
-    incomeHelp.hidden = measure.value !== 'total_income';
-    capital.closest('.control').hidden = !selected.has('SAEZ_ZUCMAN') || !['total_capital_income','total_income'].includes(measure.value);
-    capital.value = Object.keys(capitalDefinitions).find(key => capitalDefinitions[key].author_variant === getCapitalDefinition()) || '';
-    estimator.disabled = indicator.value === 'share';
-    adjustment.disabled = ![...selected].some(household);
+    const variable = variableInputs.find(input=>input.checked).value;
+    const shares = kind.value === 'share';
+    const indicator = shares ? 'share' : paretoMeasure.value;
+    const method = estimator.value;
+    const title = shares ? 'Share above percentile'
+      : indicator === 'wealth_ratio' ? 'Pareto coefficient relative to wealth' : 'Pareto coefficient';
+    const variableLabel = variable === 'consumption' ? spending.selectedOptions[0].textContent
+      : variables.find(([key])=>key===variable)[1];
+    const ids = surveys.filter(survey=>selected.has(survey));
+    const hasSurvey = ids.some(household);
+    paretoOptions.hidden = shares;
+    adjustment.disabled = !hasSurvey;
+    adjustments.classList.toggle('adjustment-unavailable',!hasSurvey);
+    weightingBox.hidden = !selected.has('PSID') || adjustment.value !== 'full';
+    for (const input of weighting.inputs) input.checked = input.value === getWeightingMethod();
+    spending.disabled = variable !== 'consumption';
     housing.input.checked = getHousingMethod() === 'bp';
-    housing.wrapper.hidden = ![...selected].some(household);
+    housingRow.hidden = !hasSurvey;
     cexIncome.input.checked = getCEXIncome();
     cexIncome.wrapper.hidden = !selected.has('CEX_BM_RECON');
-    weighting.value = getWeightingMethod();
-    weighting.closest('.control').hidden = !selected.has('PSID') || adjustment.value !== 'full';
-    const ids = surveys.filter(survey => selected.has(survey));
-    const filter = JSON.stringify([ids,measure.value,indicator.value,estimator.value,adjustment.value,period,
+    capital.closest('.control').hidden = !selected.has('SAEZ_ZUCMAN') || !['total_capital_income','total_income'].includes(variable);
+    capital.value = Object.keys(capitalDefinitions).find(key=>capitalDefinitions[key].author_variant===getCapitalDefinition()) || '';
+
+    const filter = JSON.stringify([ids,variable,spending.value,indicator,method,adjustment.value,selectedPeriod,
       getHousingMethod(),getWeightingMethod(),getCapitalDefinition(),getCEXIncome()]);
     if (filter === lastFilter && !pending) { chart?.resize(); return; }
     if (filter === pending) return;
@@ -2260,52 +2332,38 @@ function createUSQuantileComparison({
       const curves = await loadCurves(ids);
       if (sequence !== request) return;
       const curveOptions = ids.map(survey => {
-        const variable = measure.value;
+        const measure = variable !== 'consumption' ? variable
+          : survey==='SCF'&&spending.value==='consump_def1' ? 'expenditure_incl_rent' : spending.value;
         const variant = survey === 'SCF' && adjustment.value === 'full' ? 'adj'
           : household(survey) ? adjustment.value : survey === 'YODLEE' ? 'raw' : 'reference';
         const authorVariant = survey === 'SAEZ_ZUCMAN'
-          ? (['total_income','total_capital_income'].includes(variable) ? getCapitalDefinition() : 'dina_2022')
+          ? (['total_income','total_capital_income'].includes(measure) ? getCapitalDefinition() : 'dina_2022')
           : survey === 'YODLEE' ? ({
             consump_def1:'durables_4_with_carry',expenditure:'active_unadjusted_same_sample',
             food_total:'enriched_raw',vacation:'active_basic_cleaning',total_income:'active_basic_cleaning',
-          })[variable] : null;
+          })[measure] : null;
         const source = ThresholdProfiles.contractFor(survey,metadata);
         const contract = survey === 'FORBES' ? {...source,profile_window:[.70,.90]} : source;
-        return {survey,variant,variable,authorVariant,contract,
-          wealthAuthorVariant:survey==='SAEZ_ZUCMAN'?'dina_2022':authorVariant,
-          indicator:indicator.value,method:estimator.value};
+        return {survey,variant,variable:measure,authorVariant,contract,
+          wealthAuthorVariant:survey==='SAEZ_ZUCMAN'?'dina_2022':authorVariant,indicator,method};
       });
       const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
-      const years = [...new Set(curves.filter(row => curveOptions.some(config=>supported(row,config)))
+      const years = [...new Set(curves.filter(row=>curveOptions.some(config=>supported(row,config)))
         .map(row=>row.year).filter(Number.isFinite))].sort((a,b)=>b-a);
-      const windows = new Map();
-      const latest = years[0];
-      const earliestEnd = Math.min(latest, years.at(-1) + 4);
-      for (let end = latest; end >= earliestEnd; end--) {
-        const start = end - 4;
-        if (years.some(value => value >= start && value <= end)) {
-          windows.set(start+'-'+end, [start,end]);
-        }
-      }
-      // Preserve a selected window when a new dataset or measure has no estimates in it.
-      if (period.includes('-') && !windows.has(period)) {
-        windows.set(period, period.split('-').map(Number));
-      }
-      fiveYearWindows.replaceChildren(...[...windows].map(([value,[start,end]]) =>
-        new Option(start+'–'+end+' average',value)));
-      individualYears.replaceChildren(...years.map(y=>new Option(String(y),String(y))));
-      year.replaceChildren(new Option('Across-wave average','all'),
-        ...[fiveYearWindows,individualYears].filter(group => group.childElementCount));
-      year.value = windows.has(period) || years.includes(Number(period)) ? period : 'all';
-      period = year.value;
-      const window = windows.get(period);
-      const profileCurves = window ? curves.filter(row => row.year >= window[0] && row.year <= window[1]) : curves;
-      subtitle.textContent = window ? 'Five-year average · '+window.join('–')
-        : 'Overlay U.S. datasets and compare estimates at the same tail cutoff.';
-      comparison = curveOptions.map(config => ({...config,
-        points:ThresholdProfiles.profiles(profileCurves,{...config,year:window?'all':period})}));
-      drawPlot();
+      const windows = tenYearWindows(years);
+      period = selectedPeriod || windows.keys().next().value || '';
+      range.replaceChildren(...[...windows].map(([key,years])=>new Option(years.join('–'),key)));
+      range.disabled = !windows.size;
+      range.value = period;
+      const span = windows.get(period);
+      const profileCurves = span ? curves.filter(row=>row.year>=span[0]&&row.year<=span[1]) : [];
+      subtitle.textContent = span ? variableLabel+' · '+span.join('–')+' average' : 'Ten-year averages';
+      comparison = curveOptions.map(config=>({...config,
+        points:ThresholdProfiles.profiles(profileCurves,config),
+        reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),
+      }));
+      drawPlot(title,variableLabel,shares);
       lastFilter = filter;
     } catch (error) {
       if (sequence !== request) return;
@@ -2323,19 +2381,22 @@ function createUSQuantileComparison({
     link.click();
   }
   csvButton.addEventListener('click', () => {
-    const rows = ['dataset,measure,adjustment,period,indicator,estimator,threshold_percentile,estimate,waves,years_used'];
-    for (const group of comparison) {
-      for (const p of group.points) rows.push([group.survey,group.variable,group.variant,period,
-        group.indicator,group.indicator==='share'?'':group.method,Math.round(p.q*1000000)/10000,
-        p.mean,p.n,p.years_used].join(','));
+    const rows = ['dataset,measure,adjustment,period,indicator,estimator,threshold_percentile,estimate,waves,years_used,standard_error,ks_mean,ks_standard_error,ks_waves'];
+    for (const {survey,variable,variant,indicator,method,points,reference} of comparison) {
+      const prefix = [survey,variable,variant,period,indicator,indicator==='share'?'':method];
+      const ks = [reference?.mean,reference?.se,reference?.n||''];
+      for (const p of points) rows.push([...prefix,Math.round(p.q*1000000)/10000,
+        p.mean,p.n,p.years_used,p.se,...ks].join(','));
+      if (!points.length && reference?.n) rows.push([...prefix,'','','','','',...ks].join(','));
     }
     const url = URL.createObjectURL(new Blob([rows.join('\r\n')],{type:'text/csv;charset=utf-8'}));
-    save(url,'US_quantile_comparison.csv');
+    save(url,'US_quantile_comparison_'+period+'.csv');
     setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
-  pngButton.addEventListener('click', () => { if (chart) save(chart.toBase64Image(),'US_quantile_comparison.png'); });
+  pngButton.addEventListener('click', () => {
+    if (chart) save(chart.toBase64Image(),'US_quantile_comparison_'+period+'.png');
+  });
   csvButton.disabled = pngButton.disabled = true;
-  setCutoff(cutoff);
   return {render,resize:()=>chart?.resize()};
 }
 
