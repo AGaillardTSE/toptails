@@ -137,7 +137,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-definitions .definition-data-facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 20px;margin:0;font:400 14px/1.75 Arial,sans-serif;color:#5e6c7d}
 .budget-definitions .definition-data-facts dt{font-size:14px;font-weight:600;color:#34485f}
 .budget-definitions .definition-data-facts dd{font-size:14px;margin:0}
-.budget-component .definition-scf-coverage p{margin-top:12px;font-size:14px;line-height:1.65}
 @media(max-width:680px){.budget-definitions .definition-data-facts{grid-template-columns:1fr;gap:3px}.budget-definitions .definition-data-facts dd+dt{margin-top:9px}}
 
 @media(min-width:1101px){.dc-visual-procedure .fixed-point-diagram{grid-template-columns:minmax(0,1.13fr) 150px minmax(0,1fr)}}
