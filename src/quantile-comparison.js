@@ -79,6 +79,27 @@ function createUSQuantileComparison({
     if (text) node.textContent = text;
     return node;
   };
+  const legendKeyWidth = 52;
+  const legendSwatches = Object.fromEntries(Object.entries(style).map(([survey,[pointStyle,dash]]) => {
+    const swatch = make('canvas');
+    swatch.width = legendKeyWidth;
+    swatch.height = 14;
+    const context = swatch.getContext('2d');
+    const center = swatch.width / 2;
+    const y = swatch.height / 2;
+    context.strokeStyle = context.fillStyle = '#59677a';
+    context.lineWidth = 2.2;
+    context.setLineDash(dash);
+    context.beginPath();
+    context.moveTo(1,y);
+    context.lineTo(swatch.width-1,y);
+    context.stroke();
+    context.clearRect(center-6,0,12,swatch.height);
+    context.setLineDash([]);
+    context.lineWidth = 1.8;
+    Chart.helpers.drawPoint(context,{pointStyle,radius:4,borderWidth:1.8},center,y);
+    return [survey,swatch];
+  }));
   const sidebar = find('.quantile-comparison-sidebar');
   const adjustments = find('.adjustment-block');
   const indicators = find('.indicator-block');
@@ -429,12 +450,10 @@ function createUSQuantileComparison({
           interaction:{mode:'nearest',intersect:false},
           layout:{padding:{left:paddingLeft,right:8}},
           plugins:{
-            legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,padding:12,font:{size:12},
-              generateLabels:()=>[...panelSurveys].map(survey=>{
-                const [pointStyle,lineDash] = style[survey];
-                return {text:chartSurveyName(survey),pointStyle,lineDash,lineWidth:1.5,hidden:false,
-                  fontColor:'#425367',fillStyle:'#59677a',strokeStyle:'#59677a'};
-              }),
+            legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,pointStyleWidth:legendKeyWidth,padding:12,font:{size:12},
+              generateLabels:()=>[...panelSurveys].map(survey=>({
+                text:chartSurveyName(survey),pointStyle:legendSwatches[survey],hidden:false,fontColor:'#425367',
+              })),
             }},
             tooltip:{callbacks:{
               title:items=>percentile(items[0].parsed.x),
