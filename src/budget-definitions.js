@@ -287,6 +287,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const inlineMath=(expression,key)=>`<math class="budget-component-${key}">${expression}</math>`;
   const sub=(letter,index,key)=>inlineMath(mathSub(letter,index),key);
   const notation=fullEquation.querySelector('.budget-equation-lead');
+  notation.before(el('h4','budget-framework-heading','Accounting framework'));
   notation.innerHTML=[
     `Households hold financial assets <var class="budget-component-a">b</var>, owner-occupied housing <var class="budget-component-a">h</var>, consumer durables <var class="budget-component-a">d</var>, and other real assets <var class="budget-component-a">k</var>. Net wealth <var class="budget-component-a">a</var> is the value of these assets at prices ${sub('p','x','a')} less debt <var class="budget-component-a">m</var>.`,
     `Each asset earns a return at rate ${sub('r','x','capital')}. For owner-occupied housing, ${sub('r','h','capital')} is the net rental return rate and ${sub('δ','h','c')} is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest.`,
@@ -294,7 +295,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     'Let <var class="budget-component-y">y</var> denote labor income and <var class="budget-component-tax">T</var> denote taxes paid minus transfers received. These definitions give the household budget constraint below.'
   ].join(' ');
   const cards={};
-  for(const [key,title] of [['c','Consumption'],['a','Wealth / saving'],['y','Labor income'],['tax','Net taxes'],['capital','Capital income']]){
+  for(const [key,title] of [['c','Consumption'],['a','Wealth/savings'],['y','Labor income'],['tax','Net taxes'],['capital','Capital income']]){
     const column=el('div','budget-diagram-column budget-component-'+key);
     const card=el('article','budget-component budget-component-'+key);
     const term=equation.querySelector('[data-budget-term="'+key+'"]');
@@ -326,7 +327,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     column.append(label);
     equationRows.append(column);
     grid.append(card);
-    cards[key]={card,detail,status,symbol:label,expansion};
+    cards[key]={card,detail,status,symbol:label,expansion,heading,title};
   }
   equation.remove();
   const scfCoverage=el('div','definition-scf-coverage');cards.c.card.append(scfCoverage);
@@ -408,9 +409,12 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     if(state.survey==='HFCS')notes.push('Coverage varies across countries and waves.');
     return {rows,notes};
   }
+  const shortDatasetNames={CEX_BM_RECON:'CEX',SAEZ_ZUCMAN:'DINA',YODLEE:'Yodlee',NIELSEN:'NielsenIQ',FORBES:'Forbes'};
   function render(){
     const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;
     selectedTitle.textContent=state.survey==='PSID'?'Variable construction/mapping in the '+source.name:'Variable construction/mapping — '+source.name;
+    const datasetName=shortDatasetNames[state.survey]||state.survey;
+    for(const {heading,title} of Object.values(cards))heading.textContent=title+' in '+datasetName;
     const international=['HFCS','SHIW','HILDA'].includes(state.survey);
     const availableVariables=new Set([...summary.filter(r=>r.survey===state.survey).map(r=>r.variable),...referencePoints().filter(r=>r.survey===state.survey).map(r=>r.variable)]);
     let options=spendingOptions.filter(o=>availableVariables.has(o.key));if(international)options=[{key:'consump_def1',label:'Consumption'}];if(source.retail)options=[{key:'retail',label:'Retail purchases'}];

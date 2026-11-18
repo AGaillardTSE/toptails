@@ -190,6 +190,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .pareto-overview-grid .pareto-range-key{gap:6px 12px;font-size:13px}
 }
 .budget-full-equation{min-width:0;padding:8px 0 0}
+.budget-framework-heading{margin:0 0 6px;color:#304960;font:600 14px/1.5 Arial,sans-serif}
 
 /* Keep each expression over its variable card. The long terms get more room. */
 .budget-definitions .budget-definition-grid{
