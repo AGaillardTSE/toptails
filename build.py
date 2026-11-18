@@ -16,7 +16,7 @@ for entry in manifest['entries']:
     payload.append(entry['separator']+tag+content+'</script>')
 payload=''.join(payload)
 read=lambda name:(ROOT/'src'/name).read_text()
-scripts=['series-years.js','citation.js','eyeballing.js','pareto-estimation.js','budget-definitions.js','threshold-profiles.js','reference-points.js','other-surveys.js','adjustments.js','source-data.js','sources-ui.js','data-and-correspondence.js','app.js']
+scripts=['series-years.js','citation.js','eyeballing.js','pareto-estimation.js','budget-definitions.js','threshold-profiles.js','quantile-comparison.js','reference-points.js','other-surveys.js','adjustments.js','source-data.js','sources-ui.js','data-and-correspondence.js','app.js']
 app='\n'.join(read(name) for name in scripts)
 if not args.standalone:
     helper='''  async function readCompressedFiles(paths){

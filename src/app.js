@@ -152,7 +152,7 @@
   const s = {cexIncome:false,tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS.filter(key=>key!=='total_income'))};
   const r = {survey:'psid',datasets:new Set(['PSID']),yodleeVariant:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95};
   const b = {primary:'psid',overlays:new Set(),adjustment:'full',measure:'flow',pair:'wealth_consumption',wave:'average',scfWave:'average',dinaWave:'average',autoSCF:false,cexWave:'latest',reconWave:'latest',bmWave:'latest',stat:'mean',minN:10,excludeNetRent:false,beforePersonalInterest:false,traces:false,scale:'loglog',fit:'ols'};
-  let eyeController,definitionsController,paretoController,timeChart,bivChart,otherController,adjustmentController,thresholdController,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality',profileSurvey='PSID';
+  let eyeController,definitionsController,paretoController,timeChart,bivChart,otherController,adjustmentController,thresholdController,quantileComparison,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality',profileSurvey='PSID';
   const VISIBLE_US_SURVEYS=new Set(['PSID','SCF','CEX_BM_RECON']);
   const BIVARIATE_SURVEYS=new Set([...BIN_AVAILABILITY.map(row=>row.survey),...(META.relationship_blocks||[]).map(scope=>scope.survey)]),hasCorrectedCEXBins=BIVARIATE_SURVEYS.has('CEX_BM_RECON');
   const surveyChoices=()=>['psid','scf',...(ALL_SUMMARY.some(row=>row.survey==='CEX_BM_RECON')?['cex_bm_recon']:[])];
@@ -206,6 +206,7 @@
   const dataVisible = () => !$('panel-data').hidden;
   const resultsVisible = () => !$('panel-results').hidden;
   const quantilesVisible = () => !$('panel-quantiles').hidden;
+  const quantilesV2Visible = () => !$('panel-quantiles-v2').hidden;
   const curveKey = row => [row.survey,row.year,row.variant,row.variable,housingMethod(row),weightingMethod(row)].join('|');
   const curveIndex = new Map(ALL_CURVES.map(curve=>[curveKey(curve),curve]));
   const summaryIndex = new Map(ALL_SUMMARY.map(row=>[curveKey(row),row]));
@@ -240,6 +241,7 @@
     if(mainVisible()&&isParetoMetric(s.metric)&&s.threshold!=='ks')await ensureFullCurves([...selectedSurveys(s)]);
     if(resultsVisible())await ensureFullCurves([...resultsSurveys()].filter(survey=>r.threshold!=='ks'||META.reference_curve_surveys?.includes(survey)));
     if(quantilesVisible()){await ensureFullCurves(['PSID','SCF','CEX_BM_RECON',...(META.reference_curve_surveys||[])]);if(s.cexIncome)await ensureCEXIncome();initializeThresholdController();if(s.cexIncome)thresholdController.addCurves(cexIncomeCurves);}
+    if(quantilesV2Visible()&&!quantileComparison)initializeQuantileComparison();
     if(otherVisible()){await Promise.all([ensureDeferredBlock('other'),ensureFullCurves(['PSID','CEX_BM_RECON'])]);initializeOtherController();}
     if(adjustmentsVisible()){await ensureDeferredBlock('adjustments');initializeAdjustmentController();}
     if(paretoVisible()){if(!paretoController)paretoController=initParetoEstimation({host:$('pareto-estimation-content'),loadData:()=>loadBlock('illustration_ks')});await paretoController.render();}
@@ -253,19 +255,19 @@
       const pending=quantilesVisible()&&!thresholdController||otherVisible()&&!otherController||adjustmentsVisible()&&!adjustmentController||(mainVisible()&&s.threshold!=='ks'?[...selectedSurveys(s)]:resultsVisible()&&r.threshold!=='ks'?[...resultsSurveys()]:[]).some(survey=>detailedCurveSurveys.includes(survey)&&!loadedCurveSurveys.has(survey));
       if(pending){startupStatus.textContent='Loading selected results…';document.body.append(startupStatus);loadingMain?.setAttribute('aria-busy','true');}
       await preparation;if(request!==viewRequest)return;
-      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())thresholdController?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
+      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())thresholdController?.render();if(quantilesV2Visible())quantileComparison?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
       if(!loadingMain?.dataset.firstPlotMs)loadingMain?.setAttribute('data-first-plot-ms',String(Math.round(performance.now())));
       startupStatus.remove();loadingMain?.removeAttribute('aria-busy');
     }catch(error){if(request!==viewRequest)return;startupStatus.remove();loadingMain?.removeAttribute('aria-busy');$('page-error').hidden=false;$('page-error').textContent='The selected plot could not be drawn. Please change the selection or reload the page.';console.error(error);}});
   }
   function tab(name) {
-    const us=['inequality','quantiles','results','loglog','eyeballing'].includes(name);if(us)lastUSTab=name;s.tab=name;
+    const us=['inequality','quantiles','quantiles-v2','results','loglog','eyeballing'].includes(name);if(us)lastUSTab=name;s.tab=name;
     $('us-secondary-nav').hidden=!us;$('live-announcement').hidden=name!=='inequality';if(name!=='inequality')$('live-announcement').textContent='';
     const housingControl=document.querySelector('.global-housing-control:not(.quantile-housing-control)'),housingNav=us?$('us-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='other'?$('cc-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='adjustments'?$('dc-adjustments-nav-inner'):null;
     if(housingControl){housingControl.hidden=!housingNav;if(housingNav)housingNav.append(housingControl);}
     document.querySelectorAll('#primary-nav [data-section]').forEach(button=>{const active=button.dataset.section===(us?'us':name);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);if(button.dataset.section==='us')button.setAttribute('aria-controls','panel-'+lastUSTab);});
     document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{const active=button.dataset.tab===name;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);});
-    ['inequality','quantiles','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
+    ['inequality','quantiles','quantiles-v2','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
   }
   document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{
     button.addEventListener('click',()=>tab(button.dataset.tab));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#us-secondary-nav [data-tab]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.tab);});
@@ -293,7 +295,13 @@
       const selected=selectedSurveys(s),surveyAvailable=timeSummary().some(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,s.adjustment)&&row.variable===sourceKey(key,s.measure)),referenceAvailable=[...selected].some(survey=>referenceController?.hasVariable(survey,sourceKey(key,s.measure))||(key==='spending'&&survey==='NIELSEN'&&s.measure==='food_total'));input.disabled=!surveyAvailable&&!referenceAvailable;
       input.addEventListener('change',()=>{ input.checked?s.variables.add(key):s.variables.delete(key);if(key==='networth_val'&&!input.checked&&s.overlays.has('forbes')){s.overlays.delete('forbes');fillOverlays('overlay-controls',s,mainOverlayChoices());}schedule(); });
       const swatch=document.createElement('span'); swatch.className='series-swatch'; const text=document.createElement('span'); text.textContent=displayLabel(key,s.measure,labelSurvey);
-      item.append(input,swatch,text); $('series-controls').append(item);
+      item.append(input,swatch,text);
+      if (key==='total_income') {
+        const group=document.createElement('span');
+        group.className='us-total-income-choice';
+        group.append(item,createUSTotalIncomeHelp());
+        $('series-controls').append(group);
+      } else $('series-controls').append(item);
     });
   }
   function fillSpendingSelect(id,selection,state,source) {
@@ -422,11 +430,18 @@
       input.addEventListener('change',()=>{if(input.checked)r.datasets.add(survey);else if(r.datasets.size>1)r.datasets.delete(survey);else{input.checked=true;return;}r.survey=r.datasets.size===1?[...r.datasets][0].toLowerCase():'all';syncHousingAvailability();fillResultsVariables();schedule();});
     });
   }
+  const resultsTotalIncomeHelp=createUSTotalIncomeHelp();
+  const resultsMeasureLabel=$('results-variable').previousElementSibling;
+  const resultsMeasureTitle=document.createElement('span');
+  resultsMeasureTitle.className='us-total-income-choice';
+  resultsMeasureLabel.replaceWith(resultsMeasureTitle);
+  resultsMeasureTitle.append(resultsMeasureLabel,resultsTotalIncomeHelp);
   function fillResultsVariables(){
     const selected=resultsSurveys(),native=referencePoints().filter(row=>selected.has(row.survey)),household=SUMMARY.filter(row=>selected.has(row.survey)),variables=[...new Set([...household,...native].map(row=>row.variable))].filter(variable=>!hiddenSpending.has(variable)).sort((a,b)=>variableDisplayLabel(a,r.survey.toUpperCase()).localeCompare(variableDisplayLabel(b,r.survey.toUpperCase()))),select=$('results-variable');select.replaceChildren();
     const supported=variable=>household.some(row=>row.variable===variable&&row.variant===variantFor(row.survey,r.adjustment))||native.some(row=>row.variable===variable&&(row.survey!=='YODLEE'||r.yodleeVariant==='all'||row.author_variant===r.yodleeVariant));
     [['all','All available measures'],...variables.map(variable=>[variable,variableDisplayLabel(variable,r.survey.toUpperCase())])].forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;option.disabled=value!=='all'&&!supported(value);select.append(option);});
     if(r.variable!=='all'&&(!variables.includes(r.variable)||!supported(r.variable)))r.variable='all';select.value=r.variable;
+    resultsTotalIncomeHelp.hidden=r.variable!=='total_income';
   }
   function syncResultsControls(){
     const selected=resultsSurveys(),hasHouseholds=[...selected].some(survey=>VISIBLE_US_SURVEYS.has(survey)),hasYodlee=selected.has('YODLEE'),bankOnly=hasYodlee&&!hasHouseholds,bankOptions=[['all','All saved constructions'],...Object.entries(YODLEE_VARIANTS).filter(([variant])=>referencePoints().some(row=>row.survey==='YODLEE'&&row.author_variant===variant))],adjustment=$('results-adjustment'),bank=$('results-yodlee-adjustment');
@@ -794,6 +809,30 @@
     $('us-quantile-profiles').querySelector('.threshold-profile-controls').append(housingControl);
     $('quantile-constant-housing-service').addEventListener('change',event=>{$('constant-housing-service').checked=event.target.checked;applyHousingMethod();});
   }
+  function initializeQuantileComparison(){
+    const referenceSurveys=[...new Set(referenceController?.profileCurves().map(row=>row.survey)||[])];
+    quantileComparison=createUSQuantileComparison({
+      host:$('us-quantile-comparison'),
+      surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
+      metadata:META,spendingOptions,surveyName,surveyTooltip,
+      getHousingMethod:()=>housing.method,
+      onHousingChange:checked=>{$('constant-housing-service').checked=checked;applyHousingMethod();},
+      getWeightingMethod:()=>weighting.method,
+      onWeightingChange:method=>{weighting.method=method;applySpecificationSelection();},
+      getCapitalDefinition:()=>META.saez_zucman_reference?.capital_income_definitions?.[dina.capitalDefinition]?.author_variant,
+      onCapitalDefinitionChange:setDinaCapitalDefinition,
+      getCEXIncome:()=>s.cexIncome,
+      onCEXIncomeChange:checked=>{s.cexIncome=checked;fillOverlays('overlay-controls',s,mainOverlayChoices());fillSeries();schedule();},
+      async loadCurves(surveys){
+        if(!surveys.length)return [];
+        await ensureFullCurves(surveys);
+        if(s.cexIncome&&surveys.includes('CEX_BM_RECON'))await ensureCEXIncome();
+        const curves=s.cexIncome?ALL_CURVES.concat(cexIncomeCurves):ALL_CURVES;
+        return curves.filter(row=>surveys.includes(row.survey)&&specificationMatches(row))
+          .concat((referenceController?.profileCurves()||[]).filter(row=>surveys.includes(row.survey)));
+      },
+    });
+  }
   function initializeAdjustmentController(){if(!adjustmentController&&typeof initAdjustments==='function')adjustmentController=initAdjustments(DATA.adjustments||{},{getHousingMethod:()=>housing.method,getWeightingMethod:()=>weighting.method,housingMatches,loadComposition:async survey=>{const key='composition_'+survey,value=await loadBlock(key);blockPromises.delete(key);return value;}});}
   const createEyeballing=(host,international=false)=>Eyeballing.create({host,international,metadata:META,loadBlock,getHousingMethod:()=>housing.method,onHousingChange:method=>{housing.method=method;applySpecificationSelection();},getWeightingMethod:()=>weighting.method,onWeightingChange:method=>{weighting.method=method;applySpecificationSelection();},getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,surveyTooltip});
   eyeController=createEyeballing($('us-eyeballing'));
@@ -838,5 +877,5 @@
   filterSpecificationData();syncWeightingControls();
   fillResultsDatasets();fillResultsVariables();syncTailControls();definitions();fillSeries();tab('inequality');
   if(loadingMain){loadingMain.inert=false;loadingMain.removeAttribute('aria-busy');loadingMain.setAttribute('data-interactive-ms',String(Math.round(performance.now())));}if(loadingNav)loadingNav.inert=false;startupStatus.remove();
-  window.addEventListener('resize',()=>{if(mainVisible())timeChart?.resize();if(quantilesVisible())thresholdController?.resize();if(bivVisible())bivChart?.resize();if(s.tab==='eyeballing')eyeController?.resize();if(otherVisible())otherController?.resize();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.resize();if(dataVisible()||adjustmentsVisible())dataController?.resize();if(paretoVisible())paretoController?.resize();});
+  window.addEventListener('resize',()=>{if(mainVisible())timeChart?.resize();if(quantilesVisible())thresholdController?.resize();if(quantilesV2Visible())quantileComparison?.resize();if(bivVisible())bivChart?.resize();if(s.tab==='eyeballing')eyeController?.resize();if(otherVisible())otherController?.resize();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.resize();if(dataVisible()||adjustmentsVisible())dataController?.resize();if(paretoVisible())paretoController?.resize();});
 })().catch(error=>{document.querySelector('main')?.removeAttribute('inert');document.querySelector('main')?.removeAttribute('aria-busy');document.getElementById('primary-nav')?.removeAttribute('inert');console.error(error);const target=document.getElementById('page-error');if(target){target.hidden=false;target.textContent='The results could not be loaded. Please reload the page in a current browser.';}});

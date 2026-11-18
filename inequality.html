@@ -543,6 +543,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-full-equation{min-width:0;padding:8px 0 0}
 .budget-variable-key :is(var,math,.budget-component-a){
   color:color-mix(in srgb,var(--component-color,#727c87) 78%,#172233);
+  font-weight:700;
 }
 .budget-variable-key math{font-size:15px;vertical-align:middle}
 .budget-variable-key mo{color:#171b22}
@@ -586,6 +587,43 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-component-label math{font-size:16px;white-space:nowrap}
 .budget-component-detail .budget-component-note{margin-top:10px}
 .budget-component-detail .budget-component-note:first-child{margin-top:0}
+
+/* US quantile overlays and the cutoff readout use the same card and controls as the other views. */
+.us-total-income-choice{display:inline-flex;align-items:center;gap:7px}
+.us-total-income-choice .help-marker{margin:0;flex:none}
+#us-quantile-comparison{padding:24px 28px;color:#425367}
+.quantile-comparison-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px}
+.quantile-comparison-header h2{font:400 27px/1.3 Georgia,serif;color:#22354b;margin:0}
+.quantile-comparison-header p{font-size:14px;margin:8px 0 0}
+.quantile-comparison-datasets{display:flex;align-items:center;flex-wrap:wrap;gap:10px 20px;border:0;padding:0;margin:22px 0 16px;min-width:0}
+.quantile-comparison-datasets legend{font-weight:600;font-size:13px;margin:0 0 8px}
+.quantile-survey-choice{display:inline-flex;align-items:center;gap:5px}
+.quantile-comparison-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(146px,1fr));gap:12px}
+.quantile-comparison-controls .control{min-width:0;display:flex;flex-direction:column;gap:6px;margin:0}
+.quantile-comparison-controls .control>label{display:flex;align-items:center;gap:6px;font:600 13px/1.4 Arial,sans-serif;color:#536478;min-height:20px}
+.quantile-comparison-controls select,.quantile-cutoff input{border:1px solid #d7dce1;background-color:#fff;color:#20354f;border-radius:5px;min-height:39px;padding:7px 9px;font:14px Arial,sans-serif}
+.quantile-comparison-options{display:flex;flex-wrap:wrap;gap:10px 22px;margin:14px 0 16px}
+.quantile-cutoff{display:flex;align-items:center;flex-wrap:wrap;gap:9px 13px;padding:12px 14px;background:#f4f6f8;border:1px solid #e3e8ed;border-radius:7px;font-size:14px}
+.quantile-cutoff-presets{display:flex;flex-wrap:wrap;gap:6px}
+.quantile-cutoff-presets button{min-width:45px}
+.quantile-cutoff-presets button[aria-pressed="true"]{background:#2e4e6a;color:white;border-color:#2e4e6a}
+.quantile-cutoff input{max-width:83px;min-height:34px}
+.quantile-comparison-chart{height:475px;position:relative;min-width:0;margin-top:14px}
+.quantile-comparison-chart canvas{cursor:crosshair}
+.quantile-comparison-status{margin:20px 0;font-size:14px}
+.quantile-cutoff-readout{margin-top:15px}
+.quantile-cutoff-readout h3{font:600 15px/1.4 Arial,sans-serif;margin:0 0 9px;color:#263e57}
+.quantile-cutoff-values{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:9px}
+.quantile-cutoff-value{display:grid;gap:4px;padding:9px 12px;background:#faf9f6;border:1px solid #e4e0d8;border-left:4px solid var(--dataset-color);border-radius:5px}
+.quantile-cutoff-value strong,.quantile-value-context,.quantile-comparison-note{font-size:13px}
+.quantile-value{font:500 23px/1.1 Georgia,serif;color:var(--dataset-color);font-variant-numeric:tabular-nums}
+.quantile-value-context,.quantile-comparison-note{color:#627388}
+.quantile-comparison-note{margin:14px 0 0;line-height:1.5}
+#us-quantile-comparison [hidden],.us-total-income-choice [hidden]{display:none!important}
+@media(max-width:700px){#us-quantile-comparison{padding:18px 14px}.quantile-comparison-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.quantile-comparison-chart{height:360px}.quantile-cutoff-values{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.quantile-survey-choice .small-check,.quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0}
+.quantile-comparison-controls .control>label,.quantile-comparison-controls .us-total-income-choice{min-height:33px}
+.quantile-comparison-controls .control:has(#quantile-v2-measure){grid-column:span 2}
 </style>
 </head>
 <body>
@@ -593,7 +631,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 <header class="masthead"><div class="masthead-inner"><a class="brand" href="./index.html"><span class="brand-zeta" aria-hidden="true">ζ</span><span class="brand-name">Upper-Tail Inequality: Consumption, Income, and Wealth<span class="data-version">Data v1</span></span></a><nav class="header-resources" aria-label="Paper, appendix and citation"><a class="paper-link" href="https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&amp;dl=0" target="_blank" rel="noopener noreferrer">Academic paper <span aria-hidden="true">↗</span></a><span class="header-resource-placeholder" role="link" aria-disabled="true">Online appendix <small>(coming soon)</small></span><button class="header-citation" type="button" data-citation-trigger>Citation</button></nav></div></header>
 <main class="shell">
   <div class="title-row"><h1>Upper-tail <em>inequality</em></h1></div>
-  <nav id="primary-nav" class="tabs primary-tabs" role="tablist" aria-label="Explorer sections"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">United States</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Across Countries</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Variable Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Survey Adjustments</button><button class="tab-button" type="button" id="tab-pareto" data-section="pareto" role="tab" aria-selected="false" aria-controls="panel-pareto">Pareto Estimation</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></div></nav><nav id="us-secondary-nav" class="secondary-nav cc-subnav" aria-label="US views"><div class="secondary-nav-inner" role="tablist" aria-label="US views"><button class="secondary-tab active" type="button" id="tab-inequality" data-tab="inequality" role="tab" aria-selected="true" aria-controls="panel-inequality">Tails over time</button><button class="secondary-tab" type="button" id="tab-quantiles" data-tab="quantiles" role="tab" aria-selected="false" aria-controls="panel-quantiles">Estimates by quantile</button><button class="secondary-tab" type="button" id="tab-results" data-tab="results" role="tab" aria-selected="false" aria-controls="panel-results">Table of results</button><button class="secondary-tab" type="button" id="tab-loglog" data-tab="loglog" role="tab" aria-selected="false" aria-controls="panel-loglog">Log–log relationships</button><button class="secondary-tab" type="button" id="tab-eyeballing" data-tab="eyeballing" role="tab" aria-selected="false" aria-controls="panel-eyeballing">Eyeballing Pareto Tails</button><div class="global-housing-control"><label class="small-check"><input type="checkbox" id="constant-housing-service">Results using constant housing service for homeowners</label></div></div></nav>
+  <nav id="primary-nav" class="tabs primary-tabs" role="tablist" aria-label="Explorer sections"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">United States</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Across Countries</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Variable Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Survey Adjustments</button><button class="tab-button" type="button" id="tab-pareto" data-section="pareto" role="tab" aria-selected="false" aria-controls="panel-pareto">Pareto Estimation</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></div></nav><nav id="us-secondary-nav" class="secondary-nav cc-subnav" aria-label="US views"><div class="secondary-nav-inner" role="tablist" aria-label="US views"><button class="secondary-tab active" type="button" id="tab-inequality" data-tab="inequality" role="tab" aria-selected="true" aria-controls="panel-inequality">Tails over time</button><button class="secondary-tab" type="button" id="tab-quantiles" data-tab="quantiles" role="tab" aria-selected="false" aria-controls="panel-quantiles">Estimates by quantile</button><button class="secondary-tab" type="button" id="tab-quantiles-v2" data-tab="quantiles-v2" role="tab" aria-selected="false" aria-controls="panel-quantiles-v2">Estimates by quantile v2</button><button class="secondary-tab" type="button" id="tab-results" data-tab="results" role="tab" aria-selected="false" aria-controls="panel-results">Table of results</button><button class="secondary-tab" type="button" id="tab-loglog" data-tab="loglog" role="tab" aria-selected="false" aria-controls="panel-loglog">Log–log relationships</button><button class="secondary-tab" type="button" id="tab-eyeballing" data-tab="eyeballing" role="tab" aria-selected="false" aria-controls="panel-eyeballing">Eyeballing Pareto Tails</button><div class="global-housing-control"><label class="small-check"><input type="checkbox" id="constant-housing-service">Results using constant housing service for homeowners</label></div></div></nav>
   <div id="page-error" class="error-message" role="alert" hidden></div>
   <section class="tab-panel active" id="panel-inequality" role="tabpanel" aria-labelledby="tab-inequality">
     <div class="panel-topline"><div><h2 class="panel-heading">Inequality across the distributions</h2><p class="panel-subtitle" id="overview-subtitle">PSID and SCF over time.</p></div><div class="survey-key" id="time-survey-key" aria-label="Survey symbols"><span><i class="key-line" aria-hidden="true"></i>PSID</span></div></div>
@@ -614,6 +652,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     </div>
   </section>
 <section id="panel-quantiles" class="tab-panel" role="tabpanel" aria-labelledby="tab-quantiles" hidden><div id="us-quantile-profiles" class="quantile-profile-card"></div></section>
+<section id="panel-quantiles-v2" class="tab-panel" role="tabpanel" aria-labelledby="tab-quantiles-v2" hidden><div id="us-quantile-comparison" class="quantile-profile-card"></div></section>
 <section id="panel-results" class="tab-panel" role="tabpanel" aria-labelledby="tab-results" hidden>
   <div class="results-card">
     <header class="results-heading"><div><h2>US results table</h2></div><div class="results-actions"><button class="text-button" id="download-results-selected" type="button">Selected results CSV</button><button class="text-button" id="download-results-all" type="button">All US results CSV</button></div></header>
@@ -1073,7 +1112,14 @@ const Eyeballing=(()=>{
     host.classList.add('eyeballing-panel');host.innerHTML='<div class="explorer-grid"><aside class="sidebar eyeballing-controls" aria-label="Empirical tail controls"></aside><div class="plot-surface"><div class="plot-top"><div><h2>Eyeballing Pareto Tails</h2><p class="plot-subtitle"></p></div><div class="eyeballing-actions"><button class="text-button" data-eye-csv>Results CSV</button><button class="text-button" data-eye-png>Figure PNG</button></div></div><p class="slope-readout eyeballing-readout"></p><div class="eyeballing-legend"><span><i class="eye-circle"></i>Empirical tail</span><span><i class="eye-dashed"></i>Pareto reference</span></div><div class="chart-wrap eyeballing-chart"><canvas role="img" aria-label="Empirical conditional tail probability and Pareto reference on logarithmic axes"></canvas><p class="plot-fallback" data-eye-status hidden></p></div><p class="eyeballing-waves"></p><div class="plot-foot eyeballing-footnote"><p class="eyeballing-note">Each wave starts at (1, 1). Circles show the weighted empirical conditional tail probability; the dashed line has slope −ζ. The average curve takes equal-weight means of wave probabilities at common normalized amounts, before logs; its reference line uses the mean wave coefficient. Imputations are averaged first.</p></div></div></div>';
     const controls=host.querySelector('aside'),canvas=host.querySelector('canvas'),status=host.querySelector('[data-eye-status]'),readout=host.querySelector('.eyeballing-readout'),subtitle=host.querySelector('.plot-subtitle'),waveNote=host.querySelector('.eyeballing-waves'),csv=host.querySelector('[data-eye-csv]'),png=host.querySelector('[data-eye-png]'),inputs={};
     function addSelect(key,label){const box=el('div','control'),caption=el('label','',label),input=el('select');input.id=prefix+'-'+key;caption.htmlFor=input.id;box.append(caption,input);controls.append(box);inputs[key]=input;input.addEventListener('change',()=>{state[key]=input.value;if(key==='weighting')onWeightingChange(input.value);if(key==='gains')onDinaCapitalDefinitionChange(input.value);if(key!=='wave')state.wave='average';render();});return box;}
-    const countryBox=addSelect('country','Country');countryBox.hidden=!international;const surveyBox=addSelect('survey','Dataset'),help=el('span','help-marker hover-help','?');help.tabIndex=0;surveyBox.querySelector('label').append(help);addSelect('variable','Variable');addSelect('variant','Reporting and representation adjustments');addSelect('method','Pareto estimator');addSelect('threshold','Tail threshold');addSelect('wave','Year / wave');
+    const countryBox=addSelect('country','Country');countryBox.hidden=!international;const surveyBox=addSelect('survey','Dataset'),help=el('span','help-marker hover-help','?');help.tabIndex=0;surveyBox.querySelector('label').append(help);const variableBox=addSelect('variable','Variable');
+    const totalIncomeHelp=international?null:createUSTotalIncomeHelp();
+    if(totalIncomeHelp){
+      const label=variableBox.querySelector('label'),title=el('span','us-total-income-choice');
+      label.replaceWith(title);
+      title.append(label,totalIncomeHelp);
+    }
+    addSelect('variant','Reporting and representation adjustments');addSelect('method','Pareto estimator');addSelect('threshold','Tail threshold');addSelect('wave','Year / wave');
     const housingBox=el('label','small-check eyeballing-housing'),housing=el('input');housing.type='checkbox';housing.id=prefix+'-housing';housingBox.append(housing,doc.createTextNode('Constant imputed rent rate'));controls.append(housingBox);housing.addEventListener('change',()=>{onHousingChange(housing.checked?'bp':'benchmark');render();});
     const weightBox=addSelect('weighting','Weighting correction');
     const gainsBox=addSelect('gains','Capital income (DINA)');
@@ -1081,7 +1127,7 @@ const Eyeballing=(()=>{
     function sync(){
       const countryNames=metadata.other_survey_methods?.international?.country_labels||{};fill('country',[...new Set(availability.map(r=>r.country))].map(c=>[c,countryNames[c]||({AU:'Australia',IT:'Italy',US:'United States'})[c]||c]).sort((a,b)=>a[1].localeCompare(b[1])));
       const countryRows=availability.filter(r=>r.country===state.country),order=international?['HILDA','HFCS','SHIW']:['PSID','SCF','CEX_BM_RECON','SAEZ_ZUCMAN','FORBES','YODLEE','NIELSEN'];fill('survey',order.filter(k=>!international||countryRows.some(r=>r.survey===k)).map(k=>[k,names[k],!countryRows.some(r=>r.survey===k)]));
-      let rows=countryRows.filter(r=>r.survey===state.survey);fill('variable',[...new Set(rows.map(r=>r.variable))].map(k=>[k,labels[k]||metadata.variables?.[k]||k]));rows=rows.filter(r=>r.variable===state.variable);
+      let rows=countryRows.filter(r=>r.survey===state.survey);fill('variable',[...new Set(rows.map(r=>r.variable))].map(k=>[k,labels[k]||metadata.variables?.[k]||k]));rows=rows.filter(r=>r.variable===state.variable);if(totalIncomeHelp)totalIncomeHelp.hidden=state.variable!=='total_income';
       fill('variant',['full','adj','raw','reference'].filter(k=>rows.some(r=>r.variant===k)).map(k=>[k,adjustments[k]]));rows=rows.filter(r=>r.variant===state.variant);
       fill('method',['MLE','OLS'].map(k=>[k,k,!rows.some(r=>r.method===k)]));rows=rows.filter(r=>r.method===state.method);
       const hasConstant=rows.some(r=>r.housing_method==='bp'),effectiveHousing=hasConstant?getHousingMethod():rows[0]?.housing_method;housing.disabled=!hasConstant;housing.checked=hasConstant&&getHousingMethod()==='bp';housingBox.classList.toggle('unavailable-option',!hasConstant);housing.title=hasConstant?'Use the constant NIPA-matched homeowner rent-rate alternative.':'This dataset has no constant-rent alternative.';rows=rows.filter(r=>r.housing_method===effectiveHousing);
@@ -1769,7 +1815,13 @@ const ThresholdProfiles = (() => {
       const sig=JSON.stringify([getSpecificationSignature(),surveySelect.value,country,year,spending?.value,indicator,method,getDinaCapitalDefinition(),[...selectedVariables].sort(),getCEXIncome()]);if(sig===signature){charts.forEach(c=>c.resize());return;}signature=sig;
       charts.forEach(c=>c.destroy());charts=[];rows=[];grid.replaceChildren();
       const selected=surveySelect.value==='all'?actualSurveys:[surveySelect.value],format=x=>share?number(100*x,1)+'%':number(x,3),legendSeries=fiveSeries.filter(([key])=>selected.some(survey=>curves.some(c=>c.survey===survey&&(country==='all'||c.country===country)&&(year==='all'||c.year===Number(year))&&c.variable===(key==='consumption'?(international||spending?.value==='auto'?(survey==='SCF'?'expenditure_incl_rent':'consump_def1'):spending?.value):key))));
-      legend.replaceChildren();legendSeries.forEach(([key,label])=>{const item=document.createElement('label'),swatch=document.createElement('i');{item.className='threshold-variable-choice';const input=document.createElement('input');input.type='checkbox';input.style.accentColor=colors[key];input.checked=selectedVariables.has(key);input.setAttribute('aria-label','Show '+label);input.addEventListener('change',()=>{input.checked?selectedVariables.add(key):selectedVariables.delete(key);signature='';render();});item.append(input);}swatch.style.background=colors[key];const variable=key==='consumption'?(spending?.value==='auto'?'consump_def1':spending?.value):key,chosenName=key==='consumption'&&spending?.value!=='auto'?(spendingOptions.find(o=>o.key===variable)?.label||label):label,name=selected.length===1&&isCEX(selected[0])?(sourceDisplay(selected[0])?.labels?.[variable]||chosenName):chosenName;item.append(swatch,document.createTextNode(name));legend.append(item);});
+      legend.replaceChildren();legendSeries.forEach(([key,label])=>{const item=document.createElement('label'),swatch=document.createElement('i');{item.className='threshold-variable-choice';const input=document.createElement('input');input.type='checkbox';input.style.accentColor=colors[key];input.checked=selectedVariables.has(key);input.setAttribute('aria-label','Show '+label);input.addEventListener('change',()=>{input.checked?selectedVariables.add(key):selectedVariables.delete(key);signature='';render();});item.append(input);}swatch.style.background=colors[key];const variable=key==='consumption'?(spending?.value==='auto'?'consump_def1':spending?.value):key,chosenName=key==='consumption'&&spending?.value!=='auto'?(spendingOptions.find(o=>o.key===variable)?.label||label):label,name=selected.length===1&&isCEX(selected[0])?(sourceDisplay(selected[0])?.labels?.[variable]||chosenName):chosenName;item.append(swatch,document.createTextNode(name));
+        if(!international&&key==='total_income'){
+          const group=document.createElement('span');
+          group.className='us-total-income-choice';
+          group.append(item,createUSTotalIncomeHelp());
+          legend.append(group);
+        }else legend.append(item);});
       let any=false,scfShown=false,hfcsShown=false;
       for(const survey of selected){
         if(referenceSurveys.has(survey)&&!(metadata.surveys?.[survey]?.available_profile_indicators||['pareto']).includes(indicator))continue;
@@ -1823,6 +1875,358 @@ const ThresholdProfiles = (() => {
   return{summarize,t975,tCritical,profiles,reference,contractFor,commonCells,create};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=ThresholdProfiles;
+
+const US_TOTAL_INCOME_NOTE = 'Total income is only partly comparable across surveys. The series differ in whether and how they count realized capital gains, pensions, government transfers, and other income.';
+
+function createUSTotalIncomeHelp() {
+  const help = document.createElement('button');
+  help.type = 'button';
+  help.className = 'help-marker detail-help hover-help';
+  help.dataset.tooltip = US_TOTAL_INCOME_NOTE;
+  help.dataset.helpToggle = 'true';
+  help.setAttribute('aria-label', 'About total-income comparability');
+  help.setAttribute('aria-expanded', 'false');
+  help.textContent = '?';
+  return help;
+}
+
+function createUSQuantileComparison({
+  host, surveys, loadCurves, metadata, spendingOptions, surveyName, surveyTooltip,
+  getHousingMethod, onHousingChange, getWeightingMethod, onWeightingChange,
+  getCapitalDefinition, onCapitalDefinitionChange, getCEXIncome, onCEXIncomeChange
+}) {
+  const style = {
+    PSID: ['#315f87', 'circle', []],
+    SCF: ['#7e5687', 'rectRot', [7, 4]],
+    CEX_BM_RECON: ['#ad572b', 'crossRot', [5, 4]],
+    YODLEE: ['#267c86', 'cross', [9, 4, 2, 4]],
+    FORBES: ['#00815a', 'rect', [9, 5]],
+    SAEZ_ZUCMAN: ['#a04662', 'triangle', [3, 3]],
+  };
+  const selected = new Set(surveys.filter(s => ['PSID','CEX_BM_RECON'].includes(s)));
+  const household = survey => ['PSID','SCF','CEX_BM_RECON'].includes(survey);
+  const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
+  const percentile = value => 'P' + number.format(value);
+  const measureOptions = [
+    ['consump_def1','Consumption'], ['total_labor_income','Labor income'],
+    ['total_income','Total income'], ['networth_val','Net worth'], ['total_capital_income','Capital income'],
+    ...spendingOptions.filter(item => item.key !== 'consump_def1').map(item => [item.key,item.label]),
+  ];
+
+  host.innerHTML = `<header class="quantile-comparison-header">
+    <div><h2>Compare estimates by quantile</h2><p>Overlay U.S. datasets and compare estimates at the same tail cutoff.</p></div>
+    <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
+  </header>
+  <fieldset class="quantile-comparison-datasets" aria-label="Datasets"><legend>Datasets</legend></fieldset>
+  <div class="quantile-comparison-controls"></div>
+  <div class="quantile-comparison-options"></div>
+  <div class="quantile-cutoff">
+    <strong>Highlight a cutoff</strong>
+    <div class="quantile-cutoff-presets" role="group" aria-label="Cutoff presets"></div>
+    <label for="quantile-v2-percentile">Percentile</label>
+    <input id="quantile-v2-percentile" type="number" min="70" max="99" step="0.05" value="95">
+  </div>
+  <p class="quantile-comparison-status" role="status" hidden></p>
+  <div class="quantile-comparison-chart"><canvas role="img" aria-label="Estimates by quantile for the selected U.S. datasets"></canvas></div>
+  <div class="quantile-cutoff-readout" aria-live="polite"></div>
+  <p class="quantile-comparison-note">Across-wave curves average available estimates separately at each percentile. Coverage can differ across datasets. Click the plot or choose a cutoff above to compare stored estimates.</p>`;
+
+  const find = selector => host.querySelector(selector);
+  const make = (tag, cls, text) => {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text) node.textContent = text;
+    return node;
+  };
+  const controls = find('.quantile-comparison-controls');
+  const options = find('.quantile-comparison-options');
+  const status = find('.quantile-comparison-status');
+  const canvas = find('canvas');
+  const csvButton = find('[data-action="csv"]');
+  const pngButton = find('[data-action="png"]');
+  const cutoffInput = find('#quantile-v2-percentile');
+  const presets = new Map();
+  let chart, comparison = [], cutoff = 95, request = 0, pending, lastFilter;
+  let period = 'all';
+
+  function select(key, title, values) {
+    const box = make('div','control');
+    const label = make('label','',title);
+    const input = make('select');
+    input.id = label.htmlFor = 'quantile-v2-' + key;
+    input.append(...values.map(([value,text]) => new Option(text,value)));
+    box.append(label,input);
+    controls.append(box);
+    input.addEventListener('change', () => render());
+    return input;
+  }
+  const measure = select('measure','Measure',measureOptions);
+  const incomeHelp = createUSTotalIncomeHelp();
+  const measureLabel=measure.previousElementSibling;
+  const measureTitle=make('span','us-total-income-choice');
+  measureLabel.replaceWith(measureTitle);
+  measureTitle.append(measureLabel,incomeHelp);
+  const indicator = select('indicator','Indicator',[
+    ['pareto','Pareto coefficient'], ['wealth_ratio','Relative to that of wealth'],
+    ['share','Share above percentile'],
+  ]);
+  const estimator = select('estimator','Estimator',[['MLE','MLE'],['OLS','OLS']]);
+  const adjustment = select('adjustment','Adjustment',[
+    ['full','Reporting + representation'], ['adj','Reporting only'], ['raw','Raw data'],
+  ]);
+  const year = select('year','Wave / year',[['all','Across-wave average']]);
+  const weighting = select('weighting','PSID weighting',[
+    ['scf_income','SCF income'],['irs_income','IRS income'],['scf_wealth','SCF wealth'],
+  ]);
+  weighting.addEventListener('change', () => onWeightingChange(weighting.value));
+  const capitalDefinitions = metadata.saez_zucman_reference?.capital_income_definitions || {};
+  const capital = select('capital','DINA capital gains',Object.entries(capitalDefinitions).map(([key,value])=>[key,value.label]));
+  capital.addEventListener('change',()=>onCapitalDefinitionChange(capital.value));
+
+  function checkbox(parent, label, name, onChange) {
+    const wrapper = make('label','small-check');
+    const input = make('input');
+    input.type = 'checkbox';
+    input.value = name;
+    input.addEventListener('change', () => onChange(input.checked));
+    wrapper.append(input,label);
+    parent.append(wrapper);
+    return {wrapper,input};
+  }
+
+  const housing = checkbox(options,'Constant imputed rent rate','bp',onHousingChange);
+  const cexIncome = checkbox(options,'Show CEX topcoded income','cex_income',onCEXIncomeChange);
+  cexIncome.wrapper.title = metadata.cex_optional_income?.warning || 'Topcoding distorts CEX income estimates at the top.';
+  for (const survey of surveys) {
+    const item = make('span','quantile-survey-choice');
+    const control = checkbox(item,surveyName(survey),survey,checked => {
+      if (checked) selected.add(survey);
+      else selected.delete(survey);
+      render();
+    });
+    control.input.checked = selected.has(survey);
+    const marker = make('span','help-marker hover-help','?');
+    marker.tabIndex = 0;
+    marker.dataset.tooltip = surveyTooltip(survey);
+    marker.setAttribute('aria-label','About '+surveyName(survey));
+    item.append(marker);
+    find('.quantile-comparison-datasets').append(item);
+  }
+
+  for (const value of [70,80,90,95,98,99]) {
+    const button = make('button','text-button',percentile(value));
+    button.type = 'button';
+    button.addEventListener('click', () => setCutoff(value));
+    presets.set(value,button);
+    find('.quantile-cutoff-presets').append(button);
+  }
+  cutoffInput.addEventListener('change', () => setCutoff(cutoffInput.valueAsNumber));
+
+  function atCutoff(points) {
+    return points.find(point => Math.abs(point.q * 100 - cutoff) < 1e-6);
+  }
+  const displayValue = value => indicator.value === 'share'
+    ? (value * 100).toFixed(1) + '%' : value.toFixed(3);
+  function setCutoff(value) {
+    if (Number.isFinite(value)) cutoff = Math.round(Math.max(70,Math.min(99,value))*100)/100;
+    cutoffInput.value = String(cutoff);
+    for (const [key,button] of presets) button.setAttribute('aria-pressed', String(key === cutoff));
+    if (chart) chart.draw();
+    updateReadout();
+  }
+  function updateReadout() {
+    const readout = find('.quantile-cutoff-readout');
+    readout.replaceChildren();
+    if (!comparison.length) return;
+    readout.append(make('h3','', 'Estimates at '+percentile(cutoff)));
+    const list = make('div','quantile-cutoff-values');
+    for (const {survey,points,variable} of comparison) {
+      const point = atCutoff(points);
+      const item = make('div','quantile-cutoff-value');
+      item.style.setProperty('--dataset-color',style[survey][0]);
+      item.append(make('strong','',surveyName(survey)),make('span','quantile-value',point ? displayValue(point.mean) : '—'));
+      const years = point?.years_used.split(';') || [];
+      const coverage = years.length > 1 ? years[0] + '–' + years.at(-1) : years[0];
+      const unit = ['PSID','SCF'].includes(survey) ? 'wave' : 'year';
+      const comment = point
+        ? point.n + ' ' + unit + (point.n === 1 ? '' : 's') + ' · ' + coverage +
+          (survey === 'CEX_BM_RECON' && variable === 'networth_val' ? ' · Partial net worth' : '')
+        : points.length ? 'No stored estimate at ' + percentile(cutoff) : 'Unavailable for this selection';
+      item.append(make('span','quantile-value-context',comment));
+      list.append(item);
+    }
+    readout.append(list);
+  }
+
+  const highlight = {
+    id:'usQuantileHighlight',
+    afterDatasetsDraw({ctx, scales, chartArea}) {
+      const x = scales.x.getPixelForValue(cutoff);
+      ctx.save();
+      ctx.strokeStyle = '#283d51';
+      ctx.lineWidth = 1.25;
+      ctx.setLineDash([5,4]);
+      ctx.beginPath();
+      ctx.moveTo(x,chartArea.top);
+      ctx.lineTo(x,chartArea.bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      for (const {survey,points} of comparison) {
+        const point = atCutoff(points);
+        if (!point) continue;
+        ctx.beginPath();
+        ctx.arc(x,scales.y.getPixelForValue(point.mean),4.25,0,2*Math.PI);
+        ctx.fillStyle = style[survey][0];
+        ctx.fill();
+        ctx.strokeStyle = '#fffefa';
+        ctx.stroke();
+      }
+      ctx.font = '600 13px Arial';
+      ctx.textAlign = cutoff >= 96 ? 'right' : 'left';
+      ctx.fillStyle = '#283d51';
+      ctx.fillText(percentile(cutoff),x + (cutoff >= 96 ? -7 : 7),chartArea.top - 7);
+      ctx.restore();
+    },
+  };
+
+  function drawPlot() {
+    chart?.destroy();
+    chart = null;
+    const datasets = comparison.filter(group => group.points.length).map(({survey,points}) => {
+      const [color,pointStyle,borderDash] = style[survey];
+      return {
+        label:surveyName(survey), data:points.map(p => ({x:p.q*100,y:p.mean,n:p.n})),
+        borderColor:color, backgroundColor:color, pointStyle, borderDash,
+        pointRadius:points.length === 1 ? 4 : 0, pointHoverRadius:5, borderWidth:2.4,
+      };
+    });
+    const visible = datasets.length > 0;
+    canvas.parentElement.hidden = !visible;
+    csvButton.disabled = pngButton.disabled = !visible;
+    status.hidden = visible;
+    if (!visible) {
+      status.textContent = selected.size ? 'No estimates are available for these selections.' : 'Choose a dataset to see its estimates.';
+      setCutoff(cutoff);
+      return;
+    }
+    const title = indicator.selectedOptions[0].textContent;
+    canvas.setAttribute('aria-label', title+' for '+measure.selectedOptions[0].textContent+' by tail percentile');
+    chart = new Chart(canvas, {
+      type:'line', data:{datasets}, plugins:[highlight],
+      options:{
+        responsive:true, maintainAspectRatio:false, animation:false, parsing:false,
+        interaction:{axis:'x',mode:'nearest',intersect:false},
+        layout:{padding:{top:20,right:10}},
+        onClick(event, elements, activeChart) {
+          if (!activeChart.isPointInArea(event)) return;
+          const x = activeChart.scales.x.getValueForPixel(event.x);
+          const points = datasets.flatMap(dataset => dataset.data);
+          const nearest = points.reduce((best,p)=>Math.abs(p.x-x)<Math.abs(best.x-x)?p:best);
+          setCutoff(nearest.x);
+        },
+        plugins:{
+          legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,padding:18,font:{size:13}}},
+          tooltip:{callbacks:{
+            title:items => percentile(items[0].parsed.x),
+            label:item => item.dataset.label+': '+displayValue(item.parsed.y)+' · '+item.raw.n+(item.raw.n===1?' estimate':' estimates'),
+          }},
+        },
+        scales:{
+          x:{type:'linear',min:70,max:99.25,
+            afterBuildTicks:scale=>{scale.ticks=[70,75,80,85,90,95,99].map(value=>({value}));},
+            ticks:{callback:percentile,maxRotation:0,font:{size:13}},grid:{display:false},
+            title:{display:true,text:'Tail cutoff percentile',font:{size:13}}},
+          y:{title:{display:true,text:title,font:{size:13}},grid:{color:'#e8e8ed'},
+            ticks:{font:{size:13},callback:value=>indicator.value==='share'?number.format(value*100)+'%':number.format(value)}},
+        },
+      },
+    });
+    setCutoff(cutoff);
+  }
+
+  async function render() {
+    period = year.value || period;
+    incomeHelp.hidden = measure.value !== 'total_income';
+    capital.closest('.control').hidden = !selected.has('SAEZ_ZUCMAN') || !['total_capital_income','total_income'].includes(measure.value);
+    capital.value = Object.keys(capitalDefinitions).find(key => capitalDefinitions[key].author_variant === getCapitalDefinition()) || '';
+    estimator.disabled = indicator.value === 'share';
+    adjustment.disabled = ![...selected].some(household);
+    housing.input.checked = getHousingMethod() === 'bp';
+    housing.wrapper.hidden = ![...selected].some(household);
+    cexIncome.input.checked = getCEXIncome();
+    cexIncome.wrapper.hidden = !selected.has('CEX_BM_RECON');
+    weighting.value = getWeightingMethod();
+    weighting.closest('.control').hidden = !selected.has('PSID') || adjustment.value !== 'full';
+    const ids = surveys.filter(survey => selected.has(survey));
+    const filter = JSON.stringify([ids,measure.value,indicator.value,estimator.value,adjustment.value,period,
+      getHousingMethod(),getWeightingMethod(),getCapitalDefinition(),getCEXIncome()]);
+    if (filter === lastFilter && !pending) { chart?.resize(); return; }
+    if (filter === pending) return;
+    pending = filter;
+    const sequence = ++request;
+    status.textContent = 'Loading selected estimates…';
+    status.hidden = false;
+    csvButton.disabled = pngButton.disabled = true;
+    try {
+      const curves = await loadCurves(ids);
+      if (sequence !== request) return;
+      const curveOptions = ids.map(survey => {
+        const variable = measure.value;
+        const variant = survey === 'SCF' && adjustment.value === 'full' ? 'adj'
+          : household(survey) ? adjustment.value : survey === 'YODLEE' ? 'raw' : 'reference';
+        const authorVariant = survey === 'SAEZ_ZUCMAN'
+          ? (['total_income','total_capital_income'].includes(variable) ? getCapitalDefinition() : 'dina_2022')
+          : survey === 'YODLEE' ? ({
+            consump_def1:'durables_4_with_carry',expenditure:'active_unadjusted_same_sample',
+            food_total:'enriched_raw',vacation:'active_basic_cleaning',total_income:'active_basic_cleaning',
+          })[variable] : null;
+        const source = ThresholdProfiles.contractFor(survey,metadata);
+        const contract = survey === 'FORBES' ? {...source,profile_window:[.70,.90]} : source;
+        return {survey,variant,variable,authorVariant,contract,
+          wealthAuthorVariant:survey==='SAEZ_ZUCMAN'?'dina_2022':authorVariant,
+          indicator:indicator.value,method:estimator.value};
+      });
+      const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
+        row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
+      const years = [...new Set(curves.filter(row => curveOptions.some(config=>supported(row,config)))
+        .map(row=>row.year).filter(Number.isFinite))].sort((a,b)=>b-a);
+      year.replaceChildren(new Option('Across-wave average','all'),...years.map(y=>new Option(String(y),String(y))));
+      year.value = years.includes(Number(period)) ? period : 'all';
+      period = year.value;
+      comparison = curveOptions.map(config => ({...config,points:ThresholdProfiles.profiles(curves,{...config,year:period})}));
+      drawPlot();
+      lastFilter = filter;
+    } catch (error) {
+      if (sequence !== request) return;
+      status.textContent = 'These estimates could not be loaded. Change a selection to try again.';
+      console.error(error);
+    } finally {
+      if (sequence === request) pending = null;
+    }
+  }
+
+  function save(url, name) {
+    const link = make('a');
+    link.href = url;
+    link.download = name;
+    link.click();
+  }
+  csvButton.addEventListener('click', () => {
+    const rows = ['dataset,measure,adjustment,period,indicator,estimator,threshold_percentile,estimate,waves,years_used'];
+    for (const group of comparison) {
+      for (const p of group.points) rows.push([group.survey,group.variable,group.variant,period,
+        group.indicator,group.indicator==='share'?'':group.method,Math.round(p.q*1000000)/10000,
+        p.mean,p.n,p.years_used].join(','));
+    }
+    const url = URL.createObjectURL(new Blob([rows.join('\r\n')],{type:'text/csv;charset=utf-8'}));
+    save(url,'US_quantile_comparison.csv');
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  pngButton.addEventListener('click', () => { if (chart) save(chart.toBase64Image(),'US_quantile_comparison.png'); });
+  csvButton.disabled = pngButton.disabled = true;
+  setCutoff(cutoff);
+  return {render,resize:()=>chart?.resize()};
+}
 
 /* Released aggregate references; no underlying observation records. */
 function initUSReferencePoints(metadata,{getCapitalVariant=()=> 'dina_2022_incl_gains'}={}) {
@@ -2668,7 +3072,7 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
   const s = {cexIncome:false,tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS.filter(key=>key!=='total_income'))};
   const r = {survey:'psid',datasets:new Set(['PSID']),yodleeVariant:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95};
   const b = {primary:'psid',overlays:new Set(),adjustment:'full',measure:'flow',pair:'wealth_consumption',wave:'average',scfWave:'average',dinaWave:'average',autoSCF:false,cexWave:'latest',reconWave:'latest',bmWave:'latest',stat:'mean',minN:10,excludeNetRent:false,beforePersonalInterest:false,traces:false,scale:'loglog',fit:'ols'};
-  let eyeController,definitionsController,paretoController,timeChart,bivChart,otherController,adjustmentController,thresholdController,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality',profileSurvey='PSID';
+  let eyeController,definitionsController,paretoController,timeChart,bivChart,otherController,adjustmentController,thresholdController,quantileComparison,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality',profileSurvey='PSID';
   const VISIBLE_US_SURVEYS=new Set(['PSID','SCF','CEX_BM_RECON']);
   const BIVARIATE_SURVEYS=new Set([...BIN_AVAILABILITY.map(row=>row.survey),...(META.relationship_blocks||[]).map(scope=>scope.survey)]),hasCorrectedCEXBins=BIVARIATE_SURVEYS.has('CEX_BM_RECON');
   const surveyChoices=()=>['psid','scf',...(ALL_SUMMARY.some(row=>row.survey==='CEX_BM_RECON')?['cex_bm_recon']:[])];
@@ -2722,6 +3126,7 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
   const dataVisible = () => !$('panel-data').hidden;
   const resultsVisible = () => !$('panel-results').hidden;
   const quantilesVisible = () => !$('panel-quantiles').hidden;
+  const quantilesV2Visible = () => !$('panel-quantiles-v2').hidden;
   const curveKey = row => [row.survey,row.year,row.variant,row.variable,housingMethod(row),weightingMethod(row)].join('|');
   const curveIndex = new Map(ALL_CURVES.map(curve=>[curveKey(curve),curve]));
   const summaryIndex = new Map(ALL_SUMMARY.map(row=>[curveKey(row),row]));
@@ -2756,6 +3161,7 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
     if(mainVisible()&&isParetoMetric(s.metric)&&s.threshold!=='ks')await ensureFullCurves([...selectedSurveys(s)]);
     if(resultsVisible())await ensureFullCurves([...resultsSurveys()].filter(survey=>r.threshold!=='ks'||META.reference_curve_surveys?.includes(survey)));
     if(quantilesVisible()){await ensureFullCurves(['PSID','SCF','CEX_BM_RECON',...(META.reference_curve_surveys||[])]);if(s.cexIncome)await ensureCEXIncome();initializeThresholdController();if(s.cexIncome)thresholdController.addCurves(cexIncomeCurves);}
+    if(quantilesV2Visible()&&!quantileComparison)initializeQuantileComparison();
     if(otherVisible()){await Promise.all([ensureDeferredBlock('other'),ensureFullCurves(['PSID','CEX_BM_RECON'])]);initializeOtherController();}
     if(adjustmentsVisible()){await ensureDeferredBlock('adjustments');initializeAdjustmentController();}
     if(paretoVisible()){if(!paretoController)paretoController=initParetoEstimation({host:$('pareto-estimation-content'),loadData:()=>loadBlock('illustration_ks')});await paretoController.render();}
@@ -2769,19 +3175,19 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
       const pending=quantilesVisible()&&!thresholdController||otherVisible()&&!otherController||adjustmentsVisible()&&!adjustmentController||(mainVisible()&&s.threshold!=='ks'?[...selectedSurveys(s)]:resultsVisible()&&r.threshold!=='ks'?[...resultsSurveys()]:[]).some(survey=>detailedCurveSurveys.includes(survey)&&!loadedCurveSurveys.has(survey));
       if(pending){startupStatus.textContent='Loading selected results…';document.body.append(startupStatus);loadingMain?.setAttribute('aria-busy','true');}
       await preparation;if(request!==viewRequest)return;
-      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())thresholdController?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
+      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())thresholdController?.render();if(quantilesV2Visible())quantileComparison?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
       if(!loadingMain?.dataset.firstPlotMs)loadingMain?.setAttribute('data-first-plot-ms',String(Math.round(performance.now())));
       startupStatus.remove();loadingMain?.removeAttribute('aria-busy');
     }catch(error){if(request!==viewRequest)return;startupStatus.remove();loadingMain?.removeAttribute('aria-busy');$('page-error').hidden=false;$('page-error').textContent='The selected plot could not be drawn. Please change the selection or reload the page.';console.error(error);}});
   }
   function tab(name) {
-    const us=['inequality','quantiles','results','loglog','eyeballing'].includes(name);if(us)lastUSTab=name;s.tab=name;
+    const us=['inequality','quantiles','quantiles-v2','results','loglog','eyeballing'].includes(name);if(us)lastUSTab=name;s.tab=name;
     $('us-secondary-nav').hidden=!us;$('live-announcement').hidden=name!=='inequality';if(name!=='inequality')$('live-announcement').textContent='';
     const housingControl=document.querySelector('.global-housing-control:not(.quantile-housing-control)'),housingNav=us?$('us-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='other'?$('cc-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='adjustments'?$('dc-adjustments-nav-inner'):null;
     if(housingControl){housingControl.hidden=!housingNav;if(housingNav)housingNav.append(housingControl);}
     document.querySelectorAll('#primary-nav [data-section]').forEach(button=>{const active=button.dataset.section===(us?'us':name);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);if(button.dataset.section==='us')button.setAttribute('aria-controls','panel-'+lastUSTab);});
     document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{const active=button.dataset.tab===name;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);});
-    ['inequality','quantiles','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
+    ['inequality','quantiles','quantiles-v2','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
   }
   document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{
     button.addEventListener('click',()=>tab(button.dataset.tab));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#us-secondary-nav [data-tab]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.tab);});
@@ -2809,7 +3215,13 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
       const selected=selectedSurveys(s),surveyAvailable=timeSummary().some(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,s.adjustment)&&row.variable===sourceKey(key,s.measure)),referenceAvailable=[...selected].some(survey=>referenceController?.hasVariable(survey,sourceKey(key,s.measure))||(key==='spending'&&survey==='NIELSEN'&&s.measure==='food_total'));input.disabled=!surveyAvailable&&!referenceAvailable;
       input.addEventListener('change',()=>{ input.checked?s.variables.add(key):s.variables.delete(key);if(key==='networth_val'&&!input.checked&&s.overlays.has('forbes')){s.overlays.delete('forbes');fillOverlays('overlay-controls',s,mainOverlayChoices());}schedule(); });
       const swatch=document.createElement('span'); swatch.className='series-swatch'; const text=document.createElement('span'); text.textContent=displayLabel(key,s.measure,labelSurvey);
-      item.append(input,swatch,text); $('series-controls').append(item);
+      item.append(input,swatch,text);
+      if (key==='total_income') {
+        const group=document.createElement('span');
+        group.className='us-total-income-choice';
+        group.append(item,createUSTotalIncomeHelp());
+        $('series-controls').append(group);
+      } else $('series-controls').append(item);
     });
   }
   function fillSpendingSelect(id,selection,state,source) {
@@ -2938,11 +3350,18 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
       input.addEventListener('change',()=>{if(input.checked)r.datasets.add(survey);else if(r.datasets.size>1)r.datasets.delete(survey);else{input.checked=true;return;}r.survey=r.datasets.size===1?[...r.datasets][0].toLowerCase():'all';syncHousingAvailability();fillResultsVariables();schedule();});
     });
   }
+  const resultsTotalIncomeHelp=createUSTotalIncomeHelp();
+  const resultsMeasureLabel=$('results-variable').previousElementSibling;
+  const resultsMeasureTitle=document.createElement('span');
+  resultsMeasureTitle.className='us-total-income-choice';
+  resultsMeasureLabel.replaceWith(resultsMeasureTitle);
+  resultsMeasureTitle.append(resultsMeasureLabel,resultsTotalIncomeHelp);
   function fillResultsVariables(){
     const selected=resultsSurveys(),native=referencePoints().filter(row=>selected.has(row.survey)),household=SUMMARY.filter(row=>selected.has(row.survey)),variables=[...new Set([...household,...native].map(row=>row.variable))].filter(variable=>!hiddenSpending.has(variable)).sort((a,b)=>variableDisplayLabel(a,r.survey.toUpperCase()).localeCompare(variableDisplayLabel(b,r.survey.toUpperCase()))),select=$('results-variable');select.replaceChildren();
     const supported=variable=>household.some(row=>row.variable===variable&&row.variant===variantFor(row.survey,r.adjustment))||native.some(row=>row.variable===variable&&(row.survey!=='YODLEE'||r.yodleeVariant==='all'||row.author_variant===r.yodleeVariant));
     [['all','All available measures'],...variables.map(variable=>[variable,variableDisplayLabel(variable,r.survey.toUpperCase())])].forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;option.disabled=value!=='all'&&!supported(value);select.append(option);});
     if(r.variable!=='all'&&(!variables.includes(r.variable)||!supported(r.variable)))r.variable='all';select.value=r.variable;
+    resultsTotalIncomeHelp.hidden=r.variable!=='total_income';
   }
   function syncResultsControls(){
     const selected=resultsSurveys(),hasHouseholds=[...selected].some(survey=>VISIBLE_US_SURVEYS.has(survey)),hasYodlee=selected.has('YODLEE'),bankOnly=hasYodlee&&!hasHouseholds,bankOptions=[['all','All saved constructions'],...Object.entries(YODLEE_VARIANTS).filter(([variant])=>referencePoints().some(row=>row.survey==='YODLEE'&&row.author_variant===variant))],adjustment=$('results-adjustment'),bank=$('results-yodlee-adjustment');
@@ -3310,6 +3729,30 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
     $('us-quantile-profiles').querySelector('.threshold-profile-controls').append(housingControl);
     $('quantile-constant-housing-service').addEventListener('change',event=>{$('constant-housing-service').checked=event.target.checked;applyHousingMethod();});
   }
+  function initializeQuantileComparison(){
+    const referenceSurveys=[...new Set(referenceController?.profileCurves().map(row=>row.survey)||[])];
+    quantileComparison=createUSQuantileComparison({
+      host:$('us-quantile-comparison'),
+      surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
+      metadata:META,spendingOptions,surveyName,surveyTooltip,
+      getHousingMethod:()=>housing.method,
+      onHousingChange:checked=>{$('constant-housing-service').checked=checked;applyHousingMethod();},
+      getWeightingMethod:()=>weighting.method,
+      onWeightingChange:method=>{weighting.method=method;applySpecificationSelection();},
+      getCapitalDefinition:()=>META.saez_zucman_reference?.capital_income_definitions?.[dina.capitalDefinition]?.author_variant,
+      onCapitalDefinitionChange:setDinaCapitalDefinition,
+      getCEXIncome:()=>s.cexIncome,
+      onCEXIncomeChange:checked=>{s.cexIncome=checked;fillOverlays('overlay-controls',s,mainOverlayChoices());fillSeries();schedule();},
+      async loadCurves(surveys){
+        if(!surveys.length)return [];
+        await ensureFullCurves(surveys);
+        if(s.cexIncome&&surveys.includes('CEX_BM_RECON'))await ensureCEXIncome();
+        const curves=s.cexIncome?ALL_CURVES.concat(cexIncomeCurves):ALL_CURVES;
+        return curves.filter(row=>surveys.includes(row.survey)&&specificationMatches(row))
+          .concat((referenceController?.profileCurves()||[]).filter(row=>surveys.includes(row.survey)));
+      },
+    });
+  }
   function initializeAdjustmentController(){if(!adjustmentController&&typeof initAdjustments==='function')adjustmentController=initAdjustments(DATA.adjustments||{},{getHousingMethod:()=>housing.method,getWeightingMethod:()=>weighting.method,housingMatches,loadComposition:async survey=>{const key='composition_'+survey,value=await loadBlock(key);blockPromises.delete(key);return value;}});}
   const createEyeballing=(host,international=false)=>Eyeballing.create({host,international,metadata:META,loadBlock,getHousingMethod:()=>housing.method,onHousingChange:method=>{housing.method=method;applySpecificationSelection();},getWeightingMethod:()=>weighting.method,onWeightingChange:method=>{weighting.method=method;applySpecificationSelection();},getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,surveyTooltip});
   eyeController=createEyeballing($('us-eyeballing'));
@@ -3354,7 +3797,7 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
   filterSpecificationData();syncWeightingControls();
   fillResultsDatasets();fillResultsVariables();syncTailControls();definitions();fillSeries();tab('inequality');
   if(loadingMain){loadingMain.inert=false;loadingMain.removeAttribute('aria-busy');loadingMain.setAttribute('data-interactive-ms',String(Math.round(performance.now())));}if(loadingNav)loadingNav.inert=false;startupStatus.remove();
-  window.addEventListener('resize',()=>{if(mainVisible())timeChart?.resize();if(quantilesVisible())thresholdController?.resize();if(bivVisible())bivChart?.resize();if(s.tab==='eyeballing')eyeController?.resize();if(otherVisible())otherController?.resize();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.resize();if(dataVisible()||adjustmentsVisible())dataController?.resize();if(paretoVisible())paretoController?.resize();});
+  window.addEventListener('resize',()=>{if(mainVisible())timeChart?.resize();if(quantilesVisible())thresholdController?.resize();if(quantilesV2Visible())quantileComparison?.resize();if(bivVisible())bivChart?.resize();if(s.tab==='eyeballing')eyeController?.resize();if(otherVisible())otherController?.resize();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.resize();if(dataVisible()||adjustmentsVisible())dataController?.resize();if(paretoVisible())paretoController?.resize();});
 })().catch(error=>{document.querySelector('main')?.removeAttribute('inert');document.querySelector('main')?.removeAttribute('aria-busy');document.getElementById('primary-nav')?.removeAttribute('inert');console.error(error);const target=document.getElementById('page-error');if(target){target.hidden=false;target.textContent='The results could not be loaded. Please reload the page in a current browser.';}});
 </script>
 </body>
