@@ -194,7 +194,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color:color-mix(in srgb,var(--component-color,#727c87) 78%,#172233);
 }
 .budget-variable-key math{font-size:15px;vertical-align:middle}
-.budget-variable-key .budget-notation-wealth-formula{font-size:18px}
 .budget-variable-key mo{color:#171b22}
 
 /* Keep each expression over its variable card. The long terms get more room. */
@@ -213,6 +212,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .budget-card-expansion{height:var(--budget-expansion-height);align-items:end}
 .budget-card-expansion math{font-size:19px;margin:0}
+.budget-component-a .budget-card-expansion math{font-size:16.5px;transform:translateX(36px)}
 .budget-component-capital .budget-card-expansion math{font-size:18px}
 .budget-card-term{height:var(--budget-term-height)}
 .budget-card-term math{font-size:29px;margin:0}

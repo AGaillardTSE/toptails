@@ -550,7 +550,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color:color-mix(in srgb,var(--component-color,#727c87) 78%,#172233);
 }
 .budget-variable-key math{font-size:15px;vertical-align:middle}
-.budget-variable-key .budget-notation-wealth-formula{font-size:18px}
 .budget-variable-key mo{color:#171b22}
 
 /* Keep each expression over its variable card. The long terms get more room. */
@@ -569,6 +568,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .budget-card-expansion{height:var(--budget-expansion-height);align-items:end}
 .budget-card-expansion math{font-size:19px;margin:0}
+.budget-component-a .budget-card-expansion math{font-size:16.5px;transform:translateX(36px)}
 .budget-component-capital .budget-card-expansion math{font-size:18px}
 .budget-card-term{height:var(--budget-term-height)}
 .budget-card-term math{font-size:29px;margin:0}
@@ -1189,13 +1189,14 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Family units",
     "consumption": [
       ["nondurable", "Food at home, meals out and deliveries, healthcare paid out of pocket and insurance premiums, actual rent, utilities, communications, vehicle running costs, other transport, education, childcare, recreation, computers, travel, clothing and charitable giving."],
-      ["housing", "Imputed rental value of owner-occupied housing."],
+      ["housing", "The rental value of owner-occupied housing, before deducting the costs of ownership."],
       ["durable", "Flows from furniture, equipment and vehicles."]
     ],
     "labor": "Wages and salaries, bonuses, overtime, tips, commissions, professional-practice income, additional-job income and other labor receipts of the reference person, spouse and other family members, plus 67% of noncorporate business income.",
     "capital": [
-      ["asset", "Interest, dividends, trust income, other family members’ asset income, cash rents, incorporated-business receipts, and 33% of noncorporate business income. Also includes imputed owner rent after property taxes, insurance, repairs and maintenance."],
-      ["interest", "Subtract mortgage interest and interest on credit-card, student, vehicle and other personal debt."]
+      ["asset", "Interest, dividends, trust income, other family members’ asset income, cash rents, incorporated-business receipts, and 33% of noncorporate business income."],
+      ["netHousing", "Gross imputed rent less mortgage interest, homeowners’ insurance, property taxes, repairs, and maintenance. The PSID construction sets the separate housing depreciation deduction to zero."],
+      ["interest", "Subtract interest on credit-card, student, vehicle and other personal debt."]
     ],
     "wealth": [
       ["financial", "Stocks and funds, bank accounts, bonds, IRA balances and other financial assets."],
@@ -1219,13 +1220,14 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Family units",
     "consumption": [
       ["nondurable", "Food, rent paid by tenants and charitable donations in earlier spending modules."],
-      ["housing", "Imputed owner housing services."]
+      ["housing", "The rental value of owner-occupied housing before deducting ownership costs."]
     ],
     "labor": "Wages and salaries plus half of the combined self-employment, farm, other business and investment-income bundle, which also contains rents, trusts and royalties.",
     "capital": [
-      ["asset", "Half the combined business, farm, investment, rent, trust and royalty bundle, plus taxable and tax-exempt interest and dividends. Also includes imputed owner rent after property taxes, insurance, repairs and maintenance."],
+      ["asset", "Half the combined business, farm, investment, rent, trust and royalty bundle, plus taxable and tax-exempt interest and dividends."],
+      ["netHousing", "Gross imputed rent less mortgage and home-equity interest, property taxes, insurance, and repairs and maintenance."],
       ["gains", "Realized gains from funds, securities and property."],
-      ["interest", "Subtract mortgage and home-equity interest and interest on credit-card, student, vehicle and other personal debt."]
+      ["interest", "Subtract interest on credit-card, student, vehicle and other personal debt."]
     ],
     "wealth": [
       ["financial", "Stocks, funds, deposits, bonds, IRAs and other financial assets."],
@@ -1250,7 +1252,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Consumer units",
     "consumption": [
       ["nondurable", "Food at home and away, school and employer-provided meals, alcohol, actual rent, utilities, household operations and supplies, other lodging, clothing, transport, entertainment and reading, personal care, tobacco and personal insurance net of pension contributions."],
-      ["housing", "Rental-equivalent housing services."],
+      ["housing", "Rental-equivalent value for owner-occupied housing before deducting ownership costs."],
       ["durable", "Household equipment and vehicle services."]
     ],
     "spendingScope": "Uses the same Meyer baskets, with vehicle purchases replacing services; health, education and giving are excluded.",
@@ -1265,7 +1267,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "partialWealth": true,
     "optionalLabor": "Optional topcoded income estimates contain wages and salaries plus 67% of business income. Enable Show income in Tails over time or US Estimates by quantile.",
     "optionalCapital": [
-      ["asset", "33% of business income, cash rent, interest, dividends and net imputed owner rent."],
+      ["asset", "33% of business income, cash rent, interest and dividends."],
+      ["netHousing", "Gross imputed rent less mortgage interest, homeowners’ insurance, property taxes, and the service cost of home repairs."],
       ["interest", "Subtract personal-debt interest."]
     ],
     "timeCoverage": "Consumption covers 1980–2024, except 1982. The public extension and partial-wealth measures start in 1996.",
@@ -1446,7 +1449,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const bank=select('Durable correction',[['paper','Four categories (paper)'],['all','All categories'],['none','Expenditure before correction']],'bank');
   controls.append(housingBox);
   const selectedTitle=el('h3','budget-selected-dataset');host.append(selectedTitle);
-  const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-variable-key\">Households hold financial assets <var class=\"budget-component-a\">b</var>, owner-occupied housing <var class=\"budget-component-a\">h</var>, consumer durables <var class=\"budget-component-a\">d</var>, and other real assets <var class=\"budget-component-a\">k</var>. Valuing these assets at their prices <math class=\"budget-component-a\"><mrow><msub><mi>p</mi><mi>x</mi></msub></mrow></math> and subtracting debt <var class=\"budget-component-a\">m</var> gives net wealth <span class=\"budget-component-a\"><math class=\"budget-notation-wealth-formula\" display=\"inline\" aria-label=\"Net wealth equals financial assets, housing, durables and other real assets, less debt\"><mrow><mi>a</mi><mo>=</mo><mrow><msub><mi>p</mi><mi>b</mi></msub><mi>b</mi><mo>+</mo><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi><mo>+</mo><msub><mi>p</mi><mi>k</mi></msub><mi>k</mi><mo>−</mo><mi>m</mi></mrow></mrow></math></span>. Each asset earns a return at rate <math class=\"budget-component-capital\"><mrow><msub><mi>r</mi><mi>x</mi></msub></mrow></math>. For owner-occupied housing, <math class=\"budget-component-capital\"><mrow><msub><mi>r</mi><mi>h</mi></msub></mrow></math> is the net rental return rate and <math class=\"budget-component-c\"><mrow><msub><mi>δ</mi><mi>h</mi></msub></mrow></math> is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest. Adding them gives <math class=\"budget-component-c\"><mrow><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub></mrow></math>, the gross imputed rent rate used in consumption. The rate <math class=\"budget-component-c\"><mrow><msub><mi>δ</mi><mi>d</mi></msub></mrow></math> measures depreciation on consumer durables. Labor income is <var class=\"budget-component-y\">y</var>, and <var class=\"budget-component-tax\">T</var> is taxes paid minus transfers received. We write the household budget constraint as:</p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
+  const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-variable-key\">Households hold financial assets <var class=\"budget-component-a\">b</var>, owner-occupied housing <var class=\"budget-component-a\">h</var>, consumer durables <var class=\"budget-component-a\">d</var>, and other real assets <var class=\"budget-component-a\">k</var>. Valuing these assets at their prices <math class=\"budget-component-a\"><mrow><msub><mi>p</mi><mi>x</mi></msub></mrow></math> and subtracting debt <var class=\"budget-component-a\">m</var> gives net wealth <var class=\"budget-component-a\">a</var>. Each asset earns a return at rate <math class=\"budget-component-capital\"><mrow><msub><mi>r</mi><mi>x</mi></msub></mrow></math>. For owner-occupied housing, <math class=\"budget-component-capital\"><mrow><msub><mi>r</mi><mi>h</mi></msub></mrow></math> is the net rental return rate and <math class=\"budget-component-c\"><mrow><msub><mi>δ</mi><mi>h</mi></msub></mrow></math> is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest. Adding them gives <math class=\"budget-component-c\"><mrow><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub></mrow></math>, the gross imputed rent rate used in consumption. The rate <math class=\"budget-component-c\"><mrow><msub><mi>δ</mi><mi>d</mi></msub></mrow></math> measures depreciation on consumer durables. Labor income is <var class=\"budget-component-y\">y</var>, and <var class=\"budget-component-tax\">T</var> is taxes paid minus transfers received. We write the household budget constraint as:</p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
   const diagram=el('div','budget-diagram-scroll');
   const grid=el('div','budget-definition-grid');
   const equation=fullEquation.querySelector('.budget-full-math');
@@ -1485,6 +1488,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     }else{
       label.append(termMath(underbrace.firstElementChild.firstElementChild));
     }
+    if(key==='a')expansion.innerHTML=`<math aria-label="Net wealth equals financial assets, housing, durables and other real assets, less debt"><munder accentunder="true"><mrow><mi>a</mi><mo>=</mo><mrow><msub><mi>p</mi><mi>b</mi></msub><mi>b</mi><mo>+</mo><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi><mo>+</mo><msub><mi>p</mi><mi>k</mi></msub><mi>k</mi><mo>−</mo><mi>m</mi></mrow></mrow><mo stretchy="true">⏟</mo></munder></math>`;
     card.id='budget-explanation-'+key;
     label.setAttribute('aria-describedby',card.id);
     card.append(heading,status,detail);
@@ -1500,7 +1504,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const price=asset=>mathSub('p',asset)+'<mi>'+asset+'</mi>';
   const componentTerms={
     nondurable:['Nondurable consumption','<msup><mi>c</mi><mtext>ND</mtext></msup>'],
-    housing:['Owner housing services','<mo>(</mo>'+mathSub('r','h')+'<mo>+</mo>'+mathSub('δ','h')+'<mo>)</mo>'+price('h')],
+    housing:['Gross imputed rent','<mo>(</mo>'+mathSub('r','h')+'<mo>+</mo>'+mathSub('δ','h')+'<mo>)</mo>'+price('h')],
     durable:['Durable services',mathSub('δ','d')+price('d')],
     financial:['Financial assets',price('b')],
     home:['Housing',price('h')],
@@ -1510,6 +1514,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     real:['Real assets',price('k')],
     debt:['Debt','<mo>−</mo><mi>m</mi>'],
     asset:['Asset income',mathSub('r','x')+price('x')],
+    netHousing:['Net imputed rent',mathSub('r','h')+price('h')],
     gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
     interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
     spending:['Recorded spending'],
@@ -1550,7 +1555,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
         ? 'The 2025 total covers durable and nondurable purchases in the previous 12 months. It excludes rent, mortgage payments and retirement contributions. Rent paid by tenants is added.'
         : source.bank?'Purchases recorded in the observed bank accounts.':source.expenditureIngredients||'Purchases of goods and services, including durable purchases.';
       rows=[['purchases',description]];
-      if(owner)rows.push(['housing','Imputed rental value of owner-occupied housing.']);
+      if(owner)rows.push(['housing','The rental value of owner-occupied housing, before deducting the costs of ownership.']);
     }else if(measure==='food_total'){
       rows=[['nondurable','Food bought for home use, meals eaten out and food deliveries, where observed.']];
     }else if(measure==='vacation'){
@@ -1607,7 +1612,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     if(source.housing&&state.constantRent&&source.capital)capitalNotes.push('Net owner rent uses the same constant-rate construction.');
     const capitalRows=(source.capital||source.optionalCapital||[]).slice();
     if(source.capital&&!source.realized&&!source.gainsChoice){
-      capitalRows.splice(1,0,['gains','Capital gains are not reported separately.']);
+      const interestIndex=capitalRows.findIndex(([key])=>key==='interest');
+      capitalRows.splice(interestIndex<0?capitalRows.length:interestIndex,0,['gains','Capital gains are not reported separately.']);
     }
     renderComponents(cards.capital.detail,capitalRows,capitalNotes);
     for(const [key,available] of [['c',!!source.consumption],['a',!!source.wealth],['y',!!source.labor],['tax',!!source.taxAvailable],['capital',!!source.capital]]){cards[key].card.classList.toggle('definition-unavailable',!available);cards[key].symbol.classList.toggle('definition-unavailable',!available);cards[key].expansion.classList.toggle('definition-unavailable',!available);cards[key].status.textContent=key==='tax'&&source.taxStatus?source.taxStatus:!available?(state.survey==='CEX_BM_RECON'&&['y','capital'].includes(key)?'Optional: topcoded':'Unavailable'):key==='a'&&source.partialWealth?'Partial coverage':'';}
