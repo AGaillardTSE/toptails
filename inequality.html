@@ -602,6 +602,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
 .budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
 .budget-component-list li+li{margin-top:10px}
+.budget-component-breakdown{margin:4px 0 0;padding-inline-start:14px}
+.budget-component-list .budget-component-breakdown>li+li{margin-top:5px}
 .budget-component-label{display:block;color:#263e57}
 .budget-component-label math{font-size:16px;white-space:nowrap}
 .budget-component-detail .budget-component-note{margin-top:10px}
@@ -1252,15 +1254,23 @@ function initParetoEstimation({host,loadData}){
 
 function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOptions,getHousingMethod=()=> 'benchmark',getDinaCapitalDefinition=()=> 'including_fiscal_gains'}){
   const doc=document,el=(tag,cls,text)=>{const n=doc.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
+  const psidFood='Groceries and other food bought for home use, delivered meals, meals away from home, and the value of food stamps or SNAP benefits.';
+  const psidRent='Paid rent enters at the reported amount. For homeowners, we estimate the gross rental value of the main home using rates that vary with home value. The rates are based on homeowners’ own rental estimates from the 2017–2023 waves and are applied across waves.';
   const sources={
   "PSID": {
-    "expenditureIngredients": "Food, out-of-pocket healthcare and health-insurance premiums, paid rent, utilities and communications, furniture and equipment purchases, vehicle purchases, leasing and running costs, other transport, education and childcare, recreation, computers, travel, clothing (including jewelry and watches), and charitable giving.",
+    "expenditureIngredients": "Food, out-of-pocket healthcare and health-insurance premiums, paid rent, utilities and communications, furniture and equipment purchases, vehicle purchases, leasing and running costs, other transport, education and childcare, recreation, computers, travel, clothing (including jewelry and watches), and charitable giving. Both expenditure measures include rent paid by tenants.",
     "name": "Panel Study of Income Dynamics (PSID)",
     "unit": "Family units",
     "consumption": [
-      ["nondurable", "Food at home, meals out and deliveries. Out-of-pocket hospital, nursing-home, outpatient, dental, prescription and in-home care, plus health-insurance premiums. Paid rent, utilities (including fuel, electricity, water and sewer), and communications (phone, television and internet). Vehicle running costs (fuel, insurance and repairs), vehicle leases, parking, carpooling, public transit, taxis and other transport. Tuition, tutoring, school supplies, school room and board, and childcare. Recreation and entertainment, computers and other devices and software, trips and vacations, clothing (including footwear, jewelry and watches), and charitable giving."],
-      ["housing", "The rental value of owner-occupied housing, before deducting the costs of ownership. Home repairs and maintenance enter the calculation of net imputed rent on the capital-income side."],
-      ["durable", "Flows from vehicles and household furnishings and equipment, including furniture, textiles, floor coverings, appliances and housewares."]
+      ["nondurable", [
+        ["Food", psidFood],
+        ["Health", "Out-of-pocket hospital, nursing-home, outpatient, dental, prescription and in-home care, plus insurance premiums."],
+        ["Utilities and transport", "Fuel, electricity, water and sewer, plus phone, television and internet. Transport includes fuel, insurance and repairs for vehicles, leases, parking, carpooling, public transit and taxis."],
+        ["Education and childcare", "Tuition, tutoring, school supplies, school room and board, and childcare."],
+        ["Other spending", "Entertainment, computers, other devices and software, trips and vacations, clothing, footwear, jewelry, watches and charitable giving."]
+      ]],
+      ["housing", psidRent],
+      ["durable", "Furnishings and equipment include furniture, textiles, floor coverings, appliances and housewares. Their annual service flow uses 15% of new purchases and the remaining stock from earlier waves. Owned vehicles also use a 15% rate applied to estimated values, with additional vehicle payments carried forward as they depreciate. Vehicle lease payments enter as reported spending."]
     ],
     "labor": "Wages and salaries, bonuses, overtime, tips, commissions, professional-practice income, additional-job income and other labor receipts of the reference person, spouse and other family members, plus 67% of noncorporate business income.",
     "capital": [
@@ -1641,7 +1651,12 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
           label.append(math,' ');
         }
         label.append(name);
-        item.append(label,' ',description);
+        item.append(label);
+        if(Array.isArray(description)){
+          const breakdown=el('ul','budget-component-breakdown');
+          for(const [name,text] of description){const entry=el('li');entry.append(el('strong','',name+'. '),text);breakdown.append(entry);}
+          item.append(breakdown);
+        }else item.append(' ',description);
         list.append(item);
       }
       detail.append(list);
@@ -1653,6 +1668,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     if(!source.consumption)return {rows:[],notes:[source.consumptionUnavailable]};
     const measure=state.consumption,owner=['consump_def1','expenditure_incl_rent','food_housing_vacation','food_housing_vacation_donations_vehicle'].includes(measure);
     const expenditure=['expenditure','expenditure_incl_rent'].includes(measure);
+    const psid=state.survey==='PSID';
     const notes=[];
     let rows=source.consumption.slice();
     if(state.survey==='SCF'){
@@ -1673,20 +1689,24 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     }
     if(expenditure){
       const description=source.bank?'Spending identified in the observed accounts, including card purchases, cash withdrawals and check payments, before the service-flow correction.':source.expenditureIngredients||'Purchases of goods and services, including durable purchases.';
-      rows=[['nondurable','Included in the purchase total.'],['purchases',description]];
+      rows=psid?[['purchases',description]]:[['nondurable','Included in the purchase total.'],['purchases',description]];
       if(owner)rows.push(['housing','The rental value of owner-occupied housing, before deducting the costs of ownership.']);
     }else if(measure==='food_total'){
-      rows=[['nondurable','Food bought for home use, meals eaten out and food deliveries, where observed.']];
+      rows=[['nondurable',psid?psidFood:'Food bought for home use, meals eaten out and food deliveries, where observed.']];
     }else if(measure==='vacation'){
       rows=[['nondurable','Spending on trips and holidays, including the source’s observed travel and lodging items.']];
     }else if(['food_housing_vacation','food_housing_vacation_donations_vehicle'].includes(measure)){
       const vehicle=measure==='food_housing_vacation_donations_vehicle';
       rows=[['nondurable','Food, rent paid by tenants and vacation spending'+(vehicle?', plus donations.':'.')],['housing','Imputed rent for owner-occupied housing.']];
-      if(vehicle)rows.push(['durable','Modeled vehicle services.']);
+      if(vehicle)rows.push(['durable',psid?'Services from owned vehicles use estimated vehicle values and the remaining value of earlier payments.':'Modeled vehicle services.']);
     }else if(measure!=='consump_def1'&&measure!=='retail'){
       notes.push('The list describes the source’s consumption components. Coverage depends on the selected measure.');
     }
-    if(source.housing&&owner&&state.constantRent)notes.push('Owner services use the constant NIPA-matched rent-rate alternative.');
+    if(psid&&owner){
+      const grossRent=state.constantRent?'Paid rent enters at the reported amount. Gross imputed rent for homeowners applies one NIPA-matched rate to the value of the main home.':psidRent;
+      rows=rows.map(([component,description])=>[component,component==='housing'?grossRent+' Ownership costs, including repairs and maintenance, are deducted when computing net rent for capital income.':description]);
+    }else if(source.housing&&owner&&state.constantRent)notes.push('Owner services use the constant NIPA-matched rent-rate alternative.');
+    if(psid&&measure==='consump_def1')notes.push('Spending reported for shorter periods is put on an annual basis. The reporting adjustment applies the expenditure rescaling factors to the corresponding housing and durable services.');
     if(source.bank&&measure==='consump_def1')rows.push(['durable',state.bank==='paper'
       ? 'The paper estimates durable purchases from unusually large ATM or cash withdrawals, check payments, loan payments and other expenses. Each year, 20% of the estimated durable stock enters consumption as a service flow and the balance carries forward.'
       : 'The same service-flow correction is applied across all spending categories in this version.']);
