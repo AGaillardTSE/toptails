@@ -58,7 +58,7 @@ function createUSQuantileComparison({
   </aside>
   <div class="plot-surface quantile-comparison-plot">
     <header class="plot-top quantile-comparison-header">
-      <div><h2>Compare estimates by quantile</h2><p class="plot-subtitle">Ten-year averages</p></div>
+      <div><h2>Compare estimates by quantile</h2><p class="plot-subtitle"></p></div>
       <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
     </header>
     <div class="plot-series-controls">
@@ -110,7 +110,6 @@ function createUSQuantileComparison({
   });
   const [rawPanel,currentPanel] = panels;
   let request = 0, pending, lastFilter, period;
-  let selectedPeriod = '';
 
   function select(parent, key, title, values, onChange = render) {
     const box = make('div','control');
@@ -154,13 +153,14 @@ function createUSQuantileComparison({
     return button;
   }
 
-  const range = select(sidebar,'year','Ten-year window',[],value => {
-    selectedPeriod = value;
-    render();
-  });
-  sidebar.insertBefore(range.closest('.control'),adjustments);
+  const windowControls = make('div','quantile-window-controls');
+  sidebar.insertBefore(windowControls,adjustments);
+  const startWave = select(windowControls,'start-wave','Start wave',[['2005','2005']]);
+  const timeWindow = select(windowControls,'time-window','Time window',
+    [5,10,15,20,25,30].map(years=>[String(years),years+' years']));
+  timeWindow.value = '20';
   const adjustment = select(adjustments,'adjustment','Reporting and Representation Adjustments (PSID, CEX, SCF)',[
-    ['full','Reporting + representation'], ['adj','Reporting only'], ['raw','Raw data'],
+    ['full','Reporting + representation'], ['adj','Adjusted for reporting only'], ['raw','Raw data'],
   ]);
   const weightingBox = make('div','control weighting-control');
   weightingBox.append(make('span','control-label weighting-title','Weighting correction for PSID'));
@@ -369,6 +369,7 @@ function createUSQuantileComparison({
     const groups = visiblePanels.flatMap(panel=>panel.groups);
     const visible = groups.length>0;
     panelGrid.classList.toggle('has-raw-panel',includeRaw);
+    panelGrid.classList.toggle('single-adjusted-panel',!includeRaw&&adjustment.value!=='raw');
     csvButton.disabled = pngButton.disabled = !visible;
     status.hidden = visible;
     note.parentElement.hidden = !visible;
@@ -455,20 +456,6 @@ function createUSQuantileComparison({
     }
   }
 
-  function tenYearWindows(years) {
-    const windows = new Map();
-    const latest = years[0];
-    const earliestEnd = Math.min(latest,years.at(-1)+7);
-    for (let end=latest; end>=earliestEnd; end-=3) {
-      const start = end-9;
-      if (years.some(year=>year>=start&&year<=end)) windows.set(start+'-'+end,[start,end]);
-    }
-    if (selectedPeriod && !windows.has(selectedPeriod)) {
-      windows.set(selectedPeriod,selectedPeriod.split('-').map(Number));
-    }
-    return windows;
-  }
-
   async function render() {
     const activeVariables = variables.filter((_,index)=>variableInputs[index].checked);
     const showsConsumption = activeVariables.some(([key])=>key==='consumption');
@@ -506,7 +493,9 @@ function createUSQuantileComparison({
       (indicator!=='income_ratio'&&!activeKeys.some(key=>['total_capital_income','total_income'].includes(key)));
     capital.value = Object.keys(capitalDefinitions).find(key=>capitalDefinitions[key].author_variant===getCapitalDefinition()) || '';
 
-    const filter = JSON.stringify([ids,activeKeys,spending.value,indicator,method,adjustment.value,includeRaw,selectedPeriod,
+    const firstYear = Number(startWave.value);
+    const lastYear = firstYear+Number(timeWindow.value)-1;
+    const filter = JSON.stringify([ids,activeKeys,spending.value,indicator,method,adjustment.value,includeRaw,firstYear,lastYear,
       getHousingMethod(),getWeightingMethod(),getCapitalDefinition(),getCEXIncome()]);
     if (filter === lastFilter && !pending) { resizePlots(); return; }
     if (filter === pending) return;
@@ -542,16 +531,15 @@ function createUSQuantileComparison({
       const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
       const availableOptions = [...curveOptions,...rawOptions];
-      const years = [...new Set(curves.filter(row=>availableOptions.some(config=>supported(row,config)))
-        .map(row=>row.year).filter(Number.isFinite))].sort((a,b)=>b-a);
-      const windows = tenYearWindows(years);
-      period = selectedPeriod || windows.keys().next().value || '';
-      range.replaceChildren(...[...windows].map(([key,years])=>new Option(years.join('–'),key)));
-      range.disabled = !windows.size;
-      range.value = period;
-      const span = windows.get(period);
-      const profileCurves = span ? curves.filter(row=>row.year>=span[0]&&row.year<=span[1]) : [];
-      subtitle.textContent = (span ? span.join('–')+' average' : 'Ten-year averages')+' · '+title;
+      const years = new Set(curves.filter(row=>availableOptions.some(config=>supported(row,config)))
+        .map(row=>row.year).filter(Number.isFinite));
+      years.add(firstYear);
+      years.add(2005);
+      startWave.replaceChildren(...[...years].sort((a,b)=>a-b).map(year=>new Option(String(year),String(year))));
+      startWave.value = String(firstYear);
+      period = firstYear+'-'+lastYear;
+      const profileCurves = curves.filter(row=>row.year>=firstYear&&row.year<=lastYear);
+      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title;
       const plotGroups = configs=>configs.map(config=>({...config,
         points:ThresholdProfiles.profiles(profileCurves,config),
         reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),

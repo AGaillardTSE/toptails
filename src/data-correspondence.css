@@ -274,10 +274,12 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .quantile-raw-option:has(input:disabled){opacity:.48}
 .quantile-comparison-sidebar .indicator-kind-options{justify-content:flex-start;gap:12px}
 .quantile-comparison-options,.quantile-comparison-sidebar>.control{grid-column:1/-1}
+.quantile-window-controls{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .quantile-comparison-header{flex-wrap:wrap;padding-bottom:6px}
 .quantile-comparison-body{padding:0 28px 22px;color:#425367}
 .quantile-comparison-panels{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
 .quantile-comparison-panels.has-raw-panel{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:900px){.quantile-comparison-panels.single-adjusted-panel{width:88%;max-width:760px;margin-inline:auto}}
 .quantile-comparison-panel{min-width:0}
 .quantile-panel-heading{margin:6px 0 4px;font:600 15px/1.4 Arial,sans-serif;text-align:center;color:#30465e}
 .quantile-comparison-chart{height:780px;position:relative;min-width:0}
