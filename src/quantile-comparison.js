@@ -38,6 +38,7 @@ function createUSQuantileComparison({
   const household = survey => ['PSID','SCF','CEX_BM_RECON'].includes(survey);
   const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
   const percentile = value => 'P' + number.format(value);
+  const chartSurveyName = survey => survey === 'SAEZ_ZUCMAN' ? 'SZ' : surveyName(survey);
   const xMin = 70;
   const xMax = 99.25;
 
@@ -202,7 +203,7 @@ function createUSQuantileComparison({
   const surveyOrder = ['PSID','CEX_BM_RECON','SCF','YODLEE','FORBES','SAEZ_ZUCMAN'];
   let cexIncome;
   for (const survey of [...surveys].sort((a,b) => surveyOrder.indexOf(a)-surveyOrder.indexOf(b))) {
-    const name = surveyName(survey);
+    const name = survey === 'SAEZ_ZUCMAN' ? 'Saez–Zucman - SZ (DINA)' : surveyName(survey);
     const row = survey==='CEX_BM_RECON' ? make('div','cex-dataset-row') : datasetChoices;
     const {wrapper,input} = choice(row,'checkbox','dataset',survey,make('span','',name),input => {
       if (input.checked) selected.add(survey);
@@ -347,8 +348,8 @@ function createUSQuantileComparison({
   function referenceLabels(groups) {
     return groups.filter(group=>group.reference?.n).map(({survey,key,label,reference})=>({
       mean:reference.mean,
-      text:(survey==='SAEZ_ZUCMAN'?'Saez–Zucman':survey==='YODLEE'?'Yodlee':surveyName(survey))+' '+displayValue(reference.mean,false),
-      detail:label+' · '+surveyName(survey)+' '+displayValue(reference.mean,false)+' over '+waveLabel(survey,reference.n),
+      text:(survey==='YODLEE'?'Yodlee':chartSurveyName(survey))+' '+reference.mean.toFixed(2),
+      detail:label+' · '+surveyName(survey)+' '+reference.mean.toFixed(2)+' over '+waveLabel(survey,reference.n),
       color:referenceColors[key],
     }));
   }
@@ -406,7 +407,7 @@ function createUSQuantileComparison({
       const datasets = panel.groups.map(({survey,label,color,points}) => {
         const [pointStyle,borderDash] = style[survey];
         return {
-          label:label+' · '+surveyName(survey),survey,
+          label:label+' · '+chartSurveyName(survey),survey,
           data:points.map(({q,mean,n,se})=>({x:q*100,y:mean,n,se})),
           borderColor:color,backgroundColor:color,pointStyle,borderDash,
           pointRadius:({raw})=>points.length===1||[80,90,95].some(p=>Math.abs(raw?.x-p)<1e-6)?4:0,
@@ -424,7 +425,7 @@ function createUSQuantileComparison({
             legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,padding:12,font:{size:12},
               generateLabels:()=>[...panelSurveys].map(survey=>{
                 const [pointStyle,lineDash] = style[survey];
-                return {text:surveyName(survey),pointStyle,lineDash,lineWidth:1.5,hidden:false,
+                return {text:chartSurveyName(survey),pointStyle,lineDash,lineWidth:1.5,hidden:false,
                   fontColor:'#425367',fillStyle:'#59677a',strokeStyle:'#59677a'};
               }),
             }},
