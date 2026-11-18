@@ -32,6 +32,8 @@ function createUSQuantileComparison({
     ['networth_val','Net worth','#4d8b69'],
     ['total_capital_income','Capital income','#a88421'],
   ];
+  const referenceColors = {consumption:'#315f87',total_labor_income:'#923d3d',total_income:'#834a31',networth_val:'#356448',total_capital_income:'#785d1b'};
+  const referenceFont = '600 12px Arial, sans-serif';
   const selected = new Set(surveys.filter(survey => ['PSID','CEX_BM_RECON'].includes(survey)));
   const household = survey => ['PSID','SCF','CEX_BM_RECON'].includes(survey);
   const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
@@ -64,8 +66,7 @@ function createUSQuantileComparison({
     </div>
     <div class="quantile-comparison-body">
       <p class="quantile-comparison-status" role="status" hidden></p>
-      <div class="quantile-comparison-chart"><canvas role="img" aria-label="Estimates by quantile for the selected U.S. datasets"></canvas></div>
-      <div class="quantile-ks-summary" aria-live="polite" hidden></div>
+      <div class="quantile-comparison-panels"></div>
       <p class="quantile-comparison-note"><em>Notes:</em> <span></span></p>
     </div>
   </div>`;
@@ -85,12 +86,29 @@ function createUSQuantileComparison({
   const datasetChoices = find('.dataset-controls');
   const status = find('.quantile-comparison-status');
   const subtitle = find('.plot-subtitle');
-  const canvas = find('canvas');
   const csvButton = find('[data-action="csv"]');
   const pngButton = find('[data-action="png"]');
-  const ksSummary = find('.quantile-ks-summary');
   const note = find('.quantile-comparison-note span');
-  let chart, comparison = [], request = 0, pending, lastFilter, period;
+  const panelGrid = find('.quantile-comparison-panels');
+  const panels = ['raw','current'].map(key => {
+    const section = make('section','quantile-comparison-panel');
+    section.hidden = true;
+    section.dataset.panel = key;
+    const heading = make('h3','quantile-panel-heading');
+    const wrap = make('div','quantile-comparison-chart');
+    const canvas = make('canvas');
+    canvas.setAttribute('role','img');
+    const summary = make('p','quantile-panel-accessible-summary');
+    summary.id = 'quantile-v2-'+key+'-ks';
+    canvas.setAttribute('aria-describedby',summary.id);
+    const empty = make('p','quantile-comparison-status','No estimates are available in this window for these selections.');
+    wrap.append(canvas);
+    section.append(heading,wrap,summary,empty);
+    panelGrid.append(section);
+    return {key,section,heading,wrap,canvas,summary,empty,groups:[],chart:null};
+  });
+  const [rawPanel,currentPanel] = panels;
+  let request = 0, pending, lastFilter, period;
   let selectedPeriod = '';
 
   function select(parent, key, title, values, onChange = render) {
@@ -155,13 +173,15 @@ function createUSQuantileComparison({
     label.replaceWith(wrapper);
     wrapper.append(label,help(input.value,'About '+label.textContent+' weights'));
   }
+  const showRaw = choice(adjustments,'checkbox','show-raw','raw','Show raw panel',render).input;
+  showRaw.parentElement.classList.add('quantile-raw-option');
 
   const kind = radioGroup(indicators,'indicator','Tail and concentration indicator',
     [['pareto','Pareto coefficient'],['share','Top shares']],'indicator-kind-options choice-row');
   indicators.insertBefore(kind.fieldset,paretoOptions);
   paretoOptions.append(make('span','subcontrol-label','Pareto measure'));
   const paretoMeasure = radioGroup(paretoOptions,'pareto','Pareto measure',[
-    ['pareto','Pareto coefficient'],['wealth_ratio','Relative to that of wealth'],
+    ['pareto','Pareto coefficient'],['wealth_ratio','Relative to that of wealth'],['income_ratio','Relative to total income'],
   ],'compact-choice-row');
   paretoOptions.append(make('span','subcontrol-label','Pareto estimator'));
   const estimator = radioGroup(paretoOptions,'estimator','Pareto estimator',[['MLE','MLE'],['OLS','OLS']],'compact-choice-row');
@@ -263,121 +283,169 @@ function createUSQuantileComparison({
     drawSegment();
   }
 
-  const referencesAndBands = {
-    id:'usQuantileReferencesAndBands',
-    beforeDatasetsDraw({ctx, scales, chartArea}) {
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(chartArea.left,chartArea.top,chartArea.width,chartArea.height);
-      ctx.clip();
-      ctx.globalAlpha = .12;
-      for (const {color,points} of comparison) {
-        ctx.fillStyle = ctx.strokeStyle = color;
-        drawStandardErrors(ctx,scales,points);
-      }
-      ctx.globalAlpha = .85;
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([8,5]);
-      for (const {color,reference} of comparison) {
-        if (!reference?.n) continue;
-        const y = scales.y.getPixelForValue(reference.mean);
-        ctx.strokeStyle = color;
+  function plotAnnotations(groups, labels) {
+    return {
+      id:'usQuantileReferencesAndBands',
+      beforeDatasetsDraw({ctx,scales,chartArea}) {
+        ctx.save();
         ctx.beginPath();
-        ctx.moveTo(chartArea.left,y);
-        ctx.lineTo(chartArea.right,y);
-        ctx.stroke();
-      }
-      ctx.restore();
-    },
-  };
+        ctx.rect(chartArea.left,chartArea.top,chartArea.width,chartArea.height);
+        ctx.clip();
+        ctx.globalAlpha = .12;
+        for (const {color,points} of groups) {
+          ctx.fillStyle = ctx.strokeStyle = color;
+          drawStandardErrors(ctx,scales,points);
+        }
+        ctx.globalAlpha = .85;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([8,5]);
+        for (const {color,mean} of labels) {
+          const y = scales.y.getPixelForValue(mean);
+          ctx.strokeStyle = color;
+          ctx.beginPath();
+          ctx.moveTo(chartArea.left,y);
+          ctx.lineTo(chartArea.right,y);
+          ctx.stroke();
+        }
+        ctx.restore();
+      },
+      afterDraw({ctx,scales,chartArea}) {
+        if (!labels.length) return;
+        // Stack labels where KS estimates are close, with a short leader to each estimate.
+        const positions = labels.map(label=>({...label,anchor:scales.y.getPixelForValue(label.mean)}))
+          .sort((a,b)=>a.anchor-b.anchor);
+        const spacing = Math.min(16,Math.max(1,(chartArea.height-14)/Math.max(1,positions.length-1)));
+        let lower = chartArea.top+7;
+        for (const label of positions) {
+          label.y = Math.max(lower,label.anchor);
+          lower = label.y+spacing;
+        }
+        let upper = chartArea.bottom-7;
+        for (let i=positions.length-1; i>=0; i--) {
+          positions[i].y = Math.min(positions[i].y,upper);
+          upper = positions[i].y-spacing;
+        }
+        const edge = scales.y.left-10;
+        ctx.save();
+        ctx.font = referenceFont;
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.lineWidth = 1;
+        for (const {text,color,y,anchor} of positions) {
+          ctx.fillStyle = ctx.strokeStyle = color;
+          ctx.fillText(text,edge,y);
+          ctx.beginPath();
+          ctx.moveTo(edge+3,y);
+          ctx.lineTo(edge+8,anchor);
+          ctx.stroke();
+        }
+        ctx.restore();
+      },
+    };
+  }
 
-  function drawPlot(title, activeVariables, shares) {
-    chart?.destroy();
-    chart = null;
-    const groups = comparison.filter(({points,reference}) => points.length || reference?.n);
-    const datasets = groups.map(({survey,label,color,points}) => {
-      const [pointStyle,borderDash] = style[survey];
-      return {
-        label:label+' · '+surveyName(survey), survey,
-        data:points.map(({q,mean,n,se}) => ({x:q*100,y:mean,n,se})),
-        borderColor:color, backgroundColor:color, pointStyle, borderDash,
-        pointRadius:({raw})=>points.length === 1 || [80,90,95].some(p=>Math.abs(raw?.x-p)<1e-6) ? 4 : 0,
-        pointHoverRadius:5, borderWidth:2.2,
-      };
-    });
-    const visible = groups.length > 0;
-    canvas.parentElement.hidden = !visible;
+  function referenceLabels(groups) {
+    return groups.filter(group=>group.reference?.n).map(({survey,key,label,reference})=>({
+      mean:reference.mean,
+      text:(survey==='SAEZ_ZUCMAN'?'Saez–Zucman':survey==='YODLEE'?'Yodlee':surveyName(survey))+' '+displayValue(reference.mean,false),
+      detail:label+' · '+surveyName(survey)+' '+displayValue(reference.mean,false)+' over '+waveLabel(survey,reference.n),
+      color:referenceColors[key],
+    }));
+  }
+
+  function resizePlots() {
+    for (const panel of panels) panel.chart?.resize();
+  }
+
+  function drawPlots(title, activeVariables, indicator, includeRaw) {
+    const shares = indicator === 'share';
+    const visiblePanels = includeRaw ? panels : [currentPanel];
+    const groups = visiblePanels.flatMap(panel=>panel.groups);
+    const visible = groups.length>0;
+    panelGrid.classList.toggle('has-raw-panel',includeRaw);
     csvButton.disabled = pngButton.disabled = !visible;
     status.hidden = visible;
-    ksSummary.replaceChildren();
-    ksSummary.hidden = !groups.some(group => group.reference?.n);
     note.parentElement.hidden = !visible;
-    if (!visible) {
-      status.textContent = !selected.size ? 'Choose a dataset to see its estimates.'
-        : !activeVariables.length ? 'Choose a variable to see its estimates.'
-        : 'No estimates are available in this window for these selections.';
-      return;
-    }
+    if (!visible) status.textContent = !selected.size ? 'Choose a dataset to see its estimates.'
+      : !activeVariables.length ? 'Choose a variable to see its estimates.'
+      : 'No estimates are available in this window for these selections.';
     const limits = groups.flatMap(({points,reference}) => [
       ...points.flatMap(({mean,se})=>[mean-(se??0),mean+(se??0)]),
       ...(reference?.n ? [reference.mean] : []),
     ]);
+    const hasReference = groups.some(group=>group.reference?.n);
     const shownSurveys = new Set(groups.map(({survey})=>survey));
     const unavailable = [...selected].filter(survey=>!shownSurveys.has(survey)).map(surveyName);
+    const ratio = ['wealth_ratio','income_ratio'].includes(indicator);
     note.textContent = 'Shaded bands show ±1 standard error across available waves or years at each percentile. A standard error requires at least two estimates.'
-      +(ksSummary.hidden?'':' Dashed horizontal lines show the mean of the wave- or year-specific KS-selected estimates.')
+      +(hasReference?' The labels beside the vertical axis identify the dashed lines for mean KS-selected estimates. Colors match the variables.':'')
+      +(ratio?' Ratios pair coefficients within each dataset and wave or year. Each variable uses its own KS cutoff for the dashed lines.':'')
       +(unavailable.length?' No estimates for '+unavailable.join(', ')+' in this selection.':'');
-    if (!ksSummary.hidden) {
-      ksSummary.append(make('strong','','Mean KS-selected estimates'));
-      for (const [key,label,color] of activeVariables) {
-        const references = groups.filter(group=>group.key===key&&group.reference?.n);
-        if (!references.length) continue;
-        const row = make('div','quantile-ks-row');
-        const variable = make('strong','quantile-ks-variable',references[0].label || label);
-        row.style.setProperty('--series-color',color);
-        row.append(variable);
-        for (const {survey,reference} of references) {
-          const estimate = make('span','quantile-ks-value',surveyName(survey)+' '+displayValue(reference.mean,false));
-          estimate.title = waveLabel(survey,reference.n)
-            +(Number.isFinite(reference.se)?' · SE '+displayValue(reference.se,false):'');
-          row.append(estimate);
-        }
-        ksSummary.append(row);
-      }
+
+    const yRange = {suggestedMin:Math.min(...limits),suggestedMax:Math.max(...limits)};
+    const ctx = currentPanel.canvas.getContext('2d');
+    ctx.save();
+    ctx.font = referenceFont;
+    const textWidth = Math.max(0,...referenceLabels(groups).map(label=>ctx.measureText(label.text).width));
+    ctx.restore();
+    const paddingLeft = textWidth ? Math.ceil(textWidth)+14 : 0;
+    for (const panel of panels) {
+      panel.chart?.destroy();
+      panel.chart = null;
+      const show = visible && visiblePanels.includes(panel);
+      panel.section.hidden = !show;
+      if (!show) continue;
+      panel.heading.hidden = !includeRaw;
+      panel.heading.textContent = panel.key==='raw' ? 'Raw data' : adjustment.selectedOptions[0].textContent;
+      panel.wrap.hidden = !panel.groups.length;
+      panel.empty.hidden = !!panel.groups.length;
+      if (!panel.groups.length) continue;
+      const labels = referenceLabels(panel.groups);
+      panel.canvas.setAttribute('aria-label',title+' by percentile, '+period.replace('-',' to '));
+      panel.summary.textContent = labels.length ? 'Mean KS-selected estimates. '+labels.map(label=>label.detail).join('. ')+'.' : '';
+      const datasets = panel.groups.map(({survey,label,color,points}) => {
+        const [pointStyle,borderDash] = style[survey];
+        return {
+          label:label+' · '+surveyName(survey),survey,
+          data:points.map(({q,mean,n,se})=>({x:q*100,y:mean,n,se})),
+          borderColor:color,backgroundColor:color,pointStyle,borderDash,
+          pointRadius:({raw})=>points.length===1||[80,90,95].some(p=>Math.abs(raw?.x-p)<1e-6)?4:0,
+          pointHoverRadius:5,borderWidth:2.2,
+        };
+      });
+      const panelSurveys = new Set(panel.groups.map(({survey})=>survey));
+      panel.chart = new Chart(panel.canvas,{
+        type:'line',data:{datasets},plugins:[plotAnnotations(panel.groups,labels)],
+        options:{
+          responsive:true,maintainAspectRatio:false,animation:false,parsing:false,
+          interaction:{mode:'nearest',intersect:false},
+          layout:{padding:{left:paddingLeft,right:8}},
+          plugins:{
+            legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,padding:12,font:{size:12},
+              generateLabels:()=>[...panelSurveys].map(survey=>{
+                const [pointStyle,lineDash] = style[survey];
+                return {text:surveyName(survey),pointStyle,lineDash,lineWidth:1.5,hidden:false,
+                  fontColor:'#425367',fillStyle:'#59677a',strokeStyle:'#59677a'};
+              }),
+            }},
+            tooltip:{callbacks:{
+              title:items=>percentile(items[0].parsed.x),
+              label:item=>item.dataset.label+': '+displayValue(item.parsed.y,shares)
+                +(Number.isFinite(item.raw.se)?' ± '+displayValue(item.raw.se,shares)+' SE':'')
+                +' · '+waveLabel(item.dataset.survey,item.raw.n),
+            }},
+          },
+          scales:{
+            x:{type:'linear',min:xMin,max:xMax,
+              afterBuildTicks:scale=>{scale.ticks=(includeRaw?[70,80,90,99]:[70,75,80,85,90,95,99]).map(value=>({value}));},
+              ticks:{callback:percentile,maxRotation:0,font:{size:13}},grid:{display:false},
+              title:{display:true,text:shares?'Distribution percentile':'Tail cutoff percentile',font:{size:13}}},
+            y:{...yRange,grid:{color:'#e8e8ed'},
+              ticks:{font:{size:13},callback:value=>shares?number.format(value*100)+'%':number.format(value)}},
+          },
+        },
+      });
     }
-    canvas.setAttribute('aria-label',title+' by percentile, '+period.replace('-',' to '));
-    chart = new Chart(canvas, {
-      type:'line', data:{datasets}, plugins:[referencesAndBands],
-      options:{
-        responsive:true, maintainAspectRatio:false, animation:false, parsing:false,
-        interaction:{mode:'nearest',intersect:false},
-        layout:{padding:{right:10}},
-        plugins:{
-          legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,padding:18,font:{size:13},
-            generateLabels:()=>[...shownSurveys].map(survey=>{
-              const [pointStyle,lineDash] = style[survey];
-              return {text:surveyName(survey),pointStyle,lineDash,lineWidth:1.5,hidden:false,
-                fontColor:'#425367',fillStyle:'#59677a',strokeStyle:'#59677a'};
-            }),
-          }},
-          tooltip:{callbacks:{
-            title:items => percentile(items[0].parsed.x),
-            label:item => item.dataset.label+': '+displayValue(item.parsed.y,shares)
-              +(Number.isFinite(item.raw.se)?' ± '+displayValue(item.raw.se,shares)+' SE':'')
-              +' · '+waveLabel(item.dataset.survey,item.raw.n),
-          }},
-        },
-        scales:{
-          x:{type:'linear',min:xMin,max:xMax,
-            afterBuildTicks:scale=>{scale.ticks=[70,75,80,85,90,95,99].map(value=>({value}));},
-            ticks:{callback:percentile,maxRotation:0,font:{size:13}},grid:{display:false},
-            title:{display:true,text:shares?'Distribution percentile':'Tail cutoff percentile',font:{size:13}}},
-          y:{suggestedMin:Math.min(...limits),suggestedMax:Math.max(...limits),
-            title:{display:true,text:title,font:{size:13}},grid:{color:'#e8e8ed'},
-            ticks:{font:{size:13},callback:value=>shares?number.format(value*100)+'%':number.format(value)}},
-        },
-      },
-    });
   }
 
   function tenYearWindows(years) {
@@ -401,13 +469,17 @@ function createUSQuantileComparison({
     const shares = kind.value === 'share';
     const indicator = shares ? 'share' : paretoMeasure.value;
     const method = estimator.value;
-    const title = shares ? 'Share above percentile'
-      : indicator === 'wealth_ratio' ? 'Pareto coefficient relative to wealth' : 'Pareto coefficient';
+    const title = {
+      share:'Share above percentile',pareto:'Pareto coefficient',
+      wealth_ratio:'Pareto coefficient relative to wealth',income_ratio:'Pareto coefficient relative to total income',
+    }[indicator];
     const spendingLabel = spending.selectedOptions[0].textContent;
     const ids = surveys.filter(survey=>selected.has(survey));
     const hasSurvey = ids.some(household);
     paretoOptions.hidden = shares;
     adjustment.disabled = !hasSurvey;
+    showRaw.disabled = !hasSurvey || adjustment.value==='raw';
+    const includeRaw = showRaw.checked && !showRaw.disabled;
     adjustments.classList.toggle('adjustment-unavailable',!hasSurvey);
     weightingBox.hidden = !selected.has('PSID') || adjustment.value !== 'full';
     for (const input of weighting.inputs) input.checked = input.value === getWeightingMethod();
@@ -423,12 +495,13 @@ function createUSQuantileComparison({
       scfInput.parentElement.classList.toggle('unavailable-option',scfInput.disabled);
       scfInput.title = scfInput.disabled ? 'Select an expenditure measure to compare SCF spending.' : '';
     }
-    capital.closest('.control').hidden = !selected.has('SAEZ_ZUCMAN') || !activeKeys.some(key=>['total_capital_income','total_income'].includes(key));
+    capital.closest('.control').hidden = !selected.has('SAEZ_ZUCMAN') ||
+      (indicator!=='income_ratio'&&!activeKeys.some(key=>['total_capital_income','total_income'].includes(key)));
     capital.value = Object.keys(capitalDefinitions).find(key=>capitalDefinitions[key].author_variant===getCapitalDefinition()) || '';
 
-    const filter = JSON.stringify([ids,activeKeys,spending.value,indicator,method,adjustment.value,selectedPeriod,
+    const filter = JSON.stringify([ids,activeKeys,spending.value,indicator,method,adjustment.value,includeRaw,selectedPeriod,
       getHousingMethod(),getWeightingMethod(),getCapitalDefinition(),getCEXIncome()]);
-    if (filter === lastFilter && !pending) { chart?.resize(); return; }
+    if (filter === lastFilter && !pending) { resizePlots(); return; }
     if (filter === pending) return;
     pending = filter;
     const sequence = ++request;
@@ -452,12 +525,17 @@ function createUSQuantileComparison({
           })[measure] : null;
         const source = ThresholdProfiles.contractFor(survey,metadata);
         const contract = survey === 'FORBES' ? {...source,profile_window:[.70,.90]} : source;
-        return [{survey,variant,variable:measure,key,label,color,authorVariant,contract,
+        const incomeAuthorVariant = survey==='SAEZ_ZUCMAN'?getCapitalDefinition()
+          : survey==='YODLEE'?'active_basic_cleaning':authorVariant;
+        return [{survey,variant,variable:measure,key,label,color,authorVariant,contract,incomeAuthorVariant,
           wealthAuthorVariant:survey==='SAEZ_ZUCMAN'?'dina_2022':authorVariant,indicator,method}];
       }));
+      const rawOptions = includeRaw ? curveOptions.filter(config=>household(config.survey))
+        .map(config=>({...config,variant:'raw'})) : [];
       const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
-      const years = [...new Set(curves.filter(row=>curveOptions.some(config=>supported(row,config)))
+      const availableOptions = [...curveOptions,...rawOptions];
+      const years = [...new Set(curves.filter(row=>availableOptions.some(config=>supported(row,config)))
         .map(row=>row.year).filter(Number.isFinite))].sort((a,b)=>b-a);
       const windows = tenYearWindows(years);
       period = selectedPeriod || windows.keys().next().value || '';
@@ -466,12 +544,14 @@ function createUSQuantileComparison({
       range.value = period;
       const span = windows.get(period);
       const profileCurves = span ? curves.filter(row=>row.year>=span[0]&&row.year<=span[1]) : [];
-      subtitle.textContent = span ? span.join('–')+' average' : 'Ten-year averages';
-      comparison = curveOptions.map(config=>({...config,
+      subtitle.textContent = (span ? span.join('–')+' average' : 'Ten-year averages')+' · '+title;
+      const plotGroups = configs=>configs.map(config=>({...config,
         points:ThresholdProfiles.profiles(profileCurves,config),
         reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),
-      }));
-      drawPlot(title,activeVariables,shares);
+      })).filter(group=>group.points.length||group.reference?.n);
+      currentPanel.groups = plotGroups(curveOptions);
+      rawPanel.groups = plotGroups(rawOptions);
+      drawPlots(title,activeVariables,indicator,includeRaw);
       lastFilter = filter;
     } catch (error) {
       if (sequence !== request) return;
@@ -489,21 +569,46 @@ function createUSQuantileComparison({
     link.click();
   }
   csvButton.addEventListener('click', () => {
-    const rows = ['dataset,measure,adjustment,period,indicator,estimator,threshold_percentile,estimate,waves,years_used,standard_error,ks_mean,ks_standard_error,ks_waves'];
-    for (const {survey,variable,variant,indicator,method,points,reference} of comparison) {
-      const prefix = [survey,variable,variant,period,indicator,indicator==='share'?'':method];
-      const ks = [reference?.mean,reference?.se,reference?.n||''];
-      for (const p of points) rows.push([...prefix,Math.round(p.q*1000000)/10000,
-        p.mean,p.n,p.years_used,p.se,...ks].join(','));
-      if (!points.length && reference?.n) rows.push([...prefix,'','','','','',...ks].join(','));
+    const rows = ['dataset,measure,adjustment,period,indicator,estimator,threshold_percentile,estimate,waves,years_used,standard_error,ks_mean,ks_standard_error,ks_waves,panel'];
+    for (const panel of panels) {
+      for (const {survey,variable,variant,indicator,method,points,reference} of panel.groups) {
+        const prefix = [survey,variable,variant,period,indicator,indicator==='share'?'':method];
+        const ks = [reference?.mean,reference?.se,reference?.n||''];
+        for (const p of points) rows.push([...prefix,Math.round(p.q*1000000)/10000,
+          p.mean,p.n,p.years_used,p.se,...ks,panel.key].join(','));
+        if (!points.length && reference?.n) rows.push([...prefix,'','','','','',...ks,panel.key].join(','));
+      }
     }
     const url = URL.createObjectURL(new Blob([rows.join('\r\n')],{type:'text/csv;charset=utf-8'}));
     save(url,'US_quantile_comparison_'+period+'.csv');
     setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
   pngButton.addEventListener('click', () => {
-    if (chart) save(chart.toBase64Image(),'US_quantile_comparison_'+period+'.png');
+    const charts = panels.filter(panel=>panel.chart);
+    const name = 'US_quantile_comparison_'+period+'.png';
+    if (charts.length===1) {
+      save(charts[0].chart.toBase64Image(),name);
+    } else if (charts.length>1) {
+      const output = make('canvas');
+      const scale = charts[0].chart.currentDevicePixelRatio;
+      const header = 30*scale;
+      const gap = 14*scale;
+      output.width = charts.reduce((sum,panel)=>sum+panel.canvas.width,0)+gap;
+      output.height = Math.max(...charts.map(panel=>panel.canvas.height))+header;
+      const context = output.getContext('2d');
+      context.fillStyle = '#fffefa';
+      context.fillRect(0,0,output.width,output.height);
+      context.fillStyle = '#425367';
+      context.font = '600 '+(14*scale)+'px Arial, sans-serif';
+      let x = 0;
+      for (const panel of charts) {
+        context.fillText(panel.heading.textContent,x+10*scale,20*scale);
+        context.drawImage(panel.canvas,x,header);
+        x += panel.canvas.width+gap;
+      }
+      save(output.toDataURL('image/png'),name);
+    }
   });
   csvButton.disabled = pngButton.disabled = true;
-  return {render,resize:()=>chart?.resize()};
+  return {render,resize:resizePlots};
 }

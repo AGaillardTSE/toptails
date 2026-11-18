@@ -57,18 +57,25 @@ const ThresholdProfiles = (() => {
   }
   const weightFor=(c,contract)=>contract.aggregation==='population'?c[contract.weight_field||'population_weight']:1;
   const cellKey=c=>[c.country||'US',c.year].join('|');
-  function profiles(curves,{survey,variant,country='all',year='all',variable,method='MLE',indicator='pareto',minQ=.70,maxQ=.99,contract={},authorVariant=null,wealthAuthorVariant=authorVariant}){
+  function ratioCells(curves,{survey,variant,country,year,indicator,contract,wealthAuthorVariant,incomeAuthorVariant}){
+    const variable={wealth_ratio:'networth_val',income_ratio:'total_income'}[indicator];
+    if(!variable)return null;
+    const authorVariant=variable==='networth_val'?wealthAuthorVariant:incomeAuthorVariant;
+    return new Map(selectedCells(curves,{survey,variant,country,year,variable,contract,authorVariant}).map(c=>[cellKey(c),c]));
+  }
+  function profiles(curves,{survey,variant,country='all',year='all',variable,method='MLE',indicator='pareto',minQ=.70,maxQ=.99,contract={},authorVariant=null,wealthAuthorVariant=authorVariant,incomeAuthorVariant=authorVariant}){
     const window=indicator==='share'?(contract.share_profile_window||contract.profile_window):contract.profile_window;minQ=Math.max(minQ,window?.[0]??minQ);maxQ=Math.min(maxQ,window?.[1]??maxQ);
-    const groups=new Map(),share=indicator==='share',ratio=indicator==='wealth_ratio',wealth=ratio?new Map(selectedCells(curves,{survey,variant,country,year,variable:'networth_val',contract,authorVariant:wealthAuthorVariant}).map(c=>[cellKey(c),c])):null;
+    const groups=new Map(),share=indicator==='share',denominators=ratioCells(curves,{survey,variant,country,year,indicator,contract,wealthAuthorVariant,incomeAuthorVariant}),ratio=!!denominators;
     selectedCells(curves,{survey,variant,country,year,variable,contract,authorVariant}).forEach(c=>(share&&c.share_qs?c.share_qs:c.qs||[]).forEach((q,i)=>{
-      const denominator=ratio?wealth.get(cellKey(c)):null,j=ratio?(denominator?.qs||[]).findIndex(value=>Math.abs(value-q)<1e-8):-1,numerator=c[method.toLowerCase()]?.[i],denominatorValue=ratio&&j>=0?denominator?.[method.toLowerCase()]?.[j]:null,value=share?(c.share_values||c.top_share)?.[i]:ratio?(finite(numerator)&&finite(denominatorValue)&&denominatorValue>0?numerator/denominatorValue:null):numerator,n=share?(c.share_n_tail||c.n_tail_share)?.[i]:ratio&&j>=0&&finite(denominator?.n_tail?.[j])?Math.min(c.n_tail?.[i]??Infinity,denominator.n_tail[j]):c.n_tail?.[i],w=weightFor(c,contract);
+      const denominator=denominators?.get(cellKey(c)),j=ratio?(denominator?.qs||[]).findIndex(value=>Math.abs(value-q)<1e-8):-1,numerator=c[method.toLowerCase()]?.[i],denominatorValue=ratio&&j>=0?denominator?.[method.toLowerCase()]?.[j]:null,value=share?(c.share_values||c.top_share)?.[i]:ratio?(finite(numerator)&&finite(denominatorValue)&&denominatorValue>0?numerator/denominatorValue:null):numerator,n=share?(c.share_n_tail||c.n_tail_share)?.[i]:ratio&&j>=0&&finite(denominator?.n_tail?.[j])?Math.min(c.n_tail?.[i]??Infinity,denominator.n_tail[j]):c.n_tail?.[i],w=weightFor(c,contract);
       if(q<minQ-1e-8||q>maxQ+1e-8||!finite(value)||!finite(w)||w<=0)return;
       const key=Math.round(q*1e8);if(!groups.has(key))groups.set(key,[]);groups.get(key).push({value,w,n,year:c.year,reference_year:c.reference_year,country:c.country||'US'});
     }));
     return [...groups].sort((a,b)=>a[0]-b[0]).map(([q,cells])=>({q:q/1e8,...summarize(cells.map(c=>c.value),{weights:cells.map(c=>c.w),confidence:contract.ci_level||.90}),min_tail_units:cells.some(c=>finite(c.n))?Math.min(...cells.map(c=>c.n).filter(finite)):null,years_used:[...new Set(cells.map(c=>c.year))].sort((a,b)=>a-b).join(';'),reference_years_used:[...new Set(cells.map(c=>c.reference_year).filter(finite))].sort((a,b)=>a-b).join(';'),countries_used:[...new Set(cells.map(c=>c.country))].sort().join(';'),cells_used:cells.map(c=>[c.country,c.year].join('|')).sort().join(';')}));
   }
-  function reference(curves,{survey,variant,country='all',year='all',variable,method='MLE',indicator='pareto',contract={},authorVariant=null,wealthAuthorVariant=authorVariant}){
-    const ratio=indicator==='wealth_ratio',wealth=ratio?new Map(selectedCells(curves,{survey,variant,country,year,variable:'networth_val',contract,authorVariant:wealthAuthorVariant}).map(c=>[cellKey(c),c])):null,cells=selectedCells(curves,{survey,variant,country,year,variable,contract,authorVariant}).map(c=>{const numerator=c['ks_'+method.toLowerCase()]?.estimate,denominator=ratio?wealth.get(cellKey(c))?.['ks_'+method.toLowerCase()]?.estimate:null;return{value:ratio?(finite(numerator)&&finite(denominator)&&denominator>0?numerator/denominator:null):numerator,w:weightFor(c,contract)};});
+  function reference(curves,{survey,variant,country='all',year='all',variable,method='MLE',indicator='pareto',contract={},authorVariant=null,wealthAuthorVariant=authorVariant,incomeAuthorVariant=authorVariant}){
+    const denominators=ratioCells(curves,{survey,variant,country,year,indicator,contract,wealthAuthorVariant,incomeAuthorVariant});
+    const cells=selectedCells(curves,{survey,variant,country,year,variable,contract,authorVariant}).map(c=>{const numerator=c['ks_'+method.toLowerCase()]?.estimate,denominator=denominators?.get(cellKey(c))?.['ks_'+method.toLowerCase()]?.estimate;return{value:denominators?(finite(numerator)&&finite(denominator)&&denominator>0?numerator/denominator:null):numerator,w:weightFor(c,contract)};});
     return summarize(cells.map(c=>c.value),{weights:cells.map(c=>c.w),confidence:contract.ci_level||.90});
   }
   // Kept for callers of the former API; figure profiles intentionally use stage-specific available cells.

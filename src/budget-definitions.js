@@ -2,17 +2,18 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const doc=document,el=(tag,cls,text)=>{const n=doc.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
   const sources={
   "PSID": {
-    "expenditureIngredients": "Food, out-of-pocket healthcare and health-insurance premiums, paid rent, utilities and communications, furniture and equipment purchases, vehicle purchases and running costs, other transport, education and childcare, recreation, computers, travel, clothing and charitable giving.",
+    "expenditureIngredients": "Food, out-of-pocket healthcare and health-insurance premiums, paid rent, utilities and communications, furniture and equipment purchases, vehicle purchases, leasing and running costs, other transport, education and childcare, recreation, computers, travel, clothing (including jewelry and watches), and charitable giving.",
     "name": "Panel Study of Income Dynamics (PSID)",
     "unit": "Family units",
     "consumption": [
-      ["nondurable", "Food at home, meals out and deliveries, healthcare paid out of pocket and insurance premiums, actual rent, utilities, communications, vehicle running costs, other transport, education, childcare, recreation, computers, travel, clothing and charitable giving."],
-      ["housing", "The rental value of owner-occupied housing, before deducting the costs of ownership."],
-      ["durable", "Flows from furniture, equipment and vehicles."]
+      ["nondurable", "Food at home, meals out and deliveries. Out-of-pocket hospital, nursing-home, outpatient, dental, prescription and in-home care, plus health-insurance premiums. Paid rent, utilities (including fuel, electricity, water and sewer), and communications (phone, television and internet). Vehicle running costs (fuel, insurance and repairs), vehicle leases, parking, carpooling, public transit, taxis and other transport. Tuition, tutoring, school supplies, school room and board, and childcare. Recreation and entertainment, computers and other devices and software, trips and vacations, clothing (including footwear, jewelry and watches), and charitable giving."],
+      ["housing", "The rental value of owner-occupied housing, before deducting the costs of ownership. Home repairs and maintenance enter the calculation of net imputed rent on the capital-income side."],
+      ["durable", "Flows from vehicles and household furnishings and equipment, including furniture, textiles, floor coverings, appliances and housewares."]
     ],
     "labor": "Wages and salaries, bonuses, overtime, tips, commissions, professional-practice income, additional-job income and other labor receipts of the reference person, spouse and other family members, plus 67% of noncorporate business income.",
     "capital": [
-      ["asset", "Interest, dividends, trust income, other family members’ asset income, cash rents, incorporated-business receipts, and 33% of noncorporate business income."],
+      ["financialIncome", "Interest, dividends, trust income, and other family members’ recorded asset income."],
+      ["businessIncome", "Cash rents, incorporated-business receipts, and 33% of noncorporate business income."],
       ["netHousing", "Gross imputed rent less mortgage interest, homeowners’ insurance, property taxes, repairs, and maintenance. The PSID construction sets the separate housing depreciation deduction to zero."],
       ["interest", "Subtract interest on credit-card, student, vehicle and other personal debt."]
     ],
@@ -38,9 +39,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Family units",
     "partialConsumption": true,
     "consumption": [
-      ["nondurable", "From 2004 through 2022, the available components are food at home and away, food deliveries, rent paid by tenants, and charitable donations. The 2025 wave also records vacation spending. Its new total-spending question combines nondurable and durable purchases."],
-      ["housing", "The rental value of owner-occupied housing before deducting ownership costs."],
-      ["durable", "Vehicle services are estimated from reported vehicle values from 2004 onward. The bundle that combines these services with vacation spending is available from 2025."]
+      ["nondurable", "From 2004 through 2022, the available components are food at home and away, food deliveries, rent paid by tenants, and charitable donations. The 2025 wave adds vacation spending and a broad 12-month expenditure question that combines nondurable and durable purchases. The reported total excludes rent, mortgage payments and retirement contributions. We add rent paid by tenants."],
+      ["housing", "The rental value of owner-occupied housing before deducting ownership costs. We add it to total expenditure in the measure that includes imputed rent."],
+      ["durable", "Vehicle services are estimated from reported vehicle values from 2004 onward. The bundle that combines these services with vacation spending is available from 2025. The 2025 total-expenditure measure includes durable purchases."]
     ],
     "labor": "Wages and salaries plus half of the combined self-employment, farm, other business and investment-income bundle, which also contains rents, trusts and royalties.",
     "capital": [
@@ -67,7 +68,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "taxStatus": "Estimated for covered waves"
   },
   "CEX_BM_RECON": {
-    "expenditureIngredients": "Food at home and away, school and employer-provided meals, alcohol, paid housing, utilities, household operations, supplies and equipment, other lodging, clothing, transport and vehicle purchases, entertainment and reading, personal care, tobacco and personal insurance net of pension contributions. Health, education and charitable giving are outside the headline basket.",
+    "expenditureIngredients": "Food at home and away, school and employer-provided meals, alcohol, paid housing, utilities, household operations, supplies and equipment, other lodging, clothing, transport and vehicle purchases, entertainment and reading, personal care, tobacco and personal insurance net of pension contributions.",
     "name": "Consumer Expenditure Interview Survey (CEX) — Meyer extension",
     "unit": "Consumer units",
     "consumption": [
@@ -75,7 +76,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
       ["housing", "Rental-equivalent value for owner-occupied housing before deducting ownership costs."],
       ["durable", "Household equipment and vehicle services."]
     ],
-    "spendingScope": "Uses the same Meyer baskets, with vehicle purchases replacing services; health, education and giving are excluded.",
     "wealth": [
       ["financial", "Checking and savings accounts, certificates of deposit and directly held securities."],
       ["housingEquity", "Primary-home and observed secondary-home equity, already net of associated housing debt."],
@@ -87,7 +87,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "partialWealth": true,
     "optionalLabor": "Optional topcoded income estimates contain wages and salaries plus 67% of business income. Enable Show income in Tails over time or US Estimates by quantile.",
     "optionalCapital": [
-      ["asset", "33% of business income, cash rent, interest and dividends."],
+      ["financialIncome", "Interest and dividends."],
+      ["businessIncome", "Cash rent and 33% of business income."],
       ["netHousing", "Gross imputed rent less mortgage interest, homeowners’ insurance, property taxes, and the service cost of home repairs."],
       ["interest", "Subtract personal-debt interest."]
     ],
@@ -145,10 +146,13 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "NIELSEN": {
     "name": "NielsenIQ Consumer Panel",
     "unit": "Panel households",
+    "partialConsumption": true,
     "consumption": [
       ["nondurable", "Retail purchases for home use, including food, beverages, household supplies and personal-care products. The basket excludes housing, restaurant meals and most services."]
     ],
     "retail": true,
+    "labor": "The panel reports household income in brackets that combine labor and other income.",
+    "laborStatus": "Household income brackets",
     "timeCoverage": "2004–2023.",
     "selection": "Households record retail purchases intended for home use.",
     "weights": "NielsenIQ household projection weights.",
@@ -181,7 +185,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries, pensions and other social transfers, plus two thirds of self-employment income.",
     "capital": [
-      ["asset", "Reported rent and financial income, one third of self-employment income and owner housing services."],
+      ["financialIncome", "Reported financial income."],
+      ["businessIncome", "Reported rent and one third of self-employment income."],
+      ["housing", "Gross imputed rent on owner-occupied housing enters capital income. Debt interest is deducted separately."],
       ["interest", "Subtract debt interest."]
     ],
     "wealth": [
@@ -210,13 +216,15 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries, government transfers, and two thirds of self-employment income after business losses.",
     "capital": [
-      ["asset", "Property and investment receipts net of reported losses, one third of self-employment income and imputed owner rent."]
+      ["asset", "Household investment and property income after subtracting reported investment losses."],
+      ["businessIncome", "One third of net self-employment income."],
+      ["housing", "Gross imputed rent is estimated from the value of the owner-occupied home. The reporting adjustment scales it to Australian national accounts."]
     ],
     "wealth": [
-      ["financial", "Financial assets."],
-      ["durables", "Vehicles and collections."],
-      ["nonfinancial", "Other nonfinancial assets, using the source’s broad groups."],
-      ["debt", "Subtract total household debt."]
+      ["financial", "Bank accounts, superannuation, cash and equity investments, trust funds, and the cash value of life insurance."],
+      ["propertyAndBusiness", "The principal home, other property, and business assets. Vehicles and collectibles are counted separately."],
+      ["durables", "Vehicles and collectibles."],
+      ["debt", "Subtract home and other property debt, business debt, student loans, credit-card balances, and other personal debt."]
     ],
     "financial": true,
     "timeCoverage": "2006–2022. Wealth is observed in 2006, 2010, 2014, 2018 and 2022. Income covers the financial year ending in the survey-wave year.",
@@ -348,12 +356,13 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     real:['Real assets',price('k')],
     debt:['Debt','<mo>−</mo><mi>m</mi>'],
     asset:['Asset income',mathSub('r','x')+price('x')],
+    financialIncome:['Financial income',mathSub('r','b')+price('b')],
+    businessIncome:['Income from businesses and other real assets',mathSub('r','k')+price('k')],
     netHousing:['Net imputed rent',mathSub('r','h')+price('h')],
     gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
     interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
     purchases:['Purchases'],
     assets:['Assets'],
-    nonfinancial:['Other nonfinancial assets'],
   };
   function renderComponents(detail,rows,notes=[]){
     detail.replaceChildren();
@@ -382,10 +391,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     const expenditure=['expenditure','expenditure_incl_rent'].includes(measure);
     const notes=[];
     let rows=source.consumption.slice();
-    if(state.survey==='SCF'){
-      if(expenditure)rows.push(['purchases','The 2025 total covers purchases in the previous 12 months and excludes rent, mortgage payments and retirement contributions. The explorer adds rent paid by tenants.'+(owner?' This measure also adds gross imputed rent for homeowners.':'')]);
-      return {rows,notes};
-    }
+    if(state.survey==='SCF')return {rows,notes};
     if(expenditure){
       const description=source.bank?'Purchases recorded in the observed bank accounts.':source.expenditureIngredients||'Purchases of goods and services, including durable purchases.';
       rows=[['nondurable','Included in the purchase total.'],['purchases',description]];
@@ -412,7 +418,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
         : source.retail?'Durable service flows are unavailable in the retail panel.':'Durable services are outside the selected basket.';
       rows.push(['durable',description]);
     }
-    if(state.survey==='CEX_BM_RECON'&&measure==='consump_def1')notes.push('Health, education and charitable giving are outside the headline basket.');
     if(state.survey==='HFCS')notes.push('Coverage varies across countries and waves.');
     return {rows,notes};
   }

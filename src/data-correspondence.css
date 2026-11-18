@@ -252,6 +252,9 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-component-label math{font-size:16px;white-space:nowrap}
 .budget-component-detail .budget-component-note{margin-top:10px}
 .budget-component-detail .budget-component-note:first-child{margin-top:0}
+.budget-definitions .budget-component h4:has(+ .budget-component-status:not(:empty)){margin-bottom:2px}
+.budget-definitions .budget-component-status:not(:empty){display:block;margin-bottom:9px}
+.budget-definitions .budget-component-status:empty{display:none}
 
 /* Keep quantile controls in the same sidebar pattern as Tails over time. */
 .threshold-heading-title{display:flex;align-items:baseline;gap:7px}
@@ -267,21 +270,23 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .us-total-income-choice{display:inline-flex;align-items:center;gap:7px}
 .us-total-income-choice .help-marker{margin:0;flex:none}
 .quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0;color:#d0d5df;font-size:13px}
+.quantile-comparison-sidebar .quantile-raw-option{display:flex;align-items:center;gap:6px;margin:8px 0 0;color:#d0d5df;font:400 13px/1.4 Arial,sans-serif;text-transform:none;letter-spacing:0}
+.quantile-raw-option:has(input:disabled){opacity:.48}
 .quantile-comparison-sidebar .indicator-kind-options{justify-content:flex-start;gap:12px}
 .quantile-comparison-options,.quantile-comparison-sidebar>.control{grid-column:1/-1}
 .quantile-comparison-header{flex-wrap:wrap;padding-bottom:6px}
 .quantile-comparison-body{padding:0 28px 22px;color:#425367}
-.quantile-comparison-chart{height:620px;position:relative;min-width:0}
+.quantile-comparison-panels{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.quantile-comparison-panels.has-raw-panel{grid-template-columns:repeat(2,minmax(0,1fr))}
+.quantile-comparison-panel{min-width:0}
+.quantile-panel-heading{margin:6px 0 4px;font:600 15px/1.4 Arial,sans-serif;text-align:center;color:#30465e}
+.quantile-comparison-chart{height:780px;position:relative;min-width:0}
+.quantile-panel-accessible-summary{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .quantile-comparison-status{margin:12px 0;font-size:14px}
-.quantile-ks-summary{display:grid;gap:5px;margin-top:12px;font:400 14px/1.55 Arial,sans-serif}
-.quantile-ks-summary[hidden]{display:none}
-.quantile-ks-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
-.quantile-ks-variable{color:var(--series-color)}
-.quantile-ks-value{font-variant-numeric:tabular-nums}
-.quantile-ks-value::before{content:"";display:inline-block;width:14px;border-top:2px dashed var(--series-color);margin:0 5px 3px 0}
 .quantile-comparison-note{margin:10px 0 0;color:#627388;font:400 13px/1.5 Arial,sans-serif}
+@media(max-width:1100px){.quantile-comparison-panels.has-raw-panel{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:760px){
   .quantile-comparison-sidebar{grid-template-columns:minmax(0,1fr)}
   .quantile-comparison-body{padding:0 18px 18px}
-  .quantile-comparison-chart{height:490px}
+  .quantile-comparison-chart{height:600px}
 }
