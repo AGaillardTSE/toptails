@@ -1981,7 +1981,7 @@ function createUSQuantileComparison({
       <p class="quantile-comparison-status" role="status" hidden></p>
       <div class="quantile-comparison-chart"><canvas role="img" aria-label="Estimates by quantile for the selected U.S. datasets"></canvas></div>
       <div class="quantile-cutoff-readout" aria-live="polite"></div>
-      <p class="quantile-comparison-note">Across-wave curves average available estimates separately at each percentile. Coverage can differ across datasets. Click the plot or choose a cutoff in the controls to compare stored estimates.</p>
+      <p class="quantile-comparison-note">Averages give equal weight to the available waves or years at each percentile. Coverage can differ across datasets. Click the plot or choose a cutoff in the controls to compare estimates.</p>
     </div>
   </div>`;
 
@@ -1995,6 +1995,7 @@ function createUSQuantileComparison({
   const controls = find('.quantile-comparison-controls');
   const options = find('.quantile-comparison-options');
   const status = find('.quantile-comparison-status');
+  const subtitle = find('.plot-subtitle');
   const canvas = find('canvas');
   const csvButton = find('[data-action="csv"]');
   const pngButton = find('[data-action="png"]');
@@ -2027,6 +2028,10 @@ function createUSQuantileComparison({
   ]);
   const estimator = select('estimator','Estimator',[['MLE','MLE'],['OLS','OLS']]);
   const year = select('year','Wave / year',[['all','Across-wave average']]);
+  const fiveYearWindows = make('optgroup');
+  fiveYearWindows.label = 'Five-year averages';
+  const individualYears = make('optgroup');
+  individualYears.label = 'Individual waves / years';
   const adjustment = select('adjustment','Adjustment',[
     ['full','Reporting + representation'], ['adj','Reporting only'], ['raw','Raw data'],
   ]);
@@ -2247,10 +2252,32 @@ function createUSQuantileComparison({
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
       const years = [...new Set(curves.filter(row => curveOptions.some(config=>supported(row,config)))
         .map(row=>row.year).filter(Number.isFinite))].sort((a,b)=>b-a);
-      year.replaceChildren(new Option('Across-wave average','all'),...years.map(y=>new Option(String(y),String(y))));
-      year.value = years.includes(Number(period)) ? period : 'all';
+      const windows = new Map();
+      const latest = years[0];
+      const earliestEnd = Math.min(latest, years.at(-1) + 4);
+      for (let end = latest; end >= earliestEnd; end--) {
+        const start = end - 4;
+        if (years.some(value => value >= start && value <= end)) {
+          windows.set(start+'-'+end, [start,end]);
+        }
+      }
+      // Preserve a selected window when a new dataset or measure has no estimates in it.
+      if (period.includes('-') && !windows.has(period)) {
+        windows.set(period, period.split('-').map(Number));
+      }
+      fiveYearWindows.replaceChildren(...[...windows].map(([value,[start,end]]) =>
+        new Option(start+'–'+end+' average',value)));
+      individualYears.replaceChildren(...years.map(y=>new Option(String(y),String(y))));
+      year.replaceChildren(new Option('Across-wave average','all'),
+        ...[fiveYearWindows,individualYears].filter(group => group.childElementCount));
+      year.value = windows.has(period) || years.includes(Number(period)) ? period : 'all';
       period = year.value;
-      comparison = curveOptions.map(config => ({...config,points:ThresholdProfiles.profiles(curves,{...config,year:period})}));
+      const window = windows.get(period);
+      const profileCurves = window ? curves.filter(row => row.year >= window[0] && row.year <= window[1]) : curves;
+      subtitle.textContent = window ? 'Five-year average · '+window.join('–')
+        : 'Overlay U.S. datasets and compare estimates at the same tail cutoff.';
+      comparison = curveOptions.map(config => ({...config,
+        points:ThresholdProfiles.profiles(profileCurves,{...config,year:window?'all':period})}));
       drawPlot();
       lastFilter = filter;
     } catch (error) {
