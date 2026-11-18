@@ -1473,8 +1473,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries, government transfers, and two thirds of self-employment income after business losses.",
     "capital": [
-      ["investmentAndPropertyIncome", "The household total combines interest, dividends, royalties and rental income for the financial year, after deducting reported investment losses."],
-      ["businessIncome", "One third of self-employment income after business losses."],
+      ["financialIncome", "Interest, dividends and royalties from the household’s investment-income total."],
+      ["businessIncome", "Rental income and one third of self-employment income after business losses. The estimates use HILDA’s combined total for financial receipts and rents, net of reported investment losses for the financial year."],
       ["housing", "Gross imputed rent is estimated from the value of the owner-occupied home. The reporting adjustment scales it to Australian national accounts."]
     ],
     "wealth": [
@@ -1502,8 +1502,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "After-tax wages and salaries, pensions and transfers, two thirds of self-employment income and fringe benefits.",
     "capital": [
-      ["investmentAndPropertyIncome", "Actual rents are grouped with returns on deposits, government securities and other securities. The Bank of Italy estimates the financial returns from balances and after-tax yields. Imputed owner rent and interest paid enter separately."],
-      ["businessIncome", "One third of net self-employment and entrepreneurial income."],
+      ["financialIncome", "Returns on deposits, government securities and other securities, estimated by the Bank of Italy from balances and after-tax yields."],
+      ["businessIncome", "Actual rents and one third of net self-employment and entrepreneurial income."],
       ["housing", "Imputed rent on owner-occupied homes, based on the survey’s rental values and rescaled to national accounts in the adjusted estimates."],
       ["interest", "Subtract interest payments."]
     ],
@@ -1619,7 +1619,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     scfBusinessAndInvestmentIncome:['Business and investment income bundle'],
     ownerOccupiedHousingIncome:['Owner-occupied housing income','<mi>h</mi>'],
     rentalPropertyIncome:['Rental property income','<mi>k</mi>'],
-    investmentAndPropertyIncome:['Investment and property income','<mi>b</mi><mo>,</mo><mi>k</mi>'],
     netHousing:['Net imputed rent',mathSub('r','h')+price('h')],
     gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
     interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
