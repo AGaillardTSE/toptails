@@ -193,8 +193,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries, pensions and other social transfers, plus two thirds of self-employment income.",
     "capital": [
-      ["hfcsFinancialAndBusinessIncome", "Interest and dividends from bank deposits, certificates of deposit, managed accounts, bonds, listed shares and mutual funds. The survey total also includes income from privately held businesses outside self-employment."],
-      ["businessIncome", "Reported rental income from real estate, plus one third of self-employment income."],
+      ["financialIncome", "Interest and dividends from bank deposits, certificates of deposit, managed accounts, bonds, listed shares and mutual funds."],
+      ["businessIncome", "Reported real estate rental income and one third of self-employment income. This component also includes income from privately held businesses outside self-employment, which the HFCS reports together with financial investment income."],
       ["housing", "Gross imputed rent on owner-occupied housing enters capital income. Debt interest is deducted separately."],
       ["interest", "Subtract interest on loans for the main home, other properties and other borrowing, estimated from interest rates and outstanding balances."]
     ],
@@ -367,7 +367,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     debt:['Debt','<mo>−</mo><mi>m</mi>'],
     financialIncome:['Financial income',mathSub('r','b')+price('b')],
     businessIncome:['Income from businesses and other real assets',mathSub('r','k')+price('k')],
-    hfcsFinancialAndBusinessIncome:['Financial investments and passive business income','<mi>b</mi><mo>,</mo><mi>k</mi>'],
     scfBusinessAndInvestmentIncome:['Business and investment income bundle'],
     ownerOccupiedHousingIncome:['Owner-occupied housing income','<mi>h</mi>'],
     rentalPropertyIncome:['Rental property income','<mi>k</mi>'],
@@ -376,7 +375,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
     interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
     purchases:['Purchases'],
-    assets:['Assets'],
+    assets:['Assets',[price('b'),price('h'),price('d'),price('k')].join('<mo>+</mo>')],
   };
   function renderComponents(detail,rows,notes=[]){
     detail.replaceChildren();
