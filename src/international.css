@@ -17,6 +17,9 @@
 #panel-other .cc-comparison-chart{padding:0 24px 8px 16px;min-width:0}
 #panel-other .cc-comparison-wrap{position:relative;min-width:0;width:100%}
 #panel-other .cc-comparison-wrap canvas{width:100%!important;height:100%!important}
+#cc-summary .other-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.05fr) minmax(0,1.25fr) minmax(0,.65fr) minmax(0,1.45fr)}
+@media(max-width:960px){#cc-summary .other-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:540px){#cc-summary .other-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #panel-other #cc-summary-note{line-height:1.75}
 @media(max-width:760px){#panel-other .cc-comparison-legends{padding:6px 18px 15px;gap:14px}#panel-other .cc-variable-legend{gap:10px 17px}#panel-other .cc-survey-legend{padding:0;border:0;gap:16px}#panel-other .cc-comparison-chart{padding:0 11px 5px 4px}}
 #panel-other #cc-variable-legend{font:400 14px/1.5 Arial,sans-serif;border:0;margin:0;padding:0;min-width:0}

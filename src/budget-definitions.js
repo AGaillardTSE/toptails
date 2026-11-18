@@ -107,7 +107,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Individual adults",
     "labor": "Employee compensation, including wages and supplements, plus the labor share of self-employment income and allocated sales taxes and subsidies. Social-insurance contributions are deducted and the labor share of pension, unemployment and disability benefits is added.",
     "capital": [
-      ["financialIncome", "Equity income from C and S corporations, interest income, and income earned on pension and insurance assets. The pre-tax measure deducts pension-fund investment income and adds the capital share of pension, disability and unemployment benefits."],
+      ["financialIncome", "Equity income from C and S corporations, interest, and pension and insurance investment income. DINA deducts investment income payable to pension plans and IRAs. It adds a share of pension, disability and unemployment benefits, based on pension investment income as a fraction of that income plus social-insurance contributions. Life-insurance investment income remains included."],
       ["businessIncome", "Income from partnerships and sole proprietorships."],
       ["ownerOccupiedHousingIncome", "Imputed rent from owner-occupied homes."],
       ["rentalPropertyIncome", "Rental income from properties other than the owner-occupied home."],
@@ -205,7 +205,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
       ["debt", "Subtract mortgage and nonmortgage debt."]
     ],
     "financial": true,
-    "alternativeWealth": true,
     "timeCoverage": "Available survey waves depend on the country.",
     "selection": "Reference person aged 20–80 with positive food spending.",
     "representationCorrection": "Adjusted weights match the income benchmark from the World Inequality Database (WID).",
@@ -275,17 +274,16 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "taxStatus": "Already reflected in income"
   }
 };
-  const state={survey:'PSID',consumption:'auto',constantRent:getHousingMethod()==='bp',wealth:'benchmark',bank:'paper',explicit:false};
+  const state={survey:'PSID',consumption:'auto',constantRent:getHousingMethod()==='bp',bank:'paper',explicit:false};
   host.replaceChildren();host.classList.add('definitions-box','budget-definitions');
   const header=el('header','budget-definition-heading');header.append(el('h2','','From the Household Budget Constraint to Variable Construction'));host.append(header);
   const intro=el('p','definition-intro','The framework and variable definitions follow Section 2.2, equation (1), of the '),paper=el('a','','paper');paper.href='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';paper.target='_blank';paper.rel='noopener noreferrer';intro.append(paper,'.');host.append(intro);
   const correspondenceNote=el('span','definition-correspondence-note');correspondenceNote.append('Refer to the ');const correspondenceLink=el('a','','correspondence tables');correspondenceLink.href='#panel-adjustments';correspondenceLink.addEventListener('click',event=>{event.preventDefault();doc.getElementById('tab-adjustments')?.click();doc.getElementById('dc-tab-consumption')?.click();const country=doc.getElementById('dc-country-consumption'),survey=doc.getElementById('dc-survey-consumption'),code=state.survey==='HFCS'?state.country:state.survey==='HILDA'?'AU':state.survey==='SHIW'?'IT':'US';if(country&&[...country.options].some(o=>o.value===code)){country.value=code;country.dispatchEvent(new Event('change',{bubbles:true}));}if(survey&&[...survey.options].some(o=>o.value===state.survey)){survey.value=state.survey;survey.dispatchEvent(new Event('change',{bubbles:true}));}});correspondenceNote.append(correspondenceLink,' for details of how survey variables map to national accounts.');intro.append(' ',correspondenceNote);
   const controls=el('div','budget-definition-controls other-controls');host.append(controls);
-  function select(labelText,items,field){const box=el('div','control budget-definition-control'),label=el('label','',labelText),input=el('select');input.id='definition-'+field;label.htmlFor=input.id;input.setAttribute('aria-label',labelText);items.forEach(([key,text])=>input.add(new Option(text,key)));box.append(label,input);controls.append(box);input.addEventListener('change',()=>{state[field]=input.value;if(field==='survey'){state.explicit=true;state.consumption='auto';state.wealth='benchmark';}if(field==='bank')state.consumption=state.bank==='none'?'expenditure':'consump_def1';render();});return{box,input};}
+  function select(labelText,items,field){const box=el('div','control budget-definition-control'),label=el('label','',labelText),input=el('select');input.id='definition-'+field;label.htmlFor=input.id;input.setAttribute('aria-label',labelText);items.forEach(([key,text])=>input.add(new Option(text,key)));box.append(label,input);controls.append(box);input.addEventListener('change',()=>{state[field]=input.value;if(field==='survey'){state.explicit=true;state.consumption='auto';}if(field==='bank')state.consumption=state.bank==='none'?'expenditure':'consump_def1';render();});return{box,input};}
   const dataset=select('Dataset',Object.entries(sources).map(([key,r])=>[key,r.name]),'survey');
   const country=select('Country',[],'country'),consumption=select('Consumption / spending measure',[],'consumption');
   const housingBox=el('label','budget-housing-option small-check'),housingInput=el('input');housingInput.type='checkbox';housingInput.setAttribute('aria-label','Constant imputed rent rate');housingBox.append(housingInput,doc.createTextNode('Constant imputed rent rate'));controls.append(housingBox);housingInput.addEventListener('change',()=>{state.constantRent=housingInput.checked;render();});
-  const wealth=select('Wealth definition',[['benchmark','Benchmark'],['alternative','Alternative component construction']],'wealth');
   const bank=select('Durable correction',[['paper','Four categories (paper)'],['all','All categories'],['none','Expenditure before correction']],'bank');
   controls.append(housingBox);
   const accountingTitle=el('h3','budget-selected-dataset');
@@ -360,16 +358,16 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     durable:['Durable services',mathSub('δ','d')+price('d')],
     financial:['Financial assets',price('b')],
     home:['Housing',price('h')],
-    housingEquity:['Housing equity'],
+    housingEquity:['Housing equity',price('h')+'<mo>+</mo>'+price('k')+'<mo>−</mo><msub><mi>m</mi><mtext>housing</mtext></msub>'],
     propertyAndBusiness:['Real estate and businesses',price('h')+'<mo>+</mo>'+price('k')],
     durables:['Consumer durables',price('d')],
     real:['Real assets',price('k')],
     debt:['Debt','<mo>−</mo><mi>m</mi>'],
     financialIncome:['Financial income',mathSub('r','b')+price('b')],
     businessIncome:['Income from businesses and other real assets',mathSub('r','k')+price('k')],
-    scfBusinessAndInvestmentIncome:['Business and investment income bundle'],
-    ownerOccupiedHousingIncome:['Owner-occupied housing income','<mi>h</mi>'],
-    rentalPropertyIncome:['Rental property income','<mi>k</mi>'],
+    scfBusinessAndInvestmentIncome:['Business and investment income bundle',mathSub('r','k')+price('k')+'<mo>+</mo>'+mathSub('r','b')+price('b')],
+    ownerOccupiedHousingIncome:['Owner-occupied housing income',mathSub('r','h')+price('h')],
+    rentalPropertyIncome:['Rental property income',mathSub('r','k')+price('k')],
     netHousing:['Net imputed rent',mathSub('r','h')+price('h')],
     gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
     interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
@@ -444,17 +442,11 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     let options=spendingOptions.filter(o=>availableVariables.has(o.key));if(international)options=[{key:'consump_def1',label:'Consumption'}];if(source.retail)options=[{key:'retail',label:'Retail purchases'}];
     consumption.input.replaceChildren();options.forEach(o=>consumption.input.add(new Option(o.label,o.key)));if(!options.some(o=>o.key===state.consumption))state.consumption=options.some(o=>o.key==='consump_def1')?'consump_def1':options.some(o=>o.key==='expenditure_incl_rent')?'expenditure_incl_rent':options[0]?.key||'';consumption.input.value=state.consumption;if(!options.length)consumption.input.add(new Option('Unavailable',''));consumption.input.disabled=!options.length;consumption.box.classList.toggle('definition-unavailable',!options.length);consumption.input.title=options.find(o=>o.key===state.consumption)?.label||'Unavailable';
     housingInput.disabled=!source.housing;housingInput.checked=!!source.housing&&state.constantRent;housingBox.classList.toggle('definition-unavailable',!source.housing);
-    wealth.box.hidden=!source.alternativeWealth;wealth.input.value=state.wealth;bank.box.hidden=!source.bank;bank.input.value=state.bank;
+    bank.box.hidden=!source.bank;bank.input.value=state.bank;
     const countries=metadata.other_survey_methods?.international?.availability?.HFCS?.countries||[];country.box.hidden=state.survey!=='HFCS';if(!country.box.hidden){const old=country.input.value;country.input.replaceChildren();countries.forEach(code=>country.input.add(new Option(metadata.other_survey_methods.international.country_labels[code]||code,code)));country.input.value=countries.includes(state.country)?state.country:countries.includes(old)?old:countries[0];state.country=country.input.value;}
     const selectedConsumption=consumptionComponents(source);
     renderComponents(cards.c.detail,selectedConsumption.rows,selectedConsumption.notes);
-    const wealthRows=source.alternativeWealth&&state.wealth==='alternative'?[
-      ['financial','Deposits and other financial assets.'],
-      ['home','Dwellings.'],
-      ['durables','Consumer durables.'],
-      ['real','Business assets.'],
-      ['debt','Subtract liabilities.'],
-    ]:source.wealth;
+    const wealthRows=source.wealth;
     renderComponents(cards.a.detail,wealthRows,wealthRows?['The estimates measure wealth at a point in time. The term a′ − a is the change in wealth between periods.']:[]);
     cards.y.detail.textContent=source.labor||source.optionalLabor||'Unavailable in the current estimates.';
     cards.tax.detail.textContent=source.taxes||'Taxes paid minus transfers received. A separate estimate of this component is unavailable for this dataset.';
