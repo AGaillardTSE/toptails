@@ -543,19 +543,36 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-full-equation{min-width:0;padding:8px 0 0}
 .budget-variable-key math{font-size:18px;vertical-align:middle}
 
-/* Align the expanded equation on one baseline, with balanced explanation cards. */
-.budget-expanded-equation{min-width:1040px;padding-top:14px}
-.budget-expanded-equation .budget-full-math{font-size:22px;margin:0 auto}
-.budget-expanded-equation .budget-full-term{color:var(--component-color,#727c87)}
-.budget-expanded-equation .budget-direct-term{font-size:32px}
-.budget-expanded-equation .budget-underbrace-label{font-size:32px}
-.budget-expanded-equation .budget-equation-brace{font-size:28px}
-.budget-expanded-equation mo{color:#171b22}
-.budget-expanded-equation>math>mrow>mo{font-size:30px}
-.budget-expanded-equation .definition-unavailable{opacity:.42}
-.budget-connector-layer{display:block;width:100%;min-width:1040px;overflow:visible;pointer-events:none}
-.budget-connector-layer path{fill:none;stroke-width:1.3;opacity:.65}
-.budget-definitions .budget-definition-grid{grid-template-columns:repeat(5,minmax(0,1fr));min-width:1040px}
+/* Keep each expression over its variable card. The long terms get more room. */
+.budget-definitions .budget-definition-grid{
+  --budget-expansion-height:54px;
+  --budget-term-height:40px;
+  grid-template-columns:minmax(235px,1.22fr) minmax(185px,1fr) repeat(2,minmax(145px,.82fr)) minmax(332px,1.62fr);
+  min-width:1098px;
+  padding-top:12px;
+}
+.budget-card-expansion,.budget-card-term{
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:var(--component-color,#727c87);
+}
+.budget-card-expansion{height:var(--budget-expansion-height);align-items:end}
+.budget-card-expansion math{font-size:19px;margin:0}
+.budget-component-capital .budget-card-expansion math{font-size:18px}
+.budget-card-term{height:var(--budget-term-height)}
+.budget-card-term math{font-size:29px;margin:0}
+:is(.budget-component-c,.budget-component-a,.budget-component-capital)>.budget-card-term math{font-size:37px}
+.budget-definition-grid .budget-card-operator{
+  position:absolute;
+  left:-7px;
+  top:calc(var(--budget-expansion-height) + var(--budget-term-height)/2);
+  transform:translate(-50%,-50%);
+  color:#171b22;
+}
+.budget-card-operator math{font-size:28px;margin:0}
+.budget-card-expansion mo,.budget-card-term mo{color:#171b22}
+.budget-definitions .budget-diagram-column>.budget-component{margin-top:26px}
 
 .budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
 .budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
@@ -1427,27 +1444,52 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   controls.append(housingBox);
   const selectedTitle=el('h3','budget-selected-dataset');host.append(selectedTitle);
   const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-variable-key\">Net wealth is <math display=\"inline\" aria-label=\"Net wealth equals financial assets, housing, durables and other real assets, less debt\"><mrow><mi>a</mi><mo>=</mo><mrow><msub><mi>p</mi><mi>b</mi></msub><mi>b</mi><mo>+</mo><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi><mo>+</mo><msub><mi>p</mi><mi>k</mi></msub><mi>k</mi><mo>−</mo><mi>m</mi></mrow></mrow></math>. Here <i>b</i> denotes financial assets, <i>h</i> housing, <i>d</i> consumer durables, <i>k</i> other real assets and <i>m</i> debt. Prices are <i>p</i>, returns are <i>r</i>, and <i>δ</i> covers depreciation and the associated housing costs. <i>T</i> is taxes paid minus transfers received. We write the household budget constraint as:</p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
-  const diagram=el('div','budget-diagram-scroll'),grid=el('div','budget-definition-grid'),equationRow=el('div','budget-expanded-equation'),expandedEquation=fullEquation.querySelector('.budget-full-math'),connections=doc.createElementNS('http://www.w3.org/2000/svg','svg');
-  equationRow.append(expandedEquation);connections.classList.add('budget-connector-layer');connections.setAttribute('height','54');connections.setAttribute('aria-hidden','true');
-  grid.setAttribute('role','group');grid.setAttribute('aria-label','Budget constraint: c plus the change in a equals y minus T plus r a');diagram.append(equationRow,connections,grid);host.append(fullEquation,diagram);
+  const diagram=el('div','budget-diagram-scroll');
+  const grid=el('div','budget-definition-grid');
+  const equation=fullEquation.querySelector('.budget-full-math');
+  grid.setAttribute('role','group');
+  grid.setAttribute('aria-label','Household budget constraint: consumption plus the change in wealth equals labor income less net taxes plus capital income.');
+  diagram.append(grid);
+  host.append(fullEquation,diagram);
+
+  function termMath(expression){
+    const math=doc.createElementNS('http://www.w3.org/1998/Math/MathML','math');
+    math.append(expression);
+    return math;
+  }
   const cards={};
   for(const [key,title] of [['c','Consumption'],['a','Wealth / saving'],['y','Labor income'],['tax','Net taxes'],['capital','Capital income']]){
-    const card=el('article','budget-component budget-component-'+key),symbol=expandedEquation.querySelector('[data-budget-term="'+key+'"]'),heading=el('h4','',title),detail=el(['c','a','capital'].includes(key)?'div':'p','budget-component-detail'),status=el('span','budget-component-status'),column=el('div','budget-diagram-column budget-component-'+key);
-    let origin=symbol;
-    if(['c','capital'].includes(key)){origin=symbol.firstElementChild.lastElementChild;origin.classList.add('budget-underbrace-label');const brace=symbol.firstElementChild.firstElementChild,expression=brace.firstElementChild,padded=doc.createElementNS('http://www.w3.org/1998/Math/MathML','mpadded');padded.setAttribute('depth','25px');expression.replaceWith(padded);padded.append(expression);brace.lastElementChild.classList.add('budget-equation-brace');}
-    else{const expression=symbol.firstElementChild.firstElementChild.firstElementChild;symbol.replaceChildren(expression);symbol.classList.add('budget-direct-term');}
-    const path=doc.createElementNS('http://www.w3.org/2000/svg','path');connections.append(path);
-    card.id='budget-explanation-'+key;symbol.setAttribute('aria-describedby',card.id);card.append(heading,status,detail);column.append(card);grid.append(column);cards[key]={card,detail,status,symbol,origin,path};
-  }
-  function drawConnections(){
-    const box=connections.getBoundingClientRect();if(!box.width)return;
-    connections.setAttribute('width',String(grid.getBoundingClientRect().width));
-    for(const entry of Object.values(cards)){
-      const start=entry.origin.getBoundingClientRect(),end=entry.card.getBoundingClientRect(),sx=start.x+start.width/2-box.x,sy=start.bottom-box.y+5,tx=end.x+end.width/2-box.x,ty=end.top-box.y-26,mid=(sy+ty)/2;
-      entry.path.setAttribute('d',`M ${sx} ${sy} C ${sx} ${mid} ${tx} ${mid} ${tx} ${ty}`);entry.path.setAttribute('stroke',getComputedStyle(entry.card).getPropertyValue('--component-color').trim()||'#9299a0');
+    const column=el('div','budget-diagram-column budget-component-'+key);
+    const card=el('article','budget-component budget-component-'+key);
+    const term=equation.querySelector('[data-budget-term="'+key+'"]');
+    const operator=term.previousElementSibling;
+    const label=el('div','budget-card-term');
+    const expansion=el('div','budget-card-expansion');
+    const heading=el('h4','',title);
+    const detail=el(['c','a','capital'].includes(key)?'div':'p','budget-component-detail');
+    const status=el('span','budget-component-status');
+
+    if(operator?.localName==='mo'){
+      const mark=el('span','budget-card-operator');
+      mark.append(termMath(operator));
+      mark.setAttribute('aria-hidden','true');
+      column.append(mark);
     }
+    const underbrace=term.firstElementChild;
+    if(key==='c'||key==='capital'){
+      expansion.append(termMath(underbrace.firstElementChild));
+      label.append(termMath(underbrace.lastElementChild));
+    }else{
+      label.append(termMath(underbrace.firstElementChild.firstElementChild));
+    }
+    card.id='budget-explanation-'+key;
+    label.setAttribute('aria-describedby',card.id);
+    card.append(heading,status,detail);
+    column.append(expansion,label,card);
+    grid.append(column);
+    cards[key]={card,detail,status,symbol:label,expansion};
   }
-  new ResizeObserver(()=>requestAnimationFrame(drawConnections)).observe(diagram);
+  equation.remove();
   const scfCoverage=el('div','definition-scf-coverage');cards.c.card.append(scfCoverage);
   const sample=el('section','definition-sample'),sampleFields=el('dl','definition-data-facts');sample.append(el('h3','','Data and sample'),sampleFields);host.append(sample);
   const appendix=el('p','definition-appendix');appendix.append('See the paper’s ');const link=el('a','','Online Appendix');link.href='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';link.target='_blank';link.rel='noopener noreferrer';appendix.append(link,' for detailed definitions and construction.');host.append(appendix);
@@ -1565,14 +1607,14 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
       capitalRows.splice(1,0,['gains','Capital gains are not reported separately.']);
     }
     renderComponents(cards.capital.detail,capitalRows,capitalNotes);
-    for(const [key,available] of [['c',!!source.consumption],['a',!!source.wealth],['y',!!source.labor],['tax',!!source.taxAvailable],['capital',!!source.capital]]){cards[key].card.classList.toggle('definition-unavailable',!available);cards[key].symbol.classList.toggle('definition-unavailable',!available);cards[key].status.textContent=key==='tax'&&source.taxStatus?source.taxStatus:!available?(state.survey==='CEX_BM_RECON'&&['y','capital'].includes(key)?'Optional: topcoded':'Unavailable'):key==='a'&&source.partialWealth?'Partial coverage':'';}
-    expandedEquation.querySelector('.budget-price-gains').classList.toggle('definition-unavailable',!source.realized&&!source.gainsChoice);
+    for(const [key,available] of [['c',!!source.consumption],['a',!!source.wealth],['y',!!source.labor],['tax',!!source.taxAvailable],['capital',!!source.capital]]){cards[key].card.classList.toggle('definition-unavailable',!available);cards[key].symbol.classList.toggle('definition-unavailable',!available);cards[key].expansion.classList.toggle('definition-unavailable',!available);cards[key].status.textContent=key==='tax'&&source.taxStatus?source.taxStatus:!available?(state.survey==='CEX_BM_RECON'&&['y','capital'].includes(key)?'Optional: topcoded':'Unavailable'):key==='a'&&source.partialWealth?'Partial coverage':'';}
+    grid.querySelector('.budget-price-gains').classList.toggle('definition-unavailable',!source.realized&&!source.gainsChoice);
     sampleFields.replaceChildren();
     const addFact=(label,value)=>{if(!value)return;sampleFields.append(el('dt','',label+':'),el('dd','',value));};
     addFact('Unit of observation',source.unit);
     let coverage=source.timeCoverage,selection=source.selection;
     if(state.survey==='HFCS'){const waves=state.country==='IE'?[2014,2017,2021]:state.country==='PL'?[2014,2017]:metadata.other_survey_methods?.international?.availability?.HFCS?.waves||[];coverage=waves.join(', ')+'. Calendar reference periods vary by variable.';addFact('Country',metadata.other_survey_methods?.international?.country_labels?.[state.country]||state.country);if(state.country==='IE')selection='Positive food spending. All ages are included because the age field is unavailable.';}
-    addFact('Time coverage',coverage);addFact('Sample selection',selection);addFact('Representativeness correction',source.representationCorrection);addFact('Weights',source.weights);addFact('Other details',source.details);addFact('Coverage limitation',source.limitation);requestAnimationFrame(drawConnections);
+    addFact('Time coverage',coverage);addFact('Sample selection',selection);addFact('Representativeness correction',source.representationCorrection);addFact('Weights',source.weights);addFact('Other details',source.details);addFact('Coverage limitation',source.limitation);
 
   }
   render();return{render,chooseDefault(surveys){if(!state.explicit){state.survey=surveys.find(s=>sources[s])||'PSID';state.constantRent=getHousingMethod()==='bp';}render();}};

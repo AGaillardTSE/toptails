@@ -192,19 +192,36 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-full-equation{min-width:0;padding:8px 0 0}
 .budget-variable-key math{font-size:18px;vertical-align:middle}
 
-/* Align the expanded equation on one baseline, with balanced explanation cards. */
-.budget-expanded-equation{min-width:1040px;padding-top:14px}
-.budget-expanded-equation .budget-full-math{font-size:22px;margin:0 auto}
-.budget-expanded-equation .budget-full-term{color:var(--component-color,#727c87)}
-.budget-expanded-equation .budget-direct-term{font-size:32px}
-.budget-expanded-equation .budget-underbrace-label{font-size:32px}
-.budget-expanded-equation .budget-equation-brace{font-size:28px}
-.budget-expanded-equation mo{color:#171b22}
-.budget-expanded-equation>math>mrow>mo{font-size:30px}
-.budget-expanded-equation .definition-unavailable{opacity:.42}
-.budget-connector-layer{display:block;width:100%;min-width:1040px;overflow:visible;pointer-events:none}
-.budget-connector-layer path{fill:none;stroke-width:1.3;opacity:.65}
-.budget-definitions .budget-definition-grid{grid-template-columns:repeat(5,minmax(0,1fr));min-width:1040px}
+/* Keep each expression over its variable card. The long terms get more room. */
+.budget-definitions .budget-definition-grid{
+  --budget-expansion-height:54px;
+  --budget-term-height:40px;
+  grid-template-columns:minmax(235px,1.22fr) minmax(185px,1fr) repeat(2,minmax(145px,.82fr)) minmax(332px,1.62fr);
+  min-width:1098px;
+  padding-top:12px;
+}
+.budget-card-expansion,.budget-card-term{
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:var(--component-color,#727c87);
+}
+.budget-card-expansion{height:var(--budget-expansion-height);align-items:end}
+.budget-card-expansion math{font-size:19px;margin:0}
+.budget-component-capital .budget-card-expansion math{font-size:18px}
+.budget-card-term{height:var(--budget-term-height)}
+.budget-card-term math{font-size:29px;margin:0}
+:is(.budget-component-c,.budget-component-a,.budget-component-capital)>.budget-card-term math{font-size:37px}
+.budget-definition-grid .budget-card-operator{
+  position:absolute;
+  left:-7px;
+  top:calc(var(--budget-expansion-height) + var(--budget-term-height)/2);
+  transform:translate(-50%,-50%);
+  color:#171b22;
+}
+.budget-card-operator math{font-size:28px;margin:0}
+.budget-card-expansion mo,.budget-card-term mo{color:#171b22}
+.budget-definitions .budget-diagram-column>.budget-component{margin-top:26px}
 
 .budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
 .budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
