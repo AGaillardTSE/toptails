@@ -267,7 +267,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const bank=select('Durable correction',[['paper','Four categories (paper)'],['all','All categories'],['none','Expenditure before correction']],'bank');
   controls.append(housingBox);
   const selectedTitle=el('h3','budget-selected-dataset');host.append(selectedTitle);
-  const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-variable-key\">Households hold financial assets <var class=\"budget-component-a\">b</var>, owner-occupied housing <var class=\"budget-component-a\">h</var>, consumer durables <var class=\"budget-component-a\">d</var>, and other real assets <var class=\"budget-component-a\">k</var>. Valuing these assets at their prices <math class=\"budget-component-a\"><mrow><msub><mi>p</mi><mi>x</mi></msub></mrow></math> and subtracting debt <var class=\"budget-component-a\">m</var> gives net wealth <var class=\"budget-component-a\">a</var>. Each asset earns a return at rate <math class=\"budget-component-capital\"><mrow><msub><mi>r</mi><mi>x</mi></msub></mrow></math>. For owner-occupied housing, <math class=\"budget-component-capital\"><mrow><msub><mi>r</mi><mi>h</mi></msub></mrow></math> is the net rental return rate and <math class=\"budget-component-c\"><mrow><msub><mi>δ</mi><mi>h</mi></msub></mrow></math> is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest. Adding them gives <math class=\"budget-component-c\"><mrow><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub></mrow></math>, the gross imputed rent rate used in consumption. The rate <math class=\"budget-component-c\"><mrow><msub><mi>δ</mi><mi>d</mi></msub></mrow></math> measures depreciation on consumer durables. Labor income is <var class=\"budget-component-y\">y</var>, and <var class=\"budget-component-tax\">T</var> is taxes paid minus transfers received. We write the household budget constraint as:</p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
+  const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-equation-lead\">We write the household budget constraint as:</p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
   const diagram=el('div','budget-diagram-scroll');
   const grid=el('div','budget-definition-grid');
   const equation=fullEquation.querySelector('.budget-full-math');
@@ -281,12 +281,24 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     math.append(expression);
     return math;
   }
+  const mathSub=(letter,index)=>`<msub><mi>${letter}</mi><mi>${index}</mi></msub>`;
+  const inlineMath=expression=>`<math>${expression}</math>`;
+  const sub=(letter,index)=>inlineMath(mathSub(letter,index));
+  const notation={
+    c:`${sub('δ','h')} is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest. Adding it to the net rental return rate gives ${inlineMath(mathSub('r','h')+'<mo>+</mo>'+mathSub('δ','h'))}, the gross imputed rent rate used in consumption. ${sub('δ','d')} is the depreciation rate on consumer durables.`,
+    a:`Households hold financial assets <var>b</var>, owner-occupied housing <var>h</var>, consumer durables <var>d</var>, and other real assets <var>k</var>. Valuing these assets at their prices ${sub('p','x')} and subtracting debt <var>m</var> gives net wealth <var>a</var>.`,
+    y:'<var>y</var> is labor income.',
+    tax:'<var>T</var> is taxes paid minus transfers received.',
+    capital:`Each asset earns a return at rate ${sub('r','x')}. For owner-occupied housing, ${sub('r','h')} is the net rental return rate.`
+  };
   const cards={};
   for(const [key,title] of [['c','Consumption'],['a','Wealth / saving'],['y','Labor income'],['tax','Net taxes'],['capital','Capital income']]){
     const column=el('div','budget-diagram-column budget-component-'+key);
     const card=el('article','budget-component budget-component-'+key);
     const term=equation.querySelector('[data-budget-term="'+key+'"]');
     const operator=term.previousElementSibling;
+    const note=el('p','budget-equation-note');
+    note.innerHTML=notation[key];
     const label=el('div','budget-card-term');
     const expansion=el('div','budget-card-expansion');
     const heading=el('h4','',title);
@@ -297,7 +309,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
       const mark=el('span','budget-card-operator');
       mark.append(termMath(operator));
       mark.setAttribute('aria-hidden','true');
-      column.append(mark);
+      label.append(mark);
     }
     const underbrace=term.firstElementChild;
     if(key==='c'||key==='capital'){
@@ -310,7 +322,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     card.id='budget-explanation-'+key;
     label.setAttribute('aria-describedby',card.id);
     card.append(heading,status,detail);
-    column.append(expansion,label,card);
+    column.append(note);
+    if(expansion.childElementCount)column.append(expansion);
+    column.append(label,card);
     grid.append(column);
     cards[key]={card,detail,status,symbol:label,expansion};
   }
@@ -318,7 +332,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const scfCoverage=el('div','definition-scf-coverage');cards.c.card.append(scfCoverage);
   const sample=el('section','definition-sample'),sampleFields=el('dl','definition-data-facts');sample.append(el('h3','','Data and sample'),sampleFields);host.append(sample);
   const appendix=el('p','definition-appendix');appendix.append('See the paper’s ');const link=el('a','','Online Appendix');link.href='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';link.target='_blank';link.rel='noopener noreferrer';appendix.append(link,' for detailed definitions and construction.');host.append(appendix);
-  const mathSub=(letter,index)=>`<msub><mi>${letter}</mi><mi>${index}</mi></msub>`;
   const price=asset=>mathSub('p',asset)+'<mi>'+asset+'</mi>';
   const componentTerms={
     nondurable:['Nondurable consumption','<msup><mi>c</mi><mtext>ND</mtext></msup>'],
