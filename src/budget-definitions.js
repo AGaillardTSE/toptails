@@ -39,9 +39,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Family units",
     "partialConsumption": true,
     "consumption": [
-      ["nondurable", "From 2004 through 2022, the available components are food at home and away, food deliveries, rent paid by tenants, and charitable donations. The 2025 wave adds vacation spending and a broad 12-month expenditure question that combines nondurable and durable purchases. The reported total excludes rent, mortgage payments and retirement contributions. We add rent paid by tenants."],
-      ["housing", "The rental value of owner-occupied housing before deducting ownership costs. We add it to total expenditure in the measure that includes imputed rent."],
-      ["durable", "Vehicle services are estimated from reported vehicle values from 2004 onward. The bundle that combines these services with vacation spending is available from 2025. The 2025 total-expenditure measure includes durable purchases."]
+      ["nondurable", "The survey records food bought for home use, delivered meals and meals eaten out separately. Housing baskets include rent paid by tenants."],
+      ["housing", "Gross imputed rent is estimated from the value of owner-occupied housing. It is included in the housing baskets and in total expenditure including imputed rent."],
+      ["durable", "Vehicle services are estimated from reported vehicle values for the baskets that include them."]
     ],
     "labor": "Wages and salaries plus half of the combined self-employment, farm, other business and investment-income bundle, which also contains rents, trusts and royalties.",
     "capital": [
@@ -73,9 +73,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "name": "Consumer Expenditure Interview Survey (CEX) — Meyer extension",
     "unit": "Consumer units",
     "consumption": [
-      ["nondurable", "Food at home and away, school and employer-provided meals, alcohol, actual rent, utilities, household operations and supplies, other lodging, clothing, transport, entertainment and reading, personal care, tobacco and personal insurance net of pension contributions."],
-      ["housing", "Rental-equivalent value for owner-occupied housing before deducting ownership costs."],
-      ["durable", "Household equipment and vehicle services."]
+      ["nondurable", "The Interview Survey uses a three-month recall period for most expenses. The basket includes food at home and away, school and employer-provided meals, alcohol, tobacco, paid rent, utilities, household operations and supplies, other lodging, clothing, transport, entertainment and reading, personal care, and personal insurance net of pension contributions."],
+      ["housing", "The rental-equivalent value of owner-occupied homes measures housing services before deducting ownership costs. Rent paid by tenants enters separately."],
+      ["durable", "Consumption includes services from household equipment and vehicles. Vehicle services use estimated vehicle values, including comparable vehicles from the same year when an owned vehicle’s price is missing. The expenditure measures include vehicle purchases."]
     ],
     "wealth": [
       ["financial", "Checking and savings accounts, certificates of deposit and directly held securities."],
@@ -105,6 +105,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "SAEZ_ZUCMAN": {
     "name": "Distributional National Accounts (DINA) — Saez–Zucman",
     "unit": "Individual adults",
+    "consumptionUnavailable": "The DINA estimates in this explorer cover adult income and wealth. They provide no measure of household purchases, owner housing services or durable services.",
     "labor": "Employee compensation, including wages and supplements, plus the labor share of self-employment income and allocated sales taxes and subsidies. Social-insurance contributions are deducted and the labor share of pension, unemployment and disability benefits is added.",
     "capital": [
       ["financialIncome", "Equity income from C and S corporations, interest, and pension and insurance investment income. DINA deducts investment income payable to pension plans and IRAs. It adds a share of pension, disability and unemployment benefits, based on pension investment income as a fraction of that income plus social-insurance contributions. Life-insurance investment income remains included."],
@@ -134,8 +135,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Bank–individual accounts",
     "partialConsumption": true,
     "consumption": [
-      ["nondurable", "Payments for groceries, restaurants, rent, utilities, communications, education, recreation, travel and charitable giving. Coverage depends on which purchases pass through the observed account."],
-      ["housing", "Owner-occupied housing services are unobserved in bank transactions."]
+      ["nondurable", "Account payments cover categories such as groceries, restaurants, rent, utilities, communications, education, recreation, travel and giving. The spending total also includes cash withdrawals and checks, which can cover several kinds of purchases."],
+      ["housing", "Rent payments can be recorded when they pass through the observed account. The rental value of a home the account holder owns is unobserved."]
     ],
     "labor": "Income recorded in the observed bank account is a proxy for labor income. Coverage depends on which payments reach that account.",
     "laborStatus": "Proxy",
@@ -154,7 +155,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Panel households",
     "partialConsumption": true,
     "consumption": [
-      ["nondurable", "Retail purchases for home use, including food, beverages, household supplies and personal-care products. The basket excludes housing, restaurant meals and most services."]
+      ["nondurable", "Households record retail purchases for home use by scanning product barcodes. The estimate uses annual household receipt totals across retail outlets, including food, beverages, household supplies and personal-care goods. This is the retail basket shown alongside the Food measure."],
+      ["housing", "Housing services and rent are outside the retail basket."],
+      ["durable", "The panel records purchases. It does not construct service flows from durable goods. Restaurant meals and most services are outside the retail basket."]
     ],
     "retail": true,
     "labor": "The panel reports household income in brackets that combine labor and other income.",
@@ -170,6 +173,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   },
   "FORBES": {
     "name": "Forbes rich lists",
+    "consumptionUnavailable": "The rich lists value assets and debts for listed fortunes. They do not measure purchases or the services households receive from homes and durables.",
     "capitalUnavailable": "Forbes estimates the value of listed fortunes. Income from those assets is unavailable.",
     "unit": "Listed people or family fortunes",
     "wealth": [
@@ -187,9 +191,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "name": "Household Finance and Consumption Survey (HFCS)",
     "unit": "Households",
     "consumption": [
-      ["nondurable", "Food at home, meals out, utilities, communications, other goods and services, holidays, vehicle leasing and rent paid by tenants. Includes charitable giving where observed."],
-      ["housing", "Owner housing services."],
-      ["durable", "Service flows from vehicles and valuables."]
+      ["nondurable", "Food at home and away, utilities such as water, electricity and gas, communications such as phone and internet, trips and holidays, vehicle leases, and reported donations and similar payments where available. Other goods and services come from a broad spending question. The 2023 wave measures other nondurable spending directly where available."],
+      ["housing", "Paid rent enters separately for the main residence and other rented housing. The gross rent equivalent for owner-occupied housing is based on the main home’s value and matched to national accounts in the adjusted estimates."],
+      ["durable", "Owned vehicles and valuables enter as annual service flows set at 15% of their reported values. Lease payments enter as spending."]
     ],
     "labor": "Wages and salaries, pensions and other social transfers, plus two thirds of self-employment income.",
     "capital": [
@@ -217,9 +221,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "name": "Household, Income and Labour Dynamics in Australia (HILDA)",
     "unit": "Households",
     "consumption": [
-      ["nondurable", "Groceries, alcohol and tobacco, clothing and footwear, paid rent, utilities, medicines and health services, fuel and transport, communications, recreation, meals out, insurance, education, childcare, donations and noncash fringe benefits."],
-      ["housing", "Owner housing services, including home-repair services in the consumption construction."],
-      ["durable", "Furniture, electronics, computers and vehicle flows."]
+      ["nondurable", "Groceries, meals out, alcohol and tobacco, clothing and footwear, paid rent and utilities, prescriptions and health-practitioner fees, insurance, fuel, vehicle running costs, public transport, communications, holidays, recreation, education, childcare and donations. Reported noncash benefits include childcare, parking, computers, housing, vehicles and phone services."],
+      ["housing", "Rent paid by tenants enters directly. Gross imputed rent for homeowners is estimated from their reported home values and aligned with national accounts in the adjusted estimates."],
+      ["durable", "Furniture, large appliances and electronics, and computers enter at reported spending. New and used vehicle purchases and major home repairs are converted to service flows. Vehicle fuel and running costs enter separately."]
     ],
     "labor": "Wages and salaries, government transfers, and two thirds of self-employment income after business losses.",
     "capital": [
@@ -246,9 +250,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "name": "Survey of Household Income and Wealth (SHIW)",
     "unit": "Households",
     "consumption": [
-      ["nondurable", "Food, other nondurable goods and services, actual rent and fringe benefits."],
-      ["housing", "Imputed rent and services from home maintenance."],
-      ["durable", "Service flows from art, jewelry, personal effects, vehicles, furniture and equipment."]
+      ["nondurable", "Reported food, other nondurables and services such as clothing, regular transport and personal care, rent paid by tenants, and noncash fringe benefits. Reported accident and health-insurance premiums are added where available."],
+      ["housing", "Gross imputed rent is based on the survey’s estimate of what the home would rent for. Major home maintenance expenses contribute separately to durable services."],
+      ["durable", "Annual service flows use 15% of the reported stock values of vehicles, household durables, and valuables such as jewelry, art and antiques. The construction also applies this rate to purchases of other household durables and major maintenance."]
     ],
     "labor": "After-tax wages and salaries, pensions and transfers, two thirds of self-employment income and fringe benefits.",
     "capital": [
@@ -268,7 +272,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "timeCoverage": "Available Italian survey waves from 1998 to 2022.",
     "selection": "Reference person aged 20–80 with positive food spending.",
     "representationCorrection": "Adjusted weights match the income benchmark from the World Inequality Database (WID).",
-    "details": "Income follows an after-tax construction. Household amounts are not adjusted for family size. Health and financial services are outside the selected consumption basket.",
+    "details": "Income follows an after-tax construction. Household amounts are not adjusted for family size. The consumption benchmark excludes the separate national-account categories for health and financial services.",
     "taxes": "Wages, pensions/transfers and self-employment income follow an after-tax construction. Transfers are included in displayed labor income. Taxes and transfers must not be applied again.",
     "taxAvailable": false,
     "taxStatus": "Already reflected in income"
@@ -396,14 +400,29 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     if(!detail.childNodes.length)detail.append(el('p','','Unavailable in the current estimates.'));
   }
   function consumptionComponents(source){
-    if(!source.consumption)return {rows:[['nondurable','Unavailable.'],['durable','Unavailable.']],notes:[]};
+    if(!source.consumption)return {rows:[],notes:[source.consumptionUnavailable]};
     const measure=state.consumption,owner=['consump_def1','expenditure_incl_rent','food_housing_vacation','food_housing_vacation_donations_vehicle'].includes(measure);
     const expenditure=['expenditure','expenditure_incl_rent'].includes(measure);
     const notes=[];
     let rows=source.consumption.slice();
-    if(state.survey==='SCF')return {rows,notes};
+    if(state.survey==='SCF'){
+      const food='Food bought for home use, delivered meals and meals eaten out.';
+      const vacation='Reported spending on vacations or trips during the previous 12 months.';
+      if(expenditure){
+        rows=[['nondurable','The 2025 question asks for total spending in the previous 12 months, including food, trips and other everyday or one-off purchases. The response excludes rent, mortgage payments and retirement contributions. We add rent paid by tenants.']];
+        if(owner)rows.push(source.consumption[1]);
+        rows.push(['durable','Cars, appliances and other durables enter at their purchase cost in this measure.']);
+      }else if(measure==='food_total')rows=[['nondurable',food],['durable','Outside the selected measure.']];
+      else if(measure==='vacation')rows=[['nondurable',vacation],['durable','Outside the selected measure.']];
+      else if(['food_housing_vacation','food_housing_vacation_donations_vehicle'].includes(measure)){
+        const vehicle=measure==='food_housing_vacation_donations_vehicle';
+        rows=[['nondurable',food+' The basket adds rent paid by tenants and spending on vacations or trips'+(vehicle?', plus charitable donations.':'.')],source.consumption[1]];
+        rows.push(vehicle?source.consumption[2]:['durable','Outside the selected measure.']);
+      }
+      return {rows,notes:['The 2004–2022 waves support narrower measures of food, housing, donations and vehicle services. The total expenditure and vacation estimates use 2025 only.']};
+    }
     if(expenditure){
-      const description=source.bank?'Purchases recorded in the observed bank accounts.':source.expenditureIngredients||'Purchases of goods and services, including durable purchases.';
+      const description=source.bank?'Spending identified in the observed accounts, including card purchases, cash withdrawals and check payments, before the service-flow correction.':source.expenditureIngredients||'Purchases of goods and services, including durable purchases.';
       rows=[['nondurable','Included in the purchase total.'],['purchases',description]];
       if(owner)rows.push(['housing','The rental value of owner-occupied housing, before deducting the costs of ownership.']);
     }else if(measure==='food_total'){
@@ -419,10 +438,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     }
     if(source.housing&&owner&&state.constantRent)notes.push('Owner services use the constant NIPA-matched rent-rate alternative.');
     if(source.bank&&measure==='consump_def1')rows.push(['durable',state.bank==='paper'
-      ? 'The paper’s service-flow correction applies to ATM or cash withdrawals, check payments, loans and other expenses.'
-      : state.bank==='all'
-        ? 'Durable services are constructed across all saved categories.'
-        : 'Spending before conversion to durable service flows.']);
+      ? 'The paper estimates durable purchases from unusually large ATM or cash withdrawals, check payments, loan payments and other expenses. Each year, 20% of the estimated durable stock enters consumption as a service flow and the balance carries forward.'
+      : 'The same service-flow correction is applied across all spending categories in this version.']);
     if(!rows.some(([key])=>key==='durable')){
       const description=expenditure?'The selected measure counts purchases of durables as spending.'
         : source.retail?'Durable service flows are unavailable in the retail panel.':'Durable services are outside the selected basket.';

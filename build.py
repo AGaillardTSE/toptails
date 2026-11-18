@@ -39,8 +39,9 @@ css='\n'.join(read(n) for n in ['shared.css','international.css','data-correspon
 vendor='/* Chart.js 4.4.1\n'+(ROOT/'vendor/Chart-LICENSE.txt').read_text()+'\n*/\n'+(ROOT/'vendor/chart.umd.min.js').read_text()
 csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src "+("'none'" if args.standalone else "'self'")+"; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
 dest=ROOT/'standalone' if args.standalone else ROOT;dest.mkdir(exist_ok=True)
+logo_uri='data:image/png;base64,'+base64.b64encode((ROOT/'src/logo.png').read_bytes()).decode('ascii')
 for design,name in [('design_a.html','inequality.html'),('design_b.html','inequality_observatory.html')]:
-    page=read(design).replace('__CHART_JS__',vendor).replace('<script type="application/json" id="explorer-results">__EXPLORER_RESULTS__</script>',payload).replace('__APP_JS__',app).replace('__METHODS_HTML__',read('methods.html'))
+    page=read(design).replace('__SITE_LOGO__',logo_uri).replace('__CHART_JS__',vendor).replace('<script type="application/json" id="explorer-results">__EXPLORER_RESULTS__</script>',payload).replace('__APP_JS__',app).replace('__METHODS_HTML__',read('methods.html'))
     page=page.replace('</head>','<style>'+css+'</style>\n</head>',1).replace('<head>','<head>\n<meta http-equiv="Content-Security-Policy" content="'+csp+'">',1)
     encoded=page.encode();(dest/name).write_bytes(encoded)
     if name=='inequality_observatory.html':
