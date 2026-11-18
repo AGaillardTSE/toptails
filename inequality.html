@@ -547,7 +547,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   --budget-expansion-height:54px;
   --budget-term-height:40px;
   grid-template-columns:minmax(235px,1.4fr) minmax(185px,1.42fr) repeat(2,minmax(145px,.89fr)) minmax(332px,1.65fr);
-  grid-template-rows:auto var(--budget-expansion-height) var(--budget-term-height) 1fr;
+  grid-template-rows:auto var(--budget-expansion-height) minmax(var(--budget-term-height),auto) 1fr;
   row-gap:0;
   min-width:1098px;
   padding-top:12px;
@@ -586,14 +586,18 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-card-expansion math{font-size:19px;margin:0}
 .budget-component-a .budget-card-expansion math{font-size:16.5px;transform:translateX(36px)}
 .budget-component-capital .budget-card-expansion math{font-size:18px}
-.budget-card-term{grid-row:3;position:relative;height:var(--budget-term-height)}
-.budget-card-term>math{font-size:29px;margin:0}
+.budget-card-term{
+  grid-row:3;
+  grid-template-columns:0 minmax(0,1fr);
+  align-items:baseline;
+  align-self:baseline;
+}
+.budget-card-term>math{grid-column:2;grid-row:1;font-size:29px;margin:0}
 :is(.budget-component-c,.budget-component-a,.budget-component-capital)>.budget-card-term>math{font-size:37px}
 .budget-definition-grid .budget-card-operator{
-  position:absolute;
-  left:-7px;
-  top:50%;
-  transform:translate(-50%,-50%);
+  grid-column:1;
+  grid-row:1;
+  transform:translateX(-7px);
   color:#171b22;
 }
 .budget-card-operator math{font-size:28px;margin:0}
