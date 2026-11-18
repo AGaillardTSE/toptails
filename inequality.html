@@ -650,7 +650,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 <header class="masthead"><div class="masthead-inner"><a class="brand" href="./index.html"><span class="brand-zeta" aria-hidden="true">ζ</span><span class="brand-name">Upper-Tail Inequality: Consumption, Income, and Wealth<span class="data-version">Data v1</span></span></a><nav class="header-resources" aria-label="Paper, appendix and citation"><a class="paper-link" href="https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&amp;dl=0" target="_blank" rel="noopener noreferrer">Academic paper <span aria-hidden="true">↗</span></a><span class="header-resource-placeholder" role="link" aria-disabled="true">Online appendix <small>(coming soon)</small></span><button class="header-citation" type="button" data-citation-trigger>Citation</button></nav></div></header>
 <main class="shell">
   <div class="title-row"><h1>Upper-tail <em>inequality</em></h1></div>
-  <nav id="primary-nav" class="tabs primary-tabs" role="tablist" aria-label="Explorer sections"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">United States</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Across Countries</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Variable Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Survey Adjustments</button><button class="tab-button" type="button" id="tab-pareto" data-section="pareto" role="tab" aria-selected="false" aria-controls="panel-pareto">Pareto Estimation</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></div></nav><nav id="us-secondary-nav" class="secondary-nav cc-subnav" aria-label="US views"><div class="secondary-nav-inner" role="tablist" aria-label="US views"><button class="secondary-tab active" type="button" id="tab-inequality" data-tab="inequality" role="tab" aria-selected="true" aria-controls="panel-inequality">Tails over time</button><button class="secondary-tab" type="button" id="tab-quantiles" data-tab="quantiles" role="tab" aria-selected="false" aria-controls="panel-quantiles">Estimates by quantile</button><button class="secondary-tab" type="button" id="tab-results" data-tab="results" role="tab" aria-selected="false" aria-controls="panel-results">Table of results</button><button class="secondary-tab" type="button" id="tab-loglog" data-tab="loglog" role="tab" aria-selected="false" aria-controls="panel-loglog">Log–log relationships</button><button class="secondary-tab" type="button" id="tab-eyeballing" data-tab="eyeballing" role="tab" aria-selected="false" aria-controls="panel-eyeballing">Eyeballing Pareto Tails</button><div class="global-housing-control"><label class="small-check"><input type="checkbox" id="constant-housing-service">Results using constant housing service for homeowners</label></div></div></nav>
+  <nav id="primary-nav" class="tabs primary-tabs" role="tablist" aria-label="Explorer sections"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">United States</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Across Countries</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Variable Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Survey Adjustments</button><button class="tab-button" type="button" id="tab-pareto" data-section="pareto" role="tab" aria-selected="false" aria-controls="panel-pareto">Pareto Estimation</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></div></nav><nav id="us-secondary-nav" class="secondary-nav cc-subnav" aria-label="US views"><div class="secondary-nav-inner" role="tablist" aria-label="US views"><button class="secondary-tab active" type="button" id="tab-inequality" data-tab="inequality" role="tab" aria-selected="true" aria-controls="panel-inequality">Tails over time</button><button class="secondary-tab" type="button" id="tab-quantiles" data-tab="quantiles" role="tab" aria-selected="false" aria-controls="panel-quantiles">Tails by quantile</button><button class="secondary-tab" type="button" id="tab-results" data-tab="results" role="tab" aria-selected="false" aria-controls="panel-results">Table of results</button><button class="secondary-tab" type="button" id="tab-loglog" data-tab="loglog" role="tab" aria-selected="false" aria-controls="panel-loglog">Log–log relationships</button><button class="secondary-tab" type="button" id="tab-eyeballing" data-tab="eyeballing" role="tab" aria-selected="false" aria-controls="panel-eyeballing">Eyeballing Pareto Tails</button><div class="global-housing-control"><label class="small-check"><input type="checkbox" id="constant-housing-service">Results using constant housing service for homeowners</label></div></div></nav>
   <div id="page-error" class="error-message" role="alert" hidden></div>
   <section class="tab-panel active" id="panel-inequality" role="tabpanel" aria-labelledby="tab-inequality">
     <div class="panel-topline"><div><h2 class="panel-heading">Inequality across the distributions</h2><p class="panel-subtitle" id="overview-subtitle">PSID and SCF over time.</p></div><div class="survey-key" id="time-survey-key" aria-label="Survey symbols"><span><i class="key-line" aria-hidden="true"></i>PSID</span></div></div>
@@ -665,7 +665,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
         <div class="control"><label for="measure-select">Series</label><select id="measure-select"><option value="flow" selected>Consumption</option><option value="expenditure">Total expenditure</option></select></div>
       </div>
       <fieldset class="legend-row" id="series-controls" aria-label="Variables to display"></fieldset>
-      <div class="chart-heading-row"><div><h3 class="chart-title" id="time-chart-title">Pareto tail coefficients</h3><p class="chart-subtitle" id="time-chart-subtitle"></p></div><div class="chart-actions"><button class="text-button" type="button" id="download-time-csv">↓ CSV</button><button class="text-button" type="button" id="download-time-png">↓ PNG</button></div></div>
+      <div class="chart-heading-row"><div><h3 class="chart-title" id="time-chart-title">Pareto tail coefficients over time</h3><p class="chart-subtitle" id="time-chart-subtitle"></p></div><div class="chart-actions"><button class="text-button" type="button" id="download-time-csv">↓ CSV</button><button class="text-button" type="button" id="download-time-png">↓ PNG</button></div></div>
       <div class="chart-wrap"><canvas id="time-chart" role="img" aria-label="Inequality estimates over time"></canvas><div class="plot-fallback" id="time-empty" hidden>No estimates for this selection.</div></div>
       <p class="chart-note" id="time-note"></p>
     </div>
@@ -1335,7 +1335,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "housing": true,
     "financial": true,
     "partialWealth": true,
-    "optionalLabor": "Optional topcoded income estimates contain wages and salaries plus 67% of business income. Enable Show income in Tails over time or US Estimates by quantile.",
+    "optionalLabor": "Optional topcoded income estimates contain wages and salaries plus 67% of business income. Enable Show income in Tails over time or US Tails by quantile.",
     "optionalCapital": [
       ["financialIncome", "Interest and dividends, plus royalties and receipts from estates and trusts where captured by the public income fields."],
       ["businessIncome", "Net cash rental income and the capital share (33%) of income from farm and nonfarm self-employment."],
@@ -1823,10 +1823,10 @@ const ThresholdProfiles = (() => {
     const identity=c=>[c.survey,c.country,c.year,c.variant,c.variable,c.housing_method,c.weighting_method,c.author_variant].join('|'),knownCurves=new Set(allCurves.map(identity));
     function addCurves(incoming){let changed=false;incoming.forEach(c=>{const key=identity(c);if(!knownCurves.has(key)){knownCurves.add(key);allCurves.push(c);changed=true;}});if(changed)signature='';}
     const section=document.createElement('section');section.className='threshold-profiles';
-    section.innerHTML='<div class="threshold-heading"><h2>Estimates by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div><div class="threshold-legend"></div><div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
+    section.innerHTML='<div class="threshold-heading"><h2>Pareto tail coefficients by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div><div class="threshold-legend"></div><div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
     const exportButton=section.querySelector('.threshold-heading .text-button');
+    const heading=section.querySelector('.threshold-heading h2');
     if(onOpenComparison){
-      const heading=section.querySelector('.threshold-heading h2');
       const preview=document.createElement('button');
       preview.type='button';
       preview.className='quantile-preview-button';
@@ -1888,6 +1888,7 @@ const ThresholdProfiles = (() => {
       const relevant=chosen.filter(c=>c.variable===(spending?.value==='auto'?(c.survey==='SCF'?'expenditure_incl_rent':'consump_def1'):spending?.value)||c.variable!=='consump_def1'&&['networth_val','total_labor_income','total_income','total_capital_income'].includes(c.variable));
       [...methodSelect.options].forEach(option=>{option.disabled=!relevant.some(c=>c[option.value.toLowerCase()]?.some(finite));option.title=option.disabled?'No stored estimates for this method and selection.':'';});if(methodSelect.selectedOptions[0]?.disabled)methodSelect.value=[...methodSelect.options].find(option=>!option.disabled)?.value||'MLE';methodSelect.disabled=indicatorSelect.value==='share';
       const share=indicatorSelect.value==='share',ratio=indicatorSelect.value==='wealth_ratio',method=methodSelect.value,indicator=indicatorSelect.value,country=countrySelect?.value||'all',year=yearSelect.value;
+      heading.textContent=share?'Shares above quantile':ratio?'Pareto tail coefficients relative to wealth by quantile':'Pareto tail coefficients by quantile';
       methodSelect.disabled=share;methodSelect.title=share?'Distribution shares do not use a Pareto estimator.':'';
       const sig=JSON.stringify([getSpecificationSignature(),surveySelect.value,country,year,spending?.value,indicator,method,getDinaCapitalDefinition(),[...selectedVariables].sort(),getCEXIncome()]);if(sig===signature){charts.forEach(c=>c.resize());return;}signature=sig;
       charts.forEach(c=>c.destroy());charts=[];rows=[];grid.replaceChildren();
@@ -2013,7 +2014,7 @@ function createUSQuantileComparison({
   </aside>
   <div class="plot-surface quantile-comparison-plot">
     <header class="plot-top quantile-comparison-header">
-      <div><h2>Pareto estimates by quantile</h2><p class="plot-subtitle"></p></div>
+      <div><h2>Pareto tail coefficients by quantile</h2><p class="plot-subtitle"></p></div>
       <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
     </header>
     <div class="plot-series-controls">
@@ -2062,6 +2063,7 @@ function createUSQuantileComparison({
   const options = find('.quantile-comparison-options');
   const datasetChoices = find('.dataset-controls');
   const status = find('.quantile-comparison-status');
+  const plotHeading = find('.quantile-comparison-header h2');
   const subtitle = find('.plot-subtitle');
   const csvButton = find('[data-action="csv"]');
   const pngButton = find('[data-action="png"]');
@@ -2441,6 +2443,11 @@ function createUSQuantileComparison({
       share:'Share above percentile',pareto:'Pareto coefficient',
       wealth_ratio:'Pareto coefficient relative to wealth',income_ratio:'Pareto coefficient relative to total income',
     }[indicator];
+    plotHeading.textContent = {
+      share:'Shares above quantile',pareto:'Pareto tail coefficients by quantile',
+      wealth_ratio:'Pareto tail coefficients relative to wealth by quantile',
+      income_ratio:'Pareto tail coefficients relative to total income by quantile',
+    }[indicator];
     const spendingLabel = spending.selectedOptions[0].textContent;
     const ids = surveys.filter(survey=>selected.has(survey));
     const hasSurvey = ids.some(household);
@@ -2690,7 +2697,7 @@ function initOtherSurveys(other,usRows,context) {
     '<nav class="secondary-nav cc-subnav" id="cc-secondary-nav" aria-label="Cross-country views"><div class="secondary-nav-inner" role="tablist">',
     '<button class="secondary-tab active" role="tab" aria-selected="true" data-country-view="summary" id="cc-tab-summary" aria-controls="cc-summary">Summary figure</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="time" id="cc-tab-time" aria-controls="cc-time">Tails over time</button>',
-    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="quantiles" id="cc-tab-quantiles" aria-controls="cc-quantiles">Estimates by quantile</button>',
+    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="quantiles" id="cc-tab-quantiles" aria-controls="cc-quantiles">Tails by quantile</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="results" id="cc-tab-results" aria-controls="cc-results">Table of results</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="loglog" id="cc-tab-loglog" aria-controls="cc-loglog">Log–log relationships</button><button class="secondary-tab" role="tab" aria-selected="false" data-country-view="eyeballing" id="cc-tab-eyeballing" aria-controls="cc-eyeballing">Eyeballing Pareto Tails</button></div></nav>',
     '<section id="cc-summary" role="tabpanel" aria-labelledby="cc-tab-summary"><div class="other-card">',
@@ -3439,7 +3446,7 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
     SCF:'Survey of Consumer Finances: triennial U.S. household survey designed to measure household finances and oversample wealthy families.',
     CEX:'Consumer Expenditure Interview Survey: consumer-unit interviews covering spending, income, and partial wealth.',
     CEX_BM:'Authors’ supplied CEX B&M reference series, retained unchanged.',
-    CEX_BM_RECON:'Consumer Expenditure Interview Survey (CEX), using the Meyer–Sullivan consumption construction and public extension. Consumption and partial wealth are shown by default. Public-use income components are poorly reported at the top: topcoding severely biases upper-tail estimates. In Tails over time and US Estimates by quantile, Show income enables these optional estimates. Representation uses SCF primary-home values and nonownership.',
+    CEX_BM_RECON:'Consumer Expenditure Interview Survey (CEX), using the Meyer–Sullivan consumption construction and public extension. Consumption and partial wealth are shown by default. Public-use income components are poorly reported at the top: topcoding severely biases upper-tail estimates. In Tails over time and US Tails by quantile, Show income enables these optional estimates. Representation uses SCF primary-home values and nonownership.',
     YODLEE:'Bank–individual-account transaction data: each observation is one person’s account within the sampled banking system, not a complete household consumption unit. Spending outside the observed account—such as cash or activity at other institutions—is not captured. SCF income weights are always used to improve representativeness.',
     NIELSEN:'NielsenIQ household-panel reference based on annual retail purchases. It is available only when “Variable for consumption” is Food because it does not measure the broader consumption concepts used by the other choices.',
     SAEZ_ZUCMAN:'Distributional National Accounts (DINA), 1970–2019: synthetic adults aged 20+, reconstructed from tax, survey and national accounts data. Income follows Piketty, Saez and Zucman; wealth follows Saez and Zucman. Capital and total income include fiscal capital gains by default.' + (META.dina_total_income_release?.ks_window?.length === 2 ? ' For total income, the KS search spans '+META.dina_total_income_release.ks_window.map(q=>'P'+Number((100*q).toFixed(2))).join('–')+'.' : ''),
@@ -3635,7 +3642,7 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
     });
     datasets.push(...(referenceController?.datasets(s)||[]));
     (referenceController?.plotted(s)||[]).forEach(row=>timeRows.push({survey:row.survey,wave:row.year,observation_year:SeriesYears.period(row).year,observation_period:SeriesYears.period(row).label,year_basis:SeriesYears.period(row).basis,adjustment:'Standalone reference: '+row.author_variant,variable:row.variable,variable_label:row.source_label,indicator:s.metric,method:row.method,threshold:row.threshold_rule,estimate:row.estimate,pareto_estimate:isParetoMetric(s.metric)?row.pareto_estimate??row.estimate:null,wealth_pareto_estimate:row.wealth_pareto_estimate??null,threshold_quantile:row.threshold_quantile,ks:row.ks,n_tail:row.n_tail??null,tail_unit_type:row.unit||META.surveys?.[row.survey]?.tail_unit||'',author_variant:row.author_variant,capital_income_definition:row.capital_income_definition||'',source_definition:row.source_definition}));
-    $('time-chart-title').textContent=metricLabel();
+    $('time-chart-title').textContent=metricLabel()+' over time';
     const shownHouseholds=new Set(datasets.map(dataset=>dataset.survey).filter(survey=>['PSID','CEX_BM_RECON','SCF'].includes(survey))),adjustmentLabels=[];
     if(s.adjustment==='full'){
       if(shownHouseholds.has('PSID'))adjustmentLabels.push('PSID is rescaled to national accounts and uses '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]+'.');

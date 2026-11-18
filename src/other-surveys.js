@@ -42,7 +42,7 @@ function initOtherSurveys(other,usRows,context) {
     '<nav class="secondary-nav cc-subnav" id="cc-secondary-nav" aria-label="Cross-country views"><div class="secondary-nav-inner" role="tablist">',
     '<button class="secondary-tab active" role="tab" aria-selected="true" data-country-view="summary" id="cc-tab-summary" aria-controls="cc-summary">Summary figure</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="time" id="cc-tab-time" aria-controls="cc-time">Tails over time</button>',
-    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="quantiles" id="cc-tab-quantiles" aria-controls="cc-quantiles">Estimates by quantile</button>',
+    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="quantiles" id="cc-tab-quantiles" aria-controls="cc-quantiles">Tails by quantile</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="results" id="cc-tab-results" aria-controls="cc-results">Table of results</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="loglog" id="cc-tab-loglog" aria-controls="cc-loglog">Log–log relationships</button><button class="secondary-tab" role="tab" aria-selected="false" data-country-view="eyeballing" id="cc-tab-eyeballing" aria-controls="cc-eyeballing">Eyeballing Pareto Tails</button></div></nav>',
     '<section id="cc-summary" role="tabpanel" aria-labelledby="cc-tab-summary"><div class="other-card">',

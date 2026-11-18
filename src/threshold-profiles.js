@@ -89,10 +89,10 @@ const ThresholdProfiles = (() => {
     const identity=c=>[c.survey,c.country,c.year,c.variant,c.variable,c.housing_method,c.weighting_method,c.author_variant].join('|'),knownCurves=new Set(allCurves.map(identity));
     function addCurves(incoming){let changed=false;incoming.forEach(c=>{const key=identity(c);if(!knownCurves.has(key)){knownCurves.add(key);allCurves.push(c);changed=true;}});if(changed)signature='';}
     const section=document.createElement('section');section.className='threshold-profiles';
-    section.innerHTML='<div class="threshold-heading"><h2>Estimates by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div><div class="threshold-legend"></div><div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
+    section.innerHTML='<div class="threshold-heading"><h2>Pareto tail coefficients by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div><div class="threshold-legend"></div><div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
     const exportButton=section.querySelector('.threshold-heading .text-button');
+    const heading=section.querySelector('.threshold-heading h2');
     if(onOpenComparison){
-      const heading=section.querySelector('.threshold-heading h2');
       const preview=document.createElement('button');
       preview.type='button';
       preview.className='quantile-preview-button';
@@ -154,6 +154,7 @@ const ThresholdProfiles = (() => {
       const relevant=chosen.filter(c=>c.variable===(spending?.value==='auto'?(c.survey==='SCF'?'expenditure_incl_rent':'consump_def1'):spending?.value)||c.variable!=='consump_def1'&&['networth_val','total_labor_income','total_income','total_capital_income'].includes(c.variable));
       [...methodSelect.options].forEach(option=>{option.disabled=!relevant.some(c=>c[option.value.toLowerCase()]?.some(finite));option.title=option.disabled?'No stored estimates for this method and selection.':'';});if(methodSelect.selectedOptions[0]?.disabled)methodSelect.value=[...methodSelect.options].find(option=>!option.disabled)?.value||'MLE';methodSelect.disabled=indicatorSelect.value==='share';
       const share=indicatorSelect.value==='share',ratio=indicatorSelect.value==='wealth_ratio',method=methodSelect.value,indicator=indicatorSelect.value,country=countrySelect?.value||'all',year=yearSelect.value;
+      heading.textContent=share?'Shares above quantile':ratio?'Pareto tail coefficients relative to wealth by quantile':'Pareto tail coefficients by quantile';
       methodSelect.disabled=share;methodSelect.title=share?'Distribution shares do not use a Pareto estimator.':'';
       const sig=JSON.stringify([getSpecificationSignature(),surveySelect.value,country,year,spending?.value,indicator,method,getDinaCapitalDefinition(),[...selectedVariables].sort(),getCEXIncome()]);if(sig===signature){charts.forEach(c=>c.resize());return;}signature=sig;
       charts.forEach(c=>c.destroy());charts=[];rows=[];grid.replaceChildren();

@@ -86,7 +86,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "housing": true,
     "financial": true,
     "partialWealth": true,
-    "optionalLabor": "Optional topcoded income estimates contain wages and salaries plus 67% of business income. Enable Show income in Tails over time or US Estimates by quantile.",
+    "optionalLabor": "Optional topcoded income estimates contain wages and salaries plus 67% of business income. Enable Show income in Tails over time or US Tails by quantile.",
     "optionalCapital": [
       ["financialIncome", "Interest and dividends, plus royalties and receipts from estates and trusts where captured by the public income fields."],
       ["businessIncome", "Net cash rental income and the capital share (33%) of income from farm and nonfarm self-employment."],
