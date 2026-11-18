@@ -274,9 +274,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const equation=fullEquation.querySelector('.budget-full-math');
   equationRows.setAttribute('role','group');
   equationRows.setAttribute('aria-label','Household budget constraint: consumption plus the change in wealth equals labor income less net taxes plus capital income.');
-  grid.append(equationRows,selectedTitle);
+  grid.append(equationRows);
   diagram.append(grid);
-  host.append(fullEquation,diagram);
+  host.append(selectedTitle,fullEquation,diagram);
 
   function termMath(expression){
     const math=doc.createElementNS('http://www.w3.org/1998/Math/MathML','math');

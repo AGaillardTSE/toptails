@@ -196,7 +196,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   --budget-expansion-height:54px;
   --budget-term-height:40px;
   grid-template-columns:minmax(235px,1.4fr) minmax(185px,1.42fr) repeat(2,minmax(145px,.89fr)) minmax(332px,1.65fr);
-  grid-template-rows:var(--budget-expansion-height) minmax(var(--budget-term-height),auto) auto 1fr;
+  grid-template-rows:var(--budget-expansion-height) minmax(var(--budget-term-height),auto) 1fr;
   row-gap:0;
   min-width:1098px;
   padding-top:12px;
@@ -244,12 +244,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .budget-card-operator math{font-size:28px;margin:0}
 .budget-card-expansion mo,.budget-card-term mo{color:#171b22}
-.budget-definitions .budget-definition-grid>.budget-selected-dataset{
-  grid-column:1/-1;
-  grid-row:3;
-  margin:12px 0 10px;
-}
-.budget-definitions .budget-definition-grid>.budget-component{grid-row:4;margin-top:26px}
+.budget-definitions .budget-definition-grid>.budget-component{grid-row:3;margin-top:26px}
 
 .budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
 .budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
