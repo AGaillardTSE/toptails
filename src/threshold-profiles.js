@@ -73,7 +73,7 @@ const ThresholdProfiles = (() => {
   }
   // Kept for callers of the former API; figure profiles intentionally use stage-specific available cells.
   function commonCells(){return null;}
-  function create({host,curves,surveys,international=false,spendingOptions=[],metadata={},getHousingMethod=()=> 'benchmark',getSpecificationSignature=getHousingMethod,housingMatches=row=>(row.housing_method||'benchmark')==='benchmark',onSurveyChange=null,getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=null,getCEXIncome=()=>false,onCEXIncomeChange=null,loadCEXIncome=null}){
+  function create({host,curves,surveys,international=false,spendingOptions=[],metadata={},getHousingMethod=()=> 'benchmark',getSpecificationSignature=getHousingMethod,housingMatches=row=>(row.housing_method||'benchmark')==='benchmark',onSurveyChange=null,getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=null,getCEXIncome=()=>false,onCEXIncomeChange=null,loadCEXIncome=null,onOpenComparison=null}){
     const allCurves=curves;
     const isCEX=survey=>['CEX','CEX_BM','CEX_BM_RECON'].includes(survey),sourceDisplay=survey=>survey==='CEX_BM_RECON'?(metadata.cex_bm_recon_display||metadata.cex_bm_display||metadata.cex_display):survey==='CEX_BM'?(metadata.cex_bm_display||metadata.cex_display):metadata.cex_display,curveMatches=row=>(!row.optional_income||getCEXIncome())&&(row.reference_only||housingMatches(row));
     const seriesFor=survey=>survey==='CEX_BM_RECON'&&getCEXIncome()?fiveSeries:metadata.surveys?.[survey]?.profile_variables?fiveSeries.filter(([key])=>metadata.surveys[survey].profile_variables.includes(key)):survey==='FORBES'?[['networth_val','Wealth']]:fiveSeries;
@@ -83,6 +83,21 @@ const ThresholdProfiles = (() => {
     function addCurves(incoming){let changed=false;incoming.forEach(c=>{const key=identity(c);if(!knownCurves.has(key)){knownCurves.add(key);allCurves.push(c);changed=true;}});if(changed)signature='';}
     const section=document.createElement('section');section.className='threshold-profiles';
     section.innerHTML='<div class="threshold-heading"><h2>Estimates by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div><div class="threshold-legend"></div><div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
+    const exportButton=section.querySelector('.threshold-heading .text-button');
+    if(onOpenComparison){
+      const heading=section.querySelector('.threshold-heading h2');
+      const preview=document.createElement('button');
+      preview.type='button';
+      preview.className='quantile-preview-button';
+      preview.textContent='(v2)';
+      preview.setAttribute('aria-label','Open experimental estimates by quantile (v2)');
+      preview.setAttribute('aria-controls','panel-quantiles-v2');
+      preview.addEventListener('click',onOpenComparison);
+      const title=document.createElement('div');
+      title.className='threshold-heading-title';
+      heading.replaceWith(title);
+      title.append(heading,preview);
+    }
     host.append(section);
     const grid=section.querySelector('.threshold-profile-grid'),legend=section.querySelector('.threshold-legend'),controls=section.querySelector('.threshold-profile-controls'),note=section.querySelector('.threshold-note');
     const makeSelect=(labelText,items)=>{const label=document.createElement('label');label.className='control';const title=document.createElement('span');title.textContent=labelText;const select=document.createElement('select');items.forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;select.append(option);});label.append(title,select);controls.append(label);return select;};
@@ -122,7 +137,7 @@ const ThresholdProfiles = (() => {
     }
     updateCountries();updateYears();updateSpending();
     [surveySelect,countrySelect,yearSelect,spending,indicatorSelect,methodSelect].filter(Boolean).forEach(select=>select.addEventListener('change',()=>{if(select===surveySelect){onSurveyChange?.(surveySelect.value);updateCountries();}if(select===surveySelect||select===countrySelect)updateYears();signature='';render();}));
-    section.querySelector('button').addEventListener('click',()=>{if(!rows.length)return;const fields=Object.keys(rows[0]),escape=x=>x===null||x===undefined?'':'"'+String(x).replace(/"/g,'""')+'"';const csv=[fields.join(','),...rows.map(r=>fields.map(k=>escape(r[k])).join(','))].join('\r\n'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=(international?'international':'US')+'_estimates_by_quantile.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+    exportButton.addEventListener('click',()=>{if(!rows.length)return;const fields=Object.keys(rows[0]),escape=x=>x===null||x===undefined?'':'"'+String(x).replace(/"/g,'""')+'"';const csv=[fields.join(','),...rows.map(r=>fields.map(k=>escape(r[k])).join(','))].join('\r\n'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=(international?'international':'US')+'_estimates_by_quantile.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
     function render(){
       curves=allCurves.filter(curveMatches);updateYears();updateSpending();
       if(cexIncomeBox){cexIncomeBox.hidden=!['all','CEX_BM_RECON'].includes(surveySelect.value);cexIncomeInput.checked=getCEXIncome();}
@@ -186,7 +201,7 @@ const ThresholdProfiles = (() => {
           charts.push(new Chart(canvas,{type:'line',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,parsing:false,interaction:{mode:'nearest',intersect:false},plugins:{legend:{display:false},tooltip:{filter:item=>item.dataset.isProfile,callbacks:{title:items=>items.length?(share?'Above P':'Threshold P')+number(items[0].raw.x,2):'',label:ctx=>ctx.dataset.label+': '+format(ctx.raw.y),afterLabel:ctx=>['N = '+ctx.raw.n+' '+(international?'country-wave cells':referenceSurveys.has(survey)?'years':'waves')+(contract.aggregation==='population'?' · effective N = '+number(ctx.raw.n_eff,2):''),finite(ctx.raw.lo)?number(100*confidence,0)+'% t interval: '+format(ctx.raw.lo)+' to '+format(ctx.raw.hi):'Across-cell interval unavailable (one cell)',...(finite(ctx.raw.min_tail_units)?['Minimum tail units per cell: '+number(ctx.raw.min_tail_units,0)]:[])]}}},scales:{x:{type:'linear',min:xMinimum,max:xMaximum,title:{display:true,text:share?'Distribution percentile':'Threshold percentile',font:{size:13}},ticks:{font:{size:13},stepSize:5,maxRotation:0},grid:{display:false}},y:{min:ymin,max:ymax,title:{display:true,text:share?'Share above percentile':ratio?'Pareto coefficient / wealth coefficient':'Pareto tail coefficient',font:{size:13}},ticks:{font:{size:13},stepSize:step,autoSkip:false,callback:value=>share?number(100*value,0)+'%':ratio?number(value,2):number(value,1)},grid:{color:'#eeece7'},border:{display:false}}}}}));
         }
       }
-      section.querySelector('button').disabled=!rows.length;
+      exportButton.disabled=!rows.length;
       if(!any){if(!selectedVariables.size){note.textContent='Select at least one variable to display.';return;}note.textContent=surveySelect.value==='CEX_BM'&&getHousingMethod()==='bp'?'CEX B&M retains its original homeowner-service construction. Turn off the constant-housing option to view the original B&M results.':'No '+(share?'share curves':'threshold profiles')+' are available for these filters. Uncomputed series are not substituted.';return;}
       const referenceOnly=selected.every(survey=>referenceSurveys.has(survey)),cells=international?'country–wave cells':referenceOnly?'years':'waves';
       note.textContent='Shaded bands are pointwise 90% Student-t intervals for the mean at each percentile, based on variation across the available '+cells+'. '+(share?'':ratio?'Dashed lines and labels average within-cell ratios of the variable’s and wealth’s separately KS-selected coefficients. ':'Dashed lines and labels average the coefficients selected separately by the KS criterion in each '+(international?'country–wave cell':referenceOnly?'year':'wave')+'. ')+(scfShown?'SCF estimates are first averaged across its five imputations. ':'')+(hfcsShown?'HFCS estimates are first averaged across its five imputations; country–wave summaries use population weights.':'')+(!international&&getCEXIncome()&&selected.includes('CEX_BM_RECON')?' CEX income estimates from 2004 onward average five imputations within each wave.':'');

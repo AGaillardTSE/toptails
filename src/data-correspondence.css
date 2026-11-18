@@ -196,47 +196,40 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   --budget-expansion-height:54px;
   --budget-term-height:40px;
   grid-template-columns:minmax(235px,1.4fr) minmax(185px,1.42fr) repeat(2,minmax(145px,.89fr)) minmax(332px,1.65fr);
-  grid-template-rows:auto var(--budget-expansion-height) minmax(var(--budget-term-height),auto) 1fr;
+  grid-template-rows:var(--budget-expansion-height) minmax(var(--budget-term-height),auto) auto 1fr;
   row-gap:0;
   min-width:1098px;
   padding-top:12px;
 }
-.budget-definition-grid>.budget-diagram-column{
+.budget-equation-rows{
+  display:grid;
+  grid-column:1/-1;
+  grid-row:1/span 2;
+  grid-template-columns:subgrid;
+  grid-template-rows:subgrid;
+}
+.budget-equation-rows>.budget-diagram-column{
   display:grid;
   grid-row:1/-1;
   grid-template-rows:subgrid;
 }
-.budget-equation-note{
-  grid-row:1;
-  align-self:end;
-  margin:0;
-  padding:0 7px 8px;
-  font:400 13px/1.5 Arial,sans-serif;
-  color:#5e6c7d;
-}
-:is(.budget-component-y,.budget-component-tax)>.budget-equation-note{
-  grid-row:1/span 2;
-  padding-bottom:32px;
-  text-align:center;
-}
-.budget-equation-note :is(var,math){
+.budget-equation-lead :is(var,math){
   color:color-mix(in srgb,var(--component-color,#727c87) 78%,#172233);
   font-weight:700;
 }
-.budget-equation-note math{font-size:14px;vertical-align:middle}
-.budget-equation-note mo{color:#171b22}
+.budget-equation-lead math{font-size:15px;vertical-align:middle}
 .budget-card-expansion,.budget-card-term{
   display:grid;
   place-items:center;
   text-align:center;
   color:var(--component-color,#727c87);
 }
-.budget-card-expansion{grid-row:2;height:var(--budget-expansion-height);align-items:end}
+.budget-card-expansion{grid-row:1;height:var(--budget-expansion-height);align-items:end}
 .budget-card-expansion math{font-size:19px;margin:0}
 .budget-component-a .budget-card-expansion math{font-size:16.5px;transform:translateX(36px)}
 .budget-component-capital .budget-card-expansion math{font-size:18px}
 .budget-card-term{
-  grid-row:3;
+  grid-row:2;
   grid-template-columns:0 minmax(0,1fr);
   align-items:baseline;
   align-self:baseline;
@@ -251,7 +244,12 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .budget-card-operator math{font-size:28px;margin:0}
 .budget-card-expansion mo,.budget-card-term mo{color:#171b22}
-.budget-definitions .budget-diagram-column>.budget-component{grid-row:4;margin-top:26px}
+.budget-definitions .budget-definition-grid>.budget-selected-dataset{
+  grid-column:1/-1;
+  grid-row:3;
+  margin:12px 0 10px;
+}
+.budget-definitions .budget-definition-grid>.budget-component{grid-row:4;margin-top:26px}
 
 .budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
 .budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
@@ -262,6 +260,16 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-component-detail .budget-component-note:first-child{margin-top:0}
 
 /* Keep quantile controls in the same sidebar pattern as Tails over time. */
+.threshold-heading-title{display:flex;align-items:baseline;gap:7px}
+.quantile-preview-button{
+  border:0;
+  padding:2px 3px;
+  background:transparent;
+  color:#627388;
+  font:600 13px/1.4 Arial,sans-serif;
+  cursor:pointer;
+}
+.quantile-preview-button:hover{text-decoration:underline}
 .us-total-income-choice{display:inline-flex;align-items:center;gap:7px}
 .us-total-income-choice .help-marker{margin:0;flex:none}
 .quantile-comparison-sidebar .dataset-control{margin-bottom:16px}

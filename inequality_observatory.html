@@ -233,9 +233,9 @@
 
 .quantile-cex-income{display:flex;align-items:center;gap:6px}.quantile-cex-income .small-check{display:inline-flex;align-items:center;gap:6px;margin:0;font:400 13px/1.4 Arial,sans-serif;letter-spacing:0;text-transform:none}.quantile-cex-income input{width:14px;height:14px;margin:0;accent-color:#b34470}
 
-.budget-diagram-scroll{max-width:100%;overflow-x:auto;padding-bottom:6px}.budget-definitions .budget-definition-grid{grid-template-columns:repeat(5,minmax(0,1fr));min-width:900px;align-items:stretch}.budget-diagram-column{display:flex;flex-direction:column;min-width:0}.budget-definitions .budget-diagram-column>.budget-component{display:block;flex:1}.budget-definitions .budget-component h4{margin:0 0 10px}.budget-term-arrow{text-align:center;color:var(--component-color,#727c87);font:400 40px/1 Arial,sans-serif;padding:1px 0 14px}.budget-diagram-column .budget-component-symbol{min-height:65px}.budget-diagram-column .budget-component-symbol math{font-size:34px}.budget-component-symbol.definition-unavailable,.budget-term-arrow.definition-unavailable{color:#9aa1a8;opacity:.55}
+.budget-diagram-scroll{max-width:100%;overflow-x:auto;padding-bottom:6px}.budget-definitions .budget-definition-grid{grid-template-columns:repeat(5,minmax(0,1fr));min-width:900px;align-items:stretch}.budget-diagram-column{display:flex;flex-direction:column;min-width:0}.budget-definitions .budget-definition-grid>.budget-component{display:block;flex:1}.budget-definitions .budget-component h4{margin:0 0 10px}.budget-term-arrow{text-align:center;color:var(--component-color,#727c87);font:400 40px/1 Arial,sans-serif;padding:1px 0 14px}.budget-diagram-column .budget-component-symbol{min-height:65px}.budget-diagram-column .budget-component-symbol math{font-size:34px}.budget-component-symbol.definition-unavailable,.budget-term-arrow.definition-unavailable{color:#9aa1a8;opacity:.55}
 
-.budget-diagram-column{position:relative}.budget-between-operator{position:absolute;left:-7px;top:32.5px;transform:translate(-50%,-50%);color:#171b22;line-height:1;z-index:1}.budget-between-operator math{font-size:34px;color:#171b22}.budget-between-operator mo,.budget-component-symbol mo:not([data-variable-mark]){color:#171b22}.budget-definitions .budget-component-symbol.definition-unavailable{opacity:1;color:#a3a8ad}.budget-definitions .budget-diagram-column>.budget-component{position:relative;margin-top:30px;--budget-frame-bg:#faf9f5}.budget-definitions .budget-diagram-column>.budget-component.definition-unavailable{--budget-frame-bg:#f2f1ee}.budget-diagram-column>.budget-component::before,.budget-diagram-column>.budget-component::after{content:"";position:absolute;left:50%;width:0;height:0;transform:translateX(-50%);border-left:26px solid transparent;border-right:26px solid transparent;border-bottom:26px solid var(--component-color,#9299a0);top:-26px;pointer-events:none}.budget-diagram-column>.budget-component::after{top:-22px;border-left-width:24px;border-right-width:24px;border-bottom:25px solid var(--budget-frame-bg,#faf9f5)}
+.budget-diagram-column{position:relative}.budget-between-operator{position:absolute;left:-7px;top:32.5px;transform:translate(-50%,-50%);color:#171b22;line-height:1;z-index:1}.budget-between-operator math{font-size:34px;color:#171b22}.budget-between-operator mo,.budget-component-symbol mo:not([data-variable-mark]){color:#171b22}.budget-definitions .budget-component-symbol.definition-unavailable{opacity:1;color:#a3a8ad}.budget-definitions .budget-definition-grid>.budget-component{position:relative;margin-top:30px;--budget-frame-bg:#faf9f5}.budget-definitions .budget-definition-grid>.budget-component.definition-unavailable{--budget-frame-bg:#f2f1ee}.budget-definition-grid>.budget-component::before,.budget-definition-grid>.budget-component::after{content:"";position:absolute;left:50%;width:0;height:0;transform:translateX(-50%);border-left:26px solid transparent;border-right:26px solid transparent;border-bottom:26px solid var(--component-color,#9299a0);top:-26px;pointer-events:none}.budget-definition-grid>.budget-component::after{top:-22px;border-left-width:24px;border-right-width:24px;border-bottom:25px solid var(--budget-frame-bg,#faf9f5)}
 
 .primary-tabs .tab-nav-inner{gap:24px;align-items:stretch}.primary-tabs .tab-button{flex:0 0 auto;line-height:1.35}.primary-tabs #tab-definitions{max-width:none;white-space:nowrap}.primary-tabs #tab-adjustments{max-width:218px;white-space:normal}
 
@@ -552,47 +552,40 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   --budget-expansion-height:54px;
   --budget-term-height:40px;
   grid-template-columns:minmax(235px,1.4fr) minmax(185px,1.42fr) repeat(2,minmax(145px,.89fr)) minmax(332px,1.65fr);
-  grid-template-rows:auto var(--budget-expansion-height) minmax(var(--budget-term-height),auto) 1fr;
+  grid-template-rows:var(--budget-expansion-height) minmax(var(--budget-term-height),auto) auto 1fr;
   row-gap:0;
   min-width:1098px;
   padding-top:12px;
 }
-.budget-definition-grid>.budget-diagram-column{
+.budget-equation-rows{
+  display:grid;
+  grid-column:1/-1;
+  grid-row:1/span 2;
+  grid-template-columns:subgrid;
+  grid-template-rows:subgrid;
+}
+.budget-equation-rows>.budget-diagram-column{
   display:grid;
   grid-row:1/-1;
   grid-template-rows:subgrid;
 }
-.budget-equation-note{
-  grid-row:1;
-  align-self:end;
-  margin:0;
-  padding:0 7px 8px;
-  font:400 13px/1.5 Arial,sans-serif;
-  color:#5e6c7d;
-}
-:is(.budget-component-y,.budget-component-tax)>.budget-equation-note{
-  grid-row:1/span 2;
-  padding-bottom:32px;
-  text-align:center;
-}
-.budget-equation-note :is(var,math){
+.budget-equation-lead :is(var,math){
   color:color-mix(in srgb,var(--component-color,#727c87) 78%,#172233);
   font-weight:700;
 }
-.budget-equation-note math{font-size:14px;vertical-align:middle}
-.budget-equation-note mo{color:#171b22}
+.budget-equation-lead math{font-size:15px;vertical-align:middle}
 .budget-card-expansion,.budget-card-term{
   display:grid;
   place-items:center;
   text-align:center;
   color:var(--component-color,#727c87);
 }
-.budget-card-expansion{grid-row:2;height:var(--budget-expansion-height);align-items:end}
+.budget-card-expansion{grid-row:1;height:var(--budget-expansion-height);align-items:end}
 .budget-card-expansion math{font-size:19px;margin:0}
 .budget-component-a .budget-card-expansion math{font-size:16.5px;transform:translateX(36px)}
 .budget-component-capital .budget-card-expansion math{font-size:18px}
 .budget-card-term{
-  grid-row:3;
+  grid-row:2;
   grid-template-columns:0 minmax(0,1fr);
   align-items:baseline;
   align-self:baseline;
@@ -607,7 +600,12 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .budget-card-operator math{font-size:28px;margin:0}
 .budget-card-expansion mo,.budget-card-term mo{color:#171b22}
-.budget-definitions .budget-diagram-column>.budget-component{grid-row:4;margin-top:26px}
+.budget-definitions .budget-definition-grid>.budget-selected-dataset{
+  grid-column:1/-1;
+  grid-row:3;
+  margin:12px 0 10px;
+}
+.budget-definitions .budget-definition-grid>.budget-component{grid-row:4;margin-top:26px}
 
 .budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
 .budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
@@ -618,6 +616,16 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-component-detail .budget-component-note:first-child{margin-top:0}
 
 /* Keep quantile controls in the same sidebar pattern as Tails over time. */
+.threshold-heading-title{display:flex;align-items:baseline;gap:7px}
+.quantile-preview-button{
+  border:0;
+  padding:2px 3px;
+  background:transparent;
+  color:#627388;
+  font:600 13px/1.4 Arial,sans-serif;
+  cursor:pointer;
+}
+.quantile-preview-button:hover{text-decoration:underline}
 .us-total-income-choice{display:inline-flex;align-items:center;gap:7px}
 .us-total-income-choice .help-marker{margin:0;flex:none}
 .quantile-comparison-sidebar .dataset-control{margin-bottom:16px}
@@ -670,7 +678,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 <nav id="primary-nav" class="tab-nav primary-tabs" aria-label="Explorer sections"><div class="tab-nav-inner" role="tablist"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">United States</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Across Countries</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Variable Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Survey Adjustments</button><button class="tab-button" type="button" id="tab-pareto" data-section="pareto" role="tab" aria-selected="false" aria-controls="panel-pareto">Pareto Estimation</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></div></nav>
 <main class="workspace">
 <div id="page-error" class="error-message" role="alert" hidden></div>
-<nav id="us-secondary-nav" class="secondary-nav cc-subnav" aria-label="US views"><div class="secondary-nav-inner" role="tablist" aria-label="US views"><button class="secondary-tab active" type="button" id="tab-inequality" data-tab="inequality" role="tab" aria-selected="true" aria-controls="panel-inequality">Tails over time</button><button class="secondary-tab" type="button" id="tab-quantiles" data-tab="quantiles" role="tab" aria-selected="false" aria-controls="panel-quantiles">Estimates by quantile</button><button class="secondary-tab" type="button" id="tab-quantiles-v2" data-tab="quantiles-v2" role="tab" aria-selected="false" aria-controls="panel-quantiles-v2">Estimates by quantile v2</button><button class="secondary-tab" type="button" id="tab-results" data-tab="results" role="tab" aria-selected="false" aria-controls="panel-results">Table of results</button><button class="secondary-tab" type="button" id="tab-loglog" data-tab="loglog" role="tab" aria-selected="false" aria-controls="panel-loglog">Log–log relationships</button><button class="secondary-tab" type="button" id="tab-eyeballing" data-tab="eyeballing" role="tab" aria-selected="false" aria-controls="panel-eyeballing">Eyeballing Pareto Tails</button></div></nav>
+<nav id="us-secondary-nav" class="secondary-nav cc-subnav" aria-label="US views"><div class="secondary-nav-inner" role="tablist" aria-label="US views"><button class="secondary-tab active" type="button" id="tab-inequality" data-tab="inequality" role="tab" aria-selected="true" aria-controls="panel-inequality">Tails over time</button><button class="secondary-tab" type="button" id="tab-quantiles" data-tab="quantiles" role="tab" aria-selected="false" aria-controls="panel-quantiles">Estimates by quantile</button><button class="secondary-tab" type="button" id="tab-results" data-tab="results" role="tab" aria-selected="false" aria-controls="panel-results">Table of results</button><button class="secondary-tab" type="button" id="tab-loglog" data-tab="loglog" role="tab" aria-selected="false" aria-controls="panel-loglog">Log–log relationships</button><button class="secondary-tab" type="button" id="tab-eyeballing" data-tab="eyeballing" role="tab" aria-selected="false" aria-controls="panel-eyeballing">Eyeballing Pareto Tails</button></div></nav>
 <section id="panel-inequality" class="tab-panel active" role="tabpanel" aria-labelledby="tab-inequality">
 <div class="explorer-grid">
 <aside class="sidebar" aria-label="Inequality plot controls">
@@ -687,7 +695,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 </div>
 </section>
 <section id="panel-quantiles" class="tab-panel" role="tabpanel" aria-labelledby="tab-quantiles" hidden><div id="us-quantile-profiles" class="quantile-profile-card"></div></section>
-<section id="panel-quantiles-v2" class="tab-panel" role="tabpanel" aria-labelledby="tab-quantiles-v2" hidden><div id="us-quantile-comparison" class="quantile-profile-card"></div></section>
+<section id="panel-quantiles-v2" class="tab-panel" role="tabpanel" aria-labelledby="tab-quantiles" tabindex="-1" hidden><div id="us-quantile-comparison" class="quantile-profile-card"></div></section>
 <section id="panel-results" class="tab-panel" role="tabpanel" aria-labelledby="tab-results" hidden>
   <div class="results-card">
     <header class="results-heading"><div><h2>US results table</h2></div><div class="results-actions"><button class="text-button" id="download-results-selected" type="button">Selected results CSV</button><button class="text-button" id="download-results-all" type="button">All US results CSV</button></div></header>
@@ -1527,13 +1535,15 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const wealth=select('Wealth definition',[['benchmark','Benchmark'],['alternative','Alternative component construction']],'wealth');
   const bank=select('Durable correction',[['paper','Four categories (paper)'],['all','All categories'],['none','Expenditure before correction']],'bank');
   controls.append(housingBox);
-  const selectedTitle=el('h3','budget-selected-dataset');host.append(selectedTitle);
-  const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-equation-lead\">We write the household budget constraint as:</p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
+  const selectedTitle=el('h3','budget-selected-dataset');
+  const fullEquation=el('div','budget-full-equation');fullEquation.innerHTML="<p class=\"budget-equation-lead\"></p><math display=\"block\" class=\"budget-full-math\" aria-label=\"Full household budget constraint with prices, returns, depreciation and capital gains\"><mrow><mrow class=\"budget-full-term budget-component-c\" data-budget-term=\"c\"><munder><munder accentunder=\"true\"><mrow><msup><mi>c</mi><mtext>ND</mtext></msup><mo>+</mo><mrow><mo stretchy=\"true\">(</mo><msub><mi>r</mi><mi>h</mi></msub><mo>+</mo><msub><mi>δ</mi><mi>h</mi></msub><mo stretchy=\"true\">)</mo></mrow><msub><mi>p</mi><mi>h</mi></msub><mi>h</mi><mo>+</mo><msub><mi>δ</mi><mi>d</mi></msub><msub><mi>p</mi><mi>d</mi></msub><mi>d</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>c</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-a\" data-budget-term=\"a\"><munder><munder accentunder=\"true\"><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mrow><msup><mi>a</mi><mo>′</mo></msup><mo>−</mo><mi>a</mi></mrow></mrow></munder></mrow><mo>=</mo><mrow class=\"budget-full-term budget-component-y\" data-budget-term=\"y\"><munder><munder accentunder=\"true\"><mrow><mi>y</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>y</mi></mrow></munder></mrow><mo>−</mo><mrow class=\"budget-full-term budget-component-tax\" data-budget-term=\"tax\"><munder><munder accentunder=\"true\"><mrow><mi>T</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>T</mi></mrow></munder></mrow><mo>+</mo><mrow class=\"budget-full-term budget-component-capital\" data-budget-term=\"capital\"><munder><munder accentunder=\"true\"><mrow><munder><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mo>{</mo><mi>b</mi><mo>,</mo><mi>h</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>d</mi><mo>}</mo></mrow></munder><mrow><mo stretchy=\"true\">[</mo><msub><mi>r</mi><mi>x</mi></msub><msub><mi>p</mi><mi>x</mi></msub><mo>+</mo><mrow class=\"budget-price-gains\"><mrow><mo stretchy=\"true\">(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo><msub><mi>p</mi><mi>x</mi></msub><mo stretchy=\"true\">)</mo></mrow></mrow><mo stretchy=\"true\">]</mo></mrow><mi>x</mi><mo>−</mo><msub><mi>r</mi><mi>m</mi></msub><mi>m</mi></mrow><mo stretchy=\"true\">⏟</mo></munder><mrow><mi>r</mi><mi>a</mi></mrow></munder></mrow></mrow></math>";
   const diagram=el('div','budget-diagram-scroll');
   const grid=el('div','budget-definition-grid');
+  const equationRows=el('div','budget-equation-rows');
   const equation=fullEquation.querySelector('.budget-full-math');
-  grid.setAttribute('role','group');
-  grid.setAttribute('aria-label','Household budget constraint: consumption plus the change in wealth equals labor income less net taxes plus capital income.');
+  equationRows.setAttribute('role','group');
+  equationRows.setAttribute('aria-label','Household budget constraint: consumption plus the change in wealth equals labor income less net taxes plus capital income.');
+  grid.append(equationRows,selectedTitle);
   diagram.append(grid);
   host.append(fullEquation,diagram);
 
@@ -1543,23 +1553,21 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     return math;
   }
   const mathSub=(letter,index)=>`<msub><mi>${letter}</mi><mi>${index}</mi></msub>`;
-  const inlineMath=expression=>`<math>${expression}</math>`;
-  const sub=(letter,index)=>inlineMath(mathSub(letter,index));
-  const notation={
-    c:`${sub('δ','h')} is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest. Adding it to the net rental return rate gives ${inlineMath(mathSub('r','h')+'<mo>+</mo>'+mathSub('δ','h'))}, the gross imputed rent rate used in consumption. ${sub('δ','d')} is the depreciation rate on consumer durables.`,
-    a:`Households hold financial assets <var>b</var>, owner-occupied housing <var>h</var>, consumer durables <var>d</var>, and other real assets <var>k</var>. Valuing these assets at their prices ${sub('p','x')} and subtracting debt <var>m</var> gives net wealth <var>a</var>.`,
-    y:'<var>y</var> is labor income.',
-    tax:'<var>T</var> is taxes paid minus transfers received.',
-    capital:`Each asset earns a return at rate ${sub('r','x')}. For owner-occupied housing, ${sub('r','h')} is the net rental return rate.`
-  };
+  const inlineMath=(expression,key)=>`<math class="budget-component-${key}">${expression}</math>`;
+  const sub=(letter,index,key)=>inlineMath(mathSub(letter,index),key);
+  const notation=fullEquation.querySelector('.budget-equation-lead');
+  notation.innerHTML=[
+    `Households hold financial assets <var class="budget-component-a">b</var>, owner-occupied housing <var class="budget-component-a">h</var>, consumer durables <var class="budget-component-a">d</var>, and other real assets <var class="budget-component-a">k</var>. Net wealth <var class="budget-component-a">a</var> is the value of these assets at prices ${sub('p','x','a')} less debt <var class="budget-component-a">m</var>.`,
+    `Each asset earns a return at rate ${sub('r','x','capital')}. For owner-occupied housing, ${sub('r','h','capital')} is the net rental return rate and ${sub('δ','h','c')} is the rate of housing expenses, including depreciation, maintenance and repairs, property taxes, and mortgage interest.`,
+    `Their sum, ${inlineMath(mathSub('r','h')+'<mo>+</mo>'+mathSub('δ','h'),'c')}, is the gross imputed rent rate used in consumption. The rate ${sub('δ','d','c')} measures depreciation on consumer durables.`,
+    'Let <var class="budget-component-y">y</var> denote labor income and <var class="budget-component-tax">T</var> denote taxes paid minus transfers received. These definitions give the household budget constraint below.'
+  ].join(' ');
   const cards={};
   for(const [key,title] of [['c','Consumption'],['a','Wealth / saving'],['y','Labor income'],['tax','Net taxes'],['capital','Capital income']]){
     const column=el('div','budget-diagram-column budget-component-'+key);
     const card=el('article','budget-component budget-component-'+key);
     const term=equation.querySelector('[data-budget-term="'+key+'"]');
     const operator=term.previousElementSibling;
-    const note=el('p','budget-equation-note');
-    note.innerHTML=notation[key];
     const label=el('div','budget-card-term');
     const expansion=el('div','budget-card-expansion');
     const heading=el('h4','',title);
@@ -1583,10 +1591,10 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     card.id='budget-explanation-'+key;
     label.setAttribute('aria-describedby',card.id);
     card.append(heading,status,detail);
-    column.append(note);
     if(expansion.childElementCount)column.append(expansion);
-    column.append(label,card);
-    grid.append(column);
+    column.append(label);
+    equationRows.append(column);
+    grid.append(card);
     cards[key]={card,detail,status,symbol:label,expansion};
   }
   equation.remove();
@@ -1670,7 +1678,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     return {rows,notes};
   }
   function render(){
-    const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;selectedTitle.textContent='Variable construction — '+source.name;
+    const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;
+    selectedTitle.textContent=state.survey==='PSID'?'Variable construction/mapping in the '+source.name:'Variable construction/mapping — '+source.name;
     const international=['HFCS','SHIW','HILDA'].includes(state.survey);
     const availableVariables=new Set([...summary.filter(r=>r.survey===state.survey).map(r=>r.variable),...referencePoints().filter(r=>r.survey===state.survey).map(r=>r.variable)]);
     let options=spendingOptions.filter(o=>availableVariables.has(o.key));if(international)options=[{key:'consump_def1',label:'Consumption'}];if(source.retail)options=[{key:'retail',label:'Retail purchases'}];
@@ -1796,7 +1805,7 @@ const ThresholdProfiles = (() => {
   }
   // Kept for callers of the former API; figure profiles intentionally use stage-specific available cells.
   function commonCells(){return null;}
-  function create({host,curves,surveys,international=false,spendingOptions=[],metadata={},getHousingMethod=()=> 'benchmark',getSpecificationSignature=getHousingMethod,housingMatches=row=>(row.housing_method||'benchmark')==='benchmark',onSurveyChange=null,getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=null,getCEXIncome=()=>false,onCEXIncomeChange=null,loadCEXIncome=null}){
+  function create({host,curves,surveys,international=false,spendingOptions=[],metadata={},getHousingMethod=()=> 'benchmark',getSpecificationSignature=getHousingMethod,housingMatches=row=>(row.housing_method||'benchmark')==='benchmark',onSurveyChange=null,getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=null,getCEXIncome=()=>false,onCEXIncomeChange=null,loadCEXIncome=null,onOpenComparison=null}){
     const allCurves=curves;
     const isCEX=survey=>['CEX','CEX_BM','CEX_BM_RECON'].includes(survey),sourceDisplay=survey=>survey==='CEX_BM_RECON'?(metadata.cex_bm_recon_display||metadata.cex_bm_display||metadata.cex_display):survey==='CEX_BM'?(metadata.cex_bm_display||metadata.cex_display):metadata.cex_display,curveMatches=row=>(!row.optional_income||getCEXIncome())&&(row.reference_only||housingMatches(row));
     const seriesFor=survey=>survey==='CEX_BM_RECON'&&getCEXIncome()?fiveSeries:metadata.surveys?.[survey]?.profile_variables?fiveSeries.filter(([key])=>metadata.surveys[survey].profile_variables.includes(key)):survey==='FORBES'?[['networth_val','Wealth']]:fiveSeries;
@@ -1806,6 +1815,21 @@ const ThresholdProfiles = (() => {
     function addCurves(incoming){let changed=false;incoming.forEach(c=>{const key=identity(c);if(!knownCurves.has(key)){knownCurves.add(key);allCurves.push(c);changed=true;}});if(changed)signature='';}
     const section=document.createElement('section');section.className='threshold-profiles';
     section.innerHTML='<div class="threshold-heading"><h2>Estimates by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div><div class="threshold-legend"></div><div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
+    const exportButton=section.querySelector('.threshold-heading .text-button');
+    if(onOpenComparison){
+      const heading=section.querySelector('.threshold-heading h2');
+      const preview=document.createElement('button');
+      preview.type='button';
+      preview.className='quantile-preview-button';
+      preview.textContent='(v2)';
+      preview.setAttribute('aria-label','Open experimental estimates by quantile (v2)');
+      preview.setAttribute('aria-controls','panel-quantiles-v2');
+      preview.addEventListener('click',onOpenComparison);
+      const title=document.createElement('div');
+      title.className='threshold-heading-title';
+      heading.replaceWith(title);
+      title.append(heading,preview);
+    }
     host.append(section);
     const grid=section.querySelector('.threshold-profile-grid'),legend=section.querySelector('.threshold-legend'),controls=section.querySelector('.threshold-profile-controls'),note=section.querySelector('.threshold-note');
     const makeSelect=(labelText,items)=>{const label=document.createElement('label');label.className='control';const title=document.createElement('span');title.textContent=labelText;const select=document.createElement('select');items.forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;select.append(option);});label.append(title,select);controls.append(label);return select;};
@@ -1845,7 +1869,7 @@ const ThresholdProfiles = (() => {
     }
     updateCountries();updateYears();updateSpending();
     [surveySelect,countrySelect,yearSelect,spending,indicatorSelect,methodSelect].filter(Boolean).forEach(select=>select.addEventListener('change',()=>{if(select===surveySelect){onSurveyChange?.(surveySelect.value);updateCountries();}if(select===surveySelect||select===countrySelect)updateYears();signature='';render();}));
-    section.querySelector('button').addEventListener('click',()=>{if(!rows.length)return;const fields=Object.keys(rows[0]),escape=x=>x===null||x===undefined?'':'"'+String(x).replace(/"/g,'""')+'"';const csv=[fields.join(','),...rows.map(r=>fields.map(k=>escape(r[k])).join(','))].join('\r\n'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=(international?'international':'US')+'_estimates_by_quantile.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+    exportButton.addEventListener('click',()=>{if(!rows.length)return;const fields=Object.keys(rows[0]),escape=x=>x===null||x===undefined?'':'"'+String(x).replace(/"/g,'""')+'"';const csv=[fields.join(','),...rows.map(r=>fields.map(k=>escape(r[k])).join(','))].join('\r\n'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=(international?'international':'US')+'_estimates_by_quantile.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
     function render(){
       curves=allCurves.filter(curveMatches);updateYears();updateSpending();
       if(cexIncomeBox){cexIncomeBox.hidden=!['all','CEX_BM_RECON'].includes(surveySelect.value);cexIncomeInput.checked=getCEXIncome();}
@@ -1909,7 +1933,7 @@ const ThresholdProfiles = (() => {
           charts.push(new Chart(canvas,{type:'line',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,parsing:false,interaction:{mode:'nearest',intersect:false},plugins:{legend:{display:false},tooltip:{filter:item=>item.dataset.isProfile,callbacks:{title:items=>items.length?(share?'Above P':'Threshold P')+number(items[0].raw.x,2):'',label:ctx=>ctx.dataset.label+': '+format(ctx.raw.y),afterLabel:ctx=>['N = '+ctx.raw.n+' '+(international?'country-wave cells':referenceSurveys.has(survey)?'years':'waves')+(contract.aggregation==='population'?' · effective N = '+number(ctx.raw.n_eff,2):''),finite(ctx.raw.lo)?number(100*confidence,0)+'% t interval: '+format(ctx.raw.lo)+' to '+format(ctx.raw.hi):'Across-cell interval unavailable (one cell)',...(finite(ctx.raw.min_tail_units)?['Minimum tail units per cell: '+number(ctx.raw.min_tail_units,0)]:[])]}}},scales:{x:{type:'linear',min:xMinimum,max:xMaximum,title:{display:true,text:share?'Distribution percentile':'Threshold percentile',font:{size:13}},ticks:{font:{size:13},stepSize:5,maxRotation:0},grid:{display:false}},y:{min:ymin,max:ymax,title:{display:true,text:share?'Share above percentile':ratio?'Pareto coefficient / wealth coefficient':'Pareto tail coefficient',font:{size:13}},ticks:{font:{size:13},stepSize:step,autoSkip:false,callback:value=>share?number(100*value,0)+'%':ratio?number(value,2):number(value,1)},grid:{color:'#eeece7'},border:{display:false}}}}}));
         }
       }
-      section.querySelector('button').disabled=!rows.length;
+      exportButton.disabled=!rows.length;
       if(!any){if(!selectedVariables.size){note.textContent='Select at least one variable to display.';return;}note.textContent=surveySelect.value==='CEX_BM'&&getHousingMethod()==='bp'?'CEX B&M retains its original homeowner-service construction. Turn off the constant-housing option to view the original B&M results.':'No '+(share?'share curves':'threshold profiles')+' are available for these filters. Uncomputed series are not substituted.';return;}
       const referenceOnly=selected.every(survey=>referenceSurveys.has(survey)),cells=international?'country–wave cells':referenceOnly?'years':'waves';
       note.textContent='Shaded bands are pointwise 90% Student-t intervals for the mean at each percentile, based on variation across the available '+cells+'. '+(share?'':ratio?'Dashed lines and labels average within-cell ratios of the variable’s and wealth’s separately KS-selected coefficients. ':'Dashed lines and labels average the coefficients selected separately by the KS criterion in each '+(international?'country–wave cell':referenceOnly?'year':'wave')+'. ')+(scfShown?'SCF estimates are first averaged across its five imputations. ':'')+(hfcsShown?'HFCS estimates are first averaged across its five imputations; country–wave summaries use population weights.':'')+(!international&&getCEXIncome()&&selected.includes('CEX_BM_RECON')?' CEX income estimates from 2004 onward average five imputations within each wave.':'');
@@ -3273,7 +3297,9 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
     const housingControl=document.querySelector('.global-housing-control:not(.quantile-housing-control)'),housingNav=us?$('us-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='other'?$('cc-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='adjustments'?$('dc-adjustments-nav-inner'):null;
     if(housingControl){housingControl.hidden=!housingNav;if(housingNav)housingNav.append(housingControl);}
     document.querySelectorAll('#primary-nav [data-section]').forEach(button=>{const active=button.dataset.section===(us?'us':name);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);if(button.dataset.section==='us')button.setAttribute('aria-controls','panel-'+lastUSTab);});
-    document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{const active=button.dataset.tab===name;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);});
+    const currentUSView=name==='quantiles-v2'?'quantiles':name;
+    $('tab-quantiles').setAttribute('aria-controls',name==='quantiles-v2'?'panel-quantiles-v2':'panel-quantiles');
+    document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{const active=button.dataset.tab===currentUSView;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);});
     ['inequality','quantiles','quantiles-v2','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
   }
   document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{
@@ -3810,7 +3836,7 @@ function initDataAndCorrespondence(metadata,{loadParetoIllustration=null}={}) {
   function syncDinaControls(){for(const [name,selected] of [['results',resultsSurveys()],['biv',selectedSurveys(b)]]){const select=$('dina-capital-'+name),box=$('dina-capital-'+name+'-control');if(select)select.value=dina.capitalDefinition;if(box)box.hidden=!selected.has('SAEZ_ZUCMAN')||(name==='biv'&&!['wealth_capital','income_capital'].includes(b.pair));}}
   function initializeThresholdController(){
     if(thresholdController||typeof ThresholdProfiles==='undefined')return;
-    thresholdController=ThresholdProfiles.create({host:$('us-quantile-profiles'),curves:[...ALL_CURVES,...(referenceController?.profileCurves()||[])],surveys:['PSID','SCF','CEX_BM_RECON','YODLEE','FORBES',...(META.reference_curve_surveys||[])],spendingOptions,metadata:META,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method+'|'+dina.capitalDefinition,getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,housingMatches:specificationMatches,onSurveyChange:survey=>{profileSurvey=survey;syncHousingAvailability();},getCEXIncome:()=>s.cexIncome,onCEXIncomeChange:value=>{s.cexIncome=value;fillOverlays('overlay-controls',s,mainOverlayChoices());fillSeries();schedule();},loadCEXIncome:async()=>{await ensureCEXIncome();return cexIncomeCurves;}});
+    thresholdController=ThresholdProfiles.create({host:$('us-quantile-profiles'),onOpenComparison:()=>{tab('quantiles-v2');$('panel-quantiles-v2').focus();},curves:[...ALL_CURVES,...(referenceController?.profileCurves()||[])],surveys:['PSID','SCF','CEX_BM_RECON','YODLEE','FORBES',...(META.reference_curve_surveys||[])],spendingOptions,metadata:META,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method+'|'+dina.capitalDefinition,getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,housingMatches:specificationMatches,onSurveyChange:survey=>{profileSurvey=survey;syncHousingAvailability();},getCEXIncome:()=>s.cexIncome,onCEXIncomeChange:value=>{s.cexIncome=value;fillOverlays('overlay-controls',s,mainOverlayChoices());fillSeries();schedule();},loadCEXIncome:async()=>{await ensureCEXIncome();return cexIncomeCurves;}});
     const housingControl=document.createElement('div');housingControl.className='global-housing-control quantile-housing-control';
     housingControl.innerHTML='<label class="small-check" for="quantile-constant-housing-service"><input type="checkbox" id="quantile-constant-housing-service">Constant imputed rent rate</label><button class="help-marker detail-help" type="button" data-help-control="constant_imputed_rent" aria-label="About constant imputed rent" aria-expanded="false">?</button>';
     $('us-quantile-profiles').querySelector('.threshold-profile-controls').append(housingControl);
