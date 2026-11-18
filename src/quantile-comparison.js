@@ -526,8 +526,8 @@ function createUSQuantileComparison({
         return [{survey,variant,variable:measure,key,label,color,authorVariant,contract,incomeAuthorVariant,
           wealthAuthorVariant:survey==='SAEZ_ZUCMAN'?'dina_2022':authorVariant,indicator,method}];
       }));
-      const rawOptions = includeRaw ? curveOptions.filter(config=>household(config.survey))
-        .map(config=>({...config,variant:'raw'})) : [];
+      const rawOptions = includeRaw ? curveOptions.map(config =>
+        household(config.survey) ? {...config,variant:'raw'} : config) : [];
       const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
       const availableOptions = [...curveOptions,...rawOptions];
