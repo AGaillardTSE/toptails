@@ -402,7 +402,8 @@ function createUSQuantileComparison({
       panel.section.hidden = !show;
       if (!show) continue;
       panel.heading.hidden = !includeRaw;
-      panel.heading.textContent = panel.key==='raw' ? 'Raw data' : adjustment.selectedOptions[0].textContent;
+      panel.heading.textContent = panel.key==='raw' ? 'Raw data'
+        : adjustment.value==='full' ? 'Adjusted for reporting + representation' : adjustment.selectedOptions[0].textContent;
       panel.wrap.hidden = !panel.groups.length;
       panel.empty.hidden = !!panel.groups.length;
       if (!panel.groups.length) continue;

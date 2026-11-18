@@ -12,8 +12,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries, bonuses, overtime, tips, commissions, professional-practice income, additional-job income and other labor receipts of the reference person, spouse and other family members, plus 67% of noncorporate business income.",
     "capital": [
-      ["financialIncome", "Interest, dividends, trust income, and other family members’ recorded asset income."],
-      ["businessIncome", "Cash rents, incorporated-business receipts, and 33% of noncorporate business income."],
+      ["financialIncome", "Interest and other family members’ recorded asset income. The construction groups dividends with trust income, royalties and the incorporated-business income of owners."],
+      ["businessIncome", "Cash rent received by the reference person and spouse or partner, plus the capital share of noncorporate business income (33%)."],
       ["netHousing", "Gross imputed rent less mortgage interest, homeowners’ insurance, property taxes, repairs, and maintenance. The PSID construction sets the separate housing depreciation deduction to zero."],
       ["interest", "Subtract interest on credit-card, student, vehicle and other personal debt."]
     ],
@@ -45,10 +45,10 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries plus half of the combined self-employment, farm, other business and investment-income bundle, which also contains rents, trusts and royalties.",
     "capital": [
-      ["financialIncome", "Taxable and tax-exempt interest and dividends."],
-      ["scfBusinessAndInvestmentIncome", "Half the reported combined income from businesses, farms, investments, rents, trusts and royalties."],
+      ["financialIncome", "Taxable interest, tax-exempt investment income such as municipal-bond interest, and dividends."],
+      ["scfBusinessAndInvestmentIncome", "The construction combines net income from professional practices, businesses and farms with the survey’s combined category for net rent, trusts, royalties and other business or investment income. It assigns half of this total to capital income."],
       ["netHousing", "Gross imputed rent less mortgage and home-equity interest, property taxes, insurance, and repairs and maintenance."],
-      ["gains", "Realized gains from funds, securities and property."],
+      ["gains", "Net realized gains or losses from the sale of securities and real estate."],
       ["interest", "Subtract interest on credit-card, student, vehicle and other personal debt."]
     ],
     "wealth": [
@@ -88,8 +88,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "partialWealth": true,
     "optionalLabor": "Optional topcoded income estimates contain wages and salaries plus 67% of business income. Enable Show income in Tails over time or US Estimates by quantile.",
     "optionalCapital": [
-      ["financialIncome", "Interest and dividends."],
-      ["businessIncome", "Cash rent and 33% of business income."],
+      ["financialIncome", "Interest and dividends, plus royalties and receipts from estates and trusts where captured by the public income fields."],
+      ["businessIncome", "Net cash rental income and the capital share (33%) of income from farm and nonfarm self-employment."],
       ["netHousing", "Gross imputed rent less mortgage interest, homeowners’ insurance, property taxes, and the service cost of home repairs."],
       ["interest", "Subtract personal-debt interest."]
     ],
@@ -109,11 +109,11 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "capital": [
       ["financialIncome", "Equity income from C and S corporations, plus interest income."],
       ["businessIncome", "Income from partnerships and sole proprietorships."],
-      ["housingIncome", "Housing income from owner-occupied and rental properties."],
-      ["pensionAndInsuranceIncome", "Income from pension and insurance assets. In the pre-tax measure, pension-fund investment income is deducted and the capital share of social insurance benefits is added."],
-      ["capitalTaxesAndSubsidies", "The capital share of sales and excise taxes and subsidies."],
+      ["housingIncome", "Imputed rent from owner-occupied homes and rental income from other properties."],
+      ["pensionAndInsuranceIncome", "Income earned on pension and insurance assets. The pre-tax measure deducts pension-fund investment income and adds the capital share of pension, disability and unemployment benefits."],
+      ["capitalTaxesAndSubsidies", "The household budget constraint deducts net taxes through −T. The published DINA capital-income series includes its assigned share of sales and excise taxes and the subsidy adjustment under national-account conventions."],
       ["gains", "Fiscal (realized) capital gains are included by default."],
-      ["interest", "Subtract debt interest."]
+      ["interest", "Subtract mortgage and nonmortgage interest."]
     ],
     "wealth": [
       ["financial", "Corporate equity, currency, deposits, bonds, loans, and pension and life-insurance assets. Some assets are inferred from their income flows."],
@@ -140,6 +140,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Income recorded in the observed bank account is a proxy for labor income. Coverage depends on which payments reach that account.",
     "laborStatus": "Proxy",
+    "capitalUnavailable": "The account inflows provide an income proxy. Separate household capital-income components are unavailable.",
     "bank": true,
     "timeCoverage": "2014–2019, depending on the spending measure.",
     "selection": "People with observed accounts in the sampled banking system.",
@@ -159,6 +160,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "retail": true,
     "labor": "The panel reports household income in brackets that combine labor and other income.",
     "laborStatus": "Household income brackets",
+    "capitalUnavailable": "Household income is reported in brackets. Separate interest, dividends and rents are unavailable.",
     "timeCoverage": "2004–2023.",
     "selection": "Households record retail purchases intended for home use.",
     "weights": "NielsenIQ household projection weights.",
@@ -169,6 +171,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   },
   "FORBES": {
     "name": "Forbes rich lists",
+    "capitalUnavailable": "Forbes estimates the value of listed fortunes. Income from those assets is unavailable.",
     "unit": "Listed people or family fortunes",
     "wealth": [
       ["assets", "Stakes in publicly traded and private businesses, real estate and other assets, as valued by Forbes."],
@@ -191,10 +194,10 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries, pensions and other social transfers, plus two thirds of self-employment income.",
     "capital": [
-      ["financialIncome", "Reported financial income."],
-      ["businessIncome", "Reported rent and one third of self-employment income."],
+      ["hfcsFinancialAndBusinessIncome", "Interest and dividends from bank deposits, certificates of deposit, managed accounts, bonds, listed shares and mutual funds. The survey total also includes income from privately held businesses outside self-employment."],
+      ["businessIncome", "Reported rental income from real estate, plus one third of self-employment income."],
       ["housing", "Gross imputed rent on owner-occupied housing enters capital income. Debt interest is deducted separately."],
-      ["interest", "Subtract debt interest."]
+      ["interest", "Subtract interest on loans for the main home, other properties and other borrowing, estimated from interest rates and outstanding balances."]
     ],
     "wealth": [
       ["financial", "Deposits, bonds, mutual funds, listed shares, managed accounts, private pension and life-insurance assets and other financial assets."],
@@ -222,8 +225,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries, government transfers, and two thirds of self-employment income after business losses.",
     "capital": [
-      ["investmentAndPropertyIncome", "Household investment and property receipts after deducting reported investment losses."],
-      ["businessIncome", "One third of net self-employment income."],
+      ["investmentAndPropertyIncome", "The household total combines interest, dividends, royalties and rental income for the financial year, after deducting reported investment losses."],
+      ["businessIncome", "One third of self-employment income after business losses."],
       ["housing", "Gross imputed rent is estimated from the value of the owner-occupied home. The reporting adjustment scales it to Australian national accounts."]
     ],
     "wealth": [
@@ -251,8 +254,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "After-tax wages and salaries, pensions and transfers, two thirds of self-employment income and fringe benefits.",
     "capital": [
-      ["investmentAndPropertyIncome", "Financial and rental-property receipts are grouped together."],
-      ["businessIncome", "One third of self-employment income."],
+      ["investmentAndPropertyIncome", "Actual rents are grouped with returns on deposits, government securities and other securities. The Bank of Italy estimates the financial returns from balances and after-tax yields. Imputed owner rent and interest paid enter separately."],
+      ["businessIncome", "One third of net self-employment and entrepreneurial income."],
       ["housing", "Imputed rent on owner-occupied homes, based on the survey’s rental values and rescaled to national accounts in the adjusted estimates."],
       ["interest", "Subtract interest payments."]
     ],
@@ -365,11 +368,12 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     debt:['Debt','<mo>−</mo><mi>m</mi>'],
     financialIncome:['Financial income',mathSub('r','b')+price('b')],
     businessIncome:['Income from businesses and other real assets',mathSub('r','k')+price('k')],
+    hfcsFinancialAndBusinessIncome:['Financial investments and passive business income','<mi>b</mi><mo>,</mo><mi>k</mi>'],
     scfBusinessAndInvestmentIncome:['Business and investment income bundle'],
-    housingIncome:['Owner-occupied and rental housing income'],
-    pensionAndInsuranceIncome:['Pensions and insurance'],
-    capitalTaxesAndSubsidies:['Allocated taxes and subsidies'],
-    investmentAndPropertyIncome:['Investment and property income'],
+    housingIncome:['Owner-occupied and rental housing income','<mi>h</mi><mo>,</mo><mi>k</mi>'],
+    pensionAndInsuranceIncome:['Pensions and insurance','<mi>b</mi>'],
+    capitalTaxesAndSubsidies:['Allocated taxes and subsidies','<mo>−</mo><mi>T</mi>'],
+    investmentAndPropertyIncome:['Investment and property income','<mi>b</mi><mo>,</mo><mi>k</mi>'],
     netHousing:['Net imputed rent',mathSub('r','h')+price('h')],
     gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
     interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
@@ -459,6 +463,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     cards.y.detail.textContent=source.labor||source.optionalLabor||'Unavailable in the current estimates.';
     cards.tax.detail.textContent=source.taxes||'Taxes paid minus transfers received. A separate estimate of this component is unavailable for this dataset.';
     const capitalNotes=[];
+    if(source.capitalUnavailable)capitalNotes.push(source.capitalUnavailable);
     if(source.optionalCapital)capitalNotes.push('Optional topcoded income estimates. Topcoding severely distorts these upper tails.');
     if(source.housing&&state.constantRent&&source.capital)capitalNotes.push('Net owner rent uses the same constant-rate construction.');
     const capitalRows=(source.capital||source.optionalCapital||[]).slice();
