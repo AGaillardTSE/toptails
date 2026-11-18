@@ -110,8 +110,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "capital": [
       ["financialIncome", "Equity income from C and S corporations, interest, and pension and insurance investment income. DINA deducts investment income payable to pension plans and IRAs. It adds a share of pension, disability and unemployment benefits, based on pension investment income as a fraction of that income plus social-insurance contributions. Life-insurance investment income remains included."],
       ["businessIncome", "Income from partnerships and sole proprietorships."],
-      ["ownerOccupiedHousingIncome", "Imputed rent from owner-occupied homes."],
-      ["rentalPropertyIncome", "Rental income from properties other than the owner-occupied home."],
+      ["housingIncome", "Imputed rent from owner-occupied homes and rental income from other properties."],
       ["gains", "Fiscal (realized) capital gains are included by default."],
       ["interest", "Subtract mortgage and nonmortgage interest."]
     ],
@@ -370,8 +369,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     financialIncome:['Financial income',mathSub('r','b')+price('b')],
     businessIncome:['Income from businesses and other real assets',mathSub('r','k')+price('k')],
     scfBusinessAndInvestmentIncome:['Business and investment income bundle',mathSub('r','k')+price('k')+'<mo>+</mo>'+mathSub('r','b')+price('b')],
-    ownerOccupiedHousingIncome:['Owner-occupied housing income',mathSub('r','h')+price('h')],
-    rentalPropertyIncome:['Rental property income',mathSub('r','k')+price('k')],
+    housingIncome:['Owner-occupied and rental housing income',mathSub('r','h')+price('h')+'<mo>+</mo>'+mathSub('r','k')+price('k')],
     netHousing:['Net imputed rent',mathSub('r','h')+price('h')],
     gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
     interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
