@@ -1292,7 +1292,8 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries plus half of the combined self-employment, farm, other business and investment-income bundle, which also contains rents, trusts and royalties.",
     "capital": [
-      ["asset", "Half the combined business, farm, investment, rent, trust and royalty bundle, plus taxable and tax-exempt interest and dividends."],
+      ["financialIncome", "Taxable and tax-exempt interest and dividends."],
+      ["scfBusinessAndInvestmentIncome", "Half the reported combined income from businesses, farms, investments, rents, trusts and royalties."],
       ["netHousing", "Gross imputed rent less mortgage and home-equity interest, property taxes, insurance, and repairs and maintenance."],
       ["gains", "Realized gains from funds, securities and property."],
       ["interest", "Subtract interest on credit-card, student, vehicle and other personal debt."]
@@ -1353,7 +1354,11 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Individual adults",
     "labor": "Employee compensation, including wages and supplements, plus the labor share of self-employment income and allocated sales taxes and subsidies. Social-insurance contributions are deducted and the labor share of pension, unemployment and disability benefits is added.",
     "capital": [
-      ["asset", "Housing, equity, interest, business and pension or insurance asset income, plus allocated sales taxes and subsidies. Pension-fund investment income is deducted and the capital share of social insurance benefits is added."],
+      ["financialIncome", "Equity income from C and S corporations, plus interest income."],
+      ["businessIncome", "Income from partnerships and sole proprietorships."],
+      ["housingIncome", "Housing income from owner-occupied and rental properties."],
+      ["pensionAndInsuranceIncome", "Income from pension and insurance assets. In the pre-tax measure, pension-fund investment income is deducted and the capital share of social insurance benefits is added."],
+      ["capitalTaxesAndSubsidies", "The capital share of sales and excise taxes and subsidies."],
       ["gains", "Fiscal (realized) capital gains are included by default."],
       ["interest", "Subtract debt interest."]
     ],
@@ -1375,6 +1380,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   "YODLEE": {
     "name": "Yodlee (bank data)",
     "unit": "Bank–individual accounts",
+    "partialConsumption": true,
     "consumption": [
       ["nondurable", "Payments for groceries, restaurants, rent, utilities, communications, education, recreation, travel and charitable giving. Coverage depends on which purchases pass through the observed account."],
       ["housing", "Owner-occupied housing services are unobserved in bank transactions."]
@@ -1463,7 +1469,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "Wages and salaries, government transfers, and two thirds of self-employment income after business losses.",
     "capital": [
-      ["asset", "Household investment and property income after subtracting reported investment losses."],
+      ["investmentAndPropertyIncome", "Household investment and property receipts after deducting reported investment losses."],
       ["businessIncome", "One third of net self-employment income."],
       ["housing", "Gross imputed rent is estimated from the value of the owner-occupied home. The reporting adjustment scales it to Australian national accounts."]
     ],
@@ -1492,7 +1498,9 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     ],
     "labor": "After-tax wages and salaries, pensions and transfers, two thirds of self-employment income and fringe benefits.",
     "capital": [
-      ["asset", "Financial and rental-property receipts, one third of self-employment income and imputed owner rent."],
+      ["investmentAndPropertyIncome", "Financial and rental-property receipts are grouped together."],
+      ["businessIncome", "One third of self-employment income."],
+      ["housing", "Imputed rent on owner-occupied homes, based on the survey’s rental values and rescaled to national accounts in the adjusted estimates."],
       ["interest", "Subtract interest payments."]
     ],
     "wealth": [
@@ -1602,9 +1610,13 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     durables:['Consumer durables',price('d')],
     real:['Real assets',price('k')],
     debt:['Debt','<mo>−</mo><mi>m</mi>'],
-    asset:['Asset income',mathSub('r','x')+price('x')],
     financialIncome:['Financial income',mathSub('r','b')+price('b')],
     businessIncome:['Income from businesses and other real assets',mathSub('r','k')+price('k')],
+    scfBusinessAndInvestmentIncome:['Business and investment income bundle'],
+    housingIncome:['Owner-occupied and rental housing income'],
+    pensionAndInsuranceIncome:['Pensions and insurance'],
+    capitalTaxesAndSubsidies:['Allocated taxes and subsidies'],
+    investmentAndPropertyIncome:['Investment and property income'],
     netHousing:['Net imputed rent',mathSub('r','h')+price('h')],
     gains:['Capital gains','<mo>(</mo><msubsup><mi>p</mi><mi>x</mi><mo>′</mo></msubsup><mo>−</mo>'+mathSub('p','x')+'<mo>)</mo><mi>x</mi>'],
     interest:['Interest paid','<mo>−</mo>'+mathSub('r','m')+'<mi>m</mi>'],
