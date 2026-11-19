@@ -95,7 +95,7 @@ function initAdjustments(payload,context) {
       });
       canvas.setAttribute('aria-label',surveyLabels[distributionSurvey]+' '+contract.domain+' component shares: '+stage);
       const yTitle=nipaBasket?'Share of consumption':contract.y_label;
-      const yAxis=JSON.stringify([yTitle,contract.y_display_range,contract.ybreaks]);
+      const yAxis=JSON.stringify([yTitle,contract.y_display_range]);
       const showYTitle=!labeledAxes.has(yAxis);
       labeledAxes.add(yAxis);
       canvas.dataset.distributionRange=distributionRange;
