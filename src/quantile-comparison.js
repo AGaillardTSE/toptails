@@ -410,7 +410,7 @@ function createUSQuantileComparison({
     const groups = visiblePanels.flatMap(panel=>panel.groups);
     const visible = groups.length>0;
     panelGrid.classList.toggle('has-raw-panel',includeRaw);
-    panelGrid.classList.toggle('single-adjusted-panel',!includeRaw&&adjustment.value!=='raw');
+    panelGrid.classList.toggle('single-reporting-panel',!includeRaw&&adjustment.value==='adj');
     csvButton.disabled = pngButton.disabled = !visible;
     status.hidden = visible;
     note.parentElement.hidden = !visible;

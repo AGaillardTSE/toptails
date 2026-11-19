@@ -12,7 +12,8 @@ function initOtherSurveys(other,context) {
   const labels=Object.fromEntries(variables),adj={raw:'Raw data',adj:'Reporting adjusted',full:'Reporting + representation',reference:'Standalone reference'};
   // PSID/0_PSID_final_figures.R, series_cols (Consumption, Labor, Total income, Wealth, Capital).
   const variableColors={consump_def1:'#477EAD',total_labor_income:'#BF5555',total_income:'#A96F4B',networth_val:'#4D8B69',total_capital_income:'#C4A12A',hbs_consumption_excl_inkind:'#77569b'};
-  const styles={HBS:{color:'#77569b',point:'dash'},HFCS:{color:'#2c5c88',point:'circle'},SHIW:{color:'#b34470',point:'rectRot'},HILDA:{color:'#25877d',point:'triangle'},PSID:{point:'rect'},SCF:{point:'star'},CEX_BM_RECON:{point:'triangle'},YODLEE:{point:'cross'},NIELSEN:{point:'crossRot'},FORBES:{point:'rectRounded'},SAEZ_ZUCMAN:{point:'rectRot'}};
+  const styles={HBS:{color:'#77569b',point:'line'},HFCS:{color:'#2c5c88',point:'circle'},SHIW:{color:'#b34470',point:'rectRot'},HILDA:{color:'#25877d',point:'triangle'},PSID:{point:'rect'},SCF:{point:'star'},CEX_BM_RECON:{point:'triangle'},YODLEE:{point:'cross'},NIELSEN:{point:'crossRot'},FORBES:{point:'rectRounded'},SAEZ_ZUCMAN:{point:'rectRot'}};
+  const strokeOnlyMarkers=new Set(['cross','crossRot','line','star']);
   const hbsLabels={consump_def1:'Consumption including in-kind benefits',total_income:'Net monetary household income'};
   const variableLabel=(variable,survey)=>survey==='HBS'?(hbsLabels[variable]||labels[variable]):labels[variable];
   const number=(x,d=3)=>finite(x)?x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
@@ -60,7 +61,7 @@ function initOtherSurveys(other,context) {
     '<div class="control"><label for="cc-measure">Variable for consumption</label><select id="cc-measure"></select></div></div>',
     '<div class="other-table-meta"><span>KS-selected Pareto coefficients</span><span id="cc-summary-count"></span></div>',
     '<div class="cc-comparison-legends"><fieldset id="cc-variable-legend" class="cc-variable-legend" aria-label="Variables to display"></fieldset><div id="cc-survey-legend" class="cc-survey-legend" aria-label="Survey symbols"></div></div>',
-    '<div class="cc-country-actions" id="cc-country-actions"><p id="cc-country-hide-hint">Select a country name to hide it.</p><div class="cc-hidden-countries" id="cc-hidden-countries" hidden></div></div>',
+    '<div class="cc-country-actions" id="cc-country-actions" hidden><div class="cc-hidden-countries" id="cc-hidden-countries" hidden></div></div>',
     '<div class="cc-comparison-chart" id="cc-chart-grid"></div>',
     '<p id="cc-summary-empty" class="results-empty" hidden>No estimates are available for these filters.</p><p class="results-note" id="cc-summary-note"></p></div></section>',
     '<section id="cc-time" role="tabpanel" aria-labelledby="cc-tab-time" hidden><div class="other-card"><header class="other-card-heading"><div><h2 id="cc-t-title">Tails over time</h2><p class="plot-subtitle" id="cc-t-subtitle"></p></div><div class="chart-actions"><button class="text-button" id="cc-t-csv">Results CSV</button><button class="text-button" id="cc-t-png">Figure PNG</button></div></header>',
@@ -188,12 +189,11 @@ function initOtherSurveys(other,context) {
       .find(button => button.dataset.country === country);
     (visible || restore || labels[0] || $('cc-country')).focus({preventScroll:true});
   }
-  function renderHiddenSummaryCountries(hasChart) {
+  function renderHiddenSummaryCountries() {
     const controls = $('cc-hidden-countries');
     controls.replaceChildren();
     controls.hidden = hiddenSummaryCountries.size === 0;
-    $('cc-country-actions').hidden = !hasChart && controls.hidden;
-    $('cc-country-hide-hint').hidden = !hasChart;
+    $('cc-country-actions').hidden = controls.hidden;
     if (controls.hidden) return;
     const label = document.createElement('span');
     label.textContent = 'Hidden countries';
@@ -225,6 +225,26 @@ function initOtherSurveys(other,context) {
       controls.append(reset);
     }
   }
+  function arrangeSummaryPoints(countryRows, xMin, xMax, plotWidth, laneSpacing) {
+    // Separate nearby points within each country while preserving the estimate on the horizontal axis.
+    const pixelsPerUnit=plotWidth/(xMax-xMin);
+    let nextRow=0;
+    for(const row of countryRows.values()){
+      const laneEnds=[];
+      const placements=row.points.sort((a,b)=>a.x-b.x).map(point=>{
+        const x=(point.x-xMin)*pixelsPerUnit, clearance=point.radius+2;
+        let lane=laneEnds.findIndex(end=>end<=x-clearance);
+        if(lane===-1)lane=laneEnds.length;
+        laneEnds[lane]=x+clearance;
+        return {point,lane};
+      });
+      const rowHeight=Math.max(40,laneEnds.length*laneSpacing+8);
+      row.center=nextRow+rowHeight/2;
+      for(const {point,lane} of placements)point.y=row.center+(lane-(laneEnds.length-1)/2)*laneSpacing;
+      nextRow+=rowHeight;
+    }
+    return nextRow;
+  }
   function renderSummary(){
     const hasUS=(summary.country==='all'||summary.country==='US')&&(summary.dataset==='all'||(context.usSurveys||[]).includes(summary.dataset));
     const hbsSelected=summary.dataset==='HBS';
@@ -250,24 +270,30 @@ function initOtherSurveys(other,context) {
     const empty = $('cc-summary-empty');
     empty.textContent = hiddenSummaryCountries.size && !displayed.length &&
       summaryRows(true).some(hasSelectedEstimates) ? 'No countries are shown.' : 'No estimates are available for these filters.';
-    renderHiddenSummaryCountries(displayed.length > 0);
+    renderHiddenSummaryCountries();
     const names=[...new Map(displayed.map(r=>[r.country,r])).values()].sort((a,b)=>a.country_name.localeCompare(b.country_name));
-    const indexes=new Map(names.map((r,i)=>[r.country,i])),countryLabels=names.map(r=>r.country_name);
+    const countryRows=new Map(names.map(row=>[row.country,{points:[],label:row.country_name}]));
     const surveys=summarySources.filter(survey=>displayed.some(r=>r.survey===survey));
-    const unit='country–survey'+(summary.period==='wave'?'–wave estimates':' averages');
+    const byWave=summary.period==='wave';
+    const markerRadius=byWave?{standard:3.5,hilda:4.5,lowSupport:5.5}:{standard:5,hilda:7.5,lowSupport:8};
+    const unit='country–survey'+(byWave?'–wave estimates':' averages');
     empty.hidden=!!displayed.length;$('cc-summary-count').textContent=displayed.length+' '+unit;$('cc-summary-csv').disabled=!displayed.length;
     const variableLegend=$('cc-variable-legend'),surveyLegend=$('cc-survey-legend');
     variableLegend.replaceChildren();surveyLegend.replaceChildren();
-    const icon=(point,color)=>{const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 16 16');svg.setAttribute('aria-hidden','true');const cross='<path d="M7 2H9V7H14V9H9V14H7V9H2V7H7Z"/>',shapes={circle:'<circle cx="8" cy="8" r="4.5"/>',rectRot:'<path d="M8 2 14 8 8 14 2 8Z"/>',triangle:'<path d="M8 2 14 13H2Z"/>',rect:'<path d="M3 3H13V13H3Z"/>',rectRounded:'<rect x="3" y="3" width="10" height="10" rx="3"/>',cross,crossRot:'<g transform="rotate(45 8 8)">'+cross+'</g>',dash:'<path d="M2 6.5H14V9.5H2Z"/>',star:'<path d="m8 1.5 1.8 4.4 4.7.4-3.6 3.1 1.1 4.6-4-2.5-4 2.5 1.1-4.6-3.6-3.1 4.7-.4Z"/>'};svg.innerHTML=shapes[point]||shapes.rect;svg.setAttribute('fill',color);return svg;};
+    const icon=(point,color)=>{const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 16 16');svg.setAttribute('aria-hidden','true');const cross='<path d="M7 2H9V7H14V9H9V14H7V9H2V7H7Z"/>',shapes={circle:'<circle cx="8" cy="8" r="4.5"/>',rectRot:'<path d="M8 2 14 8 8 14 2 8Z"/>',triangle:'<path d="M8 2 14 13H2Z"/>',rect:'<path d="M3 3H13V13H3Z"/>',rectRounded:'<rect x="3" y="3" width="10" height="10" rx="3"/>',cross,crossRot:'<g transform="rotate(45 8 8)">'+cross+'</g>',line:'<path d="M2 8H14" stroke="currentColor" stroke-width="1.8"/>',star:'<path d="M2 8H14M8 2V14M3.8 3.8l8.4 8.4m0-8.4-8.4 8.4" stroke="currentColor" stroke-width="1.8"/>'};svg.innerHTML=shapes[point]||shapes.rect;svg.setAttribute('fill',color);svg.style.color=color;return svg;};
     headlineVariables.forEach(([variable,title])=>{const item=document.createElement('label'),input=document.createElement('input'),swatch=document.createElement('span');item.className='series-choice';item.style.setProperty('--series',variableColors[variable]);input.type='checkbox';input.value=variable;input.checked=summary.variables.has(variable);input.disabled=!rows.some(row=>finite(row[variable]));const displayTitle=variable==='consump_def1'&&summary.measure!=='auto'?(measureLabel(summary.measure)||title):title;input.setAttribute('aria-label',displayTitle);swatch.className='series-swatch';swatch.style.backgroundColor=variableColors[variable];input.addEventListener('change',()=>{input.checked?summary.variables.add(variable):summary.variables.delete(variable);renderSummary();});item.append(input,swatch,document.createTextNode(displayTitle));variableLegend.append(item);});
     surveys.forEach(survey=>{const item=document.createElement('span');item.append(icon(styles[survey]?.point||'rect','#5f6875'),document.createTextNode(sourceLabel(survey)),surveyHelp(survey));surveyLegend.append(item);});
     if(!displayed.length){$('cc-summary-note').textContent=activeVariables.length?'No estimates are available for these filters.':'Select at least one variable to display.';return;}
-    const wrap=document.createElement('div');wrap.className='cc-comparison-wrap';wrap.style.height=Math.max(450,names.length*40+170)+'px';
-    const canvas=document.createElement('canvas');canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Pareto tail coefficients (ζ) of consumption, labor income, total income, wealth and capital income across countries. Color identifies the variable and shape identifies the survey.');wrap.append(canvas);grid.append(wrap);
+    const wrap=document.createElement('div');wrap.className='cc-comparison-wrap';
+    const canvas=document.createElement('canvas');canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Pareto tail coefficients (ζ) across countries. Color identifies the variable and shape identifies the survey. Long dashes show means across countries and short dashes show medians across countries.');wrap.append(canvas);grid.append(wrap);
     const countryAxis = document.createElement('div');
     countryAxis.className = 'cc-country-axis';
     countryAxis.setAttribute('role', 'group');
     countryAxis.setAttribute('aria-label', 'Countries in the plot');
+    const countryHint=document.createElement('p');
+    countryHint.id='cc-country-hide-hint';
+    countryHint.textContent='Select a country name to hide it.';
+    countryAxis.append(countryHint);
     wrap.append(countryAxis);
     const countryButtons = names.map(({country,country_name}, index) => {
       const button = document.createElement('button');
@@ -290,55 +316,82 @@ function initOtherSurveys(other,context) {
     const countryAxisPlugin = {
       id:'ccCountryButtons',
       afterLayout(chart) {
-        countryAxis.style.width = Math.max(0, chart.chartArea.left - 3) + 'px';
-        for (const [index,button] of countryButtons.entries()) {
-          button.style.top = chart.scales.y.getPixelForValue(index) + 'px';
+        countryAxis.style.width = Math.max(0, chart.chartArea.left - 13) + 'px';
+        for (const button of countryButtons) {
+          button.style.top = chart.scales.y.getPixelForValue(countryRows.get(button.dataset.country).center) + 'px';
         }
       }
     };
     const datasets=[],referenceMarks=[];
-    activeVariables.forEach(([variable,title],vi)=>{
+    activeVariables.forEach(([variable,title])=>{
       const color=variableColors[variable];
       surveys.forEach(survey=>{
         const style=styles[survey]||{point:'rect'},subset=displayed.filter(r=>r.survey===survey&&finite(r[variable]));if(!subset.length)return;
         const points=subset.map(r=>{
-          const group=subset.filter(a=>a.country===r.country).sort((a,b)=>(a.year||0)-(b.year||0)),j=group.indexOf(r);
-          const countrySurveys=surveys.filter(value=>displayed.some(a=>a.country===r.country&&a.survey===value&&finite(a[variable])));
-          const surveyOffset=(countrySurveys.indexOf(survey)-(countrySurveys.length-1)/2)*Math.min(.045,.09/Math.max(1,countrySurveys.length-1));
-          const waveOffset=group.length>1?(j-(group.length-1)/2)*Math.min(.012,.045/(group.length-1)):0;
-          return{x:r[variable],y:indexes.get(r.country)+(vi-(activeVariables.length-1)/2)*.105+surveyOffset+waveOffset,country_name:r.country_name,survey,variable,period_label:r.period_label,stage:r.specification||r.variant,reliability:r[variable+'_reliability'],contributing_waves:r[variable+'_waves'],consumption_measure:r.consumption_measure,n_waves:r[variable+'_n_waves']??r['n_waves_'+({consump_def1:'c',networth_val:'wealth',total_income:'income',total_labor_income:'labor',total_capital_income:'capital'})[variable]]??r.n_waves};
+          const reliability=r[variable+'_reliability'];
+          const point={x:r[variable],radius:lowerReliability(reliability)?markerRadius.lowSupport:survey==='HILDA'?markerRadius.hilda:markerRadius.standard,country_name:r.country_name,survey,variable,period_label:r.period_label,stage:r.specification||r.variant,reliability,contributing_waves:r[variable+'_waves'],consumption_measure:r.consumption_measure,n_waves:r[variable+'_n_waves']??r['n_waves_'+({consump_def1:'c',networth_val:'wealth',total_income:'income',total_labor_income:'labor',total_capital_income:'capital'})[variable]]??r.n_waves};
+          countryRows.get(r.country).points.push(point);
+          return point;
         });
-        const cross=style.point==='cross'||style.point==='crossRot';
-        datasets.push({label:title+' · '+survey,pointStyle:style.point,borderColor:color,backgroundColor:color,pointBorderColor:cross?color:'#fffefa',pointBorderWidth:cross?1.8:.7,pointRadius:point=>lowerReliability(point.raw?.reliability)?8:survey==='HILDA'?7.5:5,pointHoverRadius:survey==='HILDA'?10:7,data:points});
+        const strokeOnly=strokeOnlyMarkers.has(style.point);
+        datasets.push({label:title+' · '+survey,pointStyle:style.point,borderColor:color,backgroundColor:color,pointBorderColor:strokeOnly?color:'#fffefa',pointBorderWidth:strokeOnly?1.8:.7,pointRadius:context=>context.raw?.radius??5,pointHoverRadius:context=>(context.raw?.radius??5)+2,clip:{left:10,right:0,top:0,bottom:0},data:points});
       });
       const byCountry=new Map();displayed.filter(r=>finite(r[variable])).forEach(r=>{if(!byCountry.has(r.country))byCountry.set(r.country,[]);byCountry.get(r.country).push(r[variable]);});
       const values=[...byCountry.values()].map(average).sort((a,b)=>a-b);if(!values.length)return;
       const mid=Math.floor(values.length/2),references={mean:average(values),median:values.length%2?values[mid]:(values[mid-1]+values[mid])/2};
       ['mean','median'].forEach(kind=>{
-        const value=references[kind];datasets.push({type:'line',label:title+' '+kind+' '+number(value),data:[{x:value,y:-.5},{x:value,y:names.length-.5}],borderColor:color+'b3',borderDash:kind==='mean'?[8,5]:[3,4],borderWidth:1.4,pointRadius:0,order:2,isReference:true});
+        const value=references[kind];datasets.push({type:'line',label:title+' '+kind+' '+number(value),data:[{x:value,y:0},{x:value,y:0}],borderColor:color+'b3',borderDash:kind==='mean'?[8,5]:[3,4],borderWidth:1.4,pointRadius:0,order:2,isReference:true});
         referenceMarks.push({variable,title,kind,value,color});
       });
     });
     canvas.dataset.variables=JSON.stringify(activeVariables.map(([variable])=>variable));
-    const axisMaximum=Math.ceil(10*Math.max(1,...displayed.flatMap(row=>activeVariables.map(([variable])=>row[variable]).filter(finite)),...referenceMarks.map(mark=>mark.value))*1.04)/10;
+    const estimates=[...countryRows.values()].flatMap(row=>row.points.map(point=>point.x));
+    const axisMinimum=Math.min(.75,...estimates);
+    const axisMaximum=Math.ceil(10*Math.max(1,...estimates)*1.04)/10;
     const compact=canvas.parentElement.clientWidth<550,referenceFontSize=compact?11:13;
-    countryAxis.style.fontSize = referenceFontSize + 'px';
+    const rightPadding=compact?14:22,wrapAxes=compact||window.innerWidth<1100;
+    wrap.style.setProperty('--cc-axis-font',referenceFontSize+'px');
     const referenceGap=referenceFontSize+4;
-    const referenceCount=referenceMarks.filter(mark=>mark.kind==='mean').length;
-    // Leave space for the colored labels without widening the chart's horizontal margins.
-    const horizontalTicks={display:false,maxTicksLimit:compact?5:8};
-    const fitHorizontalAxis=scale=>{scale.height+=18+referenceCount*referenceGap;};
-    const axisTitle=kind=>{
-      const label='Pareto tail coefficient (ζ)',dash=kind==='mean'?'long':'short',term=kind==='mean'?'mean':'median';
-      const note='('+dash+'-dashed lines: '+term+' across countries)';
-      return compact||window.innerWidth<1100?[label,note]:label+' '+note;
-    };
+    // Reserve enough room for country buttons and the full circle or stroke at the left bound.
+    const labelContext=canvas.getContext('2d');
+    labelContext.save();
+    labelContext.font=referenceFontSize+'px Arial, sans-serif';
+    const countryLabelWidth=Math.ceil(Math.max(...names.map(row=>labelContext.measureText(row.country_name).width)))+38;
+    const chartWidth=wrap.clientWidth,innerWidth=Math.max(1,chartWidth-countryLabelWidth-rightPadding);
+    const plotHeight=arrangeSummaryPoints(countryRows,axisMinimum,axisMaximum,Math.max(1,innerWidth-8),byWave?14:20);
+    const countryLabels=new Map([...countryRows.values()].map(row=>[row.center,row.label]));
+    datasets.filter(dataset=>dataset.isReference).forEach(dataset=>{dataset.data[1].y=plotHeight;});
+    const horizontalTicks={display:false,maxTicksLimit:compact?5:8,callback:value=>value.toLocaleString('en-US',{maximumFractionDigits:3})};
+    const fitHorizontalAxis=scale=>{scale.height+=axisHeaders[scale.id==='xTop'?'mean':'median'].height;};
+    const axisHeaders={};
+    const centerLabel=(x,half,width)=>Math.max(half+3,Math.min(width-half-3,x));
+    labelContext.font='600 '+referenceFontSize+'px Arial, sans-serif';
+    for(const kind of ['mean','median']){
+      const top=kind==='mean',caption=document.createElement('p'),main='Pareto tail coefficient (ζ)';
+      const note=(top?'Long dashes show means':'Short dashes show medians')+(compact?'':' across countries');
+      caption.className='cc-axis-caption';
+      caption.append(main,wrapAxes?document.createElement('br'):' ',wrapAxes?note:'('+note+')');
+      wrap.append(caption);
+      const edges=[];
+      const marks=referenceMarks.filter(mark=>mark.kind===kind).sort((a,b)=>a.value-b.value).map(mark=>{
+        const label=(top?'Mean: ':'Median: ')+number(mark.value,2),half=labelContext.measureText(label).width/2;
+        const plotX=countryLabelWidth+innerWidth*(mark.value-axisMinimum)/(axisMaximum-axisMinimum);
+        const x=centerLabel(plotX,half,chartWidth);
+        let lane=edges.findIndex(edge=>edge+5<=x-half);
+        if(lane===-1)lane=edges.length;
+        edges[lane]=x+half;
+        return {...mark,label,half,lane};
+      });
+      const tickGap=9+edges.length*referenceGap;
+      axisHeaders[kind]={caption,marks,tickGap,height:tickGap+referenceFontSize+7+(wrapAxes?2:1)*referenceGap+3};
+    }
+    labelContext.restore();
+    wrap.style.height=Math.max(450,plotHeight+axisHeaders.mean.height+axisHeaders.median.height+24)+'px';
     const axisReferencePlugin={
       id:'ccAxisReferences',
       afterDraw(chart){
         const {ctx,chartArea:area}=chart;
-        const lanes={mean:[],median:[]};
-        for(const mark of [...referenceMarks].sort((a,b)=>a.value-b.value)){
+        for(const mark of [...axisHeaders.mean.marks,...axisHeaders.median.marks]){
           const isMean=mark.kind==='mean',scale=isMean?chart.scales.xTop:chart.scales.x;
           const x=scale.getPixelForValue(mark.value),y=isMean?area.top:area.bottom;
           ctx.save();
@@ -361,17 +414,11 @@ function initOtherSurveys(other,context) {
           ctx.font='600 '+referenceFontSize+'px Arial, sans-serif';
           ctx.textAlign='center';
           ctx.textBaseline=isMean?'bottom':'top';
-          const label=(isMean?'Mean: ':'Median: ')+number(mark.value,2);
-          const half=ctx.measureText(label).width/2;
-          const labelX=Math.max(half+3,Math.min(chart.width-half-3,x));
-          const occupied=lanes[mark.kind];
-          let lane=0;
-          while(occupied[lane]!==undefined&&labelX-half<occupied[lane]+5)lane++;
-          occupied[lane]=labelX+half;
-          const offset=7+lane*referenceGap,labelY=isMean?y-offset:y+offset;
+          const labelX=centerLabel(x,mark.half,chart.width);
+          const offset=7+mark.lane*referenceGap,labelY=isMean?y-offset:y+offset;
           ctx.lineWidth=3;
-          ctx.strokeText(label,labelX,labelY);
-          ctx.fillText(label,labelX,labelY);
+          ctx.strokeText(mark.label,labelX,labelY);
+          ctx.fillText(mark.label,labelX,labelY);
           ctx.restore();
         }
         ctx.save();
@@ -379,19 +426,30 @@ function initOtherSurveys(other,context) {
         ctx.font=referenceFontSize+'px Arial, sans-serif';
         ctx.textAlign='center';
         for(const [kind,scale] of [['mean',chart.scales.xTop],['median',chart.scales.x]]){
-          const top=kind==='mean',offset=9+lanes[kind].length*referenceGap;
-          const y=top?area.top-offset:area.bottom+offset;
+          const {caption,tickGap}=axisHeaders[kind],top=kind==='mean';
+          const y=top?area.top-tickGap:area.bottom+tickGap;
           ctx.textBaseline=top?'bottom':'top';
-          for(const tick of scale.ticks){
+          const ticks=scale.ticks.map(tick=>{
             const text=String(tick.label),half=ctx.measureText(text).width/2;
-            const x=Math.max(half+2,Math.min(chart.width-half-2,scale.getPixelForValue(tick.value)));
+            return {text,half,x:centerLabel(scale.getPixelForValue(tick.value),half,chart.width)};
+          });
+          let previousEdge=-Infinity;
+          ticks.forEach(({text,half,x},index)=>{
+            const last=ticks.at(-1);
+            if(index>0&&index<ticks.length-1&&(x-half<previousEdge+5||x+half>last.x-last.half-5))return;
             ctx.fillText(text,x,y);
-          }
+            previousEdge=x+half;
+          });
+          caption.style.left=area.left+'px';
+          caption.style.width=area.width+'px';
+          const captionTop=top?y-referenceFontSize-7-caption.offsetHeight:y+referenceFontSize+7;
+          caption.style.top=captionTop+'px';
+          if(top)countryHint.style.top=captionTop+'px';
         }
         ctx.restore();
       }
     };
-    summaryCharts.push(new Chart(canvas,{type:'scatter',data:{datasets},plugins:[axisReferencePlugin,countryAxisPlugin],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:5,right:compact?14:22,bottom:3}},plugins:{legend:{display:false},tooltip:{filter:item=>!item.dataset.isReference,callbacks:{title:items=>items.length?items[0].raw.country_name+' · '+sourceLabel(items[0].raw.survey):'',label:ctx=>((ctx.raw.variable==='consump_def1'&&measureLabel(ctx.raw.consumption_measure))||labels[ctx.raw.variable])+': '+number(ctx.raw.x),afterLabel:ctx=>[ctx.raw.period_label,ctx.raw.contributing_waves?'Waves: '+ctx.raw.contributing_waves.split(';').join(', '):ctx.raw.n_waves+' available wave(s)',summary.method+' · '+adj[ctx.raw.stage],reliabilityText(ctx.raw.reliability)].filter(Boolean)}}},scales:{xTop:{type:'linear',position:'top',min:0,max:axisMaximum,title:{display:true,text:axisTitle('mean'),font:{size:compact?11:13}},grid:{drawOnChartArea:false},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},x:{type:'linear',position:'bottom',min:0,max:axisMaximum,title:{display:true,text:axisTitle('median'),font:{size:compact?11:13}},grid:{color:'#eeece7'},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},y:{type:'linear',reverse:true,min:-.5,max:names.length-.5,afterFit:axis=>{axis.width+=14;},afterBuildTicks:axis=>axis.ticks=countryLabels.map((label,value)=>({value})),grid:{color:'#eeece7',drawTicks:false},border:{display:false},ticks:{autoSkip:false,color:'transparent',padding:compact?7:12,font:{size:referenceFontSize},callback:v=>Number.isInteger(v)?countryLabels[v]||'':''}}}}}));
+    summaryCharts.push(new Chart(canvas,{type:'scatter',data:{datasets},plugins:[axisReferencePlugin,countryAxisPlugin],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:5,right:rightPadding,bottom:3}},plugins:{legend:{display:false},tooltip:{filter:item=>!item.dataset.isReference,callbacks:{title:items=>items.length?items[0].raw.country_name+' · '+sourceLabel(items[0].raw.survey):'',label:ctx=>((ctx.raw.variable==='consump_def1'&&measureLabel(ctx.raw.consumption_measure))||labels[ctx.raw.variable])+': '+number(ctx.raw.x),afterLabel:ctx=>[ctx.raw.period_label,ctx.raw.contributing_waves?'Waves: '+ctx.raw.contributing_waves.split(';').join(', '):ctx.raw.n_waves+' available wave(s)',summary.method+' · '+adj[ctx.raw.stage],reliabilityText(ctx.raw.reliability)].filter(Boolean)}}},scales:{xTop:{type:'linear',position:'top',min:axisMinimum,max:axisMaximum,grid:{drawOnChartArea:false},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},x:{type:'linear',position:'bottom',min:axisMinimum,max:axisMaximum,grid:{color:'#eeece7'},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},y:{type:'linear',reverse:true,min:0,max:plotHeight,afterFit:axis=>{axis.width=countryLabelWidth;},afterBuildTicks:axis=>axis.ticks=[...countryLabels.keys()].reverse().map(value=>({value})),grid:{color:'#eeece7',drawTicks:false},border:{display:false},ticks:{autoSkip:false,color:'transparent',padding:compact?7:12,font:{size:referenceFontSize},callback:v=>countryLabels.get(v)||''}}}}}));
     $('cc-summary-note').textContent=(names.length>1?'Each country receives equal weight. Surveys and available waves are averaged within country. ':'')+'Coverage varies by variable.'
       +(surveys.includes('HILDA')?' HILDA wealth is available in five waves.':'')
       +(summary.measure==='auto'&&surveys.includes('SCF')?' SCF contributes total expenditure including imputed rent in 2025.':'')

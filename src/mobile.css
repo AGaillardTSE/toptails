@@ -170,7 +170,6 @@
     margin-inline: 5px;
   }
   .quantile-comparison-body { padding-inline: 8px; }
-  .quantile-comparison-panels.single-adjusted-panel { width: 100%; }
   .quantile-comparison-chart { height: clamp(430px, 64vh, 600px); }
   .threshold-chart-wrap { height: clamp(350px, 51vh, 470px); }
   .footnote, .results-note { overflow-wrap: anywhere; }

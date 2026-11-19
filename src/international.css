@@ -14,6 +14,8 @@
 #panel-other .cc-variable-legend>span,#panel-other .cc-survey-legend>span{display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
 #panel-other .cc-variable-legend svg,#panel-other .cc-survey-legend svg{width:16px;height:16px;flex-shrink:0}
 #panel-other .cc-survey-legend{padding-left:20px;border-left:1px solid #e2ded7;color:#6a7280;gap:13px}
+#panel-other #cc-summary .cc-comparison-legends{justify-content:flex-start}
+#panel-other #cc-summary .cc-survey-legend{padding-left:0;border-left:0}
 #panel-other .cc-comparison-chart{padding:0 24px 8px 16px;min-width:0}
 #panel-other .cc-comparison-wrap{position:relative;min-width:0;width:100%}
 #panel-other .cc-comparison-wrap canvas{width:100%!important;height:100%!important}
@@ -92,7 +94,6 @@
   color: #59677a;
   font: 13px/1.5 Arial, sans-serif;
 }
-.cc-country-actions p { margin: 0; }
 .cc-hidden-countries {
   display: flex;
   align-items: center;
@@ -106,7 +107,28 @@
   bottom: 0;
   left: 0;
   pointer-events: none;
-  font-family: Arial, sans-serif;
+  font: var(--cc-axis-font) Arial, sans-serif;
+}
+#cc-country-hide-hint, .cc-axis-caption {
+  position: absolute;
+  box-sizing: border-box;
+  margin: 0;
+  pointer-events: none;
+}
+#cc-country-hide-hint {
+  right: 0;
+  width: 100%;
+  padding-inline: 3px;
+  color: #59677a;
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: right;
+  text-wrap: balance;
+}
+.cc-axis-caption {
+  color: #425167;
+  font: 700 var(--cc-axis-font)/1.25 Arial, sans-serif;
+  text-align: center;
 }
 .cc-country-label {
   display: inline-flex;
@@ -134,4 +156,5 @@
 @media (max-width: 760px) {
   .cc-country-actions { padding-inline: 13px; }
   .cc-country-label { min-height: 32px; }
+  #cc-country-hide-hint { font-size: 11px; }
 }
