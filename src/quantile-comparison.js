@@ -387,6 +387,11 @@ function createUSQuantileComparison({
 
   function drawPlots(title, activeVariables, indicator, includeRaw) {
     const shares = indicator === 'share';
+    const yTitle = {
+      pareto:'Pareto tail coefficient (ζ)',
+      wealth_ratio:'Relative to wealth (ζₓ / ζₐ)',
+      income_ratio:'Relative to total income (ζₓ / ζₜₒₜₐₗ)',
+    }[indicator];
     const visiblePanels = includeRaw ? panels : [currentPanel];
     const groups = visiblePanels.flatMap(panel=>panel.groups);
     const visible = groups.length>0;
@@ -431,7 +436,7 @@ function createUSQuantileComparison({
       panel.empty.hidden = !!panel.groups.length;
       if (!panel.groups.length) continue;
       const labels = referenceLabels(panel.groups);
-      panel.canvas.setAttribute('aria-label',title+' by percentile, '+period.replace('-',' to '));
+      panel.canvas.setAttribute('aria-label',(yTitle||title)+' by percentile, '+period.replace('-',' to '));
       panel.summary.textContent = labels.length ? 'Mean KS-selected estimates. '+labels.map(label=>label.detail).join('. ')+'.' : '';
       const datasets = panel.groups.map(({survey,label,color,points}) => {
         const [pointStyle,borderDash] = style[survey];
@@ -468,7 +473,7 @@ function createUSQuantileComparison({
               afterBuildTicks:scale=>{scale.ticks=(includeRaw?[70,80,90,99]:[70,75,80,85,90,95,99]).map(value=>({value}));},
               ticks:{callback:percentile,maxRotation:0,font:{size:13}},grid:{display:false},
               title:{display:true,text:shares?'Distribution percentile':'Tail cutoff percentile',font:{size:13}}},
-            y:{...yRange,grid:{color:'#e8e8ed'},
+            y:{...yRange,title:{display:!!yTitle,text:yTitle,font:{size:13}},grid:{color:'#e8e8ed'},
               ticks:{font:{size:13},callback:value=>shares?number.format(value*100)+'%':number.format(value)}},
           },
         },
