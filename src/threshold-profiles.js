@@ -89,7 +89,7 @@ const ThresholdProfiles = (() => {
   }
   // Kept for callers of the former API; figure profiles intentionally use stage-specific available cells.
   function commonCells(){return null;}
-  function create({host,curves,surveys,international=false,spendingOptions=[],metadata={},getHousingMethod=()=> 'benchmark',getSpecificationSignature=getHousingMethod,housingMatches=row=>(row.housing_method||'benchmark')==='benchmark',onSurveyChange=null,getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=null,getCEXIncome=()=>false,onCEXIncomeChange=null,loadCEXIncome=null,onOpenComparison=null}){
+  function create({host,curves,surveys,international=false,spendingOptions=[],metadata={},getHousingMethod=()=> 'benchmark',getSpecificationSignature=getHousingMethod,housingMatches=row=>(row.housing_method||'benchmark')==='benchmark',onSurveyChange=null,getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=null,getCEXIncome=()=>false,onCEXIncomeChange=null,loadCEXIncome=null}){
     const allCurves=curves;
     const isCEX=survey=>['CEX','CEX_BM','CEX_BM_RECON'].includes(survey),sourceDisplay=survey=>survey==='CEX_BM_RECON'?(metadata.cex_bm_recon_display||metadata.cex_bm_display||metadata.cex_display):survey==='CEX_BM'?(metadata.cex_bm_display||metadata.cex_display):metadata.cex_display,curveMatches=row=>(!row.optional_income||getCEXIncome())&&(row.reference_only||housingMatches(row));
     const seriesFor=survey=>survey==='CEX_BM_RECON'&&getCEXIncome()?fiveSeries:metadata.surveys?.[survey]?.profile_variables?fiveSeries.filter(([key])=>metadata.surveys[survey].profile_variables.includes(key)||(international&&survey==='SAEZ_ZUCMAN'&&key==='total_income')):survey==='FORBES'?[['networth_val','Wealth']]:survey==='NIELSEN'?[['consumption','Retail purchases']]:fiveSeries;
@@ -103,19 +103,6 @@ const ThresholdProfiles = (() => {
       +'<div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
     const exportButton=section.querySelector('.threshold-heading .text-button');
     const heading=section.querySelector('.threshold-heading h2');
-    if(onOpenComparison){
-      const preview=document.createElement('button');
-      preview.type='button';
-      preview.className='quantile-preview-button';
-      preview.textContent='(v2)';
-      preview.setAttribute('aria-label','Open experimental estimates by quantile (v2)');
-      preview.setAttribute('aria-controls','panel-quantiles-v2');
-      preview.addEventListener('click',onOpenComparison);
-      const title=document.createElement('div');
-      title.className='threshold-heading-title';
-      heading.replaceWith(title);
-      title.append(heading,preview);
-    }
     host.append(section);
     const grid=section.querySelector('.threshold-profile-grid'),legend=section.querySelector('.threshold-legend'),controls=section.querySelector('.threshold-profile-controls'),note=section.querySelector('.threshold-note');
     const variableToolbar=section.querySelector('.threshold-variable-toolbar');

@@ -107,7 +107,6 @@
 .threshold-profile-controls label.control>span{display:block;min-height:20px;line-height:20px}
 
 .global-housing-control{display:flex;align-items:center;justify-content:flex-end;padding:0 2px 15px;min-height:35px}.global-housing-control .small-check{font-size:13px;line-height:1.6;color:#526176;display:flex;align-items:center;gap:8px}.global-housing-control input{width:15px;height:15px;margin:0;accent-color:#b34470}@media(max-width:680px){.global-housing-control{justify-content:flex-start;padding-bottom:14px}}
-.threshold-profile-controls .quantile-housing-control{grid-column:1/-1;flex:0 0 100%;width:100%;justify-content:flex-start;gap:7px;padding:0;min-height:0}.quantile-housing-control .small-check{margin:0;letter-spacing:0;text-transform:none;font-weight:400}
 .biv-tail-ratio{margin:0;padding:0 28px 16px;color:#6c7180;font:400 13px/1.65 Arial,sans-serif}.biv-tail-ratio strong{font-weight:600;color:#495468}.biv-tail-ratio[hidden]{display:none}@media(max-width:760px){.biv-tail-ratio{padding-inline:18px}}
 .secondary-nav-inner{align-items:center;flex-wrap:wrap}.secondary-nav-inner>.global-housing-control{margin-left:auto;padding:10px 0;min-height:48px;flex:0 1 auto}.secondary-nav-inner>.global-housing-control .small-check{font-size:13px;white-space:normal;text-align:right;line-height:1.4}.secondary-nav-inner>.global-housing-control input{flex:0 0 auto}.secondary-nav-inner>.global-housing-control[hidden]{display:none!important}@media(max-width:1100px){.secondary-nav-inner>.global-housing-control{flex:1 1 100%;justify-content:flex-end;border-top:1px solid #ece8df;padding:10px 0}.secondary-nav-inner>.global-housing-control .small-check{text-align:left}}
 
@@ -172,11 +171,6 @@
 .capital-income-choice .small-check{margin:0!important;width:auto!important;display:inline-flex;align-items:center;gap:7px}
 .capital-income-choice .help-marker{flex:0 0 15px;margin:0;vertical-align:middle}
 @media(max-width:1050px){#adjustment-distribution-results.paper-composition .adjustment-distribution-grid.has-two-panels{grid-template-columns:1fr}}
-#us-quantile-profiles .threshold-profile-controls{display:grid;grid-template-columns:minmax(100px,.8fr) 105px minmax(220px,1.7fr) minmax(150px,1.1fr) 85px max-content;align-items:end;gap:12px}
-#us-quantile-profiles .threshold-profile-controls .control{min-width:0;max-width:none;width:auto}
-#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:auto;flex:0 1 auto;width:auto;min-height:39px;align-self:end;align-items:center;white-space:nowrap;margin:0;padding:0}
-@media(max-width:1050px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:760px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:1/-1}}
 .adjustment-footnote{font-size:14px}.adjustment-footnote p{margin:0;line-height:1.7}.adjustment-footnote p+p{margin-top:6px}.sequential-equations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 30px;margin:14px 0}.sequential-step{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;color:#354b65}.sequential-step>span{font:600 14px/1.5 Arial,sans-serif}.sequential-step math{font-family:math;font-size:20px;margin:0;white-space:nowrap}
 @media(max-width:760px){.sequential-equations{grid-template-columns:1fr}.sequential-step math{font-size:18px}}
 .paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(4,minmax(0,1fr))}.paper-composition .adjustment-distribution-controls .control{display:flex;flex-direction:column;align-items:stretch;gap:8px}.paper-composition .adjustment-distribution-controls label{margin:0}.paper-composition .adjustment-distribution-controls select{width:100%;max-width:none;box-sizing:border-box;flex:none}
@@ -238,7 +232,7 @@
 /* Keep plot details compact and give time-series notes the full plot width. */
 .plot-subtitle,.chart-subtitle{font-size:12px;line-height:1.6}
 .subtitle-estimator{display:block;margin-bottom:3px}
-.plot-top:has(#time-chart-subtitle){display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding-bottom:12px}
+.plot-top:has(#time-chart-subtitle){display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding-bottom:var(--variables-gap-before)}
 .plot-top:has(#time-chart-subtitle)>div:first-child{display:contents}
 .plot-top:has(#time-chart-subtitle) h2{grid-column:1;grid-row:1}
 .plot-top:has(#time-chart-subtitle) .chart-actions{grid-column:2;grid-row:1}
@@ -277,6 +271,8 @@
 #time-chart-subtitle{font-size:13px}
 
 /* Chart filters and variable choices share the numerical-results toolbar. */
+:root{--variables-gap-before:12px;--variables-gap-after:16px}
+@media(max-width:760px){:root{--variables-gap-before:7px;--variables-gap-after:9px}}
 .quantile-profile-card .threshold-profiles{--quantile-inset:25px}
 .threshold-profile-controls,.plot-series-controls{background:#f5f3ee;border-block:1px solid #e8e4dc}
 .threshold-profile-controls,.threshold-variable-toolbar{width:calc(100% + 2 * var(--quantile-inset,22px));margin-inline:calc(-1 * var(--quantile-inset,22px))}
@@ -286,8 +282,9 @@
 .plot-series-controls{padding-block:10px}
 .plot-series-controls .series-bar{border:0;margin:0;padding:0;min-width:0}
 .plot-series-controls .series-choice,.threshold-legend .threshold-variable-choice{color:var(--ink,#20354f);font:400 13px/1.5 Arial,sans-serif}
-.threshold-profiles .threshold-variable-toolbar{margin-block:6px 20px;padding-inline:var(--quantile-inset,22px)}
-#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{min-height:41px}
+.threshold-profiles .threshold-variable-toolbar{margin-block:0;padding-inline:var(--quantile-inset,22px)}
+.threshold-profile-controls:has(+.threshold-variable-toolbar:not([hidden])){padding-bottom:var(--variables-gap-before)}
+.threshold-variable-toolbar:not([hidden])+.threshold-profile-grid>.threshold-survey-group:first-child{margin-top:var(--variables-gap-after)}
 @media(max-width:850px){.quantile-profile-card .threshold-profiles{--quantile-inset:17px}}
 
 /* Plot metadata and fitted-tail readouts share one text size. */
@@ -418,10 +415,10 @@
 #panel-other #cc-loglog .plot-surface{overflow:hidden}
 #panel-other .cc-b-readout{padding:0 28px;margin:0;min-height:0;color:#25877d;font-size:12px;line-height:1.5}
 #panel-other #cc-b-fits th:first-child,#panel-other #cc-b-fits td:first-child{text-align:left}
-#panel-other .other-table-meta{padding:18px 28px 14px}
+#panel-other .other-table-meta{padding:18px 28px var(--variables-gap-before)}
 @media(max-width:760px){#panel-other .results-controls .control{max-width:none}#panel-other .cc-b-readout{padding:0 18px}}
 
-#panel-other .cc-survey-legend{display:flex;align-items:center;flex-wrap:wrap;gap:7px 13px;padding:10px 28px;font:400 13px/1.5 Arial,sans-serif;color:#6a7280}
+#panel-other .cc-survey-legend{display:flex;align-items:center;flex-wrap:wrap;gap:7px 13px;padding:var(--variables-gap-after) 28px 10px;font:400 13px/1.5 Arial,sans-serif;color:#6a7280}
 #panel-other .cc-survey-legend:empty{display:none}
 #panel-other .cc-survey-legend>span{display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
 #panel-other .cc-survey-legend svg{width:16px;height:16px;flex-shrink:0}
@@ -439,7 +436,7 @@
 #panel-other .cc-time-controls{grid-template-columns:repeat(3,minmax(0,1fr))}
 #panel-other .cc-time-controls input{width:100%;min-height:41px;border:1px solid #dddfdf;border-radius:5px;padding:7px 10px;font-size:13px;color:#263a53}
 #panel-other .cc-time-chart{height:480px;margin:18px 22px 15px}
-#cc-t-subtitle{margin:0;padding:8px 28px;color:#647784}
+#cc-t-subtitle{margin:0;padding:8px 28px var(--variables-gap-before);color:#647784}
 #cc-t-note:not(:empty)::before{content:"Notes: ";font-style:italic;font-weight:400}
 #cc-time .cc-survey-legend svg{width:28px;height:18px}
 
@@ -827,29 +824,19 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-definitions .budget-component-status:empty{display:none}
 
 /* Keep quantile controls in the same sidebar pattern as Tails over time. */
-.threshold-heading-title{display:flex;align-items:baseline;gap:7px}
-.quantile-preview-button{
-  border:0;
-  padding:2px 3px;
-  background:transparent;
-  color:#627388;
-  font:600 13px/1.4 Arial,sans-serif;
-  cursor:pointer;
-}
-.quantile-preview-button:hover{text-decoration:underline}
 .us-total-income-choice{display:inline-flex;align-items:center;gap:7px}
 .us-total-income-choice .help-marker{margin:0;flex:none}
 .quantile-comparison-options .small-check{display:inline-flex;align-items:center;gap:5px;margin:0;color:#d0d5df;font-size:13px}
 .quantile-comparison-sidebar .indicator-kind-options{justify-content:flex-start;gap:12px}
 .quantile-comparison-options,.quantile-comparison-sidebar>.control{grid-column:1/-1}
 .quantile-window-controls{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.quantile-comparison-header{flex-wrap:wrap;padding-bottom:6px}
-.quantile-comparison-body{padding:6px 28px 22px;color:#425367}
+.quantile-comparison-plot > .quantile-comparison-header{flex-wrap:wrap;padding-bottom:var(--variables-gap-before)}
+.quantile-comparison-body{padding:var(--variables-gap-after) 28px 22px;color:#425367}
 .quantile-comparison-panels{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
 .quantile-comparison-panels.has-raw-panel{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(min-width:900px){.quantile-comparison-panels.single-reporting-panel{width:88%;max-width:760px;margin-inline:auto}}
 .quantile-comparison-panel{min-width:0}
-.quantile-panel-header{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 12px;margin:6px 0 4px;min-height:34px}
+.quantile-panel-header{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 12px;margin:0 0 4px;min-height:34px}
 .quantile-panel-heading{margin:0;font:600 15px/1.4 Arial,sans-serif;text-align:center;color:#30465e}
 .quantile-panel-toggle{cursor:pointer}
 .quantile-comparison-chart{height:780px;position:relative;min-width:0}
@@ -859,7 +846,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 @media(max-width:1100px){.quantile-comparison-panels.has-raw-panel{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:760px){
   .quantile-comparison-sidebar{grid-template-columns:minmax(0,1fr)}
-  .quantile-comparison-body{padding:0 18px 18px}
+  .quantile-comparison-body{padding-inline:18px;padding-bottom:18px}
   .quantile-comparison-chart{height:600px}
 }
 
@@ -932,7 +919,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     min-width: 0;
   }
   .mobile-filter-title > :first-child { min-width: 0; overflow-wrap: break-word; }
-  .mobile-filter-title > .threshold-heading-title { flex-wrap: wrap; }
   .mobile-filter-title :is(h2, h3) { font-size: 22px; margin: 0; }
   .mobile-filter-title > .mobile-filter-toggle {
     flex: 0 0 auto;
@@ -1037,7 +1023,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .threshold-chart-wrap { height: clamp(350px, 51vh, 470px); }
   .footnote, .results-note { overflow-wrap: anywhere; }
 
-  .threshold-profile-controls, #us-quantile-profiles .threshold-profile-controls {
+  .threshold-profile-controls {
     gap: 12px;
   }
   .threshold-profile-controls select { font-size: 16px; }
@@ -1119,8 +1105,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
       <p class="chart-note" id="time-note"></p>
     </div>
   </section>
-<section id="panel-quantiles" class="tab-panel" role="tabpanel" aria-labelledby="tab-quantiles" hidden><div id="us-quantile-profiles" class="quantile-profile-card"></div></section>
-<section id="panel-quantiles-v2" class="tab-panel" role="tabpanel" aria-labelledby="tab-quantiles" tabindex="-1" hidden><div id="us-quantile-comparison" class="quantile-profile-card"></div></section>
+<section id="panel-quantiles" class="tab-panel" role="tabpanel" aria-labelledby="tab-quantiles" tabindex="-1" hidden><div id="us-quantile-comparison" class="quantile-profile-card"></div></section>
 <section id="panel-results" class="tab-panel" role="tabpanel" aria-labelledby="tab-results" hidden>
   <div class="results-card">
     <header class="results-heading"><div><h2>US results table</h2></div><div class="results-actions"><button class="text-button" id="download-results-selected" type="button">Selected results CSV</button><button class="text-button" id="download-results-all" type="button">All US results CSV</button></div></header>
@@ -2316,7 +2301,7 @@ const ThresholdProfiles = (() => {
   }
   // Kept for callers of the former API; figure profiles intentionally use stage-specific available cells.
   function commonCells(){return null;}
-  function create({host,curves,surveys,international=false,spendingOptions=[],metadata={},getHousingMethod=()=> 'benchmark',getSpecificationSignature=getHousingMethod,housingMatches=row=>(row.housing_method||'benchmark')==='benchmark',onSurveyChange=null,getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=null,getCEXIncome=()=>false,onCEXIncomeChange=null,loadCEXIncome=null,onOpenComparison=null}){
+  function create({host,curves,surveys,international=false,spendingOptions=[],metadata={},getHousingMethod=()=> 'benchmark',getSpecificationSignature=getHousingMethod,housingMatches=row=>(row.housing_method||'benchmark')==='benchmark',onSurveyChange=null,getDinaCapitalDefinition=()=> 'including_fiscal_gains',onDinaCapitalDefinitionChange=null,getCEXIncome=()=>false,onCEXIncomeChange=null,loadCEXIncome=null}){
     const allCurves=curves;
     const isCEX=survey=>['CEX','CEX_BM','CEX_BM_RECON'].includes(survey),sourceDisplay=survey=>survey==='CEX_BM_RECON'?(metadata.cex_bm_recon_display||metadata.cex_bm_display||metadata.cex_display):survey==='CEX_BM'?(metadata.cex_bm_display||metadata.cex_display):metadata.cex_display,curveMatches=row=>(!row.optional_income||getCEXIncome())&&(row.reference_only||housingMatches(row));
     const seriesFor=survey=>survey==='CEX_BM_RECON'&&getCEXIncome()?fiveSeries:metadata.surveys?.[survey]?.profile_variables?fiveSeries.filter(([key])=>metadata.surveys[survey].profile_variables.includes(key)||(international&&survey==='SAEZ_ZUCMAN'&&key==='total_income')):survey==='FORBES'?[['networth_val','Wealth']]:survey==='NIELSEN'?[['consumption','Retail purchases']]:fiveSeries;
@@ -2330,19 +2315,6 @@ const ThresholdProfiles = (() => {
       +'<div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
     const exportButton=section.querySelector('.threshold-heading .text-button');
     const heading=section.querySelector('.threshold-heading h2');
-    if(onOpenComparison){
-      const preview=document.createElement('button');
-      preview.type='button';
-      preview.className='quantile-preview-button';
-      preview.textContent='(v2)';
-      preview.setAttribute('aria-label','Open experimental estimates by quantile (v2)');
-      preview.setAttribute('aria-controls','panel-quantiles-v2');
-      preview.addEventListener('click',onOpenComparison);
-      const title=document.createElement('div');
-      title.className='threshold-heading-title';
-      heading.replaceWith(title);
-      title.append(heading,preview);
-    }
     host.append(section);
     const grid=section.querySelector('.threshold-profile-grid'),legend=section.querySelector('.threshold-legend'),controls=section.querySelector('.threshold-profile-controls'),note=section.querySelector('.threshold-note');
     const variableToolbar=section.querySelector('.threshold-variable-toolbar');
@@ -4302,7 +4274,7 @@ function initializeMobileFilters(root = document) {
     const heading = controls.parentElement.querySelector(sidebar
       ? ':scope > .plot-surface > :is(.plot-top, .chart-heading-row)'
       : ':scope > :is(.threshold-heading, .other-card-heading, .results-heading, .adjustment-results-header)');
-    const title = heading?.querySelector('.threshold-heading-title, h2, h3');
+    const title = heading?.querySelector('h2, h3');
     if (!title) return;
 
     const row = document.createElement('div');
@@ -4638,7 +4610,7 @@ function createTimeWindow(canvas, onChange) {
   const s = {cexIncome:false,tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS.filter(key=>key!=='total_income'))};
   const r = {survey:'psid',datasets:new Set(['PSID']),yodleeVariant:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95};
   const b = {primary:'psid',overlays:new Set(),adjustment:'full',measure:'flow',pair:'wealth_consumption',wave:'average',scfWave:'average',dinaWave:'average',autoSCF:false,cexWave:'latest',reconWave:'latest',bmWave:'latest',stat:'mean',minN:10,excludeNetRent:false,beforePersonalInterest:false,traces:false,scale:'loglog',fit:'ols'};
-  let eyeController,definitionsController,paretoController,timeChart,bivChart,otherController,adjustmentController,thresholdController,quantileComparison,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality',profileSurvey='PSID';
+  let eyeController,definitionsController,paretoController,timeChart,bivChart,otherController,adjustmentController,quantileComparison,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality';
   const VISIBLE_US_SURVEYS=new Set(['PSID','SCF','CEX_BM_RECON']);
   const BIVARIATE_SURVEYS=new Set([...BIN_AVAILABILITY.map(row=>row.survey),...(META.relationship_blocks||[]).map(scope=>scope.survey)]),hasCorrectedCEXBins=BIVARIATE_SURVEYS.has('CEX_BM_RECON');
   const surveyChoices=()=>['psid','scf',...(ALL_SUMMARY.some(row=>row.survey==='CEX_BM_RECON')?['cex_bm_recon']:[])];
@@ -4692,7 +4664,6 @@ function createTimeWindow(canvas, onChange) {
   const dataVisible = () => !$('panel-data').hidden;
   const resultsVisible = () => !$('panel-results').hidden;
   const quantilesVisible = () => !$('panel-quantiles').hidden;
-  const quantilesV2Visible = () => !$('panel-quantiles-v2').hidden;
   const curveKey = row => [row.survey,row.year,row.variant,row.variable,housingMethod(row),weightingMethod(row)].join('|');
   const curveIndex = new Map(ALL_CURVES.map(curve=>[curveKey(curve),curve]));
   const summaryIndex = new Map(ALL_SUMMARY.map(row=>[curveKey(row),row]));
@@ -4726,8 +4697,7 @@ function createTimeWindow(canvas, onChange) {
     if(mainVisible()&&s.cexIncome&&selectedSurveys(s).has('CEX_BM_RECON')){await ensureCEXIncome();fillSeries();}
     if(mainVisible()&&isParetoMetric(s.metric)&&s.threshold!=='ks')await ensureFullCurves([...selectedSurveys(s)]);
     if(resultsVisible())await ensureFullCurves([...resultsSurveys()].filter(survey=>r.threshold!=='ks'||META.reference_curve_surveys?.includes(survey)));
-    if(quantilesVisible()){await ensureFullCurves(['PSID','SCF','CEX_BM_RECON',...(META.reference_curve_surveys||[])]);if(s.cexIncome)await ensureCEXIncome();initializeThresholdController();if(s.cexIncome)thresholdController.addCurves(cexIncomeCurves);}
-    if(quantilesV2Visible()&&!quantileComparison)initializeQuantileComparison();
+    if(quantilesVisible()&&!quantileComparison)initializeQuantileComparison();
     if(otherVisible()){await ensureDeferredBlock('other');if(s.cexIncome)await ensureCEXIncome();initializeOtherController();}
     if(adjustmentsVisible()){await ensureDeferredBlock('adjustments');initializeAdjustmentController();}
     if(paretoVisible()){if(!paretoController)paretoController=initParetoEstimation({host:$('pareto-estimation-content'),loadData:()=>loadBlock('illustration_ks')});await paretoController.render();}
@@ -4738,25 +4708,23 @@ function createTimeWindow(canvas, onChange) {
     frame=requestAnimationFrame(async()=>{try{
       $('page-error').hidden=true;
       const preparation=prepareView();
-      const pending=quantilesVisible()&&!thresholdController||otherVisible()&&!otherController||adjustmentsVisible()&&!adjustmentController||(mainVisible()&&s.threshold!=='ks'?[...selectedSurveys(s)]:resultsVisible()&&r.threshold!=='ks'?[...resultsSurveys()]:[]).some(survey=>detailedCurveSurveys.includes(survey)&&!loadedCurveSurveys.has(survey));
+      const pending=otherVisible()&&!otherController||adjustmentsVisible()&&!adjustmentController||(mainVisible()&&s.threshold!=='ks'?[...selectedSurveys(s)]:resultsVisible()&&r.threshold!=='ks'?[...resultsSurveys()]:[]).some(survey=>detailedCurveSurveys.includes(survey)&&!loadedCurveSurveys.has(survey));
       if(pending){startupStatus.textContent='Loading selected results…';document.body.append(startupStatus);loadingMain?.setAttribute('aria-busy','true');}
       await preparation;if(request!==viewRequest)return;
-      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())thresholdController?.render();if(quantilesV2Visible())quantileComparison?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
+      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())quantileComparison?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
       initializeMobileFilters();
       if(!loadingMain?.dataset.firstPlotMs)loadingMain?.setAttribute('data-first-plot-ms',String(Math.round(performance.now())));
       startupStatus.remove();loadingMain?.removeAttribute('aria-busy');
     }catch(error){if(request!==viewRequest)return;startupStatus.remove();loadingMain?.removeAttribute('aria-busy');$('page-error').hidden=false;$('page-error').textContent='The selected plot could not be drawn. Please change the selection or reload the page.';console.error(error);}});
   }
   function tab(name) {
-    const us=['inequality','quantiles','quantiles-v2','results','loglog','eyeballing'].includes(name);if(us)lastUSTab=name;s.tab=name;
+    const us=['inequality','quantiles','results','loglog','eyeballing'].includes(name);if(us)lastUSTab=name;s.tab=name;
     $('us-secondary-nav').hidden=!us;$('live-announcement').hidden=name!=='inequality';if(name!=='inequality')$('live-announcement').textContent='';
-    const housingControl=document.querySelector('.global-housing-control:not(.quantile-housing-control)'),housingNav=us?$('us-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='other'?$('cc-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='adjustments'?$('dc-adjustments-nav-inner'):null;
+    const housingControl=document.querySelector('.global-housing-control'),housingNav=us?$('us-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='other'?$('cc-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='adjustments'?$('dc-adjustments-nav-inner'):null;
     if(housingControl){housingControl.hidden=!housingNav;if(housingNav)housingNav.append(housingControl);}
     document.querySelectorAll('#primary-nav [data-section]').forEach(button=>{const active=button.dataset.section===(us?'us':name);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);if(button.dataset.section==='us')button.setAttribute('aria-controls','panel-'+lastUSTab);});
-    const currentUSView=name==='quantiles-v2'?'quantiles':name;
-    $('tab-quantiles').setAttribute('aria-controls',name==='quantiles-v2'?'panel-quantiles-v2':'panel-quantiles');
-    document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{const active=button.dataset.tab===currentUSView;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);});
-    ['inequality','quantiles','quantiles-v2','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
+    document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{const active=button.dataset.tab===name;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);});
+    ['inequality','quantiles','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
   }
   document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{
     button.addEventListener('click',()=>tab(button.dataset.tab));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#us-secondary-nav [data-tab]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.tab);});
@@ -4875,12 +4843,21 @@ function createTimeWindow(canvas, onChange) {
       const names=['PSID','CEX_BM_RECON','SCF'].filter(survey=>shownHouseholds.has(survey)).map(survey=>surveyName(survey)).join(', ');
       adjustmentLabels.push(names+': '+(s.adjustment==='adj'?'rescaled to national accounts only.':'raw data.'));
     }
-    const subtitle=$('time-chart-subtitle'),estimatorLabel=isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'';
+    const subtitle=$('time-chart-subtitle'),estimatorLabel=isParetoMetric(s.metric)?s.method+' · '+thresholdName():'';
     subtitle.replaceChildren();
     if(estimatorLabel){
       const estimator=document.createElement('span');
       estimator.className='subtitle-estimator';
       estimator.textContent=estimatorLabel;
+      if(s.threshold==='ks'){
+        const link=document.createElement('a');
+        link.className='subtitle-tab-link';
+        link.href='#panel-pareto';
+        link.textContent='Pareto estimation';
+        link.addEventListener('click',event=>{event.preventDefault();tab('pareto');});
+        estimator.append(' (see ',link,')');
+      }
+      if(s.metric==='pareto_wealth_ratio')estimator.append(' · each series divided by wealth');
       subtitle.append(estimator);
     }
     const phone=timePhoneLayout.matches,notesPanel=$('time-note').parentElement,actions=$('download-time-csv')?.closest('.chart-actions');
@@ -4889,17 +4866,12 @@ function createTimeWindow(canvas, onChange) {
       const detail=document.createElement('span');
       detail.className='time-adjustment-summary';
       detail.textContent=adjustmentLabels.join(' ');
-      const methods=[['adjustments','Survey Adjustments']];
-      if(isParetoMetric(s.metric))methods.push(['pareto','Pareto Estimation']);
-      methods.forEach(([section,label],index)=>{
-        const link=document.createElement('a');
-        link.className='subtitle-tab-link';
-        link.href='#panel-'+section;
-        link.textContent=label;
-        link.addEventListener('click',event=>{event.preventDefault();tab(section);});
-        detail.append(index?' and ':' (see ',link);
-      });
-      detail.append(')');
+      const link=document.createElement('a');
+      link.className='subtitle-tab-link';
+      link.href='#panel-adjustments';
+      link.textContent='Survey Adjustments';
+      link.addEventListener('click',event=>{event.preventDefault();tab('adjustments');});
+      detail.append(' (see ',link,' for details)');
       if(phone)notesPanel.prepend(detail);
       else subtitle.append(detail);
     }
@@ -5419,7 +5391,7 @@ function createTimeWindow(canvas, onChange) {
       getSpecificationSignature:()=>housing.method+'|'+weighting.method+'|'+dina.capitalDefinition,
       housingMatches:specificationMatches,metadata:META,createEyeballing:host=>createEyeballing(host,true),
     });
-    if(otherVisible()){const control=document.querySelector('.global-housing-control:not(.quantile-housing-control)'),nav=$('cc-secondary-nav')?.querySelector('.secondary-nav-inner');if(control&&nav){control.hidden=false;nav.append(control);}}
+    if(otherVisible()){const control=document.querySelector('.global-housing-control'),nav=$('cc-secondary-nav')?.querySelector('.secondary-nav-inner');if(control&&nav){control.hidden=false;nav.append(control);}}
   }
   function setDinaCapitalDefinition(value){if(!META.saez_zucman_reference?.capital_income_definitions?.[value])return;dina.capitalDefinition=value;syncDinaControls();fillResultsVariables();schedule();}
   function initializeDinaControls(){
@@ -5430,14 +5402,6 @@ function createTimeWindow(canvas, onChange) {
     syncDinaControls();
   }
   function syncDinaControls(){for(const [name,selected] of [['results',resultsSurveys()],['biv',selectedSurveys(b)]]){const select=$('dina-capital-'+name),box=$('dina-capital-'+name+'-control');if(select)select.value=dina.capitalDefinition;if(box)box.hidden=!selected.has('SAEZ_ZUCMAN')||(name==='biv'&&!['wealth_capital','income_capital'].includes(b.pair));}}
-  function initializeThresholdController(){
-    if(thresholdController||typeof ThresholdProfiles==='undefined')return;
-    thresholdController=ThresholdProfiles.create({host:$('us-quantile-profiles'),onOpenComparison:()=>{tab('quantiles-v2');$('panel-quantiles-v2').focus();},curves:[...ALL_CURVES,...(referenceController?.profileCurves()||[])],surveys:['PSID','SCF','CEX_BM_RECON','YODLEE','FORBES',...(META.reference_curve_surveys||[])],spendingOptions,metadata:META,getHousingMethod:()=>housing.method,getSpecificationSignature:()=>housing.method+'|'+weighting.method+'|'+dina.capitalDefinition,getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,housingMatches:specificationMatches,onSurveyChange:survey=>{profileSurvey=survey;syncHousingAvailability();},getCEXIncome:()=>s.cexIncome,onCEXIncomeChange:value=>{s.cexIncome=value;fillOverlays('overlay-controls',s,mainOverlayChoices());fillSeries();schedule();},loadCEXIncome:async()=>{await ensureCEXIncome();return cexIncomeCurves;}});
-    const housingControl=document.createElement('div');housingControl.className='global-housing-control quantile-housing-control';
-    housingControl.innerHTML='<label class="small-check" for="quantile-constant-housing-service"><input type="checkbox" id="quantile-constant-housing-service">Constant imputed rent rate</label><button class="help-marker detail-help" type="button" data-help-control="constant_imputed_rent" aria-label="About constant imputed rent" aria-expanded="false">?</button>';
-    $('us-quantile-profiles').querySelector('.threshold-profile-controls').append(housingControl);
-    $('quantile-constant-housing-service').addEventListener('change',event=>{$('constant-housing-service').checked=event.target.checked;applyHousingMethod();});
-  }
   function initializeQuantileComparison(){
     const referenceSurveys=[...new Set(referenceController?.profileCurves().map(row=>row.survey)||[])];
     quantileComparison=createUSQuantileComparison({
@@ -5479,10 +5443,10 @@ function createTimeWindow(canvas, onChange) {
     filterSpecificationData();syncWeightingControls();fillSpendingSelect('measure-select',selectedSurveys(s),s,SUMMARY);fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);fillResultsVariables();fillSeries();fillOverlays('overlay-controls',s,mainOverlayChoices());if(shouldSchedule)schedule();
   }
   function syncHousingAvailability(){
-    const input=$('constant-housing-service'),mainSelection=selectedSurveys(s),supports=survey=>ALL_SUMMARY.some(row=>row.survey===survey&&housingMethod(row)==='bp'),unavailable=mainVisible()?![...mainSelection].some(supports):resultsVisible()?![...resultsSurveys()].some(supports):bivVisible()?!supports(b.primary.toUpperCase()):quantilesVisible()?(profileSurvey==='all'?![...VISIBLE_US_SURVEYS].some(supports):!supports(profileSurvey)):false;
+    const input=$('constant-housing-service'),mainSelection=selectedSurveys(s),supports=survey=>ALL_SUMMARY.some(row=>row.survey===survey&&housingMethod(row)==='bp'),unavailable=mainVisible()?![...mainSelection].some(supports):resultsVisible()?![...resultsSurveys()].some(supports):bivVisible()?!supports(b.primary.toUpperCase()):false;
     if(unavailable&&housing.method==='bp'){housing.method='benchmark';applySpecificationSelection(false);}input.disabled=unavailable;input.closest('.weighting-choice')?.classList.toggle('unavailable-option',unavailable);input.title=unavailable?'The selected dataset has no constant-rate homeowner-service alternative.':'Use the source constant-rate homeowner-service construction, retaining its documented component factors and representation weights.';
     input.checked=housing.method==='bp';
-    ['quantile-constant-housing-service','biv-constant-housing-service'].forEach(id=>{const localInput=$(id);if(localInput){localInput.checked=housing.method==='bp';localInput.disabled=unavailable;localInput.title=input.title;localInput.closest('.local-housing-control,.quantile-housing-control')?.classList.toggle('unavailable-option',unavailable);}});
+    ['biv-constant-housing-service'].forEach(id=>{const localInput=$(id);if(localInput){localInput.checked=housing.method==='bp';localInput.disabled=unavailable;localInput.title=input.title;localInput.closest('.local-housing-control')?.classList.toggle('unavailable-option',unavailable);}});
     syncWeightingControls();
   }
   function applyHousingMethod(){
@@ -5506,7 +5470,7 @@ function createTimeWindow(canvas, onChange) {
   filterSpecificationData();syncWeightingControls();
   fillResultsDatasets();fillResultsVariables();syncTailControls();definitions();fillSeries();tab('inequality');
   if(loadingMain){loadingMain.inert=false;loadingMain.removeAttribute('aria-busy');loadingMain.setAttribute('data-interactive-ms',String(Math.round(performance.now())));}if(loadingNav)loadingNav.inert=false;startupStatus.remove();
-  window.addEventListener('resize',()=>{if(mainVisible())timeChart?.resize();if(quantilesVisible())thresholdController?.resize();if(quantilesV2Visible())quantileComparison?.resize();if(bivVisible())bivChart?.resize();if(s.tab==='eyeballing')eyeController?.resize();if(otherVisible())otherController?.resize();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.resize();if(dataVisible()||adjustmentsVisible())dataController?.resize();if(paretoVisible())paretoController?.resize();});
+  window.addEventListener('resize',()=>{if(mainVisible())timeChart?.resize();if(quantilesVisible())quantileComparison?.resize();if(bivVisible())bivChart?.resize();if(s.tab==='eyeballing')eyeController?.resize();if(otherVisible())otherController?.resize();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.resize();if(dataVisible()||adjustmentsVisible())dataController?.resize();if(paretoVisible())paretoController?.resize();});
 })().catch(error=>{document.querySelector('main')?.removeAttribute('inert');document.querySelector('main')?.removeAttribute('aria-busy');document.getElementById('primary-nav')?.removeAttribute('inert');console.error(error);const target=document.getElementById('page-error');if(target){target.hidden=false;target.textContent='The results could not be loaded. Please reload the page in a current browser.';}});
 </script>
 </body>

@@ -89,7 +89,6 @@
 .threshold-profile-controls label.control>span{display:block;min-height:20px;line-height:20px}
 
 .global-housing-control{display:flex;align-items:center;justify-content:flex-end;padding:0 2px 15px;min-height:35px}.global-housing-control .small-check{font-size:13px;line-height:1.6;color:#526176;display:flex;align-items:center;gap:8px}.global-housing-control input{width:15px;height:15px;margin:0;accent-color:#b34470}@media(max-width:680px){.global-housing-control{justify-content:flex-start;padding-bottom:14px}}
-.threshold-profile-controls .quantile-housing-control{grid-column:1/-1;flex:0 0 100%;width:100%;justify-content:flex-start;gap:7px;padding:0;min-height:0}.quantile-housing-control .small-check{margin:0;letter-spacing:0;text-transform:none;font-weight:400}
 .biv-tail-ratio{margin:0;padding:0 28px 16px;color:#6c7180;font:400 13px/1.65 Arial,sans-serif}.biv-tail-ratio strong{font-weight:600;color:#495468}.biv-tail-ratio[hidden]{display:none}@media(max-width:760px){.biv-tail-ratio{padding-inline:18px}}
 .secondary-nav-inner{align-items:center;flex-wrap:wrap}.secondary-nav-inner>.global-housing-control{margin-left:auto;padding:10px 0;min-height:48px;flex:0 1 auto}.secondary-nav-inner>.global-housing-control .small-check{font-size:13px;white-space:normal;text-align:right;line-height:1.4}.secondary-nav-inner>.global-housing-control input{flex:0 0 auto}.secondary-nav-inner>.global-housing-control[hidden]{display:none!important}@media(max-width:1100px){.secondary-nav-inner>.global-housing-control{flex:1 1 100%;justify-content:flex-end;border-top:1px solid #ece8df;padding:10px 0}.secondary-nav-inner>.global-housing-control .small-check{text-align:left}}
 
@@ -154,11 +153,6 @@
 .capital-income-choice .small-check{margin:0!important;width:auto!important;display:inline-flex;align-items:center;gap:7px}
 .capital-income-choice .help-marker{flex:0 0 15px;margin:0;vertical-align:middle}
 @media(max-width:1050px){#adjustment-distribution-results.paper-composition .adjustment-distribution-grid.has-two-panels{grid-template-columns:1fr}}
-#us-quantile-profiles .threshold-profile-controls{display:grid;grid-template-columns:minmax(100px,.8fr) 105px minmax(220px,1.7fr) minmax(150px,1.1fr) 85px max-content;align-items:end;gap:12px}
-#us-quantile-profiles .threshold-profile-controls .control{min-width:0;max-width:none;width:auto}
-#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:auto;flex:0 1 auto;width:auto;min-height:39px;align-self:end;align-items:center;white-space:nowrap;margin:0;padding:0}
-@media(max-width:1050px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:760px){#us-quantile-profiles .threshold-profile-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{grid-column:1/-1}}
 .adjustment-footnote{font-size:14px}.adjustment-footnote p{margin:0;line-height:1.7}.adjustment-footnote p+p{margin-top:6px}.sequential-equations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 30px;margin:14px 0}.sequential-step{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;color:#354b65}.sequential-step>span{font:600 14px/1.5 Arial,sans-serif}.sequential-step math{font-family:math;font-size:20px;margin:0;white-space:nowrap}
 @media(max-width:760px){.sequential-equations{grid-template-columns:1fr}.sequential-step math{font-size:18px}}
 .paper-composition .adjustment-distribution-controls{grid-template-columns:repeat(4,minmax(0,1fr))}.paper-composition .adjustment-distribution-controls .control{display:flex;flex-direction:column;align-items:stretch;gap:8px}.paper-composition .adjustment-distribution-controls label{margin:0}.paper-composition .adjustment-distribution-controls select{width:100%;max-width:none;box-sizing:border-box;flex:none}
@@ -220,7 +214,7 @@
 /* Keep plot details compact and give time-series notes the full plot width. */
 .plot-subtitle,.chart-subtitle{font-size:12px;line-height:1.6}
 .subtitle-estimator{display:block;margin-bottom:3px}
-.plot-top:has(#time-chart-subtitle){display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding-bottom:12px}
+.plot-top:has(#time-chart-subtitle){display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding-bottom:var(--variables-gap-before)}
 .plot-top:has(#time-chart-subtitle)>div:first-child{display:contents}
 .plot-top:has(#time-chart-subtitle) h2{grid-column:1;grid-row:1}
 .plot-top:has(#time-chart-subtitle) .chart-actions{grid-column:2;grid-row:1}
@@ -259,6 +253,8 @@
 #time-chart-subtitle{font-size:13px}
 
 /* Chart filters and variable choices share the numerical-results toolbar. */
+:root{--variables-gap-before:12px;--variables-gap-after:16px}
+@media(max-width:760px){:root{--variables-gap-before:7px;--variables-gap-after:9px}}
 .quantile-profile-card .threshold-profiles{--quantile-inset:25px}
 .threshold-profile-controls,.plot-series-controls{background:#f5f3ee;border-block:1px solid #e8e4dc}
 .threshold-profile-controls,.threshold-variable-toolbar{width:calc(100% + 2 * var(--quantile-inset,22px));margin-inline:calc(-1 * var(--quantile-inset,22px))}
@@ -268,8 +264,9 @@
 .plot-series-controls{padding-block:10px}
 .plot-series-controls .series-bar{border:0;margin:0;padding:0;min-width:0}
 .plot-series-controls .series-choice,.threshold-legend .threshold-variable-choice{color:var(--ink,#20354f);font:400 13px/1.5 Arial,sans-serif}
-.threshold-profiles .threshold-variable-toolbar{margin-block:6px 20px;padding-inline:var(--quantile-inset,22px)}
-#us-quantile-profiles .threshold-profile-controls .quantile-housing-control{min-height:41px}
+.threshold-profiles .threshold-variable-toolbar{margin-block:0;padding-inline:var(--quantile-inset,22px)}
+.threshold-profile-controls:has(+.threshold-variable-toolbar:not([hidden])){padding-bottom:var(--variables-gap-before)}
+.threshold-variable-toolbar:not([hidden])+.threshold-profile-grid>.threshold-survey-group:first-child{margin-top:var(--variables-gap-after)}
 @media(max-width:850px){.quantile-profile-card .threshold-profiles{--quantile-inset:17px}}
 
 /* Plot metadata and fitted-tail readouts share one text size. */

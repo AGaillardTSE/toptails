@@ -67,7 +67,6 @@
     min-width: 0;
   }
   .mobile-filter-title > :first-child { min-width: 0; overflow-wrap: break-word; }
-  .mobile-filter-title > .threshold-heading-title { flex-wrap: wrap; }
   .mobile-filter-title :is(h2, h3) { font-size: 22px; margin: 0; }
   .mobile-filter-title > .mobile-filter-toggle {
     flex: 0 0 auto;
@@ -172,7 +171,7 @@
   .threshold-chart-wrap { height: clamp(350px, 51vh, 470px); }
   .footnote, .results-note { overflow-wrap: anywhere; }
 
-  .threshold-profile-controls, #us-quantile-profiles .threshold-profile-controls {
+  .threshold-profile-controls {
     gap: 12px;
   }
   .threshold-profile-controls select { font-size: 16px; }
