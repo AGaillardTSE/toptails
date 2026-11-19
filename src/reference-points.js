@@ -52,12 +52,16 @@ function initUSReferencePoints(metadata,{getCapitalVariant=()=> 'dina_2022_incl_
     });
   }
   function tableResults(state){return selected(state,{defaults:false}).filter(row=>state.datasets.has(row.survey)&&(row.survey!=='YODLEE'||state.yodleeVariant==='all'||row.author_variant===state.yodleeVariant)&&(state.variable==='all'||row.variable===state.variable));}
+  function summaryThresholdPoints(method,threshold,customQ){
+    const q=threshold==='custom'?customQ:Number(threshold.slice(1))/100;
+    return selected({method,threshold,customQ}).filter(row=>Math.abs(row.threshold_quantile-q)<1e-7);
+  }
   function allResults(){const rows=[];points.filter(selectedDefinition).forEach(row=>{rows.push(withWealth({...row}));const c=curveFor(row);if(!c)return;c.qs.forEach(q=>{const fit=at(row,row.method,'fixed',q);if(fit)rows.push(withWealth(fit));});});return rows;}
   function profileCurves({includeNielsen=false}={}){const chosen=new Map();points.filter(row=>row.survey==='SAEZ_ZUCMAN'||(includeNielsen&&row.survey==='NIELSEN'||['YODLEE','FORBES'].includes(row.survey))&&(row.default_reference||row.survey==='YODLEE'&&['active_unadjusted_same_sample','durables_all_with_carry','durables_4_with_carry'].includes(row.author_variant)&&['consump_def1','expenditure'].includes(row.variable))).forEach(row=>{
       const key=exactKey(row),source=curveFor(row);if(!source)return;
       if(!chosen.has(key))chosen.set(key,{...source,survey:row.survey,country:'US',year:row.year,variable:row.variable,variant:row.survey==='YODLEE'?'raw':'reference',housing_method:'not_applicable',author_variant:row.author_variant,source_dataset:row.source_dataset||source.source_dataset,source_label:pointLabel(row),reference_only:true});
       chosen.get(key)['ks_'+row.method.toLowerCase()]={estimate:row.estimate,q:row.threshold_quantile,maxks:row.ks,n_tail:row.n_tail??null};
     });return [...chosen.values()];}
-  return {sources,labels,datasets,plotted,tableResults,allResults,profileCurves,addCurves,hasThreshold,hasVariable,supportsMetric,allPoints:()=>points.filter(selectedDefinition)};
+  return {sources,labels,datasets,plotted,tableResults,summaryThresholdPoints,allResults,profileCurves,addCurves,hasThreshold,hasVariable,supportsMetric,allPoints:()=>points.filter(selectedDefinition)};
 }
 if(typeof module!=='undefined'&&module.exports)module.exports=initUSReferencePoints;

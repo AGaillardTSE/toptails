@@ -1043,8 +1043,11 @@ function createTimeWindow(canvas, onChange) {
   fillOverlays('overlay-controls',s,mainOverlayChoices());fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());
   fillSpendingSelect('measure-select',selectedSurveys(s),s,SUMMARY);fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);$('biv-bin-min').value=String(b.minN);$('biv-scale').value=b.scale;$('biv-fit').value=b.fit;
   if($('overview-subtitle'))$('overview-subtitle').textContent='Consumption, income and wealth across survey waves.';
-  function crossCountryUSSummary(measure){
+  function crossCountryUSSummary(measure,{indicator='pareto',threshold='ks',q=.95}={}){
     const fields={consump_def1:'c',total_labor_income:'labor',total_income:'income',networth_val:'wealth',total_capital_income:'capital'};
+    const methods=['MLE','OLS'],isTail=indicator==='pareto'||indicator==='ratio',ratio=indicator==='ratio';
+    const cutoff=isTail&&threshold!=='ks'?thresholdQ(threshold,q):null;
+    const thresholdLabel=isTail?(cutoff===null?'KS':'P'+Number((100*cutoff).toFixed(4))):null;
     const groups=new Map();
     function add(source,method,specification,estimate){
       if(!FINITE(estimate))return;
@@ -1057,7 +1060,7 @@ function createTimeWindow(canvas, onChange) {
       if(!groups.has(id))groups.set(id,new Map());
       const annual=groups.get(id);
       if(!annual.has(year))annual.set(year,{
-        country:'US',country_name:'United States',survey,method,specification,threshold:'KS',
+        country:'US',country_name:'United States',survey,method,specification,threshold:thresholdLabel,
         housing_method:specification==='reference'?'not_applicable':housingMethod(source),
         weighting_method:specification==='reference'?(survey==='YODLEE'?'source_scf_income':'not_applicable'):weightingMethod(source),
         period_type:'wave',year,period_label:String(year),n_waves:1,
@@ -1066,25 +1069,55 @@ function createTimeWindow(canvas, onChange) {
       row[key]=estimate;
       if(key==='consump_def1')row.consumption_measure=variable;
     }
+    function fixedEstimate(row,method,curve){
+      const index=curve?.qs?.findIndex(value=>Math.abs(value-cutoff)<1e-7)??-1;
+      const estimate=curve?.[method.toLowerCase()]?.[index];
+      if(!FINITE(estimate))return null;
+      const stored=row['pareto_'+threshold];
+      return method==='MLE'&&threshold!=='custom'&&FINITE(stored)?stored:estimate;
+    }
     const sourceRows=ALL_SUMMARY.filter(row=>VISIBLE_US_SURVEYS.has(row.survey)&&specificationMatches(row));
-    for(const row of sourceRows)for(const method of ['MLE','OLS'])add(row,method,row.variant,tailResult(row,method,'ks').estimate);
-    if(s.cexIncome)for(const row of cexIncomeCurves.filter(specificationMatches)){
+    for(const row of sourceRows)for(const method of methods){
+      const estimate=!isTail?row[indicator]:cutoff===null?tailResult(row,method,'ks').estimate:fixedEstimate(row,method,curveIndex.get(curveKey(row)));
+      add(row,method,row.variant,estimate);
+    }
+    if(s.cexIncome)for(const row of (isTail?cexIncomeCurves:cexIncomeSummary).filter(specificationMatches)){
       if(['total_labor_income','total_income','total_capital_income'].includes(row.variable))
-        for(const method of ['MLE','OLS'])add(row,method,row.variant,row['ks_'+method.toLowerCase()]?.estimate);
+        for(const method of methods){
+          const estimate=!isTail?row[indicator]:cutoff===null?row['ks_'+method.toLowerCase()]?.estimate:fixedEstimate(row,method,row);
+          add(row,method,row.variant,estimate);
+        }
     }
-    for(const point of referencePoints()){
-      if(point.default_reference||point.survey==='SAEZ_ZUCMAN')add(point,point.method,'reference',point.estimate);
+    if(cutoff!==null){
+      for(const method of methods)for(const point of referenceController?.summaryThresholdPoints(method,threshold,q)||[]){
+        add(point,method,'reference',point.estimate);
+      }
+    }else{
+      for(const point of referencePoints()){
+        if(!point.default_reference&&point.survey!=='SAEZ_ZUCMAN')continue;
+        if(isTail)add(point,point.method,'reference',point.estimate);
+        else for(const method of methods)add(point,method,'reference',point[indicator]);
+      }
     }
+    const hasWealth=row=>FINITE(row.networth_val)&&row.networth_val>0;
     return [...groups.values()].flatMap(annual=>{
-      const rows=[...annual.values()].sort((a,b)=>a.year-b.year);
+      const rows=[...annual.values()].filter(row=>!ratio||hasWealth(row)).sort((a,b)=>a.year-b.year);
+      if(!rows.length)return [];
       const mean={...rows[0],period_type:'average',year:null,period_label:yearRange(rows.map(row=>row.year))+' average',n_waves:rows.length};
       for(const [variable,count] of Object.entries(fields)){
         const observed=rows.filter(row=>FINITE(row[variable]));
-        mean[variable]=avg(observed.map(row=>row[variable]));
+        const numerator=avg(observed.map(row=>row[variable]));
+        mean[variable]=ratio&&observed.length?numerator/avg(observed.map(row=>row.networth_val)):numerator;
         mean['n_waves_'+count]=observed.length;
       }
       mean.consumption_measure=rows.find(row=>row.consumption_measure)?.consumption_measure;
-      return [...rows,mean];
+      if(!ratio)return [...rows,mean];
+      const normalized=rows.map(row=>{
+        const item={...row};
+        for(const variable of Object.keys(fields))if(FINITE(row[variable]))item[variable]=row[variable]/row.networth_val;
+        return item;
+      });
+      return [...normalized,mean];
     });
   }
   function initializeOtherController(){
@@ -1092,6 +1125,7 @@ function createTimeWindow(canvas, onChange) {
     const usSurveys=[...VISIBLE_US_SURVEYS,...(referenceController?.sources||[])];
     otherController=initOtherSurveys(DATA.other||{}, {
       usSurveys,getUSSummary:crossCountryUSSummary,spendingOptions,surveyName,surveyTooltip,
+      prepareUSSummaryThresholds:()=>ensureFullCurves([...VISIBLE_US_SURVEYS,...(META.reference_curve_surveys||[])]),
       loadUSCurves:async()=>{
         await ensureFullCurves([...VISIBLE_US_SURVEYS,...(META.reference_curve_surveys||[])]);
         return ALL_CURVES.filter(row=>VISIBLE_US_SURVEYS.has(row.survey))
