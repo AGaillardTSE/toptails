@@ -48,10 +48,15 @@ const ThresholdProfiles = (() => {
   function contractFor(survey,metadata={}){
     return {aggregation:survey==='HFCS'?'population':'equal_wave',ci_level:.90,reference:'mean_ks_optimum',stage_coverage:'available',...(survey==='HFCS'?{weight_field:'population_weight',exclude_countries:['LU'],exclude_countries_when:'all'}:{}),...(metadata.quantile_profile_contracts?.[survey]||{})};
   }
+  function yearFilter(selection){
+    if(selection==='all')return ()=>true;
+    const [start,end=start]=String(selection).split('-').map(Number);
+    return year=>year>=start&&year<=end;
+  }
   function selectedCells(curves,{survey,variant,country='all',year='all',variable,contract={},authorVariant=null}){
-    const cells=new Map(),excluded=country==='all'?new Set(contract.exclude_countries||[]):new Set();
+    const cells=new Map(),excluded=country==='all'?new Set(contract.exclude_countries||[]):new Set(),inYear=yearFilter(year);
     curves.forEach(c=>{
-      if(c.survey!==survey||(c.variant||c.specification)!==variant||c.variable!==variable||(authorVariant&&c.author_variant!==authorVariant)||!finite(c.year)||(country!=='all'&&c.country!==country)||(year!=='all'&&c.year!==Number(year))||excluded.has(c.country))return;
+      if(c.survey!==survey||(c.variant||c.specification)!==variant||c.variable!==variable||(authorVariant&&c.author_variant!==authorVariant)||!finite(c.year)||(country!=='all'&&c.country!==country)||!inYear(c.year)||excluded.has(c.country))return;
       cells.set([c.country||'US',c.year].join('|'),c);
     });return [...cells.values()];
   }
@@ -111,7 +116,10 @@ const ThresholdProfiles = (() => {
     const actualSurveys=surveys.filter(s=>curves.some(c=>c.survey===s)),surveyLabel=s=>s==='YODLEE'?'Yodlee (bank data)':s==='NIELSEN'?'NielsenIQ':metadata.surveys?.[s]?.label||(s==='CEX_BM'?'CEX B&M':s);
     const surveySelect=makeSelect('Survey',[...(international?[['all','All surveys']]:[]),...actualSurveys.map(s=>[s,surveyLabel(s)]),...(!international&&actualSurveys.length>1?[['all','All US surveys']]:[])]);
     const countrySelect=international?makeSelect('Country',[['all','All countries']]):null;
+    const defaultYear=international?'2005-2025':'all';
     const yearSelect=makeSelect('Year',[['all','All waves']]);
+    const incomeVariables=['total_labor_income','total_income','total_capital_income'];
+    const cexIncomeYears=metadata.cex_optional_income?.years||[];
     yearSelect.closest('.control').classList.add('quantile-year-control');
     const spending=international&&!spendingOptions.length?null:makeSelect('Variable for consumption',[['auto','Consumption (SCF: expenditure incl. imputed rent)'],...spendingOptions.filter(o=>o.key!=='consump_def1'&&curves.some(c=>c.variable===o.key)).map(o=>[o.key,o.label])]);
     if(spending)spending.closest('.control').classList.add('consumption-variable-control');
@@ -136,10 +144,30 @@ const ThresholdProfiles = (() => {
     function updateYears(){
       yearSelect.closest('.control').querySelector('span').textContent=['PSID','SCF','HFCS'].includes(surveySelect.value)?'Wave':'Year';
       const old=yearSelect.value,available=allCurves.filter(curveMatches).filter(c=>(surveySelect.value==='all'||c.survey===surveySelect.value)&&(!countrySelect||countrySelect.value==='all'||c.country===countrySelect.value)),years=[...new Set(available.map(c=>c.year).filter(finite))].sort((a,b)=>a-b);
-      yearSelect.replaceChildren();[['all','All waves'],...years.map(y=>[String(y),String(y)])].forEach(([value,text])=>{const o=document.createElement('option');o.value=value;o.textContent=text;yearSelect.append(o);});if([...yearSelect.options].some(o=>o.value===old))yearSelect.value=old;
+      yearSelect.replaceChildren(new Option('All waves','all'));
+      if(international&&years.length){
+        const windows=document.createElement('optgroup');
+        windows.label='20-year windows';
+        const first=Math.floor(Math.min(years[0],2005)/5)*5;
+        const last=Math.max(2005,Math.ceil((years.at(-1)-20)/5)*5);
+        for(let start=first;start<=last;start+=5){
+          const end=start+20;
+          if(years.some(y=>y>=start&&y<=end))windows.append(new Option(start+'–'+end,start+'-'+end));
+        }
+        if(windows.children.length)yearSelect.append(windows);
+        const singleWaves=document.createElement('optgroup');
+        singleWaves.label='Individual waves';
+        singleWaves.append(...years.map(y=>new Option(String(y),String(y))));
+        yearSelect.append(singleWaves);
+      }else yearSelect.append(...years.map(y=>new Option(String(y),String(y))));
+      const values=new Set([...yearSelect.options].map(o=>o.value));
+      const preferred=yearSelect.dataset.initialized?old:defaultYear;
+      yearSelect.value=values.has(preferred)?preferred:values.has(defaultYear)?defaultYear:'all';
+      yearSelect.dataset.initialized='true';
     }
     function updateSpending(){
-      if(!spending)return;const old=spending.value,survey=surveySelect.value,country=countrySelect?.value||'all',year=yearSelect.value,available=allCurves.filter(curveMatches).filter(c=>(survey==='all'||c.survey===survey)&&(country==='all'||c.country===country)&&(year==='all'||c.year===Number(year))),options=[];
+      if(!spending)return;const old=spending.value,survey=surveySelect.value,country=countrySelect?.value||'all',inYear=yearFilter(yearSelect.value);
+      const available=allCurves.filter(curveMatches).filter(c=>(survey==='all'||c.survey===survey)&&(country==='all'||c.country===country)&&inYear(c.year)),options=[];
       if(available.some(c=>c.variable===benchmarkConsumption(c.survey)))options.push(['auto',survey==='SCF'?'Expenditure including imputed rent':survey==='all'?'Survey benchmark':'Consumption']);
       spendingOptions.filter(o=>o.key!=='consump_def1'&&available.some(c=>c.variable===o.key||o.key==='food_total'&&c.survey==='NIELSEN'&&c.variable==='retail_expenditure')).forEach(o=>options.push([o.key,o.label]));
       spending.replaceChildren();options.forEach(([value,label])=>{const option=document.createElement('option');option.value=value;option.textContent=label;spending.append(option);});spending.disabled=!options.length;
@@ -150,19 +178,33 @@ const ThresholdProfiles = (() => {
     exportButton.addEventListener('click',()=>{if(!rows.length)return;const fields=Object.keys(rows[0]),escape=x=>x===null||x===undefined?'':'"'+String(x).replace(/"/g,'""')+'"';const csv=[fields.join(','),...rows.map(r=>fields.map(k=>escape(r[k])).join(','))].join('\r\n'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=(international?'international':'US')+'_estimates_by_quantile.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
     function render(){
       curves=allCurves.filter(curveMatches);updateYears();updateSpending();
-      if(cexIncomeBox){cexIncomeBox.hidden=!['all','CEX_BM_RECON'].includes(surveySelect.value)||!!countrySelect&&!['all','US'].includes(countrySelect.value);cexIncomeInput.checked=getCEXIncome();}
-      const chosen=curves.filter(c=>(surveySelect.value==='all'||c.survey===surveySelect.value)&&(!countrySelect||countrySelect.value==='all'||c.country===countrySelect.value)&&(yearSelect.value==='all'||c.year===Number(yearSelect.value))),referencesOnly=chosen.length&&chosen.every(c=>referenceSurveys.has(c.survey));
+      const year=yearSelect.value,inYear=yearFilter(year);
+      const chosen=curves.filter(c=>(surveySelect.value==='all'||c.survey===surveySelect.value)&&(!countrySelect||countrySelect.value==='all'||c.country===countrySelect.value)&&inYear(c.year));
+      if(cexIncomeBox){
+        const cexIncomeRelevant=incomeVariables.some(variable=>selectedVariables.has(variable))&&
+          chosen.some(c=>c.survey==='CEX_BM_RECON')&&
+          (!cexIncomeYears.length||cexIncomeYears.some(inYear));
+        cexIncomeBox.hidden=international?!cexIncomeRelevant:!['all','CEX_BM_RECON'].includes(surveySelect.value);
+        cexIncomeInput.checked=getCEXIncome();
+      }
       [...indicatorSelect.options].forEach(option=>{option.disabled=option.value==='wealth_ratio'&&!chosen.some(c=>c.variable==='networth_val')||chosen.length>0&&!chosen.some(c=>!referenceSurveys.has(c.survey)||(metadata.surveys?.[c.survey]?.available_profile_indicators||['pareto']).includes(option.value));option.title=option.disabled?(option.value==='wealth_ratio'&&!chosen.some(c=>c.variable==='networth_val')?'A matching wealth coefficient is unavailable.':'This dataset provides Pareto coefficients only.'):'';});if(indicatorSelect.selectedOptions[0]?.disabled)indicatorSelect.value='pareto';
-      if(dinaCapital){dinaCapital.value=getDinaCapitalDefinition();dinaCapital.closest('.control').hidden=!chosen.some(c=>c.survey==='SAEZ_ZUCMAN');}
       const relevant=chosen.filter(c=>c.variable===consumptionFor(c.survey)||c.variable!=='consump_def1'&&['networth_val','total_labor_income','total_income','total_capital_income'].includes(c.variable));
       [...methodSelect.options].forEach(option=>{option.disabled=!relevant.some(c=>c[option.value.toLowerCase()]?.some(finite));option.title=option.disabled?'No stored estimates for this method and selection.':'';});if(methodSelect.selectedOptions[0]?.disabled)methodSelect.value=[...methodSelect.options].find(option=>!option.disabled)?.value||'MLE';methodSelect.disabled=indicatorSelect.value==='share';
-      const share=indicatorSelect.value==='share',ratio=indicatorSelect.value==='wealth_ratio',method=methodSelect.value,indicator=indicatorSelect.value,country=countrySelect?.value||'all',year=yearSelect.value;
+      const share=indicatorSelect.value==='share',ratio=indicatorSelect.value==='wealth_ratio',method=methodSelect.value,indicator=indicatorSelect.value,country=countrySelect?.value||'all';
+      if(dinaCapital){
+        dinaCapital.value=getDinaCapitalDefinition();
+        const dinaCurves=chosen.filter(c=>c.survey==='SAEZ_ZUCMAN');
+        const hasGainsSensitiveCurve=dinaCurves.some(c=>['total_capital_income','total_income'].includes(c.variable)&&
+          selectedVariables.has(c.variable)&&c[method.toLowerCase()]?.some(finite));
+        dinaCapital.closest('.control').hidden=international?share||!hasGainsSensitiveCurve:!dinaCurves.length;
+      }
+      const periodLabel=year.replace('-','–');
       const yTitle=share?'Share above percentile':ratio?'Relative to wealth (ζₓ / ζₐ)':'Pareto tail coefficient (ζ)';
       heading.textContent=share?'Shares above quantile':ratio?'Pareto tail coefficients relative to wealth by quantile':'Pareto tail coefficients by quantile';
       methodSelect.disabled=share;methodSelect.title=share?'Distribution shares do not use a Pareto estimator.':'';
       const sig=JSON.stringify([getSpecificationSignature(),surveySelect.value,country,year,spending?.value,indicator,method,getDinaCapitalDefinition(),[...selectedVariables].sort(),getCEXIncome()]);if(sig===signature){charts.forEach(c=>c.resize());return;}signature=sig;
       charts.forEach(c=>c.destroy());charts=[];rows=[];grid.replaceChildren();
-      const selected=surveySelect.value==='all'?actualSurveys:[surveySelect.value],format=x=>share?number(100*x,1)+'%':number(x,3),legendSeries=fiveSeries.filter(([key])=>selected.some(survey=>curves.some(c=>c.survey===survey&&(country==='all'||c.country===country)&&(year==='all'||c.year===Number(year))&&c.variable===(key==='consumption'?consumptionFor(survey):key))));
+      const selected=surveySelect.value==='all'?actualSurveys:[surveySelect.value],format=x=>share?number(100*x,1)+'%':number(x,3),legendSeries=fiveSeries.filter(([key])=>selected.some(survey=>curves.some(c=>c.survey===survey&&(country==='all'||c.country===country)&&inYear(c.year)&&c.variable===(key==='consumption'?consumptionFor(survey):key))));
       legend.replaceChildren();legendSeries.forEach(([key,label])=>{const item=document.createElement('label'),swatch=document.createElement('i');{item.className='threshold-variable-choice';const input=document.createElement('input');input.type='checkbox';input.style.accentColor=colors[key];input.checked=selectedVariables.has(key);input.setAttribute('aria-label','Show '+label);input.addEventListener('change',()=>{input.checked?selectedVariables.add(key):selectedVariables.delete(key);signature='';render();});item.append(input);}swatch.style.background=colors[key];const variable=key==='consumption'?(spending?.value==='auto'?'consump_def1':spending?.value):key,chosenName=key==='consumption'&&selected.length===1&&selected[0]==='NIELSEN'?'Retail purchases':key==='consumption'&&spending?.value!=='auto'?(spendingOptions.find(o=>o.key===variable)?.label||label):label,name=selected.length===1&&isCEX(selected[0])?(sourceDisplay(selected[0])?.labels?.[variable]||chosenName):chosenName;item.append(swatch,document.createTextNode(name));
         if(!international&&key==='total_income'){
           const group=document.createElement('span');
@@ -173,7 +215,7 @@ const ThresholdProfiles = (() => {
       let any=false,scfShown=false,hfcsShown=false;
       for(const survey of selected){
         if(referenceSurveys.has(survey)&&!(metadata.surveys?.[survey]?.available_profile_indicators||['pareto']).includes(indicator))continue;
-        const sourceContract=contractFor(survey,metadata),contract=survey==='FORBES'?{...sourceContract,profile_window:[.01,.90]}:share&&sourceContract.share_profile_window?{...sourceContract,profile_window:sourceContract.share_profile_window}:sourceContract,xMinimum=100*(contract.profile_window?.[0]??.70),xMaximum=100*(contract.profile_window?.[1]??.99),available=curves.filter(c=>c.survey===survey&&(country==='all'||c.country===country)&&(year==='all'||c.year===Number(year)));if(!available.length)continue;
+        const sourceContract=contractFor(survey,metadata),contract=survey==='FORBES'?{...sourceContract,profile_window:[.01,.90]}:share&&sourceContract.share_profile_window?{...sourceContract,profile_window:sourceContract.share_profile_window}:sourceContract,xMinimum=100*(contract.profile_window?.[0]??.70),xMaximum=100*(contract.profile_window?.[1]??.99),available=curves.filter(c=>c.survey===survey&&(country==='all'||c.country===country)&&inYear(c.year));if(!available.length)continue;
         const consumption=consumptionFor(survey);
         const consumptionLabel=survey==='NIELSEN'?'Retail purchases':(isCEX(survey)?sourceDisplay(survey)?.labels?.[consumption]:null)||(consumption==='consump_def1'?'Consumption':spendingOptions.find(o=>o.key===consumption)?.label||'Expenditure');
         const cached=new Map(),referencesBySeries=new Map(),limits=[],series=seriesFor(survey).filter(([key])=>selectedVariables.has(key)),confidence=contract.ci_level||.90;
@@ -191,13 +233,13 @@ const ThresholdProfiles = (() => {
         const finiteLimits=limits.filter(finite);if(!finiteLimits.length)continue;
         const minimum=Math.min(...finiteLimits),maximum=Math.max(...finiteLimits),pad=Math.max((maximum-minimum)*.04,share?.01:ratio?.03:.05),step=share?(maximum-minimum<=.7?.05:.1):ratio?.25:.5,ymin=Math.floor((minimum-pad)/step)*step,ymax=Math.ceil((maximum+pad)/step)*step;
         const group=document.createElement('div');group.className='threshold-survey-group';
-        const title=document.createElement('h3');title.textContent=surveyLabel(survey)+(international&&country!=='all'?' · '+(available[0].country_name||country):'')+(year!=='all'?' · '+year:'');group.append(title);
+        const title=document.createElement('h3');title.textContent=surveyLabel(survey)+(international&&country!=='all'?' · '+(available[0].country_name||country):'')+(year!=='all'?' · '+periodLabel:'');group.append(title);
         const panels=document.createElement('div');panels.className='threshold-adjustment-panels';panels.style.setProperty('--profile-panels',shownVariants.length);group.append(panels);grid.append(group);
         if(survey==='SCF')scfShown=true;if(survey==='HFCS')hfcsShown=true;
         let showYTitle=true;
         for(const [variant,variantName,authorVariant,panelVariable] of shownVariants){
           const panel=document.createElement('div');panel.className='threshold-profile-panel';const heading=document.createElement('h4');heading.textContent=variantName;if(bankComparison){const help=document.createElement('span');help.className='help-marker hover-help';help.tabIndex=0;help.textContent='?';help.setAttribute('aria-label','About '+variantName);help.dataset.tooltip=authorVariant==='durables_4_with_carry'?'Paper benchmark: ATM/cash withdrawals, check payments, loans and other expenses. Large transactions contribute 20% annual service flows; the remaining stock carries forward.':authorVariant==='durables_all_with_carry'?'The saved durable-service conversion applies across all transaction categories, with carry-over.':'The same active sample before converting unusually large spending to durable-service flows.';heading.append(' ',help);}panel.append(heading);
-          const wrap=document.createElement('div');wrap.className='threshold-chart-wrap';const canvas=document.createElement('canvas');canvas.setAttribute('role','img');canvas.setAttribute('aria-label',surveyLabel(survey)+' '+variantName+' '+(share||ratio?yTitle:method+' '+yTitle)+' by quantile'+(year==='all'?' averaged across available waves':' in '+year));wrap.append(canvas);panel.append(wrap);
+          const wrap=document.createElement('div');wrap.className='threshold-chart-wrap';const canvas=document.createElement('canvas');canvas.setAttribute('role','img');canvas.setAttribute('aria-label',surveyLabel(survey)+' '+variantName+' '+(share||ratio?yTitle:method+' '+yTitle)+' by quantile'+(year==='all'?' averaged across available waves':periodLabel.includes('–')?' averaged across available waves in '+periodLabel:' in '+periodLabel));wrap.append(canvas);panel.append(wrap);
           const references=document.createElement('div');references.className='threshold-references';panel.append(references);panels.append(panel);
           const datasets=[];let hasData=false;
           for(const [key,label] of series){
@@ -219,7 +261,7 @@ const ThresholdProfiles = (() => {
       exportButton.disabled=!rows.length;
       if(!any){if(!selectedVariables.size){note.textContent='Select at least one variable to display.';return;}note.textContent=surveySelect.value==='CEX_BM'&&getHousingMethod()==='bp'?'CEX B&M retains its original homeowner-service construction. Turn off the constant-housing option to view the original B&M results.':'No '+(share?'share curves':'threshold profiles')+' are available for these filters. Uncomputed series are not substituted.';return;}
       const referenceOnly=selected.every(survey=>referenceSurveys.has(survey)),cells=international?'country–wave cells':referenceOnly?'years':'waves';
-      note.textContent='Shaded bands are pointwise 90% Student-t intervals for the mean at each percentile, based on variation across the available '+cells+'. '+(share?'':ratio?'Dashed lines and labels average within-cell ratios of the variable’s and wealth’s separately KS-selected coefficients. ':'Dashed lines and labels average the coefficients selected separately by the KS criterion in each '+(international?'country–wave cell':referenceOnly?'year':'wave')+'. ')+(scfShown?'SCF estimates are first averaged across its five imputations. ':'')+(hfcsShown?'HFCS estimates are first averaged across its five imputations; country–wave summaries use population weights.':'')+(getCEXIncome()&&selected.includes('CEX_BM_RECON')?' CEX income estimates from 2004 onward average five imputations within each wave.':'');
+      note.textContent=(year.includes('-')?'Results average the available waves from '+periodLabel+'. ':'')+'Shaded bands are pointwise 90% Student-t intervals for the mean at each percentile, based on variation across the available '+cells+'. '+(share?'':ratio?'Dashed lines and labels average within-cell ratios of the variable’s and wealth’s separately KS-selected coefficients. ':'Dashed lines and labels average the coefficients selected separately by the KS criterion in each '+(international?'country–wave cell':referenceOnly?'year':'wave')+'. ')+(scfShown?'SCF estimates are first averaged across its five imputations. ':'')+(hfcsShown?'HFCS estimates are first averaged across its five imputations; country–wave summaries use population weights.':'')+(getCEXIncome()&&selected.includes('CEX_BM_RECON')?' CEX income estimates from 2004 onward average five imputations within each wave.':'');
     }
     if(typeof initializeMobileFilters==='function')initializeMobileFilters(host);
     return{render,addCurves,resize:()=>charts.forEach(c=>c.resize())};
