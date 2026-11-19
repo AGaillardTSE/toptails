@@ -2726,7 +2726,7 @@ function createUSQuantileComparison({
   indicators.insertBefore(kind.fieldset,paretoOptions);
   paretoOptions.append(make('span','subcontrol-label','Pareto measure'));
   const paretoMeasure = radioGroup(paretoOptions,'pareto','Pareto measure',[
-    ['pareto','Pareto coefficient (ζ)'],['wealth_ratio','Relative to that of wealth (ζₓ / ζₐ)'],['income_ratio','Relative to total income'],
+    ['pareto','Pareto coefficient (ζ)'],['wealth_ratio','Relative to that of wealth (ζₓ / ζₐ)'],['income_ratio','Relative to total income (ζₓ / ζᵧ)'],
   ],'compact-choice-row');
   paretoOptions.append(make('span','subcontrol-label','Pareto estimator'));
   const estimator = radioGroup(paretoOptions,'estimator','Pareto estimator',[['MLE','MLE'],['OLS','OLS']],'compact-choice-row');
@@ -2909,7 +2909,7 @@ function createUSQuantileComparison({
     const yTitle = {
       pareto:'Pareto tail coefficient (ζ)',
       wealth_ratio:'Relative to wealth (ζₓ / ζₐ)',
-      income_ratio:'Relative to total income (ζₓ / ζₜₒₜₐₗ)',
+      income_ratio:'Relative to total income (ζₓ / ζᵧ)',
     }[indicator]||title;
     const visiblePanels = includeRaw ? panels : [currentPanel];
     const titlePanel = visiblePanels.find(panel=>panel.groups.length);
