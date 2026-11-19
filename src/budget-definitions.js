@@ -254,6 +254,20 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "taxAvailable": false,
     "taxStatus": "Not separately constructed"
   },
+  "HBS": {
+    "name": "Eurostat Household Budget Survey (HBS)",
+    "unit": "Households",
+    "consumption": [
+      ["nondurable", "The basket covers 47 spending categories, including food, clothing, utilities, health, transport, communication, education and recreation."],
+      ["housing", "Housing spending includes the survey’s imputed rent for homeowners."],
+      ["durable", "Vehicles enter at their purchase cost."]
+    ],
+    "timeCoverage": "Available waves in 2010, 2015 and 2020 for 11 European countries.",
+    "selection": "Households with positive consumption spending.",
+    "representationCorrection": "Where available, weights match post-tax income shares from the World Inequality Database (WID).",
+    "details": "Consumption categories are rescaled to national accounts. The income series measures annual net monetary household income, and reporting adjustments leave its amounts unchanged.",
+    "limitation": "France and Italy have no fully adjusted estimates. Italy has no income series."
+  },
   "SHIW": {
     "name": "Survey of Household Income and Wealth (SHIW)",
     "unit": "Households",
@@ -408,6 +422,13 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   }
   function consumptionComponents(source){
     if(!source.consumption)return {rows:[],notes:[source.consumptionUnavailable]};
+    if(state.survey==='HBS'){
+      const includeInKind=state.consumption==='consump_def1';
+      const rows=source.consumption.map(([key,description])=>[key,key==='nondurable'&&includeInKind
+        ?description+' The benchmark also adds reported in-kind earnings from employment and self-employment.'
+        :description]);
+      return {rows,notes:[]};
+    }
     const measure=state.consumption,owner=['consump_def1','expenditure_incl_rent','food_housing_vacation','food_housing_vacation_donations_vehicle'].includes(measure);
     const expenditure=['expenditure','expenditure_incl_rent'].includes(measure);
     const psid=state.survey==='PSID';
@@ -462,6 +483,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const shortDatasetNames={CEX_BM_RECON:'CEX',SAEZ_ZUCMAN:'DINA',YODLEE:'Yodlee',NIELSEN:'NielsenIQ',FORBES:'Forbes'};
   function render(){
     const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;
+    correspondenceNote.hidden=state.survey==='HBS';
     grid.dataset.survey=state.survey;
     const datasetName=shortDatasetNames[state.survey]||state.survey;
     accountingTitle.textContent='Accounting framework for variable construction and mapping to '+datasetName;
@@ -469,6 +491,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     const international=['HFCS','SHIW','HILDA'].includes(state.survey);
     const availableVariables=new Set([...summary.filter(r=>r.survey===state.survey).map(r=>r.variable),...referencePoints().filter(r=>r.survey===state.survey).map(r=>r.variable)]);
     let options=spendingOptions.filter(o=>availableVariables.has(o.key));if(international)options=[{key:'consump_def1',label:'Consumption'}];if(source.retail)options=[{key:'retail',label:'Retail purchases'}];
+    if(state.survey==='HBS')options=[{key:'consump_def1',label:'Consumption including in-kind benefits'},{key:'hbs_consumption_excl_inkind',label:'Consumption excluding in-kind benefits'}];
     consumption.input.replaceChildren();options.forEach(o=>consumption.input.add(new Option(o.label,o.key)));if(!options.some(o=>o.key===state.consumption))state.consumption=options.some(o=>o.key==='consump_def1')?'consump_def1':options.some(o=>o.key==='expenditure_incl_rent')?'expenditure_incl_rent':options[0]?.key||'';consumption.input.value=state.consumption;if(!options.length)consumption.input.add(new Option('Unavailable',''));consumption.input.disabled=!options.length;consumption.box.classList.toggle('definition-unavailable',!options.length);consumption.input.title=options.find(o=>o.key===state.consumption)?.label||'Unavailable';
     housingInput.disabled=!source.housing;housingInput.checked=!!source.housing&&state.constantRent;housingBox.classList.toggle('definition-unavailable',!source.housing);
     bank.box.hidden=!source.bank;bank.input.value=state.bank;
