@@ -26,6 +26,7 @@
 #panel-other .cc-time-controls{grid-template-columns:repeat(3,minmax(0,1fr))}
 #panel-other .cc-time-controls input{width:100%;min-height:41px;border:1px solid #dddfdf;border-radius:5px;padding:7px 10px;font-size:13px;color:#263a53}
 #panel-other .cc-time-chart{height:480px;margin:18px 22px 15px}
+#cc-t-subtitle{margin:0;padding:8px 28px;color:#647784}
 #cc-t-note:not(:empty)::before{content:"Notes: ";font-style:italic;font-weight:400}
 #cc-time .cc-survey-legend svg{width:28px;height:18px}
 
@@ -37,7 +38,7 @@
 #panel-other .cc-time-controls>.control:has(#cc-t-indicator){flex-basis:190px}
 #panel-other .cc-time-controls>.control>label{white-space:nowrap}
 
-@media(max-width:760px){#panel-other .cc-time-chart{height:365px;margin:14px 9px 12px}}
+@media(max-width:760px){#panel-other .cc-time-chart{height:365px;margin:14px 9px 12px}#cc-t-subtitle{padding-inline:13px}}
 
 #cc-quantile-profiles .threshold-profile-controls {
   flex-wrap: nowrap;

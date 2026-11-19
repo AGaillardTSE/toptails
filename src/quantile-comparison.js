@@ -60,11 +60,11 @@ function createUSQuantileComparison({
   </aside>
   <div class="plot-surface quantile-comparison-plot">
     <header class="plot-top quantile-comparison-header">
-      <div><h2>Pareto tail coefficients by quantile</h2><p class="plot-subtitle"></p></div>
+      <div><h2>Pareto tail coefficients (ζ) by quantile</h2><p class="plot-subtitle"></p></div>
       <div class="chart-actions"><button class="text-button" data-action="csv" type="button">Profile CSV</button><button class="text-button" data-action="png" type="button">Figure PNG</button></div>
     </header>
     <div class="plot-series-controls">
-      <span class="control-label series-label">Variables</span>
+      <span class="control-label series-label">Variables:</span>
       <fieldset class="series-bar" aria-label="Variables to display"></fieldset>
     </div>
     <div class="quantile-comparison-body">
@@ -504,9 +504,9 @@ function createUSQuantileComparison({
       wealth_ratio:'Pareto coefficient relative to wealth',income_ratio:'Pareto coefficient relative to total income',
     }[indicator];
     plotHeading.textContent = {
-      share:'Shares above quantile',pareto:'Pareto tail coefficients by quantile',
-      wealth_ratio:'Pareto tail coefficients relative to wealth by quantile',
-      income_ratio:'Pareto tail coefficients relative to total income by quantile',
+      share:'Shares above quantile',pareto:'Pareto tail coefficients (ζ) by quantile',
+      wealth_ratio:'Pareto tail coefficients (ζ) relative to wealth by quantile',
+      income_ratio:'Pareto tail coefficients (ζ) relative to total income by quantile',
     }[indicator];
     const spendingLabel = spending.selectedOptions[0].textContent;
     const ids = surveys.filter(survey=>selected.has(survey));

@@ -136,6 +136,7 @@
     gap: 6px;
     padding: 13px 13px 9px;
   }
+  .plot-top:has(#time-chart-subtitle) { padding-bottom: 7px; }
   .plot-top:has(#time-chart-subtitle) > div:first-child,
   #panel-loglog .plot-top > div:first-child,
   #cc-loglog .plot-top > div:first-child,

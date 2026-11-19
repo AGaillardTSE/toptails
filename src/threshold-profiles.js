@@ -98,7 +98,9 @@ const ThresholdProfiles = (() => {
     const identity=c=>[c.survey,c.country,c.year,c.variant,c.variable,c.housing_method,c.weighting_method,c.author_variant].join('|'),knownCurves=new Set(allCurves.map(identity));
     function addCurves(incoming){let changed=false;incoming.forEach(c=>{const key=identity(c);if(!knownCurves.has(key)){knownCurves.add(key);allCurves.push(c);changed=true;}});if(changed)signature='';}
     const section=document.createElement('section');section.className='threshold-profiles';
-    section.innerHTML='<div class="threshold-heading"><h2>Pareto tail coefficients by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div><div class="threshold-legend"></div><div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
+    section.innerHTML='<div class="threshold-heading"><h2>Pareto tail coefficients (ζ) by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div>'
+      +'<div class="plot-series-controls threshold-variable-toolbar" hidden><span class="control-label series-label">Variables:</span><fieldset class="series-bar threshold-legend" aria-label="Variables to display"></fieldset></div>'
+      +'<div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
     const exportButton=section.querySelector('.threshold-heading .text-button');
     const heading=section.querySelector('.threshold-heading h2');
     if(onOpenComparison){
@@ -116,6 +118,7 @@ const ThresholdProfiles = (() => {
     }
     host.append(section);
     const grid=section.querySelector('.threshold-profile-grid'),legend=section.querySelector('.threshold-legend'),controls=section.querySelector('.threshold-profile-controls'),note=section.querySelector('.threshold-note');
+    const variableToolbar=section.querySelector('.threshold-variable-toolbar');
     const makeSelect=(labelText,items)=>{const label=document.createElement('label');label.className='control';const title=document.createElement('span');title.textContent=labelText;const select=document.createElement('select');items.forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;select.append(option);});label.append(title,select);controls.append(label);return select;};
     const actualSurveys=surveys.filter(s=>curves.some(c=>c.survey===s)),surveyLabel=s=>s==='YODLEE'?'Yodlee (bank data)':s==='NIELSEN'?'NielsenIQ':metadata.surveys?.[s]?.label||(s==='CEX_BM'?'CEX B&M':s);
     const surveySelect=makeSelect('Survey',[...(international?[['all','All surveys']]:[]),...actualSurveys.map(s=>[s,surveyLabel(s)]),...(!international&&actualSurveys.length>1?[['all','All US surveys']]:[])]);
@@ -204,11 +207,12 @@ const ThresholdProfiles = (() => {
       }
       const periodLabel=year.replace('-','–');
       const yTitle=share?'Share above percentile':ratio?'Relative to wealth (ζₓ / ζₐ)':'Pareto tail coefficient (ζ)';
-      heading.textContent=share?'Shares above quantile':ratio?'Pareto tail coefficients relative to wealth by quantile':'Pareto tail coefficients by quantile';
+      heading.textContent=share?'Shares above quantile':ratio?'Pareto tail coefficients (ζ) relative to wealth by quantile':'Pareto tail coefficients (ζ) by quantile';
       methodSelect.disabled=share;methodSelect.title=share?'Distribution shares do not use a Pareto estimator.':'';
       const sig=JSON.stringify([getSpecificationSignature(),surveySelect.value,country,year,spending?.value,indicator,method,getDinaCapitalDefinition(),[...selectedVariables].sort(),getCEXIncome()]);if(sig===signature){charts.forEach(c=>c.resize());return;}signature=sig;
       charts.forEach(c=>c.destroy());charts=[];rows=[];grid.replaceChildren();
       const selected=surveySelect.value==='all'?actualSurveys:[surveySelect.value],format=x=>share?number(100*x,1)+'%':number(x,3),legendSeries=fiveSeries.filter(([key])=>selected.some(survey=>curves.some(c=>c.survey===survey&&(country==='all'||c.country===country)&&inYear(c.year)&&c.variable===(key==='consumption'?consumptionFor(survey):key))));
+      variableToolbar.hidden=!legendSeries.length;
       legend.replaceChildren();legendSeries.forEach(([key,label])=>{const item=document.createElement('label'),swatch=document.createElement('i');{item.className='threshold-variable-choice';const input=document.createElement('input');input.type='checkbox';input.style.accentColor=colors[key];input.checked=selectedVariables.has(key);input.setAttribute('aria-label','Show '+label);input.addEventListener('change',()=>{input.checked?selectedVariables.add(key):selectedVariables.delete(key);signature='';render();});item.append(input);}swatch.style.background=colors[key];const variable=key==='consumption'?(spending?.value==='auto'?'consump_def1':spending?.value):key,chosenName=key==='consumption'&&selected.length===1&&selected[0]==='NIELSEN'?'Retail purchases':key==='consumption'&&spending?.value!=='auto'?(spendingOptions.find(o=>o.key===variable)?.label||label):label,name=selected.length===1&&isCEX(selected[0])?(sourceDisplay(selected[0])?.labels?.[variable]||chosenName):chosenName;item.append(swatch,document.createTextNode(name));
         if(!international&&key==='total_income'){
           const group=document.createElement('span');

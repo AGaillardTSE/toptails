@@ -392,7 +392,7 @@ function createTimeWindow(canvas, onChange) {
   const isParetoMetric = metric => metric==='pareto'||metric==='pareto_wealth_ratio';
   const HOUSEHOLD_SURVEYS=new Set(['PSID','SCF','CEX','CEX_BM','CEX_BM_RECON']),ADJUSTABLE_SURVEYS=new Set(['PSID','SCF','CEX','CEX_BM_RECON']);
   const indicatorKind=metric=>isParetoMetric(metric)?'pareto':metric.startsWith('share_')?'shares':'gini';
-  const metricLabel = () => ({pareto:'Pareto tail coefficients',pareto_wealth_ratio:'Pareto coefficients relative to wealth',gini:'Gini coefficients',share_top20:'Top 20% shares',share_top10:'Top 10% shares',share_top5:'Top 5% shares',share_top1:'Top 1% shares'})[s.metric];
+  const metricLabel = () => ({pareto:'Pareto tail coefficients (ζ)',pareto_wealth_ratio:'Pareto coefficients relative to wealth',gini:'Gini coefficients',share_top20:'Top 20% shares',share_top10:'Top 10% shares',share_top5:'Top 5% shares',share_top1:'Top 1% shares'})[s.metric];
   const format = value => s.metric.startsWith('share_') ? pct(value) : num(value,2);
   const years = [...new Set(SUMMARY.filter(r=>r.survey==='PSID').map(r=>r.year))].sort((a,c)=>a-c);
   const scfYears = [...new Set(SUMMARY.filter(r=>r.survey==='SCF').map(r=>r.year))].sort((a,c)=>a-c);
@@ -609,12 +609,17 @@ function createTimeWindow(canvas, onChange) {
       const detail=document.createElement('span');
       detail.className='time-adjustment-summary';
       detail.textContent=adjustmentLabels.join(' ');
-      const link=document.createElement('a');
-      link.className='subtitle-tab-link';
-      link.href='#panel-adjustments';
-      link.textContent='Survey Adjustments';
-      link.addEventListener('click',event=>{event.preventDefault();tab('adjustments');});
-      detail.append(' (see ',link,' for details)');
+      const methods=[['adjustments','Survey Adjustments']];
+      if(isParetoMetric(s.metric))methods.push(['pareto','Pareto Estimation']);
+      methods.forEach(([section,label],index)=>{
+        const link=document.createElement('a');
+        link.className='subtitle-tab-link';
+        link.href='#panel-'+section;
+        link.textContent=label;
+        link.addEventListener('click',event=>{event.preventDefault();tab(section);});
+        detail.append(index?' and ':' (see ',link);
+      });
+      detail.append(')');
       if(phone)notesPanel.prepend(detail);
       else subtitle.append(detail);
     }
@@ -933,7 +938,7 @@ function createTimeWindow(canvas, onChange) {
     if(!plotted.length) return;
     const lo=Math.max(Math.min(...plotted.map(p=>p.x)),Math.min(...plotted.map(p=>p.y))), hi=Math.min(Math.max(...plotted.map(p=>p.x)),Math.max(...plotted.map(p=>p.y)));
     if(hi>lo) datasets.push({label:'Equal normalized values',type:'line',data:[{x:lo,y:lo},{x:hi,y:hi}],borderColor:'#b8b7bf',borderDash:[3,5],borderWidth:1,pointRadius:0,isReference:true,order:3});
-    bivChart=new Chart($('biv-chart'),{type:'scatter',data:{datasets},plugins:[equalityLineLabel],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:12,right:14,left:5,bottom:0}},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,boxWidth:9,font:{size:13},padding:17,filter:item=>!datasets[item.datasetIndex].isTrace&&!datasets[item.datasetIndex].isFit}},tooltip:{backgroundColor:'#182437',padding:11,filter:item=>!!item.dataset.isMain,callbacks:{title:items=>items.length?items[0].dataset.label:'',label:ctx=>[displayLabel(pair.x,b.measure,ctx.dataset.survey)+' / mean: '+num(ctx.parsed.x,3),displayLabel(pair.y,b.measure,ctx.dataset.survey)+' / mean: '+num(ctx.parsed.y,3)],afterLabel:ctx=>num(100*ctx.raw.q_lo,1)+'–'+num(100*ctx.raw.q_hi,1)+' percentile · min. '+num(ctx.raw.n_obs,0)+(' '+tailUnit(ctx.dataset.survey))}}},scales:{x:{type:useLog?'logarithmic':'linear',grid:{color:'#ececf0'},border:{color:'#d9dce2'},title:{display:true,text:lx+' / sample mean',font:{size:13}},ticks:{callback:useLog?logTick:value=>num(value,1),autoSkip:!useLog,font:{size:13},maxRotation:0}},y:{type:useLog?'logarithmic':'linear',grid:{color:'#ececf0'},border:{display:false},title:{display:true,text:ly+' / sample mean',font:{size:13}},ticks:{callback:useLog?logTick:value=>num(value,1),autoSkip:!useLog,font:{size:13}}}}}});
+    bivChart=new Chart($('biv-chart'),{type:'scatter',data:{datasets},plugins:[equalityLineLabel],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:12,right:14,left:5,bottom:0}},plugins:{onlineYAxisTitles:false,legend:{position:'bottom',labels:{usePointStyle:true,boxWidth:9,font:{size:13},padding:17,filter:item=>!datasets[item.datasetIndex].isTrace&&!datasets[item.datasetIndex].isFit}},tooltip:{backgroundColor:'#182437',padding:11,filter:item=>!!item.dataset.isMain,callbacks:{title:items=>items.length?items[0].dataset.label:'',label:ctx=>[displayLabel(pair.x,b.measure,ctx.dataset.survey)+' / mean: '+num(ctx.parsed.x,3),displayLabel(pair.y,b.measure,ctx.dataset.survey)+' / mean: '+num(ctx.parsed.y,3)],afterLabel:ctx=>num(100*ctx.raw.q_lo,1)+'–'+num(100*ctx.raw.q_hi,1)+' percentile · min. '+num(ctx.raw.n_obs,0)+(' '+tailUnit(ctx.dataset.survey))}}},scales:{x:{type:useLog?'logarithmic':'linear',grid:{color:'#ececf0'},border:{color:'#d9dce2'},title:{display:true,text:lx+' / sample mean',font:{size:13}},ticks:{callback:useLog?logTick:value=>num(value,1),autoSkip:!useLog,font:{size:13},maxRotation:0}},y:{type:useLog?'logarithmic':'linear',grid:{color:'#ececf0'},border:{display:false},title:{display:true,text:ly+' / sample mean',font:{size:13}},ticks:{callback:useLog?logTick:value=>num(value,1),autoSkip:!useLog,font:{size:13}}}}}});
     requestAnimationFrame(()=>bivChart?.resize());
     announce(fits.map(f=>f.name+' slope '+num(f.slope,3)).join('; '));
   }
