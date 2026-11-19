@@ -47,3 +47,38 @@
 @media(max-width:760px){#panel-other .cc-time-chart{height:365px;margin:14px 9px 12px}}
 
 #cc-time .cc-comparison-legends{padding-top:16px}
+
+#cc-quantile-profiles .threshold-profile-controls {
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 6px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+#cc-quantile-profiles .threshold-profile-controls > .control {
+  flex: 1 0 110px;
+  min-width: 0;
+}
+#cc-quantile-profiles .threshold-profile-controls > .control > span { font-size: 12px; white-space: nowrap; }
+#cc-quantile-profiles .threshold-profile-controls select { padding-right: 30px !important; }
+#cc-quantile-profiles .threshold-profile-controls > .quantile-year-control { flex-basis: 110px; }
+#cc-quantile-profiles .threshold-profile-controls > .consumption-variable-control { flex-basis: 202px; }
+#cc-quantile-profiles .threshold-profile-controls > .control:has(option[value="wealth_ratio"]) { flex-basis: 143px; }
+#cc-quantile-profiles .threshold-profile-controls > .quantile-estimator-control { flex-basis: 79px; }
+#cc-quantile-profiles .threshold-profile-controls > .dina-capital-control { flex: 1.5 0 201px; }
+#cc-quantile-profiles .threshold-profile-controls > .quantile-cex-income,
+#cc-quantile-profiles .threshold-profile-controls > .mobile-filter-done {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+#cc-quantile-profiles .threshold-profile-controls > .quantile-cex-income { min-height: 41px; }
+
+@media (max-width: 760px) {
+  #cc-quantile-profiles .threshold-profile-controls > .control { flex-basis: 140px; }
+  #cc-quantile-profiles .threshold-profile-controls > .quantile-year-control { flex-basis: 126px; }
+  #cc-quantile-profiles .threshold-profile-controls > .consumption-variable-control { flex-basis: 222px; }
+  #cc-quantile-profiles .threshold-profile-controls > .control:has(option[value="wealth_ratio"]) { flex-basis: 177px; }
+  #cc-quantile-profiles .threshold-profile-controls > .quantile-estimator-control { flex-basis: 92px; }
+  #cc-quantile-profiles .threshold-profile-controls > .dina-capital-control { flex-basis: 230px; }
+}

@@ -9,12 +9,13 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Family units",
     "consumption": [
       ["nondurable", [
-        ["Food", psidFood],
-        ["Health", "Out-of-pocket hospital, nursing-home, outpatient, dental, prescription and in-home care, plus insurance premiums."],
-        ["Utilities and transport", "Fuel, electricity, water and sewer, plus phone, television and internet. Transport includes fuel, insurance and repairs for vehicles, leases, parking, carpooling, public transit and taxis."],
-        ["Education and childcare", "Tuition, tutoring, school supplies, school room and board, and childcare."],
-        ["Other spending", "Entertainment, computers, other devices and software, trips and vacations, clothing, footwear, jewelry, watches and charitable giving."]
-      ]],
+        psidFood,
+        "Health spending includes out-of-pocket hospital, nursing-home, outpatient, dental, prescription and in-home care, plus insurance premiums.",
+        "Utilities and communications cover fuel, electricity, water and sewer, phone, television and internet.",
+        "Transport includes fuel, insurance and repairs for vehicles, leases, parking, carpooling, public transit and taxis.",
+        "Education and childcare include tuition, tutoring, school supplies, school room and board, and childcare.",
+        "The basket also includes entertainment, computers, other devices and software, trips and vacations, clothing, footwear, jewelry, watches and charitable giving."
+      ].join(' ')],
       ["housing", psidRent],
       ["durable", "Furnishings and equipment include furniture, textiles, floor coverings, appliances and housewares. Their annual service flow uses 15% of new purchases and the remaining stock from earlier waves. Owned vehicles also use a 15% rate applied to estimated values, with additional vehicle payments carried forward as they depreciate. Vehicle lease payments enter as reported spending."]
     ],
@@ -397,12 +398,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
           label.append(math,' ');
         }
         label.append(name);
-        item.append(label);
-        if(Array.isArray(description)){
-          const breakdown=el('ul','budget-component-breakdown');
-          for(const [name,text] of description){const entry=el('li');entry.append(el('strong','',name+'. '),text);breakdown.append(entry);}
-          item.append(breakdown);
-        }else item.append(' ',description);
+        item.append(label,' ',description);
         list.append(item);
       }
       detail.append(list);
@@ -452,7 +448,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
       const grossRent=state.constantRent?'Paid rent enters at the reported amount. Gross imputed rent for homeowners applies one NIPA-matched rate to the value of the main home.':psidRent;
       rows=rows.map(([component,description])=>[component,component==='housing'?grossRent+' Ownership costs, including repairs and maintenance, are deducted when computing net rent for capital income.':description]);
     }else if(source.housing&&owner&&state.constantRent)notes.push('Owner services use the constant NIPA-matched rent-rate alternative.');
-    if(psid&&measure==='consump_def1')notes.push('Spending reported for shorter periods is put on an annual basis. The reporting adjustment applies the expenditure rescaling factors to the corresponding housing and durable services.');
     if(source.bank&&measure==='consump_def1')rows.push(['durable',state.bank==='paper'
       ? 'The paper estimates durable purchases from unusually large ATM or cash withdrawals, check payments, loan payments and other expenses. Each year, 20% of the estimated durable stock enters consumption as a service flow and the balance carries forward.'
       : 'The same service-flow correction is applied across all spending categories in this version.']);
@@ -467,6 +462,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const shortDatasetNames={CEX_BM_RECON:'CEX',SAEZ_ZUCMAN:'DINA',YODLEE:'Yodlee',NIELSEN:'NielsenIQ',FORBES:'Forbes'};
   function render(){
     const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;
+    grid.dataset.survey=state.survey;
     const datasetName=shortDatasetNames[state.survey]||state.survey;
     accountingTitle.textContent='Accounting framework for variable construction and mapping to '+datasetName;
     for(const {heading,title} of Object.values(cards))heading.textContent=title+' in '+datasetName;

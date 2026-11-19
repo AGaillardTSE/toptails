@@ -352,6 +352,41 @@
 
 #cc-time .cc-comparison-legends{padding-top:16px}
 
+#cc-quantile-profiles .threshold-profile-controls {
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 6px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+#cc-quantile-profiles .threshold-profile-controls > .control {
+  flex: 1 0 110px;
+  min-width: 0;
+}
+#cc-quantile-profiles .threshold-profile-controls > .control > span { font-size: 12px; white-space: nowrap; }
+#cc-quantile-profiles .threshold-profile-controls select { padding-right: 30px !important; }
+#cc-quantile-profiles .threshold-profile-controls > .quantile-year-control { flex-basis: 110px; }
+#cc-quantile-profiles .threshold-profile-controls > .consumption-variable-control { flex-basis: 202px; }
+#cc-quantile-profiles .threshold-profile-controls > .control:has(option[value="wealth_ratio"]) { flex-basis: 143px; }
+#cc-quantile-profiles .threshold-profile-controls > .quantile-estimator-control { flex-basis: 79px; }
+#cc-quantile-profiles .threshold-profile-controls > .dina-capital-control { flex: 1.5 0 201px; }
+#cc-quantile-profiles .threshold-profile-controls > .quantile-cex-income,
+#cc-quantile-profiles .threshold-profile-controls > .mobile-filter-done {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+#cc-quantile-profiles .threshold-profile-controls > .quantile-cex-income { min-height: 41px; }
+
+@media (max-width: 760px) {
+  #cc-quantile-profiles .threshold-profile-controls > .control { flex-basis: 140px; }
+  #cc-quantile-profiles .threshold-profile-controls > .quantile-year-control { flex-basis: 126px; }
+  #cc-quantile-profiles .threshold-profile-controls > .consumption-variable-control { flex-basis: 222px; }
+  #cc-quantile-profiles .threshold-profile-controls > .control:has(option[value="wealth_ratio"]) { flex-basis: 177px; }
+  #cc-quantile-profiles .threshold-profile-controls > .quantile-estimator-control { flex-basis: 92px; }
+  #cc-quantile-profiles .threshold-profile-controls > .dina-capital-control { flex-basis: 230px; }
+}
+
 /* Data descriptions, adjustment navigation and source-to-account tables. */
 .dc-data-root,.dc-domain-panel{max-width:1436px;margin:0 auto}.dc-toolbar{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;padding:22px 0}.dc-control{display:flex;flex:0 1 290px;min-width:190px;flex-direction:column;gap:8px;margin:0}.dc-control-label{font:600 14px/1.45 var(--sans,Arial,sans-serif);letter-spacing:.035em;color:#596678}.dc-control select{width:100%;min-height:42px;padding:9px 32px 9px 12px;border:1px solid #dedfdc;border-radius:6px;background:#fffefa;color:#20354f;font:14px/1.5 var(--sans,Arial,sans-serif)}.dc-control select:focus-visible{outline:2px solid #477EAD;outline-offset:2px}.dc-control select:disabled{color:#858b95;background:#f3f2ee}.dc-dataset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.dc-dataset-card{padding:25px 27px;border:1px solid #e3dfd7;border-radius:11px;background:#fffefa;min-width:0}.dc-dataset-card h3{font:normal 23px/1.3 var(--serif,Georgia,serif);color:#20354f;margin:0 0 18px}.dc-data-facts{display:grid;grid-template-columns:80px minmax(0,1fr);gap:9px 12px;margin:0 0 17px;font:14px/1.65 var(--sans,Arial,sans-serif)}.dc-data-facts dt{color:#687281;font-weight:600}.dc-data-facts dd{color:#35445a;margin:0;overflow-wrap:anywhere}.dc-data-note{margin:14px 0 0;color:#4f5d70;font:14px/1.7 var(--sans,Arial,sans-serif)}.dc-limit-list,.dc-map-limitations{padding-left:18px;margin:15px 0 0;color:#606b7a;font:14px/1.75 var(--sans,Arial,sans-serif)}.dc-limit-list li,.dc-map-limitations li{padding-left:3px;margin:5px 0}.dc-limit-list li::marker,.dc-map-limitations li::marker{color:#8693a2}
 .dc-adjustment-nav{margin-bottom:24px}.dc-adjustment-nav .secondary-nav-inner{align-items:center;gap:22px}.dc-adjustment-nav button{min-height:52px;flex-shrink:0}.dc-nav-group-label{color:#7a7c84;font-size:13px;letter-spacing:.015em;padding-left:22px;margin-left:1px;border-left:1px solid #dedbd5;white-space:nowrap;flex-shrink:0}.dc-domain-panel{--mapping-accent:#477EAD}.dc-domain-panel[data-domain="income"]{--mapping-accent:#BF5555}.dc-domain-panel[data-domain="wealth"]{--mapping-accent:#4D8B69}.dc-correspondence-scroll{width:100%;overflow-x:auto;border-top:2px solid var(--mapping-accent);background:#fffefa}.dc-correspondence-table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:850px;color:#293d53;font:14px/1.65 var(--sans,Arial,sans-serif)}.dc-correspondence-table thead th{text-align:left;font-size:13px;font-weight:600;letter-spacing:.025em;color:#687383;padding:15px 18px;background:#f0f1ed;border-bottom:1px solid #deded7}.dc-correspondence-table thead th:nth-child(1){width:18%}.dc-correspondence-table thead th:nth-child(2){width:35%}.dc-correspondence-table thead th:nth-child(3){width:45px;padding:0}.dc-correspondence-table thead th:nth-child(4){width:auto}.dc-mapping-row th,.dc-mapping-row td{vertical-align:top;padding:18px 18px 10px;text-align:left}.dc-row-component{font-size:15px;font-weight:600;line-height:1.55;color:#20354f}.dc-source-variable{display:flex;align-items:baseline;gap:8px 11px;flex-wrap:wrap;margin:0 0 6px}.dc-source-variable:last-child{margin-bottom:0}.dc-source-variable code{font:600 13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;color:#3d688f;overflow-wrap:anywhere}.dc-variable-meaning{font-size:14px;color:#3c4e61;overflow-wrap:anywhere}.dc-source-variable code+.dc-variable-meaning{flex:1 1 145px}.dc-account-item{margin:0 0 6px;color:#574f3d;overflow-wrap:anywhere}.dc-account-item:last-child{margin-bottom:0}.dc-row-link{position:relative;padding:0!important}.dc-row-connector{position:absolute;left:9px;right:9px;top:18px;bottom:10px;min-height:30px}.dc-row-connector:before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:7px;border-block:1px solid #9aa5ae;border-right:1px solid #9aa5ae;border-radius:0 3px 3px 0}.dc-row-connector:after{content:"";position:absolute;left:8px;right:0;top:50%;border-top:1px solid #9aa5ae}.dc-row-detail{padding:0 18px 17px!important;border-bottom:1px solid #e4e3dc}.dc-row-notes{margin-left:18%;padding-left:6px}.dc-map-rule{margin:0;color:#707886;font:13px/1.65 var(--sans,Arial,sans-serif)}.dc-scope-notes{font:13px/1.65 var(--sans,Arial,sans-serif);color:#6d7580;margin:5px 0 0}.dc-scope-notes summary{cursor:pointer;color:#6a7787;display:list-item;list-style-position:inside}.dc-scope-notes .dc-map-limitations{font-size:13px;margin:7px 0 0}.dc-unmatched{font-style:italic;color:#86898f}.dc-empty{color:#6e7784;font:14px/1.7 var(--sans,Arial,sans-serif);padding:25px 0}.dc-procedure-panel,.dc-decomposition-panel{min-width:0}.dc-decomposition-inner .adjustment-results{border-radius:7px}.dc-decomposition-inner .adjustment-results-header{padding-top:22px;padding-bottom:17px}
@@ -554,6 +589,10 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   min-width:1098px;
   padding-top:12px;
 }
+.budget-definitions .budget-definition-grid[data-survey="PSID"]{
+  grid-template-columns:minmax(300px,1.55fr) minmax(185px,1.42fr) repeat(2,minmax(145px,.89fr)) minmax(300px,1.55fr);
+  min-width:1131px;
+}
 .budget-equation-rows{
   display:grid;
   grid-column:1/-1;
@@ -579,6 +618,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .budget-card-expansion{grid-row:1;height:var(--budget-expansion-height);align-items:end}
 .budget-card-expansion math{font-size:19px;margin:0}
+.budget-definition-grid[data-survey="PSID"] .budget-component-capital .budget-card-expansion math{font-size:16.5px}
 .budget-component-a .budget-card-expansion math{font-size:16.5px;transform:translateX(36px)}
 .budget-component-capital .budget-card-expansion math{font-size:18px}
 .budget-card-term{
@@ -602,8 +642,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
 .budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
 .budget-component-list li+li{margin-top:10px}
-.budget-component-breakdown{margin:4px 0 0;padding-inline-start:14px}
-.budget-component-list .budget-component-breakdown>li+li{margin-top:5px}
 .budget-component-label{display:block;color:#263e57}
 .budget-component-label math{font-size:16px;white-space:nowrap}
 .budget-component-detail .budget-component-note{margin-top:10px}
@@ -1476,12 +1514,13 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
     "unit": "Family units",
     "consumption": [
       ["nondurable", [
-        ["Food", psidFood],
-        ["Health", "Out-of-pocket hospital, nursing-home, outpatient, dental, prescription and in-home care, plus insurance premiums."],
-        ["Utilities and transport", "Fuel, electricity, water and sewer, plus phone, television and internet. Transport includes fuel, insurance and repairs for vehicles, leases, parking, carpooling, public transit and taxis."],
-        ["Education and childcare", "Tuition, tutoring, school supplies, school room and board, and childcare."],
-        ["Other spending", "Entertainment, computers, other devices and software, trips and vacations, clothing, footwear, jewelry, watches and charitable giving."]
-      ]],
+        psidFood,
+        "Health spending includes out-of-pocket hospital, nursing-home, outpatient, dental, prescription and in-home care, plus insurance premiums.",
+        "Utilities and communications cover fuel, electricity, water and sewer, phone, television and internet.",
+        "Transport includes fuel, insurance and repairs for vehicles, leases, parking, carpooling, public transit and taxis.",
+        "Education and childcare include tuition, tutoring, school supplies, school room and board, and childcare.",
+        "The basket also includes entertainment, computers, other devices and software, trips and vacations, clothing, footwear, jewelry, watches and charitable giving."
+      ].join(' ')],
       ["housing", psidRent],
       ["durable", "Furnishings and equipment include furniture, textiles, floor coverings, appliances and housewares. Their annual service flow uses 15% of new purchases and the remaining stock from earlier waves. Owned vehicles also use a 15% rate applied to estimated values, with additional vehicle payments carried forward as they depreciate. Vehicle lease payments enter as reported spending."]
     ],
@@ -1864,12 +1903,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
           label.append(math,' ');
         }
         label.append(name);
-        item.append(label);
-        if(Array.isArray(description)){
-          const breakdown=el('ul','budget-component-breakdown');
-          for(const [name,text] of description){const entry=el('li');entry.append(el('strong','',name+'. '),text);breakdown.append(entry);}
-          item.append(breakdown);
-        }else item.append(' ',description);
+        item.append(label,' ',description);
         list.append(item);
       }
       detail.append(list);
@@ -1919,7 +1953,6 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
       const grossRent=state.constantRent?'Paid rent enters at the reported amount. Gross imputed rent for homeowners applies one NIPA-matched rate to the value of the main home.':psidRent;
       rows=rows.map(([component,description])=>[component,component==='housing'?grossRent+' Ownership costs, including repairs and maintenance, are deducted when computing net rent for capital income.':description]);
     }else if(source.housing&&owner&&state.constantRent)notes.push('Owner services use the constant NIPA-matched rent-rate alternative.');
-    if(psid&&measure==='consump_def1')notes.push('Spending reported for shorter periods is put on an annual basis. The reporting adjustment applies the expenditure rescaling factors to the corresponding housing and durable services.');
     if(source.bank&&measure==='consump_def1')rows.push(['durable',state.bank==='paper'
       ? 'The paper estimates durable purchases from unusually large ATM or cash withdrawals, check payments, loan payments and other expenses. Each year, 20% of the estimated durable stock enters consumption as a service flow and the balance carries forward.'
       : 'The same service-flow correction is applied across all spending categories in this version.']);
@@ -1934,6 +1967,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   const shortDatasetNames={CEX_BM_RECON:'CEX',SAEZ_ZUCMAN:'DINA',YODLEE:'Yodlee',NIELSEN:'NielsenIQ',FORBES:'Forbes'};
   function render(){
     const source=sources[state.survey];dataset.input.value=state.survey;dataset.input.title=source.name;
+    grid.dataset.survey=state.survey;
     const datasetName=shortDatasetNames[state.survey]||state.survey;
     accountingTitle.textContent='Accounting framework for variable construction and mapping to '+datasetName;
     for(const {heading,title} of Object.values(cards))heading.textContent=title+' in '+datasetName;

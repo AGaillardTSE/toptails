@@ -200,6 +200,10 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   min-width:1098px;
   padding-top:12px;
 }
+.budget-definitions .budget-definition-grid[data-survey="PSID"]{
+  grid-template-columns:minmax(300px,1.55fr) minmax(185px,1.42fr) repeat(2,minmax(145px,.89fr)) minmax(300px,1.55fr);
+  min-width:1131px;
+}
 .budget-equation-rows{
   display:grid;
   grid-column:1/-1;
@@ -225,6 +229,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .budget-card-expansion{grid-row:1;height:var(--budget-expansion-height);align-items:end}
 .budget-card-expansion math{font-size:19px;margin:0}
+.budget-definition-grid[data-survey="PSID"] .budget-component-capital .budget-card-expansion math{font-size:16.5px}
 .budget-component-a .budget-card-expansion math{font-size:16.5px;transform:translateX(36px)}
 .budget-component-capital .budget-card-expansion math{font-size:18px}
 .budget-card-term{
@@ -248,8 +253,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .budget-definitions .budget-component-list{padding-inline-start:16px;margin:0;color:#5e6c7d}
 .budget-definitions .budget-component-list li{font:400 14px/1.6 Arial,sans-serif}
 .budget-component-list li+li{margin-top:10px}
-.budget-component-breakdown{margin:4px 0 0;padding-inline-start:14px}
-.budget-component-list .budget-component-breakdown>li+li{margin-top:5px}
 .budget-component-label{display:block;color:#263e57}
 .budget-component-label math{font-size:16px;white-space:nowrap}
 .budget-component-detail .budget-component-note{margin-top:10px}
