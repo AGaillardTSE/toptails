@@ -622,28 +622,30 @@ function createUSQuantileComparison({
   pngButton.addEventListener('click', () => {
     const charts = panels.filter(panel=>panel.chart);
     const name = 'US_quantile_comparison_'+period+'.png';
-    if (charts.length===1) {
-      save(charts[0].chart.toBase64Image(),name);
-    } else if (charts.length>1) {
-      const output = make('canvas');
-      const scale = charts[0].chart.currentDevicePixelRatio;
-      const header = 30*scale;
-      const gap = 14*scale;
-      output.width = charts.reduce((sum,panel)=>sum+panel.canvas.width,0)+gap;
-      output.height = Math.max(...charts.map(panel=>panel.canvas.height))+header;
-      const context = output.getContext('2d');
-      context.fillStyle = '#fffefa';
-      context.fillRect(0,0,output.width,output.height);
-      context.fillStyle = '#425367';
-      context.font = '600 '+(14*scale)+'px Arial, sans-serif';
-      let x = 0;
-      for (const panel of charts) {
-        context.fillText(panel.heading.textContent,x+10*scale,20*scale);
-        context.drawImage(panel.canvas,x,header);
-        x += panel.canvas.width+gap;
+    withFigureYAxisTitles(charts.map(panel=>panel.chart), () => {
+      if (charts.length===1) {
+        save(charts[0].chart.toBase64Image(),name);
+      } else if (charts.length>1) {
+        const output = make('canvas');
+        const scale = charts[0].chart.currentDevicePixelRatio;
+        const header = 30*scale;
+        const gap = 14*scale;
+        output.width = charts.reduce((sum,panel)=>sum+panel.canvas.width,0)+gap;
+        output.height = Math.max(...charts.map(panel=>panel.canvas.height))+header;
+        const context = output.getContext('2d');
+        context.fillStyle = '#fffefa';
+        context.fillRect(0,0,output.width,output.height);
+        context.fillStyle = '#425367';
+        context.font = '600 '+(14*scale)+'px Arial, sans-serif';
+        let x = 0;
+        for (const panel of charts) {
+          context.fillText(panel.heading.textContent,x+10*scale,20*scale);
+          context.drawImage(panel.canvas,x,header);
+          x += panel.canvas.width+gap;
+        }
+        save(output.toDataURL('image/png'),name);
       }
-      save(output.toDataURL('image/png'),name);
-    }
+    });
   });
   csvButton.disabled = pngButton.disabled = true;
   return {render,resize:resizePlots};

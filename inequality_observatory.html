@@ -308,32 +308,38 @@
 .eyeballing-legend .eye-circle{width:10px;height:10px;border:1.3px solid #BF5555bf}
 
 .time-window {
-  margin: 0 22px 16px;
-  padding: 9px 13px 10px;
-  border: 1px solid #e8e2d9;
-  border-radius: 7px;
-  background: #f7f5f0;
+  --time-window-thumb-size: 20px;
+  margin: 0 22px 12px;
+  padding-inline: 3px;
   color: #44546b;
 }
 .time-window-heading {
   display: flex;
   align-items: center;
-  gap: 9px;
-  min-height: 30px;
+  gap: 8px;
+  min-height: 24px;
   font: 600 13px/1.4 Arial, sans-serif;
 }
 .time-window-years { font-weight: 400; font-variant-numeric: tabular-nums; }
-.time-window-heading .text-button { margin-left: auto; min-height: 30px; }
+.time-window-heading .text-button {
+  margin-left: auto;
+  min-height: 24px;
+  padding: 2px 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.time-window-heading .text-button:not(:disabled):hover { text-decoration: underline; }
 .time-window-heading .text-button:disabled { opacity: .55; }
-.time-window-sliders { position: relative; height: 34px; }
+.time-window-sliders { position: relative; height: 24px; }
 .time-window-rail {
   position: absolute;
-  top: 14px;
-  left: 10px;
-  right: 10px;
-  height: 6px;
+  top: 50%;
+  inset-inline: calc(var(--time-window-thumb-size) / 2);
+  height: 3px;
+  transform: translateY(-50%);
   overflow: hidden;
-  border-radius: 3px;
+  border-radius: 2px;
   background: #e3dfe3;
 }
 .time-window-rail::after {
@@ -348,7 +354,7 @@
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 34px;
+  height: 100%;
   margin: 0;
   padding: 0;
   border: 0;
@@ -359,51 +365,49 @@
 .time-window-start-on-top input:first-of-type,
 .time-window-sliders input:focus-visible { z-index: 1; }
 .time-window-sliders input:focus-visible {
-  outline: 2px solid #80506a;
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: 2px solid transparent;
+  --time-window-thumb-focus: 0 0 0 2px #80506a;
 }
-.time-window-sliders input::-webkit-slider-runnable-track { height: 20px; }
+.time-window-sliders input::-webkit-slider-runnable-track { height: var(--time-window-thumb-size); }
 .time-window-sliders input::-webkit-slider-thumb {
   appearance: none;
   -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #fffefa;
+  box-sizing: border-box;
+  width: var(--time-window-thumb-size);
+  height: var(--time-window-thumb-size);
+  border: calc((var(--time-window-thumb-size) - 12px) / 2) solid transparent;
   border-radius: 50%;
-  background: #a85274;
-  box-shadow: 0 0 0 1px #8a4663;
+  background: #a85274 padding-box;
+  box-shadow: var(--time-window-thumb-focus, none);
   pointer-events: auto;
   cursor: ew-resize;
 }
-.time-window-sliders input::-moz-range-track { height: 6px; background: transparent; }
+.time-window-sliders input::-moz-range-track { height: 3px; background: transparent; }
 .time-window-sliders input::-moz-range-thumb {
   box-sizing: border-box;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #fffefa;
+  width: var(--time-window-thumb-size);
+  height: var(--time-window-thumb-size);
+  border: calc((var(--time-window-thumb-size) - 12px) / 2) solid transparent;
   border-radius: 50%;
-  background: #a85274;
-  box-shadow: 0 0 0 1px #8a4663;
+  background: #a85274 padding-box;
+  box-shadow: var(--time-window-thumb-focus, none);
   pointer-events: auto;
   cursor: ew-resize;
 }
 .time-window-ticks {
   position: relative;
-  height: 15px;
-  margin-inline: 10px;
+  height: 14px;
+  margin-inline: calc(var(--time-window-thumb-size) / 2);
   color: #5f6877;
-  font: 12px/15px Arial, sans-serif;
+  font: 12px/14px Arial, sans-serif;
   font-variant-numeric: tabular-nums;
 }
 .time-window-ticks span { position: absolute; transform: translateX(-50%); }
 .time-window-ticks span:first-child { transform: translateX(-25%); }
 .time-window-ticks span:last-child { transform: translateX(-75%); }
 @media (max-width: 760px) {
-  .time-window { margin-inline: 9px; padding-inline: 10px; }
-  .time-window-sliders { height: 44px; }
-  .time-window-sliders input[type="range"] { height: 44px; }
-  .time-window-rail { top: 19px; }
+  .time-window { --time-window-thumb-size: 24px; margin-inline: 9px; }
+  .time-window-sliders { height: 32px; }
 }
 
 #panel-other .other-card-heading>h2{margin:0}
@@ -1516,7 +1520,7 @@ const Eyeballing=(()=>{
         canvas.hidden=false;status.hidden=true;chart=new Chart(canvas,{type:'scatter',data:{datasets:[{label:'Empirical tail',data:plotted,showLine:false,pointStyle:'circle',pointRadius:4,pointHoverRadius:6,pointBorderWidth:1.3,pointBorderColor:color+'bf',pointBackgroundColor:'#ffffff00'},{label:'Pareto reference',data:reference,showLine:true,pointRadius:0,borderWidth:1.8,borderColor:'#30343b',borderDash:[6,4]}]},options:{responsive:true,maintainAspectRatio:false,animation:false,parsing:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+Number(c.parsed.y).toPrecision(3)}}},scales:{x:{type:'logarithmic',min:1,max:profile.xmax,title:{display:true,text:'Amount / first retained tail observation',font:{size:14}},ticks:{font:{size:14},maxTicksLimit:7},grid:{color:'#e9e9ee'},border:{color:'#929aa2'}},y:{type:'logarithmic',max:1,title:{display:true,text:'Conditional tail probability',font:{size:14}},ticks:{font:{size:14},maxTicksLimit:7,callback:value=>value>=.0001?String(Number(value.toPrecision(3))):value.toExponential(0)},grid:{color:'#e9e9ee'},border:{color:'#929aa2'}}}}});
         const measured=SeriesYears.period(profile),period=state.wave==='average'?'Across-wave average':(['PSID','SCF'].includes(profile.survey)?measured.label+' (wave '+profile.year+')':measured.label);subtitle.textContent=(international?inputs.country.selectedOptions[0].textContent+' · ':'')+names[state.survey]+' · '+(labels[state.variable]||inputs.variable.selectedOptions[0].textContent)+' · '+adjustments[profile.variant]+' · '+profile.method+' · '+profile.threshold_rule;
         readout.textContent=period+' · ζ = '+number(profile.alpha)+' · Reference slope = '+number(profile.slope).replace('-','−');waveNote.textContent=state.wave==='average'?profile.n_waves+' waves: '+String(profile.years_used).split(';').join(', '):measured.detail;canvas.dataset.profile=JSON.stringify({...profile,empirical_vector:undefined});canvas.dataset.pointCount=plotted.length;csv.disabled=png.disabled=false;
-        csv.onclick=()=>{const fields=['normalized_amount','empirical_ccdf','pareto_reference','pareto_coefficient','reference_slope','survey','country','variable','period','waves'],rows=plotted.map(p=>[p.x,p.y,p.x**(-profile.alpha),profile.alpha,profile.slope,profile.survey,profile.country,profile.variable,period,profile.years_used]),content=[fields,...rows].map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');download(new Blob([content],{type:'text/csv'}),'empirical_pareto_tail.csv');};png.onclick=()=>{const a=el('a');a.href=chart.toBase64Image();a.download='empirical_pareto_tail.png';a.click();};
+        csv.onclick=()=>{const fields=['normalized_amount','empirical_ccdf','pareto_reference','pareto_coefficient','reference_slope','survey','country','variable','period','waves'],rows=plotted.map(p=>[p.x,p.y,p.x**(-profile.alpha),profile.alpha,profile.slope,profile.survey,profile.country,profile.variable,period,profile.years_used]),content=[fields,...rows].map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');download(new Blob([content],{type:'text/csv'}),'empirical_pareto_tail.csv');};png.onclick=()=>{const a=el('a');a.href=withFigureYAxisTitles([chart],()=>chart.toBase64Image());a.download='empirical_pareto_tail.png';a.click();};
       }catch(error){if(token!==request)return;status.textContent='The empirical tail could not be loaded. Please reload and try again.';console.error(error);}}
     function download(blob,name){const a=el('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
     return{render,resize:()=>chart?.resize()};
@@ -3002,28 +3006,30 @@ function createUSQuantileComparison({
   pngButton.addEventListener('click', () => {
     const charts = panels.filter(panel=>panel.chart);
     const name = 'US_quantile_comparison_'+period+'.png';
-    if (charts.length===1) {
-      save(charts[0].chart.toBase64Image(),name);
-    } else if (charts.length>1) {
-      const output = make('canvas');
-      const scale = charts[0].chart.currentDevicePixelRatio;
-      const header = 30*scale;
-      const gap = 14*scale;
-      output.width = charts.reduce((sum,panel)=>sum+panel.canvas.width,0)+gap;
-      output.height = Math.max(...charts.map(panel=>panel.canvas.height))+header;
-      const context = output.getContext('2d');
-      context.fillStyle = '#fffefa';
-      context.fillRect(0,0,output.width,output.height);
-      context.fillStyle = '#425367';
-      context.font = '600 '+(14*scale)+'px Arial, sans-serif';
-      let x = 0;
-      for (const panel of charts) {
-        context.fillText(panel.heading.textContent,x+10*scale,20*scale);
-        context.drawImage(panel.canvas,x,header);
-        x += panel.canvas.width+gap;
+    withFigureYAxisTitles(charts.map(panel=>panel.chart), () => {
+      if (charts.length===1) {
+        save(charts[0].chart.toBase64Image(),name);
+      } else if (charts.length>1) {
+        const output = make('canvas');
+        const scale = charts[0].chart.currentDevicePixelRatio;
+        const header = 30*scale;
+        const gap = 14*scale;
+        output.width = charts.reduce((sum,panel)=>sum+panel.canvas.width,0)+gap;
+        output.height = Math.max(...charts.map(panel=>panel.canvas.height))+header;
+        const context = output.getContext('2d');
+        context.fillStyle = '#fffefa';
+        context.fillRect(0,0,output.width,output.height);
+        context.fillStyle = '#425367';
+        context.font = '600 '+(14*scale)+'px Arial, sans-serif';
+        let x = 0;
+        for (const panel of charts) {
+          context.fillText(panel.heading.textContent,x+10*scale,20*scale);
+          context.drawImage(panel.canvas,x,header);
+          x += panel.canvas.width+gap;
+        }
+        save(output.toDataURL('image/png'),name);
       }
-      save(output.toDataURL('image/png'),name);
-    }
+    });
   });
   csvButton.disabled = pngButton.disabled = true;
   return {render,resize:resizePlots};
@@ -3540,7 +3546,7 @@ function initOtherSurveys(other,context) {
   $('cc-t-custom').addEventListener('input',event=>{const value=Number(event.target.value);if(Number.isInteger(value)&&value>=70&&value<=99){time.q=value/100;render();}});
   $('cc-t-custom').addEventListener('change',event=>{const value=Number(event.target.value);if(!Number.isInteger(value)||value<70||value>99){event.target.value=String(Math.round(time.q*100));return;}time.q=value/100;render();});
   $('cc-t-csv').addEventListener('click',()=>download(timeRows,'international_tails_over_time.csv'));
-  $('cc-t-png').addEventListener('click',()=>{if(!timeChart)return;const link=document.createElement('a');link.href=timeChart.toBase64Image();link.download='international_tails_over_time.png';link.click();});
+  $('cc-t-png').addEventListener('click',()=>{if(!timeChart)return;const link=document.createElement('a');link.href=withFigureYAxisTitles([timeChart],()=>timeChart.toBase64Image());link.download='international_tails_over_time.png';link.click();});
   [['cc-survey','dataset'],['cc-country','country'],['cc-period','period'],['cc-adjustment','specification'],['cc-method','method'],['cc-measure','measure']].forEach(([id,k])=>$(id).addEventListener('change',e=>{
     summary[k]=e.target.value;
     if(k==='dataset'){
@@ -3872,6 +3878,33 @@ function initializeMobileFilters(root = document) {
     controls.before(toggle);
     controls.append(done);
   });
+}
+
+const chartsWithHiddenYAxisTitle = new WeakSet();
+const chartsBeingExported = new WeakSet();
+
+const onlineYAxisTitles = {
+  id: 'onlineYAxisTitles',
+  beforeInit(chart) {
+    const title = chart.config.options.scales?.y?.title;
+    if (!title?.display) return;
+    const display = title.display;
+    title.display = context => chartsBeingExported.has(chart) &&
+      (typeof display === 'function' ? display(context) : display);
+    chartsWithHiddenYAxisTitle.add(chart);
+  }
+};
+
+function withFigureYAxisTitles(charts, capture) {
+  const affected = charts.filter(chart => chartsWithHiddenYAxisTitle.has(chart));
+  for (const chart of affected) chartsBeingExported.add(chart);
+  try {
+    for (const chart of affected) chart.update('none');
+    return capture();
+  } finally {
+    for (const chart of affected) chartsBeingExported.delete(chart);
+    for (const chart of affected) chart.update('none');
+  }
 }
 
 function createTimeWindow(canvas, onChange) {
@@ -4798,7 +4831,7 @@ function createTimeWindow(canvas, onChange) {
     const content=[fields.join(','),...rows.map(row=>fields.map(key=>escape(row[key])).join(','))].join('\r\n');
     const url=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'})); const anchor=document.createElement('a');anchor.href=url;anchor.download=name;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
-  function downloadPNG(chart,name) { if(!chart)return; const anchor=document.createElement('a');anchor.download=name;anchor.href=chart.toBase64Image('image/png',1);anchor.click(); }
+  function downloadPNG(chart,name) { if(!chart)return; const anchor=document.createElement('a');anchor.download=name;anchor.href=withFigureYAxisTitles([chart],()=>chart.toBase64Image('image/png',1));anchor.click(); }
   $('download-time-csv').addEventListener('click',()=>downloadCSV(timeRows,'inequality_results.csv'));
   $('download-biv-csv').addEventListener('click',()=>downloadCSV(binRows,'joint_distribution_results.csv'));
   $('download-time-png').addEventListener('click',()=>downloadPNG(timeChart,'inequality.png'));
@@ -4810,6 +4843,8 @@ function createTimeWindow(canvas, onChange) {
   function definitions(){definitionsController=initBudgetDefinitions({host:$('definitions-content'),metadata:META,summary:ALL_SUMMARY,referencePoints,spendingOptions,getHousingMethod:()=>housing.method,getDinaCapitalDefinition:()=>dina.capitalDefinition});}
 
   if(typeof Chart!=='function') { $('page-error').hidden=false;$('page-error').textContent='The embedded chart library could not be loaded.';return; }
+  // The online build uses separate data parts. Standalone files retain their original figure labels.
+  if (document.querySelector('[data-explorer-block][data-parts]')) Chart.register(onlineYAxisTitles);
   Chart.defaults.font.family='Arial, sans-serif'; Chart.defaults.color='#6c7180';
   if(typeof initUSReferencePoints==='function')referenceController=initUSReferencePoints(META,{getCapitalVariant:dinaVariant});
   initializeDinaControls();

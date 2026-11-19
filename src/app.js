@@ -30,6 +30,33 @@ function initializeMobileFilters(root = document) {
   });
 }
 
+const chartsWithHiddenYAxisTitle = new WeakSet();
+const chartsBeingExported = new WeakSet();
+
+const onlineYAxisTitles = {
+  id: 'onlineYAxisTitles',
+  beforeInit(chart) {
+    const title = chart.config.options.scales?.y?.title;
+    if (!title?.display) return;
+    const display = title.display;
+    title.display = context => chartsBeingExported.has(chart) &&
+      (typeof display === 'function' ? display(context) : display);
+    chartsWithHiddenYAxisTitle.add(chart);
+  }
+};
+
+function withFigureYAxisTitles(charts, capture) {
+  const affected = charts.filter(chart => chartsWithHiddenYAxisTitle.has(chart));
+  for (const chart of affected) chartsBeingExported.add(chart);
+  try {
+    for (const chart of affected) chart.update('none');
+    return capture();
+  } finally {
+    for (const chart of affected) chartsBeingExported.delete(chart);
+    for (const chart of affected) chart.update('none');
+  }
+}
+
 function createTimeWindow(canvas, onChange) {
   const element = document.createElement('div');
   element.className = 'time-window';
@@ -944,7 +971,7 @@ function createTimeWindow(canvas, onChange) {
     const content=[fields.join(','),...rows.map(row=>fields.map(key=>escape(row[key])).join(','))].join('\r\n');
     const url=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'})); const anchor=document.createElement('a');anchor.href=url;anchor.download=name;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
-  function downloadPNG(chart,name) { if(!chart)return; const anchor=document.createElement('a');anchor.download=name;anchor.href=chart.toBase64Image('image/png',1);anchor.click(); }
+  function downloadPNG(chart,name) { if(!chart)return; const anchor=document.createElement('a');anchor.download=name;anchor.href=withFigureYAxisTitles([chart],()=>chart.toBase64Image('image/png',1));anchor.click(); }
   $('download-time-csv').addEventListener('click',()=>downloadCSV(timeRows,'inequality_results.csv'));
   $('download-biv-csv').addEventListener('click',()=>downloadCSV(binRows,'joint_distribution_results.csv'));
   $('download-time-png').addEventListener('click',()=>downloadPNG(timeChart,'inequality.png'));
@@ -956,6 +983,8 @@ function createTimeWindow(canvas, onChange) {
   function definitions(){definitionsController=initBudgetDefinitions({host:$('definitions-content'),metadata:META,summary:ALL_SUMMARY,referencePoints,spendingOptions,getHousingMethod:()=>housing.method,getDinaCapitalDefinition:()=>dina.capitalDefinition});}
 
   if(typeof Chart!=='function') { $('page-error').hidden=false;$('page-error').textContent='The embedded chart library could not be loaded.';return; }
+  // The online build uses separate data parts. Standalone files retain their original figure labels.
+  if (document.querySelector('[data-explorer-block][data-parts]')) Chart.register(onlineYAxisTitles);
   Chart.defaults.font.family='Arial, sans-serif'; Chart.defaults.color='#6c7180';
   if(typeof initUSReferencePoints==='function')referenceController=initUSReferencePoints(META,{getCapitalVariant:dinaVariant});
   initializeDinaControls();

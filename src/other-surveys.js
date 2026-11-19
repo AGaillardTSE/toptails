@@ -445,7 +445,7 @@ function initOtherSurveys(other,context) {
   $('cc-t-custom').addEventListener('input',event=>{const value=Number(event.target.value);if(Number.isInteger(value)&&value>=70&&value<=99){time.q=value/100;render();}});
   $('cc-t-custom').addEventListener('change',event=>{const value=Number(event.target.value);if(!Number.isInteger(value)||value<70||value>99){event.target.value=String(Math.round(time.q*100));return;}time.q=value/100;render();});
   $('cc-t-csv').addEventListener('click',()=>download(timeRows,'international_tails_over_time.csv'));
-  $('cc-t-png').addEventListener('click',()=>{if(!timeChart)return;const link=document.createElement('a');link.href=timeChart.toBase64Image();link.download='international_tails_over_time.png';link.click();});
+  $('cc-t-png').addEventListener('click',()=>{if(!timeChart)return;const link=document.createElement('a');link.href=withFigureYAxisTitles([timeChart],()=>timeChart.toBase64Image());link.download='international_tails_over_time.png';link.click();});
   [['cc-survey','dataset'],['cc-country','country'],['cc-period','period'],['cc-adjustment','specification'],['cc-method','method'],['cc-measure','measure']].forEach(([id,k])=>$(id).addEventListener('change',e=>{
     summary[k]=e.target.value;
     if(k==='dataset'){
