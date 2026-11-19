@@ -56,6 +56,26 @@
     cursor: pointer;
   }
   .explorer-grid > .mobile-filter-toggle { margin: 0; }
+  .mobile-filter-heading { flex-wrap: wrap; }
+  .mobile-filter-heading > div:first-child { width: 100%; min-width: 0; }
+  .mobile-filter-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+  }
+  .mobile-filter-title > :first-child { min-width: 0; overflow-wrap: break-word; }
+  .mobile-filter-title > .threshold-heading-title { flex-wrap: wrap; }
+  .mobile-filter-title :is(h2, h3) { font-size: 22px; margin: 0; }
+  .mobile-filter-title > .mobile-filter-toggle {
+    flex: 0 0 auto;
+    gap: 9px;
+    margin: 0;
+    padding-inline: 10px;
+    white-space: nowrap;
+  }
   .mobile-filter-toggle::after {
     content: "";
     width: 6px;
@@ -86,12 +106,13 @@
     cursor: pointer;
   }
 
-  .explorer-grid > .sidebar {
+  .explorer-grid > .sidebar, .explorer-grid .plot-surface > .sidebar {
     position: static;
     grid-template-columns: minmax(0, 1fr);
     gap: 14px;
     padding: 15px;
   }
+  .explorer-grid .plot-surface > .sidebar { margin: 2px 13px 12px; }
   .sidebar :is(#overlay-controls, .dataset-controls) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
@@ -124,6 +145,7 @@
   .chart-actions { margin: 0; justify-content: flex-start; }
   .chart-actions .text-button { min-height: 34px; }
   .other-card-heading, .results-heading { padding: 14px; flex-wrap: wrap; gap: 8px; }
+  .adjustment-results-header.mobile-filter-heading { padding: 14px; gap: 8px; }
 
   .plot-series-controls {
     padding: 0 13px 8px;

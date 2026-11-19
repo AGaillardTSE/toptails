@@ -31,6 +31,7 @@ function initOtherSurveys(other,context) {
   }
   const excluded=r=>r.benchmark_included===false||r.benchmark_included===0;
   const summary={dataset:'all',country:'all',period:'average',specification:'full',method:'MLE',measure:'auto',variables:new Set(variables.map(([key])=>key))};
+  const hiddenSummaryCountries = new Map();
   const time={survey:'all',country:'AU',adjustment:'full',method:'MLE',threshold:'ks',q:.95,indicator:'pareto',variables:new Set(variables.map(([key])=>key))};
   const results={survey:'all',country:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',q:.95,period:'both',page:0};
   const relationships={survey:bins.some(r=>r.survey==='HILDA')?'HILDA':bins[0]?.survey||'HFCS',country:'',pair:'wealth_consumption',adjustment:'full',stat:'mean',minN:5,scale:'loglog',fit:'ols',selectedByCountry:new Map(),waves:new Map()};
@@ -54,6 +55,7 @@ function initOtherSurveys(other,context) {
     '<div class="control"><label for="cc-measure">Variable for consumption</label><select id="cc-measure"></select></div></div>',
     '<div class="other-table-meta"><span>KS-selected Pareto coefficients</span><span id="cc-summary-count"></span></div>',
     '<div class="cc-comparison-legends"><fieldset id="cc-variable-legend" class="cc-variable-legend" aria-label="Variables to display"></fieldset><div id="cc-survey-legend" class="cc-survey-legend" aria-label="Survey symbols"></div></div>',
+    '<div class="cc-country-actions" id="cc-country-actions"><p id="cc-country-hide-hint">Select a country name to hide it.</p><div class="cc-hidden-countries" id="cc-hidden-countries" hidden></div></div>',
     '<div class="cc-comparison-chart" id="cc-chart-grid"></div>',
     '<p id="cc-summary-empty" class="results-empty" hidden>No estimates are available for these filters.</p><p class="results-note" id="cc-summary-note"></p></div></section>',
     '<section id="cc-time" role="tabpanel" aria-labelledby="cc-tab-time" hidden><div class="other-card"><header class="other-card-heading"><div><h2 id="cc-t-title">Tails over time</h2><p class="plot-subtitle" id="cc-t-subtitle"></p></div><div class="chart-actions"><button class="text-button" id="cc-t-csv">Results CSV</button><button class="text-button" id="cc-t-png">Figure PNG</button></div></header>',
@@ -117,9 +119,10 @@ function initOtherSurveys(other,context) {
     button.tabIndex=button.dataset.countryView===view?0:-1;button.addEventListener('click',()=>changeView(button.dataset.countryView));
     button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const buttons=[...panel.querySelectorAll('[data-country-view]')];let index=buttons.indexOf(button);index=event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[index].focus();changeView(buttons[index].dataset.countryView);});
   });
-  function summaryRows(){return summaryData.filter(r=>{
+  function summaryRows(includeHidden=false){return summaryData.filter(r=>{
     const stage=r.specification||r.variant;
-    return (summary.dataset==='all'||r.survey===summary.dataset)&&(summary.country==='all'||r.country===summary.country)&&r.period_type===summary.period&&
+    return (includeHidden||!hiddenSummaryCountries.has(r.country))&&
+      (summary.dataset==='all'||r.survey===summary.dataset)&&(summary.country==='all'||r.country===summary.country)&&r.period_type===summary.period&&
       (stage==='reference'||stage===(r.survey==='SCF'&&summary.specification==='full'?'adj':summary.specification))&&r.method===summary.method&&(!r.threshold||r.threshold==='KS');
   });}
   function syncTimeControls(){
@@ -147,6 +150,50 @@ function initOtherSurveys(other,context) {
     canvas.setAttribute('aria-label',yTitle+' over time in '+country);
     timeChart=new Chart(canvas,{type:'scatter',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:items=>items.length?country+' · '+sourceLabel(items[0].raw.row.survey):'',label:item=>labels[item.raw.row.variable]+': '+number(item.raw.y)+(scale===100?'%':''),afterLabel:item=>SeriesYears.period(item.raw.row).detail||('Survey wave '+item.raw.row.year)}}},scales:{x:{type:'linear',min:visibleYears.from-.6,max:visibleYears.to+.6,title:{display:true,text:surveys.includes('HFCS')?'Reference year / HFCS wave':'Reference year',font:{size:13}},ticks:{precision:0,maxTicksLimit:10,includeBounds:false,callback:value=>Number.isInteger(value)?String(value):'',font:{size:13}},grid:{color:'#eeece7'}},y:{type:'linear',min:0,title:{display:true,text:yTitle,font:{size:13}},ticks:{font:{size:13}},grid:{color:'#eeece7'}}}}});
   }
+  function focusSummaryCountry(country) {
+    const labels = [...$('cc-chart-grid').querySelectorAll('.cc-country-label')];
+    const visible = labels.find(button => button.dataset.country === country);
+    const restore = [...$('cc-hidden-countries').querySelectorAll('button')]
+      .find(button => button.dataset.country === country);
+    (visible || restore || labels[0] || $('cc-country')).focus({preventScroll:true});
+  }
+  function renderHiddenSummaryCountries(hasChart) {
+    const controls = $('cc-hidden-countries');
+    controls.replaceChildren();
+    controls.hidden = hiddenSummaryCountries.size === 0;
+    $('cc-country-actions').hidden = !hasChart && controls.hidden;
+    $('cc-country-hide-hint').hidden = !hasChart;
+    if (controls.hidden) return;
+    const label = document.createElement('span');
+    label.textContent = 'Hidden countries';
+    controls.append(label);
+    for (const [code, country] of [...hiddenSummaryCountries].sort((a,b) => a[1].localeCompare(b[1]))) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'text-button';
+      button.dataset.country = code;
+      button.textContent = country + ' +';
+      button.setAttribute('aria-label', 'Restore ' + country);
+      button.addEventListener('click', () => {
+        hiddenSummaryCountries.delete(code);
+        renderSummary();
+        focusSummaryCountry(code);
+      });
+      controls.append(button);
+    }
+    if (hiddenSummaryCountries.size > 1) {
+      const reset = document.createElement('button');
+      reset.type = 'button';
+      reset.className = 'text-button';
+      reset.textContent = 'Restore all';
+      reset.addEventListener('click', () => {
+        hiddenSummaryCountries.clear();
+        renderSummary();
+        focusSummaryCountry();
+      });
+      controls.append(reset);
+    }
+  }
   function renderSummary(){
     const hasUS=(summary.country==='all'||summary.country==='US')&&(summary.dataset==='all'||(context.usSurveys||[]).includes(summary.dataset));
     if(!hasUS)summary.measure='auto';
@@ -160,12 +207,17 @@ function initOtherSurveys(other,context) {
     $('cc-adjustment').disabled=selectedRows.length>0&&selectedRows.every(row=>row.specification==='reference');
     const rows=summaryRows(),activeVariables=variables.filter(([key])=>summary.variables.has(key));summaryCharts.forEach(c=>c.destroy());summaryCharts=[];
     const grid=$('cc-chart-grid');grid.replaceChildren();
-    const displayed=rows.filter(r=>activeVariables.some(([variable])=>finite(r[variable])));
+    const hasSelectedEstimates = row => activeVariables.some(([variable])=>finite(row[variable]));
+    const displayed = rows.filter(hasSelectedEstimates);
+    const empty = $('cc-summary-empty');
+    empty.textContent = hiddenSummaryCountries.size && !displayed.length &&
+      summaryRows(true).some(hasSelectedEstimates) ? 'No countries are shown.' : 'No estimates are available for these filters.';
+    renderHiddenSummaryCountries(displayed.length > 0);
     const names=[...new Map(displayed.map(r=>[r.country,r])).values()].sort((a,b)=>a.country_name.localeCompare(b.country_name));
     const indexes=new Map(names.map((r,i)=>[r.country,i])),countryLabels=names.map(r=>r.country_name);
     const surveys=summarySources.filter(survey=>displayed.some(r=>r.survey===survey));
     const unit='country–survey'+(summary.period==='wave'?'–wave estimates':' averages');
-    $('cc-summary-empty').hidden=!!displayed.length;$('cc-summary-count').textContent=displayed.length+' '+unit;$('cc-summary-csv').disabled=!displayed.length;
+    empty.hidden=!!displayed.length;$('cc-summary-count').textContent=displayed.length+' '+unit;$('cc-summary-csv').disabled=!displayed.length;
     const variableLegend=$('cc-variable-legend'),surveyLegend=$('cc-survey-legend');
     variableLegend.replaceChildren();surveyLegend.replaceChildren();
     const icon=(point,color)=>{const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 16 16');svg.setAttribute('aria-hidden','true');const cross='<path d="M7 2H9V7H14V9H9V14H7V9H2V7H7Z"/>',shapes={circle:'<circle cx="8" cy="8" r="4.5"/>',rectRot:'<path d="M8 2 14 8 8 14 2 8Z"/>',triangle:'<path d="M8 2 14 13H2Z"/>',rect:'<path d="M3 3H13V13H3Z"/>',rectRounded:'<rect x="3" y="3" width="10" height="10" rx="3"/>',cross,crossRot:'<g transform="rotate(45 8 8)">'+cross+'</g>',star:'<path d="m8 1.5 1.8 4.4 4.7.4-3.6 3.1 1.1 4.6-4-2.5-4 2.5 1.1-4.6-3.6-3.1 4.7-.4Z"/>'};svg.innerHTML=shapes[point]||shapes.rect;svg.setAttribute('fill',color);return svg;};
@@ -174,6 +226,38 @@ function initOtherSurveys(other,context) {
     if(!displayed.length){$('cc-summary-note').textContent=activeVariables.length?'No estimates are available for these filters.':'Select at least one variable to display.';return;}
     const wrap=document.createElement('div');wrap.className='cc-comparison-wrap';wrap.style.height=Math.max(450,names.length*40+170)+'px';
     const canvas=document.createElement('canvas');canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Pareto tail coefficients (ζ) of consumption, labor income, total income, wealth and capital income across countries. Color identifies the variable and shape identifies the survey.');wrap.append(canvas);grid.append(wrap);
+    const countryAxis = document.createElement('div');
+    countryAxis.className = 'cc-country-axis';
+    countryAxis.setAttribute('role', 'group');
+    countryAxis.setAttribute('aria-label', 'Countries in the plot');
+    wrap.append(countryAxis);
+    const countryButtons = names.map(({country,country_name}, index) => {
+      const button = document.createElement('button');
+      button.className = 'cc-country-label';
+      button.type = 'button';
+      button.dataset.country = country;
+      button.setAttribute('aria-label', 'Hide ' + country_name);
+      const mark = document.createElement('span');
+      mark.setAttribute('aria-hidden', 'true');
+      mark.textContent = '×';
+      button.append(country_name, mark);
+      button.addEventListener('click', () => {
+        hiddenSummaryCountries.set(country,country_name);
+        renderSummary();
+        focusSummaryCountry(names[index + 1]?.country || names[index - 1]?.country || country);
+      });
+      countryAxis.append(button);
+      return button;
+    });
+    const countryAxisPlugin = {
+      id:'ccCountryButtons',
+      afterLayout(chart) {
+        countryAxis.style.width = Math.max(0, chart.chartArea.left - 3) + 'px';
+        for (const [index,button] of countryButtons.entries()) {
+          button.style.top = chart.scales.y.getPixelForValue(index) + 'px';
+        }
+      }
+    };
     const datasets=[],referenceMarks=[];
     activeVariables.forEach(([variable,title],vi)=>{
       const color=variableColors[variable];
@@ -200,6 +284,7 @@ function initOtherSurveys(other,context) {
     canvas.dataset.variables=JSON.stringify(activeVariables.map(([variable])=>variable));
     const axisMaximum=Math.ceil(10*Math.max(1,...displayed.flatMap(row=>activeVariables.map(([variable])=>row[variable]).filter(finite)),...referenceMarks.map(mark=>mark.value))*1.04)/10;
     const compact=canvas.parentElement.clientWidth<550,referenceFontSize=compact?11:13;
+    countryAxis.style.fontSize = referenceFontSize + 'px';
     const referenceGap=referenceFontSize+4;
     const referenceCount=referenceMarks.filter(mark=>mark.kind==='mean').length;
     // Leave space for the colored labels without widening the chart's horizontal margins.
@@ -268,7 +353,7 @@ function initOtherSurveys(other,context) {
         ctx.restore();
       }
     };
-    summaryCharts.push(new Chart(canvas,{type:'scatter',data:{datasets},plugins:[axisReferencePlugin],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:5,right:compact?14:22,bottom:3}},plugins:{legend:{display:false},tooltip:{filter:item=>!item.dataset.isReference,callbacks:{title:items=>items.length?items[0].raw.country_name+' · '+sourceLabel(items[0].raw.survey):'',label:ctx=>((ctx.raw.variable==='consump_def1'&&measureLabel(ctx.raw.consumption_measure))||labels[ctx.raw.variable])+': '+number(ctx.raw.x),afterLabel:ctx=>[ctx.raw.period_label,ctx.raw.n_waves+' available wave(s)',summary.method+' · '+adj[ctx.raw.stage]]}}},scales:{xTop:{type:'linear',position:'top',min:0,max:axisMaximum,title:{display:true,text:axisTitle('mean'),font:{size:compact?11:13}},grid:{drawOnChartArea:false},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},x:{type:'linear',position:'bottom',min:0,max:axisMaximum,title:{display:true,text:axisTitle('median'),font:{size:compact?11:13}},grid:{color:'#eeece7'},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},y:{type:'linear',reverse:true,min:-.5,max:names.length-.5,afterBuildTicks:axis=>axis.ticks=countryLabels.map((label,value)=>({value})),grid:{color:'#eeece7',drawTicks:false},border:{display:false},ticks:{autoSkip:false,padding:compact?7:12,font:{size:compact?11:13},callback:v=>Number.isInteger(v)?countryLabels[v]||'':''}}}}}));
+    summaryCharts.push(new Chart(canvas,{type:'scatter',data:{datasets},plugins:[axisReferencePlugin,countryAxisPlugin],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:5,right:compact?14:22,bottom:3}},plugins:{legend:{display:false},tooltip:{filter:item=>!item.dataset.isReference,callbacks:{title:items=>items.length?items[0].raw.country_name+' · '+sourceLabel(items[0].raw.survey):'',label:ctx=>((ctx.raw.variable==='consump_def1'&&measureLabel(ctx.raw.consumption_measure))||labels[ctx.raw.variable])+': '+number(ctx.raw.x),afterLabel:ctx=>[ctx.raw.period_label,ctx.raw.n_waves+' available wave(s)',summary.method+' · '+adj[ctx.raw.stage]]}}},scales:{xTop:{type:'linear',position:'top',min:0,max:axisMaximum,title:{display:true,text:axisTitle('mean'),font:{size:compact?11:13}},grid:{drawOnChartArea:false},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},x:{type:'linear',position:'bottom',min:0,max:axisMaximum,title:{display:true,text:axisTitle('median'),font:{size:compact?11:13}},grid:{color:'#eeece7'},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},y:{type:'linear',reverse:true,min:-.5,max:names.length-.5,afterFit:axis=>{axis.width+=14;},afterBuildTicks:axis=>axis.ticks=countryLabels.map((label,value)=>({value})),grid:{color:'#eeece7',drawTicks:false},border:{display:false},ticks:{autoSkip:false,color:'transparent',padding:compact?7:12,font:{size:referenceFontSize},callback:v=>Number.isInteger(v)?countryLabels[v]||'':''}}}}}));
     $('cc-summary-note').textContent=(names.length>1?'Each country receives equal weight. Surveys and available waves are averaged within country. ':'')+'Coverage varies by variable.'
       +(surveys.includes('HILDA')?' HILDA wealth is available in five waves.':'')
       +(summary.measure==='auto'&&surveys.includes('SCF')?' SCF contributes total expenditure including imputed rent in 2025.':'')
@@ -448,6 +533,7 @@ function initOtherSurveys(other,context) {
   $('cc-t-png').addEventListener('click',()=>{if(!timeChart)return;const link=document.createElement('a');link.href=withFigureYAxisTitles([timeChart],()=>timeChart.toBase64Image());link.download='international_tails_over_time.png';link.click();});
   [['cc-survey','dataset'],['cc-country','country'],['cc-period','period'],['cc-adjustment','specification'],['cc-method','method'],['cc-measure','measure']].forEach(([id,k])=>$(id).addEventListener('change',e=>{
     summary[k]=e.target.value;
+    if(k==='country') hiddenSummaryCountries.delete(summary.country);
     if(k==='dataset'){
       if(summary.dataset==='NIELSEN'){summary.measure='food_total';summary.country='US';}
       else summary.country=countries('cc-country',summary.dataset,summary.country,summaryData);

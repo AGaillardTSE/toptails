@@ -82,3 +82,56 @@
   #cc-quantile-profiles .threshold-profile-controls > .quantile-estimator-control { flex-basis: 92px; }
   #cc-quantile-profiles .threshold-profile-controls > .dina-capital-control { flex-basis: 230px; }
 }
+
+.cc-country-actions {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 0 28px 8px;
+  color: #59677a;
+  font: 13px/1.5 Arial, sans-serif;
+}
+.cc-country-actions p { margin: 0; }
+.cc-hidden-countries {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cc-hidden-countries .text-button { min-height: 30px; cursor: pointer; }
+.cc-country-axis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  font-family: Arial, sans-serif;
+}
+.cc-country-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  position: absolute;
+  right: 0;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 0 3px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #536276;
+  font: inherit;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.cc-country-label span { color: #8f6b7e; font-size: 1.15em; }
+.cc-country-label:hover, .cc-country-label:focus-visible { background: #f3ebee; color: #863a5c; }
+.cc-country-label:focus-visible { outline: 2px solid #a34f77; outline-offset: -2px; }
+@media (max-width: 760px) {
+  .cc-country-actions { padding-inline: 13px; }
+  .cc-country-label { min-height: 32px; }
+}

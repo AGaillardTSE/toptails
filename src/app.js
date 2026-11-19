@@ -27,6 +27,39 @@ function initializeMobileFilters(root = document) {
     });
     controls.before(toggle);
     controls.append(done);
+
+    const sidebar = controls.matches('.sidebar');
+    const heading = controls.parentElement.querySelector(sidebar
+      ? ':scope > .plot-surface > :is(.plot-top, .chart-heading-row)'
+      : ':scope > :is(.threshold-heading, .other-card-heading, .results-heading, .adjustment-results-header)');
+    const title = heading?.querySelector('.threshold-heading-title, h2, h3');
+    if (!title) return;
+
+    const row = document.createElement('div');
+    row.className = 'mobile-filter-title';
+    const sidebarSlot = sidebar ? document.createComment('Plot filters') : null;
+    if (sidebarSlot) controls.before(sidebarSlot);
+    const phoneLayout = window.matchMedia('(max-width: 760px)');
+
+    function alignWithTitle() {
+      const focused = document.activeElement;
+      if (phoneLayout.matches) {
+        title.before(row);
+        row.append(title, toggle);
+        heading.classList.add('mobile-filter-heading');
+        if (sidebarSlot) heading.after(controls);
+      } else if (row.parentElement) {
+        row.before(title);
+        if (sidebarSlot) sidebarSlot.after(controls);
+        controls.before(toggle);
+        row.remove();
+        heading.classList.remove('mobile-filter-heading');
+      }
+      if (controls.contains(focused) && focused.getClientRects().length) focused.focus({preventScroll: true});
+    }
+
+    phoneLayout.addEventListener('change', alignWithTitle);
+    alignWithTitle();
   });
 }
 

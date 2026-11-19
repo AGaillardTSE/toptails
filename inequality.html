@@ -490,6 +490,59 @@
   #cc-quantile-profiles .threshold-profile-controls > .dina-capital-control { flex-basis: 230px; }
 }
 
+.cc-country-actions {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 0 28px 8px;
+  color: #59677a;
+  font: 13px/1.5 Arial, sans-serif;
+}
+.cc-country-actions p { margin: 0; }
+.cc-hidden-countries {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cc-hidden-countries .text-button { min-height: 30px; cursor: pointer; }
+.cc-country-axis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  font-family: Arial, sans-serif;
+}
+.cc-country-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  position: absolute;
+  right: 0;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 0 3px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #536276;
+  font: inherit;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.cc-country-label span { color: #8f6b7e; font-size: 1.15em; }
+.cc-country-label:hover, .cc-country-label:focus-visible { background: #f3ebee; color: #863a5c; }
+.cc-country-label:focus-visible { outline: 2px solid #a34f77; outline-offset: -2px; }
+@media (max-width: 760px) {
+  .cc-country-actions { padding-inline: 13px; }
+  .cc-country-label { min-height: 32px; }
+}
+
 /* Data descriptions, adjustment navigation and source-to-account tables. */
 .dc-data-root,.dc-domain-panel{max-width:1436px;margin:0 auto}.dc-toolbar{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;padding:22px 0}.dc-control{display:flex;flex:0 1 290px;min-width:190px;flex-direction:column;gap:8px;margin:0}.dc-control-label{font:600 14px/1.45 var(--sans,Arial,sans-serif);letter-spacing:.035em;color:#596678}.dc-control select{width:100%;min-height:42px;padding:9px 32px 9px 12px;border:1px solid #dedfdc;border-radius:6px;background:#fffefa;color:#20354f;font:14px/1.5 var(--sans,Arial,sans-serif)}.dc-control select:focus-visible{outline:2px solid #477EAD;outline-offset:2px}.dc-control select:disabled{color:#858b95;background:#f3f2ee}.dc-dataset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.dc-dataset-card{padding:25px 27px;border:1px solid #e3dfd7;border-radius:11px;background:#fffefa;min-width:0}.dc-dataset-card h3{font:normal 23px/1.3 var(--serif,Georgia,serif);color:#20354f;margin:0 0 18px}.dc-data-facts{display:grid;grid-template-columns:80px minmax(0,1fr);gap:9px 12px;margin:0 0 17px;font:14px/1.65 var(--sans,Arial,sans-serif)}.dc-data-facts dt{color:#687281;font-weight:600}.dc-data-facts dd{color:#35445a;margin:0;overflow-wrap:anywhere}.dc-data-note{margin:14px 0 0;color:#4f5d70;font:14px/1.7 var(--sans,Arial,sans-serif)}.dc-limit-list,.dc-map-limitations{padding-left:18px;margin:15px 0 0;color:#606b7a;font:14px/1.75 var(--sans,Arial,sans-serif)}.dc-limit-list li,.dc-map-limitations li{padding-left:3px;margin:5px 0}.dc-limit-list li::marker,.dc-map-limitations li::marker{color:#8693a2}
 .dc-adjustment-nav{margin-bottom:24px}.dc-adjustment-nav .secondary-nav-inner{align-items:center;gap:22px}.dc-adjustment-nav button{min-height:52px;flex-shrink:0}.dc-nav-group-label{color:#7a7c84;font-size:13px;letter-spacing:.015em;padding-left:22px;margin-left:1px;border-left:1px solid #dedbd5;white-space:nowrap;flex-shrink:0}.dc-domain-panel{--mapping-accent:#477EAD}.dc-domain-panel[data-domain="income"]{--mapping-accent:#BF5555}.dc-domain-panel[data-domain="wealth"]{--mapping-accent:#4D8B69}.dc-correspondence-scroll{width:100%;overflow-x:auto;border-top:2px solid var(--mapping-accent);background:#fffefa}.dc-correspondence-table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:850px;color:#293d53;font:14px/1.65 var(--sans,Arial,sans-serif)}.dc-correspondence-table thead th{text-align:left;font-size:13px;font-weight:600;letter-spacing:.025em;color:#687383;padding:15px 18px;background:#f0f1ed;border-bottom:1px solid #deded7}.dc-correspondence-table thead th:nth-child(1){width:18%}.dc-correspondence-table thead th:nth-child(2){width:35%}.dc-correspondence-table thead th:nth-child(3){width:45px;padding:0}.dc-correspondence-table thead th:nth-child(4){width:auto}.dc-mapping-row th,.dc-mapping-row td{vertical-align:top;padding:18px 18px 10px;text-align:left}.dc-row-component{font-size:15px;font-weight:600;line-height:1.55;color:#20354f}.dc-source-variable{display:flex;align-items:baseline;gap:8px 11px;flex-wrap:wrap;margin:0 0 6px}.dc-source-variable:last-child{margin-bottom:0}.dc-source-variable code{font:600 13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;color:#3d688f;overflow-wrap:anywhere}.dc-variable-meaning{font-size:14px;color:#3c4e61;overflow-wrap:anywhere}.dc-source-variable code+.dc-variable-meaning{flex:1 1 145px}.dc-account-item{margin:0 0 6px;color:#574f3d;overflow-wrap:anywhere}.dc-account-item:last-child{margin-bottom:0}.dc-row-link{position:relative;padding:0!important}.dc-row-connector{position:absolute;left:9px;right:9px;top:18px;bottom:10px;min-height:30px}.dc-row-connector:before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:7px;border-block:1px solid #9aa5ae;border-right:1px solid #9aa5ae;border-radius:0 3px 3px 0}.dc-row-connector:after{content:"";position:absolute;left:8px;right:0;top:50%;border-top:1px solid #9aa5ae}.dc-row-detail{padding:0 18px 17px!important;border-bottom:1px solid #e4e3dc}.dc-row-notes{margin-left:18%;padding-left:6px}.dc-map-rule{margin:0;color:#707886;font:13px/1.65 var(--sans,Arial,sans-serif)}.dc-scope-notes{font:13px/1.65 var(--sans,Arial,sans-serif);color:#6d7580;margin:5px 0 0}.dc-scope-notes summary{cursor:pointer;color:#6a7787;display:list-item;list-style-position:inside}.dc-scope-notes .dc-map-limitations{font-size:13px;margin:7px 0 0}.dc-unmatched{font-style:italic;color:#86898f}.dc-empty{color:#6e7784;font:14px/1.7 var(--sans,Arial,sans-serif);padding:25px 0}.dc-procedure-panel,.dc-decomposition-panel{min-width:0}.dc-decomposition-inner .adjustment-results{border-radius:7px}.dc-decomposition-inner .adjustment-results-header{padding-top:22px;padding-bottom:17px}
@@ -848,6 +901,26 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     cursor: pointer;
   }
   .explorer-grid > .mobile-filter-toggle { margin: 0; }
+  .mobile-filter-heading { flex-wrap: wrap; }
+  .mobile-filter-heading > div:first-child { width: 100%; min-width: 0; }
+  .mobile-filter-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+  }
+  .mobile-filter-title > :first-child { min-width: 0; overflow-wrap: break-word; }
+  .mobile-filter-title > .threshold-heading-title { flex-wrap: wrap; }
+  .mobile-filter-title :is(h2, h3) { font-size: 22px; margin: 0; }
+  .mobile-filter-title > .mobile-filter-toggle {
+    flex: 0 0 auto;
+    gap: 9px;
+    margin: 0;
+    padding-inline: 10px;
+    white-space: nowrap;
+  }
   .mobile-filter-toggle::after {
     content: "";
     width: 6px;
@@ -878,12 +951,13 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     cursor: pointer;
   }
 
-  .explorer-grid > .sidebar {
+  .explorer-grid > .sidebar, .explorer-grid .plot-surface > .sidebar {
     position: static;
     grid-template-columns: minmax(0, 1fr);
     gap: 14px;
     padding: 15px;
   }
+  .explorer-grid .plot-surface > .sidebar { margin: 2px 13px 12px; }
   .sidebar :is(#overlay-controls, .dataset-controls) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
@@ -916,6 +990,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .chart-actions { margin: 0; justify-content: flex-start; }
   .chart-actions .text-button { min-height: 34px; }
   .other-card-heading, .results-heading { padding: 14px; flex-wrap: wrap; gap: 8px; }
+  .adjustment-results-header.mobile-filter-heading { padding: 14px; gap: 8px; }
 
   .plot-series-controls {
     padding: 0 13px 8px;
@@ -3134,6 +3209,7 @@ function initOtherSurveys(other,context) {
   }
   const excluded=r=>r.benchmark_included===false||r.benchmark_included===0;
   const summary={dataset:'all',country:'all',period:'average',specification:'full',method:'MLE',measure:'auto',variables:new Set(variables.map(([key])=>key))};
+  const hiddenSummaryCountries = new Map();
   const time={survey:'all',country:'AU',adjustment:'full',method:'MLE',threshold:'ks',q:.95,indicator:'pareto',variables:new Set(variables.map(([key])=>key))};
   const results={survey:'all',country:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',q:.95,period:'both',page:0};
   const relationships={survey:bins.some(r=>r.survey==='HILDA')?'HILDA':bins[0]?.survey||'HFCS',country:'',pair:'wealth_consumption',adjustment:'full',stat:'mean',minN:5,scale:'loglog',fit:'ols',selectedByCountry:new Map(),waves:new Map()};
@@ -3157,6 +3233,7 @@ function initOtherSurveys(other,context) {
     '<div class="control"><label for="cc-measure">Variable for consumption</label><select id="cc-measure"></select></div></div>',
     '<div class="other-table-meta"><span>KS-selected Pareto coefficients</span><span id="cc-summary-count"></span></div>',
     '<div class="cc-comparison-legends"><fieldset id="cc-variable-legend" class="cc-variable-legend" aria-label="Variables to display"></fieldset><div id="cc-survey-legend" class="cc-survey-legend" aria-label="Survey symbols"></div></div>',
+    '<div class="cc-country-actions" id="cc-country-actions"><p id="cc-country-hide-hint">Select a country name to hide it.</p><div class="cc-hidden-countries" id="cc-hidden-countries" hidden></div></div>',
     '<div class="cc-comparison-chart" id="cc-chart-grid"></div>',
     '<p id="cc-summary-empty" class="results-empty" hidden>No estimates are available for these filters.</p><p class="results-note" id="cc-summary-note"></p></div></section>',
     '<section id="cc-time" role="tabpanel" aria-labelledby="cc-tab-time" hidden><div class="other-card"><header class="other-card-heading"><div><h2 id="cc-t-title">Tails over time</h2><p class="plot-subtitle" id="cc-t-subtitle"></p></div><div class="chart-actions"><button class="text-button" id="cc-t-csv">Results CSV</button><button class="text-button" id="cc-t-png">Figure PNG</button></div></header>',
@@ -3220,9 +3297,10 @@ function initOtherSurveys(other,context) {
     button.tabIndex=button.dataset.countryView===view?0:-1;button.addEventListener('click',()=>changeView(button.dataset.countryView));
     button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const buttons=[...panel.querySelectorAll('[data-country-view]')];let index=buttons.indexOf(button);index=event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[index].focus();changeView(buttons[index].dataset.countryView);});
   });
-  function summaryRows(){return summaryData.filter(r=>{
+  function summaryRows(includeHidden=false){return summaryData.filter(r=>{
     const stage=r.specification||r.variant;
-    return (summary.dataset==='all'||r.survey===summary.dataset)&&(summary.country==='all'||r.country===summary.country)&&r.period_type===summary.period&&
+    return (includeHidden||!hiddenSummaryCountries.has(r.country))&&
+      (summary.dataset==='all'||r.survey===summary.dataset)&&(summary.country==='all'||r.country===summary.country)&&r.period_type===summary.period&&
       (stage==='reference'||stage===(r.survey==='SCF'&&summary.specification==='full'?'adj':summary.specification))&&r.method===summary.method&&(!r.threshold||r.threshold==='KS');
   });}
   function syncTimeControls(){
@@ -3250,6 +3328,50 @@ function initOtherSurveys(other,context) {
     canvas.setAttribute('aria-label',yTitle+' over time in '+country);
     timeChart=new Chart(canvas,{type:'scatter',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:items=>items.length?country+' · '+sourceLabel(items[0].raw.row.survey):'',label:item=>labels[item.raw.row.variable]+': '+number(item.raw.y)+(scale===100?'%':''),afterLabel:item=>SeriesYears.period(item.raw.row).detail||('Survey wave '+item.raw.row.year)}}},scales:{x:{type:'linear',min:visibleYears.from-.6,max:visibleYears.to+.6,title:{display:true,text:surveys.includes('HFCS')?'Reference year / HFCS wave':'Reference year',font:{size:13}},ticks:{precision:0,maxTicksLimit:10,includeBounds:false,callback:value=>Number.isInteger(value)?String(value):'',font:{size:13}},grid:{color:'#eeece7'}},y:{type:'linear',min:0,title:{display:true,text:yTitle,font:{size:13}},ticks:{font:{size:13}},grid:{color:'#eeece7'}}}}});
   }
+  function focusSummaryCountry(country) {
+    const labels = [...$('cc-chart-grid').querySelectorAll('.cc-country-label')];
+    const visible = labels.find(button => button.dataset.country === country);
+    const restore = [...$('cc-hidden-countries').querySelectorAll('button')]
+      .find(button => button.dataset.country === country);
+    (visible || restore || labels[0] || $('cc-country')).focus({preventScroll:true});
+  }
+  function renderHiddenSummaryCountries(hasChart) {
+    const controls = $('cc-hidden-countries');
+    controls.replaceChildren();
+    controls.hidden = hiddenSummaryCountries.size === 0;
+    $('cc-country-actions').hidden = !hasChart && controls.hidden;
+    $('cc-country-hide-hint').hidden = !hasChart;
+    if (controls.hidden) return;
+    const label = document.createElement('span');
+    label.textContent = 'Hidden countries';
+    controls.append(label);
+    for (const [code, country] of [...hiddenSummaryCountries].sort((a,b) => a[1].localeCompare(b[1]))) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'text-button';
+      button.dataset.country = code;
+      button.textContent = country + ' +';
+      button.setAttribute('aria-label', 'Restore ' + country);
+      button.addEventListener('click', () => {
+        hiddenSummaryCountries.delete(code);
+        renderSummary();
+        focusSummaryCountry(code);
+      });
+      controls.append(button);
+    }
+    if (hiddenSummaryCountries.size > 1) {
+      const reset = document.createElement('button');
+      reset.type = 'button';
+      reset.className = 'text-button';
+      reset.textContent = 'Restore all';
+      reset.addEventListener('click', () => {
+        hiddenSummaryCountries.clear();
+        renderSummary();
+        focusSummaryCountry();
+      });
+      controls.append(reset);
+    }
+  }
   function renderSummary(){
     const hasUS=(summary.country==='all'||summary.country==='US')&&(summary.dataset==='all'||(context.usSurveys||[]).includes(summary.dataset));
     if(!hasUS)summary.measure='auto';
@@ -3263,12 +3385,17 @@ function initOtherSurveys(other,context) {
     $('cc-adjustment').disabled=selectedRows.length>0&&selectedRows.every(row=>row.specification==='reference');
     const rows=summaryRows(),activeVariables=variables.filter(([key])=>summary.variables.has(key));summaryCharts.forEach(c=>c.destroy());summaryCharts=[];
     const grid=$('cc-chart-grid');grid.replaceChildren();
-    const displayed=rows.filter(r=>activeVariables.some(([variable])=>finite(r[variable])));
+    const hasSelectedEstimates = row => activeVariables.some(([variable])=>finite(row[variable]));
+    const displayed = rows.filter(hasSelectedEstimates);
+    const empty = $('cc-summary-empty');
+    empty.textContent = hiddenSummaryCountries.size && !displayed.length &&
+      summaryRows(true).some(hasSelectedEstimates) ? 'No countries are shown.' : 'No estimates are available for these filters.';
+    renderHiddenSummaryCountries(displayed.length > 0);
     const names=[...new Map(displayed.map(r=>[r.country,r])).values()].sort((a,b)=>a.country_name.localeCompare(b.country_name));
     const indexes=new Map(names.map((r,i)=>[r.country,i])),countryLabels=names.map(r=>r.country_name);
     const surveys=summarySources.filter(survey=>displayed.some(r=>r.survey===survey));
     const unit='country–survey'+(summary.period==='wave'?'–wave estimates':' averages');
-    $('cc-summary-empty').hidden=!!displayed.length;$('cc-summary-count').textContent=displayed.length+' '+unit;$('cc-summary-csv').disabled=!displayed.length;
+    empty.hidden=!!displayed.length;$('cc-summary-count').textContent=displayed.length+' '+unit;$('cc-summary-csv').disabled=!displayed.length;
     const variableLegend=$('cc-variable-legend'),surveyLegend=$('cc-survey-legend');
     variableLegend.replaceChildren();surveyLegend.replaceChildren();
     const icon=(point,color)=>{const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 16 16');svg.setAttribute('aria-hidden','true');const cross='<path d="M7 2H9V7H14V9H9V14H7V9H2V7H7Z"/>',shapes={circle:'<circle cx="8" cy="8" r="4.5"/>',rectRot:'<path d="M8 2 14 8 8 14 2 8Z"/>',triangle:'<path d="M8 2 14 13H2Z"/>',rect:'<path d="M3 3H13V13H3Z"/>',rectRounded:'<rect x="3" y="3" width="10" height="10" rx="3"/>',cross,crossRot:'<g transform="rotate(45 8 8)">'+cross+'</g>',star:'<path d="m8 1.5 1.8 4.4 4.7.4-3.6 3.1 1.1 4.6-4-2.5-4 2.5 1.1-4.6-3.6-3.1 4.7-.4Z"/>'};svg.innerHTML=shapes[point]||shapes.rect;svg.setAttribute('fill',color);return svg;};
@@ -3277,6 +3404,38 @@ function initOtherSurveys(other,context) {
     if(!displayed.length){$('cc-summary-note').textContent=activeVariables.length?'No estimates are available for these filters.':'Select at least one variable to display.';return;}
     const wrap=document.createElement('div');wrap.className='cc-comparison-wrap';wrap.style.height=Math.max(450,names.length*40+170)+'px';
     const canvas=document.createElement('canvas');canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Pareto tail coefficients (ζ) of consumption, labor income, total income, wealth and capital income across countries. Color identifies the variable and shape identifies the survey.');wrap.append(canvas);grid.append(wrap);
+    const countryAxis = document.createElement('div');
+    countryAxis.className = 'cc-country-axis';
+    countryAxis.setAttribute('role', 'group');
+    countryAxis.setAttribute('aria-label', 'Countries in the plot');
+    wrap.append(countryAxis);
+    const countryButtons = names.map(({country,country_name}, index) => {
+      const button = document.createElement('button');
+      button.className = 'cc-country-label';
+      button.type = 'button';
+      button.dataset.country = country;
+      button.setAttribute('aria-label', 'Hide ' + country_name);
+      const mark = document.createElement('span');
+      mark.setAttribute('aria-hidden', 'true');
+      mark.textContent = '×';
+      button.append(country_name, mark);
+      button.addEventListener('click', () => {
+        hiddenSummaryCountries.set(country,country_name);
+        renderSummary();
+        focusSummaryCountry(names[index + 1]?.country || names[index - 1]?.country || country);
+      });
+      countryAxis.append(button);
+      return button;
+    });
+    const countryAxisPlugin = {
+      id:'ccCountryButtons',
+      afterLayout(chart) {
+        countryAxis.style.width = Math.max(0, chart.chartArea.left - 3) + 'px';
+        for (const [index,button] of countryButtons.entries()) {
+          button.style.top = chart.scales.y.getPixelForValue(index) + 'px';
+        }
+      }
+    };
     const datasets=[],referenceMarks=[];
     activeVariables.forEach(([variable,title],vi)=>{
       const color=variableColors[variable];
@@ -3303,6 +3462,7 @@ function initOtherSurveys(other,context) {
     canvas.dataset.variables=JSON.stringify(activeVariables.map(([variable])=>variable));
     const axisMaximum=Math.ceil(10*Math.max(1,...displayed.flatMap(row=>activeVariables.map(([variable])=>row[variable]).filter(finite)),...referenceMarks.map(mark=>mark.value))*1.04)/10;
     const compact=canvas.parentElement.clientWidth<550,referenceFontSize=compact?11:13;
+    countryAxis.style.fontSize = referenceFontSize + 'px';
     const referenceGap=referenceFontSize+4;
     const referenceCount=referenceMarks.filter(mark=>mark.kind==='mean').length;
     // Leave space for the colored labels without widening the chart's horizontal margins.
@@ -3371,7 +3531,7 @@ function initOtherSurveys(other,context) {
         ctx.restore();
       }
     };
-    summaryCharts.push(new Chart(canvas,{type:'scatter',data:{datasets},plugins:[axisReferencePlugin],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:5,right:compact?14:22,bottom:3}},plugins:{legend:{display:false},tooltip:{filter:item=>!item.dataset.isReference,callbacks:{title:items=>items.length?items[0].raw.country_name+' · '+sourceLabel(items[0].raw.survey):'',label:ctx=>((ctx.raw.variable==='consump_def1'&&measureLabel(ctx.raw.consumption_measure))||labels[ctx.raw.variable])+': '+number(ctx.raw.x),afterLabel:ctx=>[ctx.raw.period_label,ctx.raw.n_waves+' available wave(s)',summary.method+' · '+adj[ctx.raw.stage]]}}},scales:{xTop:{type:'linear',position:'top',min:0,max:axisMaximum,title:{display:true,text:axisTitle('mean'),font:{size:compact?11:13}},grid:{drawOnChartArea:false},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},x:{type:'linear',position:'bottom',min:0,max:axisMaximum,title:{display:true,text:axisTitle('median'),font:{size:compact?11:13}},grid:{color:'#eeece7'},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},y:{type:'linear',reverse:true,min:-.5,max:names.length-.5,afterBuildTicks:axis=>axis.ticks=countryLabels.map((label,value)=>({value})),grid:{color:'#eeece7',drawTicks:false},border:{display:false},ticks:{autoSkip:false,padding:compact?7:12,font:{size:compact?11:13},callback:v=>Number.isInteger(v)?countryLabels[v]||'':''}}}}}));
+    summaryCharts.push(new Chart(canvas,{type:'scatter',data:{datasets},plugins:[axisReferencePlugin,countryAxisPlugin],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:5,right:compact?14:22,bottom:3}},plugins:{legend:{display:false},tooltip:{filter:item=>!item.dataset.isReference,callbacks:{title:items=>items.length?items[0].raw.country_name+' · '+sourceLabel(items[0].raw.survey):'',label:ctx=>((ctx.raw.variable==='consump_def1'&&measureLabel(ctx.raw.consumption_measure))||labels[ctx.raw.variable])+': '+number(ctx.raw.x),afterLabel:ctx=>[ctx.raw.period_label,ctx.raw.n_waves+' available wave(s)',summary.method+' · '+adj[ctx.raw.stage]]}}},scales:{xTop:{type:'linear',position:'top',min:0,max:axisMaximum,title:{display:true,text:axisTitle('mean'),font:{size:compact?11:13}},grid:{drawOnChartArea:false},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},x:{type:'linear',position:'bottom',min:0,max:axisMaximum,title:{display:true,text:axisTitle('median'),font:{size:compact?11:13}},grid:{color:'#eeece7'},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},y:{type:'linear',reverse:true,min:-.5,max:names.length-.5,afterFit:axis=>{axis.width+=14;},afterBuildTicks:axis=>axis.ticks=countryLabels.map((label,value)=>({value})),grid:{color:'#eeece7',drawTicks:false},border:{display:false},ticks:{autoSkip:false,color:'transparent',padding:compact?7:12,font:{size:referenceFontSize},callback:v=>Number.isInteger(v)?countryLabels[v]||'':''}}}}}));
     $('cc-summary-note').textContent=(names.length>1?'Each country receives equal weight. Surveys and available waves are averaged within country. ':'')+'Coverage varies by variable.'
       +(surveys.includes('HILDA')?' HILDA wealth is available in five waves.':'')
       +(summary.measure==='auto'&&surveys.includes('SCF')?' SCF contributes total expenditure including imputed rent in 2025.':'')
@@ -3551,6 +3711,7 @@ function initOtherSurveys(other,context) {
   $('cc-t-png').addEventListener('click',()=>{if(!timeChart)return;const link=document.createElement('a');link.href=withFigureYAxisTitles([timeChart],()=>timeChart.toBase64Image());link.download='international_tails_over_time.png';link.click();});
   [['cc-survey','dataset'],['cc-country','country'],['cc-period','period'],['cc-adjustment','specification'],['cc-method','method'],['cc-measure','measure']].forEach(([id,k])=>$(id).addEventListener('change',e=>{
     summary[k]=e.target.value;
+    if(k==='country') hiddenSummaryCountries.delete(summary.country);
     if(k==='dataset'){
       if(summary.dataset==='NIELSEN'){summary.measure='food_total';summary.country='US';}
       else summary.country=countries('cc-country',summary.dataset,summary.country,summaryData);
@@ -3879,6 +4040,39 @@ function initializeMobileFilters(root = document) {
     });
     controls.before(toggle);
     controls.append(done);
+
+    const sidebar = controls.matches('.sidebar');
+    const heading = controls.parentElement.querySelector(sidebar
+      ? ':scope > .plot-surface > :is(.plot-top, .chart-heading-row)'
+      : ':scope > :is(.threshold-heading, .other-card-heading, .results-heading, .adjustment-results-header)');
+    const title = heading?.querySelector('.threshold-heading-title, h2, h3');
+    if (!title) return;
+
+    const row = document.createElement('div');
+    row.className = 'mobile-filter-title';
+    const sidebarSlot = sidebar ? document.createComment('Plot filters') : null;
+    if (sidebarSlot) controls.before(sidebarSlot);
+    const phoneLayout = window.matchMedia('(max-width: 760px)');
+
+    function alignWithTitle() {
+      const focused = document.activeElement;
+      if (phoneLayout.matches) {
+        title.before(row);
+        row.append(title, toggle);
+        heading.classList.add('mobile-filter-heading');
+        if (sidebarSlot) heading.after(controls);
+      } else if (row.parentElement) {
+        row.before(title);
+        if (sidebarSlot) sidebarSlot.after(controls);
+        controls.before(toggle);
+        row.remove();
+        heading.classList.remove('mobile-filter-heading');
+      }
+      if (controls.contains(focused) && focused.getClientRects().length) focused.focus({preventScroll: true});
+    }
+
+    phoneLayout.addEventListener('change', alignWithTitle);
+    alignWithTitle();
   });
 }
 
