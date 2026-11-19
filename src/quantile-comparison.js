@@ -36,7 +36,6 @@ function createUSQuantileComparison({
   const referenceFont = '600 12px Arial, sans-serif';
   const axisTitleFont = {size:13,lineHeight:1.2};
   const axisTitlePadding = 4;
-  const axisTitleWidth = axisTitleFont.size * axisTitleFont.lineHeight + 2 * axisTitlePadding;
   const selected = new Set(surveys.filter(survey => ['PSID','CEX_BM_RECON'].includes(survey)));
   const household = survey => ['PSID','SCF','CEX_BM_RECON'].includes(survey);
   const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
@@ -118,9 +117,16 @@ function createUSQuantileComparison({
   const panelGrid = find('.quantile-comparison-panels');
   const panels = ['raw','current'].map(key => {
     const section = make('section','quantile-comparison-panel');
+    section.id = 'quantile-v2-'+key+'-panel';
     section.hidden = true;
     section.dataset.panel = key;
+    const header = make('header','quantile-panel-header');
     const heading = make('h3','quantile-panel-heading');
+    const toggle = make('button','text-button quantile-panel-toggle',key==='raw'?'Hide raw data':'Show raw data');
+    toggle.type = 'button';
+    toggle.setAttribute('aria-controls','quantile-v2-raw-panel');
+    toggle.setAttribute('aria-expanded',String(key==='raw'));
+    header.append(heading,toggle);
     const wrap = make('div','quantile-comparison-chart');
     const canvas = make('canvas');
     canvas.setAttribute('role','img');
@@ -129,12 +135,22 @@ function createUSQuantileComparison({
     canvas.setAttribute('aria-describedby',summary.id);
     const empty = make('p','quantile-comparison-status','No estimates are available in this window for these selections.');
     wrap.append(canvas);
-    section.append(heading,wrap,summary,empty);
+    section.append(header,wrap,summary,empty);
     panelGrid.append(section);
-    return {key,section,heading,wrap,canvas,summary,empty,groups:[],chart:null};
+    return {key,section,header,heading,toggle,wrap,canvas,summary,empty,groups:[],chart:null};
   });
   const [rawPanel,currentPanel] = panels;
-  let request = 0, pending, lastFilter, period;
+  let request = 0, pending, lastFilter, period, showRawPanel = true;
+  for (const panel of panels) {
+    panel.toggle.addEventListener('click', async () => {
+      const hadFocus = document.activeElement===panel.toggle;
+      showRawPanel = panel===currentPanel;
+      await render();
+      const next = showRawPanel ? rawPanel : currentPanel;
+      if (hadFocus && !next.section.hidden && !next.toggle.hidden &&
+        (document.activeElement===panel.toggle || document.activeElement===document.body)) next.toggle.focus();
+    });
+  }
 
   function select(parent, key, title, values, onChange = render) {
     const box = make('div','control');
@@ -199,9 +215,6 @@ function createUSQuantileComparison({
     label.replaceWith(wrapper);
     wrapper.append(label,help(input.value,'About '+label.textContent+' weights'));
   }
-  const showRaw = choice(adjustments,'checkbox','show-raw','raw','Show raw panel',render).input;
-  showRaw.parentElement.classList.add('quantile-raw-option');
-
   const kind = radioGroup(indicators,'indicator','Tail and concentration indicator',
     [['pareto','Pareto coefficient'],['share','Top shares']],'indicator-kind-options choice-row');
   indicators.insertBefore(kind.fieldset,paretoOptions);
@@ -309,7 +322,7 @@ function createUSQuantileComparison({
     drawSegment();
   }
 
-  function plotAnnotations(groups, labels, inside, referenceGutter) {
+  function plotAnnotations(groups, labels) {
     return {
       id:'usQuantileReferencesAndBands',
       beforeDatasetsDraw({ctx,scales,chartArea}) {
@@ -351,23 +364,20 @@ function createUSQuantileComparison({
           positions[i].y = Math.min(positions[i].y,upper);
           upper = positions[i].y-spacing;
         }
-        const edge = inside ? chartArea.left+13 : scales.y.left+axisTitleWidth+referenceGutter-10;
-        const leaderDirection = inside ? -1 : 1;
+        const edge = chartArea.left+13;
         ctx.save();
         ctx.font = referenceFont;
-        ctx.textAlign = inside ? 'left' : 'right';
+        ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
         ctx.lineWidth = 1;
         for (const {text,color,y,anchor} of positions) {
-          if (inside) {
-            ctx.fillStyle = 'rgba(255,254,250,.94)';
-            ctx.fillRect(edge-2,y-7,ctx.measureText(text).width+4,14);
-          }
+          ctx.fillStyle = 'rgba(255,254,250,.94)';
+          ctx.fillRect(edge-2,y-7,ctx.measureText(text).width+4,14);
           ctx.fillStyle = ctx.strokeStyle = color;
           ctx.fillText(text,edge,y);
           ctx.beginPath();
-          ctx.moveTo(edge+leaderDirection*3,y);
-          ctx.lineTo(edge+leaderDirection*8,anchor);
+          ctx.moveTo(edge-3,y);
+          ctx.lineTo(edge-8,anchor);
           ctx.stroke();
         }
         ctx.restore();
@@ -388,7 +398,7 @@ function createUSQuantileComparison({
     for (const panel of panels) panel.chart?.resize();
   }
 
-  function drawPlots(title, activeVariables, indicator, includeRaw) {
+  function drawPlots(title, activeVariables, indicator, canCompare, includeRaw) {
     const shares = indicator === 'share';
     const yTitle = {
       pareto:'Pareto tail coefficient (ζ)',
@@ -416,24 +426,19 @@ function createUSQuantileComparison({
     const unavailable = [...selected].filter(survey=>!shownSurveys.has(survey)).map(surveyName);
     const ratio = ['wealth_ratio','income_ratio'].includes(indicator);
     note.textContent = 'Shaded bands show ±1 standard error across available waves or years at each percentile. A standard error requires at least two estimates.'
-      +(hasReference?' The labels '+(includeRaw?'inside each plot':'beside the vertical axis')+' identify the dashed lines for mean KS-selected estimates. Colors match the variables.':'')
+      +(hasReference?' Labels inside each plot identify the dashed lines for mean KS-selected estimates. Colors match the variables.':'')
       +(ratio?' Ratios pair coefficients within each dataset and wave or year. Each variable uses its own KS cutoff for the dashed lines.':'')
       +(unavailable.length?' No estimates for '+unavailable.join(', ')+' in this selection.':'');
 
     const yRange = {suggestedMin:Math.min(...limits),suggestedMax:Math.max(...limits)};
-    const ctx = currentPanel.canvas.getContext('2d');
-    ctx.save();
-    ctx.font = referenceFont;
-    const textWidth = Math.max(0,...referenceLabels(groups).map(label=>ctx.measureText(label.text).width));
-    ctx.restore();
-    const referenceGutter = !includeRaw && textWidth ? Math.ceil(textWidth)+14 : 0;
     for (const panel of panels) {
       panel.chart?.destroy();
       panel.chart = null;
       const show = visible && visiblePanels.includes(panel);
       panel.section.hidden = !show;
       if (!show) continue;
-      panel.heading.hidden = !includeRaw;
+      panel.toggle.hidden = panel===currentPanel && (!canCompare || includeRaw);
+      panel.header.hidden = !includeRaw && panel.toggle.hidden;
       panel.heading.textContent = panel.key==='raw' ? 'Raw data'
         : adjustment.value==='full' ? 'Adjusted for reporting + representation' : adjustment.selectedOptions[0].textContent;
       panel.wrap.hidden = !panel.groups.length;
@@ -454,7 +459,7 @@ function createUSQuantileComparison({
       });
       const panelSurveys = new Set(panel.groups.map(({survey})=>survey));
       panel.chart = new Chart(panel.canvas,{
-        type:'line',data:{datasets},plugins:[plotAnnotations(panel.groups,labels,includeRaw,referenceGutter)],
+        type:'line',data:{datasets},plugins:[plotAnnotations(panel.groups,labels)],
         options:{
           responsive:true,maintainAspectRatio:false,animation:false,parsing:false,
           interaction:{mode:'nearest',intersect:false},
@@ -479,7 +484,7 @@ function createUSQuantileComparison({
               title:{display:true,text:shares?'Distribution percentile':'Tail cutoff percentile',font:{size:13}}},
             y:{...yRange,grid:{color:'#e8e8ed'},
               title:{display:panel===titlePanel,text:yTitle,font:axisTitleFont,
-                padding:{top:axisTitlePadding,bottom:axisTitlePadding+referenceGutter}},
+                padding:axisTitlePadding},
               ticks:{font:{size:13},callback:value=>shares?number.format(value*100)+'%':number.format(value)}},
           },
         },
@@ -508,8 +513,8 @@ function createUSQuantileComparison({
     const hasSurvey = ids.some(household);
     paretoOptions.hidden = shares;
     adjustment.disabled = !hasSurvey;
-    showRaw.disabled = !hasSurvey || adjustment.value==='raw';
-    const includeRaw = showRaw.checked && !showRaw.disabled;
+    const canCompare = hasSurvey && adjustment.value!=='raw';
+    const includeRaw = showRawPanel && canCompare;
     adjustments.classList.toggle('adjustment-unavailable',!hasSurvey);
     weightingBox.hidden = !selected.has('PSID') || adjustment.value !== 'full';
     for (const input of weighting.inputs) input.checked = input.value === getWeightingMethod();
@@ -582,7 +587,7 @@ function createUSQuantileComparison({
       })).filter(group=>group.points.length||group.reference?.n);
       currentPanel.groups = plotGroups(curveOptions);
       rawPanel.groups = plotGroups(rawOptions);
-      drawPlots(title,activeVariables,indicator,includeRaw);
+      drawPlots(title,activeVariables,indicator,canCompare,includeRaw);
       lastFilter = filter;
     } catch (error) {
       if (sequence !== request) return;
