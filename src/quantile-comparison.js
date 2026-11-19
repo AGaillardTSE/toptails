@@ -34,6 +34,9 @@ function createUSQuantileComparison({
   ];
   const referenceColors = {consumption:'#315f87',total_labor_income:'#923d3d',total_income:'#834a31',networth_val:'#356448',total_capital_income:'#785d1b'};
   const referenceFont = '600 12px Arial, sans-serif';
+  const axisTitleFont = {size:13,lineHeight:1.2};
+  const axisTitlePadding = 4;
+  const axisTitleWidth = axisTitleFont.size * axisTitleFont.lineHeight + 2 * axisTitlePadding;
   const selected = new Set(surveys.filter(survey => ['PSID','CEX_BM_RECON'].includes(survey)));
   const household = survey => ['PSID','SCF','CEX_BM_RECON'].includes(survey);
   const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
@@ -306,7 +309,7 @@ function createUSQuantileComparison({
     drawSegment();
   }
 
-  function plotAnnotations(groups, labels, inside) {
+  function plotAnnotations(groups, labels, inside, referenceGutter) {
     return {
       id:'usQuantileReferencesAndBands',
       beforeDatasetsDraw({ctx,scales,chartArea}) {
@@ -348,7 +351,7 @@ function createUSQuantileComparison({
           positions[i].y = Math.min(positions[i].y,upper);
           upper = positions[i].y-spacing;
         }
-        const edge = inside ? chartArea.left+13 : scales.y.left-10;
+        const edge = inside ? chartArea.left+13 : scales.y.left+axisTitleWidth+referenceGutter-10;
         const leaderDirection = inside ? -1 : 1;
         ctx.save();
         ctx.font = referenceFont;
@@ -393,6 +396,7 @@ function createUSQuantileComparison({
       income_ratio:'Relative to total income (ζₓ / ζₜₒₜₐₗ)',
     }[indicator]||title;
     const visiblePanels = includeRaw ? panels : [currentPanel];
+    const titlePanel = visiblePanels.find(panel=>panel.groups.length);
     const groups = visiblePanels.flatMap(panel=>panel.groups);
     const visible = groups.length>0;
     panelGrid.classList.toggle('has-raw-panel',includeRaw);
@@ -422,7 +426,7 @@ function createUSQuantileComparison({
     ctx.font = referenceFont;
     const textWidth = Math.max(0,...referenceLabels(groups).map(label=>ctx.measureText(label.text).width));
     ctx.restore();
-    const paddingLeft = !includeRaw && textWidth ? Math.ceil(textWidth)+14 : 0;
+    const referenceGutter = !includeRaw && textWidth ? Math.ceil(textWidth)+14 : 0;
     for (const panel of panels) {
       panel.chart?.destroy();
       panel.chart = null;
@@ -450,11 +454,11 @@ function createUSQuantileComparison({
       });
       const panelSurveys = new Set(panel.groups.map(({survey})=>survey));
       panel.chart = new Chart(panel.canvas,{
-        type:'line',data:{datasets},plugins:[plotAnnotations(panel.groups,labels,includeRaw)],
+        type:'line',data:{datasets},plugins:[plotAnnotations(panel.groups,labels,includeRaw,referenceGutter)],
         options:{
           responsive:true,maintainAspectRatio:false,animation:false,parsing:false,
           interaction:{mode:'nearest',intersect:false},
-          layout:{padding:{left:paddingLeft,right:8}},
+          layout:{padding:{right:8}},
           plugins:{
             legend:{position:'top',onClick:()=>{},labels:{usePointStyle:true,pointStyleWidth:legendKeyWidth,padding:12,font:{size:12},
               generateLabels:()=>[...panelSurveys].map(survey=>({
@@ -473,7 +477,9 @@ function createUSQuantileComparison({
               afterBuildTicks:scale=>{scale.ticks=(includeRaw?[70,80,90,99]:[70,75,80,85,90,95,99]).map(value=>({value}));},
               ticks:{callback:percentile,maxRotation:0,font:{size:13}},grid:{display:false},
               title:{display:true,text:shares?'Distribution percentile':'Tail cutoff percentile',font:{size:13}}},
-            y:{...yRange,title:{display:true,text:yTitle,font:{size:13}},grid:{color:'#e8e8ed'},
+            y:{...yRange,grid:{color:'#e8e8ed'},
+              title:{display:panel===titlePanel,text:yTitle,font:axisTitleFont,
+                padding:{top:axisTitlePadding,bottom:axisTitlePadding+referenceGutter}},
               ticks:{font:{size:13},callback:value=>shares?number.format(value*100)+'%':number.format(value)}},
           },
         },
