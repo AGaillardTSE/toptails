@@ -98,7 +98,7 @@ const ThresholdProfiles = (() => {
     const identity=c=>[c.survey,c.country,c.year,c.variant,c.variable,c.housing_method,c.weighting_method,c.author_variant].join('|'),knownCurves=new Set(allCurves.map(identity));
     function addCurves(incoming){let changed=false;incoming.forEach(c=>{const key=identity(c);if(!knownCurves.has(key)){knownCurves.add(key);allCurves.push(c);changed=true;}});if(changed)signature='';}
     const section=document.createElement('section');section.className='threshold-profiles';
-    section.innerHTML='<div class="threshold-heading"><h2>Pareto tail coefficients (ζ) by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div>'
+    section.innerHTML='<div class="threshold-heading"><h2>Pareto tail coefficients by quantile</h2><button class="text-button" type="button">Profile CSV</button></div><div class="threshold-profile-controls"></div>'
       +'<div class="plot-series-controls threshold-variable-toolbar" hidden><span class="control-label series-label">Variables:</span><fieldset class="series-bar threshold-legend" aria-label="Variables to display"></fieldset></div>'
       +'<div class="threshold-profile-grid"></div><p class="threshold-note results-note"></p>';
     const exportButton=section.querySelector('.threshold-heading .text-button');
@@ -207,7 +207,7 @@ const ThresholdProfiles = (() => {
       }
       const periodLabel=year.replace('-','–');
       const yTitle=share?'Share above percentile':ratio?'Relative to wealth (ζₓ / ζₐ)':'Pareto tail coefficient (ζ)';
-      heading.textContent=share?'Shares above quantile':ratio?'Pareto tail coefficients (ζ) relative to wealth by quantile':'Pareto tail coefficients (ζ) by quantile';
+      heading.textContent=share?'Shares above quantile':ratio?'Pareto tail coefficients relative to wealth by quantile':'Pareto tail coefficients by quantile';
       methodSelect.disabled=share;methodSelect.title=share?'Distribution shares do not use a Pareto estimator.':'';
       const sig=JSON.stringify([getSpecificationSignature(),surveySelect.value,country,year,spending?.value,indicator,method,getDinaCapitalDefinition(),[...selectedVariables].sort(),getCEXIncome()]);if(sig===signature){charts.forEach(c=>c.resize());return;}signature=sig;
       charts.forEach(c=>c.destroy());charts=[];rows=[];grid.replaceChildren();

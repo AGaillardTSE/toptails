@@ -392,7 +392,7 @@ function createTimeWindow(canvas, onChange) {
   const isParetoMetric = metric => metric==='pareto'||metric==='pareto_wealth_ratio';
   const HOUSEHOLD_SURVEYS=new Set(['PSID','SCF','CEX','CEX_BM','CEX_BM_RECON']),ADJUSTABLE_SURVEYS=new Set(['PSID','SCF','CEX','CEX_BM_RECON']);
   const indicatorKind=metric=>isParetoMetric(metric)?'pareto':metric.startsWith('share_')?'shares':'gini';
-  const metricLabel = () => ({pareto:'Pareto tail coefficients (ζ)',pareto_wealth_ratio:'Pareto coefficients relative to wealth',gini:'Gini coefficients',share_top20:'Top 20% shares',share_top10:'Top 10% shares',share_top5:'Top 5% shares',share_top1:'Top 1% shares'})[s.metric];
+  const metricLabel = () => ({pareto:'Pareto tail coefficients',pareto_wealth_ratio:'Pareto coefficients relative to wealth',gini:'Gini coefficients',share_top20:'Top 20% shares',share_top10:'Top 10% shares',share_top5:'Top 5% shares',share_top1:'Top 1% shares'})[s.metric];
   const format = value => s.metric.startsWith('share_') ? pct(value) : num(value,2);
   const years = [...new Set(SUMMARY.filter(r=>r.survey==='PSID').map(r=>r.year))].sort((a,c)=>a-c);
   const scfYears = [...new Set(SUMMARY.filter(r=>r.survey==='SCF').map(r=>r.year))].sort((a,c)=>a-c);

@@ -56,7 +56,7 @@ function initOtherSurveys(other,context) {
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="time" id="cc-tab-time" aria-controls="cc-time">Tails over time</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="quantiles" id="cc-tab-quantiles" aria-controls="cc-quantiles">Tails by quantile</button>',
     '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="results" id="cc-tab-results" aria-controls="cc-results">Table of results</button>',
-    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="loglog" id="cc-tab-loglog" aria-controls="cc-loglog">Log–log relationships</button><button class="secondary-tab" role="tab" aria-selected="false" data-country-view="eyeballing" id="cc-tab-eyeballing" aria-controls="cc-eyeballing">Eyeballing Pareto Tails (ζ)</button></div></nav>',
+    '<button class="secondary-tab" role="tab" aria-selected="false" data-country-view="loglog" id="cc-tab-loglog" aria-controls="cc-loglog">Log–log relationships</button><button class="secondary-tab" role="tab" aria-selected="false" data-country-view="eyeballing" id="cc-tab-eyeballing" aria-controls="cc-eyeballing">Eyeballing Pareto Tails</button></div></nav>',
     '<section id="cc-summary" role="tabpanel" aria-labelledby="cc-tab-summary"><div class="other-card">',
     '<header class="other-card-heading"><h2>Cross-country comparison</h2><button class="text-button" id="cc-summary-csv">Results CSV</button></header>',
     '<div class="other-controls"><div class="control"><label for="cc-survey">Survey</label><select id="cc-survey"></select></div>',
@@ -240,7 +240,7 @@ function initOtherSurveys(other,context) {
     timeRows=available.filter(row=>time.variables.has(row.variable)).map(row=>{const date=SeriesYears.period(row);return{...row,observation_year:date.year,observation_period:date.label,year_basis:date.basis,indicator:time.indicator,value:row[field]};});
     const visibleYears = timeWindow.update(timeRows.map(row => row.observation_year));
     if (visibleYears) timeRows = timeRows.filter(row => row.observation_year >= visibleYears.from && row.observation_year <= visibleYears.to);
-    const country=rows[0]?.country_name||$('cc-t-country').selectedOptions[0]?.textContent||'',indicatorTitle=time.indicator==='pareto'?'Pareto tail coefficients (ζ)':time.indicator==='ratio'?'Pareto coefficients relative to wealth':time.indicator==='gini'?'Gini':$('cc-t-indicator').selectedOptions[0].textContent;
+    const country=rows[0]?.country_name||$('cc-t-country').selectedOptions[0]?.textContent||'',indicatorTitle=time.indicator==='pareto'?'Pareto tail coefficients':time.indicator==='ratio'?'Pareto coefficients relative to wealth':time.indicator==='gini'?'Gini':$('cc-t-indicator').selectedOptions[0].textContent;
     const yTitle=time.indicator==='pareto'?'Pareto tail coefficient (ζ)':time.indicator==='ratio'?'Relative to wealth (ζₓ / ζₐ)':indicatorTitle+(scale===100?' (%)':'');
     $('cc-t-title').textContent=indicatorTitle+' over time';$('cc-t-subtitle').textContent=[country,adj[time.adjustment],pareto?time.method+' · '+(time.threshold==='ks'?'KS-selected thresholds':time.threshold==='custom'?'P'+Math.round(time.q*100):time.threshold.toUpperCase()):''].filter(Boolean).join(' · ');
     $('cc-t-method').disabled=!pareto;$('cc-t-threshold').disabled=!pareto;$('cc-t-custom-control').hidden=!pareto||time.threshold!=='custom';
