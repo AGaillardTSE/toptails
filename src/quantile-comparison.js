@@ -426,7 +426,7 @@ function createUSQuantileComparison({
     const unavailable = [...selected].filter(survey=>!shownSurveys.has(survey)).map(surveyName);
     const ratio = ['wealth_ratio','income_ratio'].includes(indicator);
     note.textContent = 'Shaded bands show ±1 standard error across available waves or years at each percentile. A standard error requires at least two estimates.'
-      +(hasReference?' Labels inside each plot identify the dashed lines for mean KS-selected estimates. Colors match the variables.':'')
+      +(hasReference?' Labels inside each plot identify the dashed lines for mean KS-selected estimates.':'')
       +(ratio?' Ratios pair coefficients within each dataset and wave or year. Each variable uses its own KS cutoff for the dashed lines.':'')
       +(unavailable.length?' No estimates for '+unavailable.join(', ')+' in this selection.':'');
 
