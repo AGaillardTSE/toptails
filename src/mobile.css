@@ -148,7 +148,7 @@
   .adjustment-results-header.mobile-filter-heading { padding: 14px; gap: 8px; }
 
   .plot-series-controls {
-    padding: 0 13px 8px;
+    padding: 9px 13px;
     align-items: flex-start;
     flex-direction: column;
     gap: 5px;
@@ -160,9 +160,6 @@
     top: 0;
     padding: 5px 4px;
     gap: 6px 11px;
-    background: transparent;
-    box-shadow: none;
-    border: 0;
   }
 
   .chart-wrap, .chart-wrap.bivariate-chart, #panel-other .cc-time-chart {
@@ -212,9 +209,7 @@
     margin-bottom: 10px;
   }
   #panel-other .cc-comparison-chart { padding-inline: 4px; }
-  #panel-other .cc-comparison-legends { padding-inline: 13px; gap: 7px; }
-  #panel-other .cc-variable-legend, #panel-other .cc-survey-legend { gap: 6px 12px; }
-  #panel-other .cc-survey-legend { border: 0; padding-left: 0; }
+  #panel-other .cc-survey-legend { padding-inline: 13px; gap: 6px 12px; }
 }
 
 @media (max-width: 420px) {
