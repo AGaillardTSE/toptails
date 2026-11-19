@@ -1,3 +1,35 @@
+let mobileFilterId = 0;
+
+function initializeMobileFilters(root = document) {
+  const selector = '.explorer-grid > .sidebar, .threshold-profile-controls, .results-controls, #panel-other .other-controls, .adjustment-figure-controls, .adjustment-distribution-controls';
+  root.querySelectorAll(selector).forEach(controls => {
+    if (controls.hasAttribute('data-mobile-filters')) return;
+    controls.setAttribute('data-mobile-filters', '');
+    if (!controls.id) controls.id = 'mobile-filters-' + ++mobileFilterId;
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'mobile-filter-toggle';
+    toggle.textContent = 'Filters';
+    toggle.setAttribute('aria-controls', controls.id);
+    toggle.setAttribute('aria-expanded', 'false');
+    const done = document.createElement('button');
+    done.type = 'button';
+    done.className = 'mobile-filter-done';
+    done.textContent = 'Done';
+    function setOpen(open) {
+      controls.toggleAttribute('data-mobile-filters-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    }
+    toggle.addEventListener('click', () => setOpen(!controls.hasAttribute('data-mobile-filters-open')));
+    done.addEventListener('click', () => {
+      setOpen(false);
+      toggle.focus();
+    });
+    controls.before(toggle);
+    controls.append(done);
+  });
+}
+
 (async () => {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -256,6 +288,7 @@
       if(pending){startupStatus.textContent='Loading selected results…';document.body.append(startupStatus);loadingMain?.setAttribute('aria-busy','true');}
       await preparation;if(request!==viewRequest)return;
       if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())thresholdController?.render();if(quantilesV2Visible())quantileComparison?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
+      initializeMobileFilters();
       if(!loadingMain?.dataset.firstPlotMs)loadingMain?.setAttribute('data-first-plot-ms',String(Math.round(performance.now())));
       startupStatus.remove();loadingMain?.removeAttribute('aria-busy');
     }catch(error){if(request!==viewRequest)return;startupStatus.remove();loadingMain?.removeAttribute('aria-busy');$('page-error').hidden=false;$('page-error').textContent='The selected plot could not be drawn. Please change the selection or reload the page.';console.error(error);}});
@@ -342,6 +375,9 @@
     });
   }
   function destroy(canvas,chart) { const existing=Chart.getChart($(canvas)); if(existing) existing.destroy(); else if(chart) chart.destroy(); }
+  const timePhoneLayout = window.matchMedia('(max-width: 760px)');
+  timePhoneLayout.addEventListener('change', () => { if (mainVisible()) schedule(); });
+
   function renderTime() {
     destroy('time-chart',timeChart);timeChart=null;timeRows=[];
     syncMainCapabilities();syncDinaControls();
@@ -359,6 +395,9 @@
       });
     });
     datasets.push(...(referenceController?.datasets(s)||[]));
+    if(timePhoneLayout.matches){
+      for(const dataset of datasets)if(typeof dataset.pointRadius==='number')dataset.pointRadius=Math.max(2.5,dataset.pointRadius*.72);
+    }
     (referenceController?.plotted(s)||[]).forEach(row=>timeRows.push({survey:row.survey,wave:row.year,observation_year:SeriesYears.period(row).year,observation_period:SeriesYears.period(row).label,year_basis:SeriesYears.period(row).basis,adjustment:'Standalone reference: '+row.author_variant,variable:row.variable,variable_label:row.source_label,indicator:s.metric,method:row.method,threshold:row.threshold_rule,estimate:row.estimate,pareto_estimate:isParetoMetric(s.metric)?row.pareto_estimate??row.estimate:null,wealth_pareto_estimate:row.wealth_pareto_estimate??null,threshold_quantile:row.threshold_quantile,ks:row.ks,n_tail:row.n_tail??null,tail_unit_type:row.unit||META.surveys?.[row.survey]?.tail_unit||'',author_variant:row.author_variant,capital_income_definition:row.capital_income_definition||'',source_definition:row.source_definition}));
     $('time-chart-title').textContent=metricLabel()+' over time';
     const yTitle=({pareto:'Pareto tail coefficient (ζ)',pareto_wealth_ratio:'Relative to wealth (ζₓ / ζₐ)',gini:'Gini coefficient'})[s.metric]||metricLabel();
@@ -371,8 +410,34 @@
       const names=['PSID','CEX_BM_RECON','SCF'].filter(survey=>shownHouseholds.has(survey)).map(survey=>surveyName(survey)).join(', ');
       adjustmentLabels.push(names+': '+(s.adjustment==='adj'?'rescaled to national accounts only.':'raw data.'));
     }
-    const subtitle=$('time-chart-subtitle'),estimatorLabel=isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'';subtitle.replaceChildren();if(estimatorLabel){const estimator=document.createElement('span');estimator.className='subtitle-estimator';estimator.textContent=estimatorLabel;subtitle.append(estimator);}subtitle.append(document.createTextNode(adjustmentLabels.join(' ')));
-    if(shownHouseholds.size){const link=document.createElement('a');link.className='subtitle-tab-link';link.href='#panel-adjustments';link.textContent='Survey Adjustments';link.addEventListener('click',event=>{event.preventDefault();tab('adjustments');});subtitle.append(' (see ',link,' for details)');}
+    const subtitle=$('time-chart-subtitle'),estimatorLabel=isParetoMetric(s.metric)?s.method+' · '+thresholdName()+(s.metric==='pareto_wealth_ratio'?' · each series divided by wealth':''):'';
+    subtitle.replaceChildren();
+    if(estimatorLabel){
+      const estimator=document.createElement('span');
+      estimator.className='subtitle-estimator';
+      estimator.textContent=estimatorLabel;
+      subtitle.append(estimator);
+    }
+    const phone=timePhoneLayout.matches,notesPanel=$('time-note').parentElement,actions=$('download-time-csv')?.closest('.chart-actions');
+    notesPanel.querySelector('.time-adjustment-summary')?.remove();
+    if(adjustmentLabels.length){
+      const detail=document.createElement('span');
+      detail.className='time-adjustment-summary';
+      detail.textContent=adjustmentLabels.join(' ');
+      const link=document.createElement('a');
+      link.className='subtitle-tab-link';
+      link.href='#panel-adjustments';
+      link.textContent='Survey Adjustments';
+      link.addEventListener('click',event=>{event.preventDefault();tab('adjustments');});
+      detail.append(' (see ',link,' for details)');
+      if(phone)notesPanel.prepend(detail);
+      else subtitle.append(detail);
+    }
+    if(actions){
+      const target=phone?$('time-chart').parentElement:subtitle.closest('.plot-top');
+      if(target&&phone&&target.nextElementSibling!==actions)target.after(actions);
+      if(target&&!phone&&actions.parentElement!==target)target.append(actions);
+    }
     $('time-empty').hidden=!!datasets.length;$('time-empty').textContent=s.variables.size?'No comparable results for this selection.':'Select at least one measure.';
     $('download-time-csv').disabled=!timeRows.length;$('download-time-png').disabled=!datasets.length;
     $('time-variant').value=bmOriginalOnly&&selected.size===1&&selected.has('CEX_BM')?'original':s.adjustment;syncMainCapabilities();
@@ -395,8 +460,12 @@
     const shownYears=[...new Set(datasets.flatMap(dataset=>dataset.data.filter(point=>FINITE(point.y)).map(point=>point.x)))].sort((a,b)=>a-b),xmin=Math.min(...shownYears)-.6,xmax=Math.max(...shownYears)+.6;
     const firstYear=shownYears[0],lastYear=shownYears[shownYears.length-1];
     const yearTicks=shownYears.length>14?shownYears.filter(year=>year===firstYear||year===lastYear||(year%5===0&&year-firstYear>=3&&lastYear-year>=2)):shownYears;
-    const legendTopPadding=legend?Math.max(52,legend.offsetHeight+18):12;
-    timeChart=new Chart($('time-chart'),{type:'line',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'nearest',intersect:false},layout:{padding:{top:legendTopPadding,right:14,bottom:5,left:8}},plugins:{legend:{display:false},tooltip:{backgroundColor:'#182437',padding:12,callbacks:{title:items=>items.length?items[0].dataset.survey+' · '+(items[0].raw.period_label||items[0].raw.x):'',label:ctx=>(ctx.dataset.isReference?ctx.dataset.label:displayLabel(ctx.dataset.key,s.measure,ctx.dataset.survey))+': '+format(ctx.parsed.y),afterLabel:ctx=>isParetoMetric(s.metric)?[FINITE(ctx.raw.q)?'Threshold: '+num(ctx.raw.q*100,1)+'th percentile':'',FINITE(ctx.raw.maxks)?'KS: '+num(ctx.raw.maxks,4):''].filter(Boolean):''}}},scales:{x:{type:'linear',min:xmin,max:xmax,title:{display:true,text:'Reference year',font:{size:13}},afterBuildTicks:axis=>{axis.ticks=yearTicks.map(value=>({value}));},grid:{display:false},border:{color:'#d9dce2'},ticks:{maxRotation:0,font:{size:13},callback:value=>Number.isInteger(value)?String(value):''}},y:{title:{display:true,text:yTitle,font:{size:13}},grid:{color:'#e9e9ee'},border:{display:false},ticks:{padding:9,font:{size:13},callback:value=>format(value)}}}}});
+    const legendTopPadding=()=>legend?Math.max(52,legend.offsetHeight+18):12;
+    timeChart=new Chart($('time-chart'),{type:'line',data:{datasets},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'nearest',intersect:false},layout:{padding:{top:legendTopPadding(),right:14,bottom:5,left:8}},onResize:chart=>{chart.options.layout.padding.top=legendTopPadding();},plugins:{legend:{display:false},tooltip:{backgroundColor:'#182437',padding:12,callbacks:{title:items=>items.length?items[0].dataset.survey+' · '+(items[0].raw.period_label||items[0].raw.x):'',label:ctx=>(ctx.dataset.isReference?ctx.dataset.label:displayLabel(ctx.dataset.key,s.measure,ctx.dataset.survey))+': '+format(ctx.parsed.y),afterLabel:ctx=>isParetoMetric(s.metric)?[FINITE(ctx.raw.q)?'Threshold: '+num(ctx.raw.q*100,1)+'th percentile':'',FINITE(ctx.raw.maxks)?'KS: '+num(ctx.raw.maxks,4):''].filter(Boolean):''}}},scales:{x:{type:'linear',min:xmin,max:xmax,title:{display:true,text:'Reference year',font:{size:13}},afterBuildTicks:axis=>{
+      const count=axis.chart.width<500?Math.min(6,yearTicks.length):yearTicks.length;
+      const years=count<yearTicks.length?Array.from({length:count},(_,index)=>yearTicks[Math.round(index*(yearTicks.length-1)/(count-1))]):yearTicks;
+      axis.ticks=years.map(value=>({value}));
+    },grid:{display:false},border:{color:'#d9dce2'},ticks:{maxRotation:0,font:{size:13},callback:value=>Number.isInteger(value)?String(value):''}},y:{title:{display:true,text:yTitle,font:{size:13}},grid:{color:'#e9e9ee'},border:{display:false},ticks:{padding:9,font:{size:13},callback:value=>format(value)}}}}});
     requestAnimationFrame(()=>timeChart?.resize());announce(metricLabel()+', '+timeRows.length+' aggregate estimates displayed.');
   }
 

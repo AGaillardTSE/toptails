@@ -35,7 +35,7 @@ if not args.standalone:
     needle="const value=await readCompressed(encoded)"
     assert app.count(needle)==1
     app=app.replace(needle,"const value=await (node.dataset.parts?readCompressedFiles(JSON.parse(node.dataset.parts)):readCompressed(encoded))")
-css='\n'.join(read(n) for n in ['shared.css','international.css','data-correspondence.css'])
+css='\n'.join(read(n) for n in ['shared.css','international.css','data-correspondence.css','mobile.css'])
 vendor='/* Chart.js 4.4.1\n'+(ROOT/'vendor/Chart-LICENSE.txt').read_text()+'\n*/\n'+(ROOT/'vendor/chart.umd.min.js').read_text()
 csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src "+("'none'" if args.standalone else "'self'")+"; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
 dest=ROOT/'standalone' if args.standalone else ROOT;dest.mkdir(exist_ok=True)

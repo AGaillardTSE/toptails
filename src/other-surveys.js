@@ -196,13 +196,76 @@ function initOtherSurveys(other,context) {
     });
     canvas.dataset.variables=JSON.stringify(activeVariables.map(([variable])=>variable));
     const axisMaximum=Math.ceil(10*Math.max(1,...displayed.flatMap(row=>activeVariables.map(([variable])=>row[variable]).filter(finite)),...referenceMarks.map(mark=>mark.value))*1.04)/10;
+    const compact=canvas.parentElement.clientWidth<550,referenceFontSize=compact?11:13;
+    const referenceGap=referenceFontSize+4;
+    const referenceCount=referenceMarks.filter(mark=>mark.kind==='mean').length;
+    // Leave space for the colored labels without widening the chart's horizontal margins.
+    const horizontalTicks={display:false,maxTicksLimit:compact?5:8};
+    const fitHorizontalAxis=scale=>{scale.height+=18+referenceCount*referenceGap;};
     const axisTitle=kind=>{
       const label='Pareto tail coefficient (ζ)',dash=kind==='mean'?'long':'short',term=kind==='mean'?'mean':'median';
       const note='('+dash+'-dashed lines: '+term+' across countries)';
-      return window.innerWidth<760?[label,'('+dash+'-dashed lines:',term+' across countries)']:window.innerWidth<1100?[label,note]:label+' '+note;
+      return compact||window.innerWidth<1100?[label,note]:label+' '+note;
     };
-    const axisReferencePlugin={id:'ccAxisReferences',afterDraw(chart){const ctx=chart.ctx,area=chart.chartArea,lanes={mean:[],median:[]};[...referenceMarks].sort((a,b)=>a.value-b.value).forEach(mark=>{const scale=mark.kind==='mean'?chart.scales.xTop:chart.scales.x,x=scale.getPixelForValue(mark.value),y=mark.kind==='mean'?area.top:area.bottom;ctx.save();ctx.fillStyle=mark.color;ctx.strokeStyle='#fffefa';ctx.lineWidth=2;if(mark.kind==='mean'){ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill();ctx.stroke();}else{ctx.translate(x,y);ctx.rotate(Math.PI/4);ctx.fillRect(-4.5,-4.5,9,9);ctx.strokeRect(-4.5,-4.5,9,9);ctx.rotate(-Math.PI/4);ctx.translate(-x,-y);}ctx.font='600 13px Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline=mark.kind==='mean'?'bottom':'top';const label=number(mark.value),half=ctx.measureText(label).width/2;let lane=0;while(lane<2&&lanes[mark.kind][lane]!==undefined&&x-half<lanes[mark.kind][lane]+6)lane++;lanes[mark.kind][lane]=x+half;const offset=7+lane*17,labelY=mark.kind==='mean'?y-offset:y+offset;ctx.lineWidth=3;ctx.strokeText(label,x,labelY);ctx.fillText(label,x,labelY);ctx.restore();});}};
-    summaryCharts.push(new Chart(canvas,{type:'scatter',data:{datasets},plugins:[axisReferencePlugin],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:5,right:22,bottom:3}},plugins:{legend:{display:false},tooltip:{filter:item=>!item.dataset.isReference,callbacks:{title:items=>items.length?items[0].raw.country_name+' · '+sourceLabel(items[0].raw.survey):'',label:ctx=>((ctx.raw.variable==='consump_def1'&&measureLabel(ctx.raw.consumption_measure))||labels[ctx.raw.variable])+': '+number(ctx.raw.x),afterLabel:ctx=>[ctx.raw.period_label,ctx.raw.n_waves+' available wave(s)',summary.method+' · '+adj[ctx.raw.stage]]}}},scales:{xTop:{type:'linear',position:'top',min:0,max:axisMaximum,title:{display:true,text:axisTitle('mean'),font:{size:13}},grid:{drawOnChartArea:false},border:{color:'#cfd3da'},ticks:{font:{size:13},padding:38,maxRotation:0}},x:{type:'linear',position:'bottom',min:0,max:axisMaximum,title:{display:true,text:axisTitle('median'),font:{size:13}},grid:{color:'#eeece7'},border:{color:'#cfd3da'},ticks:{font:{size:13},padding:38,maxRotation:0}},y:{type:'linear',reverse:true,min:-.5,max:names.length-.5,afterBuildTicks:axis=>axis.ticks=countryLabels.map((label,value)=>({value})),grid:{color:'#eeece7',drawTicks:false},border:{display:false},ticks:{autoSkip:false,padding:12,font:{size:13},callback:v=>Number.isInteger(v)?countryLabels[v]||'':''}}}}}));
+    const axisReferencePlugin={
+      id:'ccAxisReferences',
+      afterDraw(chart){
+        const {ctx,chartArea:area}=chart;
+        const lanes={mean:[],median:[]};
+        for(const mark of [...referenceMarks].sort((a,b)=>a.value-b.value)){
+          const isMean=mark.kind==='mean',scale=isMean?chart.scales.xTop:chart.scales.x;
+          const x=scale.getPixelForValue(mark.value),y=isMean?area.top:area.bottom;
+          ctx.save();
+          ctx.fillStyle=mark.color;
+          ctx.strokeStyle='#fffefa';
+          ctx.lineWidth=2;
+          if(isMean){
+            ctx.beginPath();
+            ctx.arc(x,y,5,0,Math.PI*2);
+            ctx.fill();
+            ctx.stroke();
+          }else{
+            ctx.save();
+            ctx.translate(x,y);
+            ctx.rotate(Math.PI/4);
+            ctx.fillRect(-4.5,-4.5,9,9);
+            ctx.strokeRect(-4.5,-4.5,9,9);
+            ctx.restore();
+          }
+          ctx.font='600 '+referenceFontSize+'px Arial, sans-serif';
+          ctx.textAlign='center';
+          ctx.textBaseline=isMean?'bottom':'top';
+          const label=(isMean?'Mean: ':'Median: ')+number(mark.value,2);
+          const half=ctx.measureText(label).width/2;
+          const labelX=Math.max(half+3,Math.min(chart.width-half-3,x));
+          const occupied=lanes[mark.kind];
+          let lane=0;
+          while(occupied[lane]!==undefined&&labelX-half<occupied[lane]+5)lane++;
+          occupied[lane]=labelX+half;
+          const offset=7+lane*referenceGap,labelY=isMean?y-offset:y+offset;
+          ctx.lineWidth=3;
+          ctx.strokeText(label,labelX,labelY);
+          ctx.fillText(label,labelX,labelY);
+          ctx.restore();
+        }
+        ctx.save();
+        ctx.fillStyle='#66717e';
+        ctx.font=referenceFontSize+'px Arial, sans-serif';
+        ctx.textAlign='center';
+        for(const [kind,scale] of [['mean',chart.scales.xTop],['median',chart.scales.x]]){
+          const top=kind==='mean',offset=9+lanes[kind].length*referenceGap;
+          const y=top?area.top-offset:area.bottom+offset;
+          ctx.textBaseline=top?'bottom':'top';
+          for(const tick of scale.ticks){
+            const text=String(tick.label),half=ctx.measureText(text).width/2;
+            const x=Math.max(half+2,Math.min(chart.width-half-2,scale.getPixelForValue(tick.value)));
+            ctx.fillText(text,x,y);
+          }
+        }
+        ctx.restore();
+      }
+    };
+    summaryCharts.push(new Chart(canvas,{type:'scatter',data:{datasets},plugins:[axisReferencePlugin],options:{responsive:true,maintainAspectRatio:false,animation:false,layout:{padding:{top:5,right:compact?14:22,bottom:3}},plugins:{legend:{display:false},tooltip:{filter:item=>!item.dataset.isReference,callbacks:{title:items=>items.length?items[0].raw.country_name+' · '+sourceLabel(items[0].raw.survey):'',label:ctx=>((ctx.raw.variable==='consump_def1'&&measureLabel(ctx.raw.consumption_measure))||labels[ctx.raw.variable])+': '+number(ctx.raw.x),afterLabel:ctx=>[ctx.raw.period_label,ctx.raw.n_waves+' available wave(s)',summary.method+' · '+adj[ctx.raw.stage]]}}},scales:{xTop:{type:'linear',position:'top',min:0,max:axisMaximum,title:{display:true,text:axisTitle('mean'),font:{size:compact?11:13}},grid:{drawOnChartArea:false},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},x:{type:'linear',position:'bottom',min:0,max:axisMaximum,title:{display:true,text:axisTitle('median'),font:{size:compact?11:13}},grid:{color:'#eeece7'},border:{color:'#cfd3da'},afterFit:fitHorizontalAxis,ticks:horizontalTicks},y:{type:'linear',reverse:true,min:-.5,max:names.length-.5,afterBuildTicks:axis=>axis.ticks=countryLabels.map((label,value)=>({value})),grid:{color:'#eeece7',drawTicks:false},border:{display:false},ticks:{autoSkip:false,padding:compact?7:12,font:{size:compact?11:13},callback:v=>Number.isInteger(v)?countryLabels[v]||'':''}}}}}));
     $('cc-summary-note').textContent=(names.length>1?'Each country receives equal weight. Surveys and available waves are averaged within country. ':'')+'Coverage varies by variable.'
       +(surveys.includes('HILDA')?' HILDA wealth is available in five waves.':'')
       +(summary.measure==='auto'&&surveys.includes('SCF')?' SCF contributes total expenditure including imputed rent in 2025.':'')

@@ -221,6 +221,7 @@ const ThresholdProfiles = (() => {
       const referenceOnly=selected.every(survey=>referenceSurveys.has(survey)),cells=international?'country–wave cells':referenceOnly?'years':'waves';
       note.textContent='Shaded bands are pointwise 90% Student-t intervals for the mean at each percentile, based on variation across the available '+cells+'. '+(share?'':ratio?'Dashed lines and labels average within-cell ratios of the variable’s and wealth’s separately KS-selected coefficients. ':'Dashed lines and labels average the coefficients selected separately by the KS criterion in each '+(international?'country–wave cell':referenceOnly?'year':'wave')+'. ')+(scfShown?'SCF estimates are first averaged across its five imputations. ':'')+(hfcsShown?'HFCS estimates are first averaged across its five imputations; country–wave summaries use population weights.':'')+(getCEXIncome()&&selected.includes('CEX_BM_RECON')?' CEX income estimates from 2004 onward average five imputations within each wave.':'');
     }
+    if(typeof initializeMobileFilters==='function')initializeMobileFilters(host);
     return{render,addCurves,resize:()=>charts.forEach(c=>c.resize())};
   }
   return{summarize,t975,tCritical,profiles,reference,contractFor,commonCells,create};
