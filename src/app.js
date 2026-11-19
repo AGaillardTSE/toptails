@@ -30,6 +30,120 @@ function initializeMobileFilters(root = document) {
   });
 }
 
+function createTimeWindow(canvas, onChange) {
+  const element = document.createElement('div');
+  element.className = 'time-window';
+  element.setAttribute('role', 'group');
+  element.setAttribute('aria-label', 'Time window');
+  element.hidden = true;
+  element.innerHTML = `<div class="time-window-heading">
+    <span>Time window</span><output class="time-window-years"></output>
+    <button type="button" class="text-button" aria-label="Reset time window">Reset</button>
+  </div><div class="time-window-sliders">
+    <div class="time-window-rail" aria-hidden="true"></div>
+    <input type="range" step="1" aria-label="Start year">
+    <input type="range" step="1" aria-label="End year">
+  </div><div class="time-window-ticks" aria-hidden="true"></div>`;
+  canvas.parentElement.after(element);
+  const sliders = element.querySelector('.time-window-sliders');
+  const rail = element.querySelector('.time-window-rail');
+  const [start, end] = element.querySelectorAll('input');
+  const output = element.querySelector('output');
+  const ticks = element.querySelector('.time-window-ticks');
+  const reset = element.querySelector('button');
+  let minimum, maximum, selectedStart = null, selectedEnd = null;
+
+  const percent = year => 100 * (year - minimum) / (maximum - minimum) + '%';
+  const values = () => [start.valueAsNumber, end.valueAsNumber];
+
+  function showSelection() {
+    const [first, last] = values();
+    element.style.setProperty('--time-window-start', percent(first));
+    element.style.setProperty('--time-window-end', percent(last));
+    element.classList.toggle('time-window-start-on-top', first === maximum);
+    output.textContent = first === last ? String(first) : first + '–' + last;
+    reset.disabled = first === minimum && last === maximum;
+  }
+
+  function commit() {
+    const [first, last] = values();
+    selectedStart = first === minimum ? null : first;
+    selectedEnd = last === maximum ? null : last;
+    onChange();
+  }
+
+  start.addEventListener('input', () => {
+    if (start.valueAsNumber > end.valueAsNumber) start.value = end.value;
+    showSelection();
+  });
+  end.addEventListener('input', () => {
+    if (end.valueAsNumber < start.valueAsNumber) end.value = start.value;
+    showSelection();
+  });
+  start.addEventListener('change', commit);
+  end.addEventListener('change', commit);
+  reset.addEventListener('click', () => {
+    start.value = minimum;
+    end.value = maximum;
+    start.focus({preventScroll:true});
+    showSelection();
+    commit();
+  });
+
+  sliders.addEventListener('click', event => {
+    if (event.target === start || event.target === end) return;
+    const {left, width} = rail.getBoundingClientRect();
+    if (!width) return;
+    const fraction = Math.max(0, Math.min(1, (event.clientX - left) / width));
+    const year = Math.round(minimum + fraction * (maximum - minimum));
+    const [first, last] = values();
+    const input = year <= (first + last) / 2 ? start : end;
+    input.value = year;
+    showSelection();
+    commit();
+  });
+
+  function update(years) {
+    if (!years.length) {
+      element.hidden = true;
+      return null;
+    }
+    const lo = Math.min(...years), hi = Math.max(...years);
+    if (selectedStart > hi || (selectedEnd !== null && selectedEnd < lo)) {
+      selectedStart = selectedEnd = null;
+    }
+    const from = Math.max(lo, selectedStart ?? lo), to = Math.min(hi, selectedEnd ?? hi);
+    element.hidden = lo === hi;
+    if (element.hidden) return {from, to};
+    if (lo !== minimum || hi !== maximum) {
+      minimum = lo;
+      maximum = hi;
+      for (const input of [start, end]) {
+        input.min = lo;
+        input.max = hi;
+      }
+      const step = [1, 2, 5, 10, 20, 50].find(value => (hi - lo) / value <= 5) || 100;
+      const markedYears = [lo];
+      for (let year = Math.ceil(lo / step) * step; year < hi; year += step) {
+        if (year - lo >= step * .65 && hi - year >= step * .65) markedYears.push(year);
+      }
+      markedYears.push(hi);
+      ticks.replaceChildren(...markedYears.map(year => {
+        const tick = document.createElement('span');
+        tick.textContent = year;
+        tick.style.left = percent(year);
+        return tick;
+      }));
+    }
+    start.value = from;
+    end.value = to;
+    showSelection();
+    return {from, to};
+  }
+
+  return {element, update};
+}
+
 (async () => {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -375,13 +489,15 @@ function initializeMobileFilters(root = document) {
     });
   }
   function destroy(canvas,chart) { const existing=Chart.getChart($(canvas)); if(existing) existing.destroy(); else if(chart) chart.destroy(); }
+  const timeWindow = createTimeWindow($('time-chart'), schedule);
   const timePhoneLayout = window.matchMedia('(max-width: 760px)');
   timePhoneLayout.addEventListener('change', () => { if (mainVisible()) schedule(); });
 
   function renderTime() {
     destroy('time-chart',timeChart);timeChart=null;timeRows=[];
     syncMainCapabilities();syncDinaControls();
-    const datasets=[],selected=selectedSurveys(s),styles={PSID:{point:'circle',dash:[],radius:4.5},SCF:{point:'rectRot',dash:[5,4],radius:6},CEX:{point:'triangle',dash:[2,4],radius:6},CEX_BM:{point:'crossRot',dash:[8,3,2,3],radius:8},CEX_BM_RECON:{point:'triangle',dash:[2,4],radius:6}};
+    let datasets=[];
+    const selected=selectedSurveys(s),styles={PSID:{point:'circle',dash:[],radius:4.5},SCF:{point:'rectRot',dash:[5,4],radius:6},CEX:{point:'triangle',dash:[2,4],radius:6},CEX_BM:{point:'crossRot',dash:[8,3,2,3],radius:8},CEX_BM_RECON:{point:'triangle',dash:[2,4],radius:6}};
     timeKeys().filter(key=>s.variables.has(key)).forEach(key=>{
       const variable=sourceKey(key,s.measure),color=COLORS[key];
       [...selected].forEach(survey=>{
@@ -399,6 +515,15 @@ function initializeMobileFilters(root = document) {
       for(const dataset of datasets)if(typeof dataset.pointRadius==='number')dataset.pointRadius=Math.max(2.5,dataset.pointRadius*.72);
     }
     (referenceController?.plotted(s)||[]).forEach(row=>timeRows.push({survey:row.survey,wave:row.year,observation_year:SeriesYears.period(row).year,observation_period:SeriesYears.period(row).label,year_basis:SeriesYears.period(row).basis,adjustment:'Standalone reference: '+row.author_variant,variable:row.variable,variable_label:row.source_label,indicator:s.metric,method:row.method,threshold:row.threshold_rule,estimate:row.estimate,pareto_estimate:isParetoMetric(s.metric)?row.pareto_estimate??row.estimate:null,wealth_pareto_estimate:row.wealth_pareto_estimate??null,threshold_quantile:row.threshold_quantile,ks:row.ks,n_tail:row.n_tail??null,tail_unit_type:row.unit||META.surveys?.[row.survey]?.tail_unit||'',author_variant:row.author_variant,capital_income_definition:row.capital_income_definition||'',source_definition:row.source_definition}));
+    datasets.forEach(dataset=>{if(dataset.isReference)dataset.data=dataset.data.map(point=>{const period=SeriesYears.period({survey:dataset.survey,variable:dataset.variable,year:point.x});return{...point,x:period.year,wave:period.wave,period_label:period.detail};});});
+    const availableYears = datasets.flatMap(dataset => dataset.data.filter(point => FINITE(point.y)).map(point => point.x));
+    const visibleYears = timeWindow.update(availableYears);
+    if (visibleYears) {
+      const inWindow = year => year >= visibleYears.from && year <= visibleYears.to;
+      for (const dataset of datasets) dataset.data = dataset.data.filter(point => inWindow(point.x));
+      datasets = datasets.filter(dataset => dataset.data.some(point => FINITE(point.y)));
+      timeRows = timeRows.filter(row => inWindow(row.observation_year));
+    }
     $('time-chart-title').textContent=metricLabel()+' over time';
     const yTitle=({pareto:'Pareto tail coefficient (ζ)',pareto_wealth_ratio:'Relative to wealth (ζₓ / ζₐ)',gini:'Gini coefficient'})[s.metric]||metricLabel();
     const shownHouseholds=new Set(datasets.map(dataset=>dataset.survey).filter(survey=>['PSID','CEX_BM_RECON','SCF'].includes(survey))),adjustmentLabels=[];
@@ -434,11 +559,11 @@ function initializeMobileFilters(root = document) {
       else subtitle.append(detail);
     }
     if(actions){
-      const target=phone?$('time-chart').parentElement:subtitle.closest('.plot-top');
+      const target=phone?timeWindow.element:subtitle.closest('.plot-top,.chart-heading-row');
       if(target&&phone&&target.nextElementSibling!==actions)target.after(actions);
       if(target&&!phone&&actions.parentElement!==target)target.append(actions);
     }
-    $('time-empty').hidden=!!datasets.length;$('time-empty').textContent=s.variables.size?'No comparable results for this selection.':'Select at least one measure.';
+    $('time-empty').hidden=!!datasets.length;$('time-empty').textContent=visibleYears?'No estimates in the selected time window.':s.variables.size?'No comparable results for this selection.':'Select at least one measure.';
     $('download-time-csv').disabled=!timeRows.length;$('download-time-png').disabled=!datasets.length;
     $('time-variant').value=bmOriginalOnly&&selected.size===1&&selected.has('CEX_BM')?'original':s.adjustment;syncMainCapabilities();
     const notes=[];
@@ -452,12 +577,13 @@ function initializeMobileFilters(root = document) {
     if(s.cexIncome&&selected.has('CEX_BM_RECON'))notes.push('CEX income components are topcoded, severely biasing upper-tail estimates.');
     if(selected.has('SAEZ_ZUCMAN'))notes.push('DINA covers synthetic adults aged 20+ in 1970–2019. Capital and total income include fiscal capital gains.');
     notes.push('Dates follow each series’ reference period or wealth valuation year; survey waves are identified in tooltips.');
-    datasets.forEach(dataset=>{if(dataset.isReference)dataset.data=dataset.data.map(point=>{const period=SeriesYears.period({survey:dataset.survey,variable:dataset.variable,year:point.x});return{...point,x:period.year,wave:period.wave,period_label:period.detail};});});
     $('time-chart').dataset.observationYears=JSON.stringify(datasets.map(dataset=>({survey:dataset.survey,variable:dataset.variable,points:dataset.data.filter(point=>FINITE(point.y)).map(point=>({wave:point.wave,year:point.x}))})));
     const displayedSurveys=new Set(datasets.map(dataset=>dataset.survey));$('time-note').textContent=notes.join(' ');$('time-chart').setAttribute('aria-label',yTitle+' over time in '+[...displayedSurveys].join(' and '));
     const legend=$('time-survey-key');if(legend){legend.replaceChildren();[...displayedSurveys].forEach(survey=>{const item=document.createElement('span'),mark=document.createElement('i'),name=document.createElement('span'),help=document.createElement('span'),description=surveyTooltip(survey);item.className='plot-legend-item';item.setAttribute('aria-label',surveyName(survey)+'. '+description);mark.className='survey-symbol survey-symbol-'+survey.toLowerCase();mark.setAttribute('aria-hidden','true');name.textContent=surveyName(survey);help.className='help-marker hover-help';help.textContent='?';help.tabIndex=0;help.dataset.tooltip=description;help.setAttribute('aria-label','About '+surveyName(survey));item.append(mark,name,help);legend.append(item);});}
     if(!datasets.length){announce('No comparable series selected.');return;}
-    const shownYears=[...new Set(datasets.flatMap(dataset=>dataset.data.filter(point=>FINITE(point.y)).map(point=>point.x)))].sort((a,b)=>a-b),xmin=Math.min(...shownYears)-.6,xmax=Math.max(...shownYears)+.6;
+    const {from, to} = visibleYears;
+    const shownYears = [...new Set([from, ...availableYears.filter(year => year >= from && year <= to), to])].sort((a,b) => a-b);
+    const xmin = from - .6, xmax = to + .6;
     const firstYear=shownYears[0],lastYear=shownYears[shownYears.length-1];
     const yearTicks=shownYears.length>14?shownYears.filter(year=>year===firstYear||year===lastYear||(year%5===0&&year-firstYear>=3&&lastYear-year>=2)):shownYears;
     const legendTopPadding=()=>legend?Math.max(52,legend.offsetHeight+18):12;
