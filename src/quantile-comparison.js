@@ -220,7 +220,7 @@ function createUSQuantileComparison({
   indicators.insertBefore(kind.fieldset,paretoOptions);
   paretoOptions.append(make('span','subcontrol-label','Pareto measure'));
   const paretoMeasure = radioGroup(paretoOptions,'pareto','Pareto measure',[
-    ['pareto','Pareto coefficient'],['wealth_ratio','Relative to that of wealth'],['income_ratio','Relative to total income'],
+    ['pareto','Pareto coefficient (ζ)'],['wealth_ratio','Relative to that of wealth (ζₓ / ζₐ)'],['income_ratio','Relative to total income'],
   ],'compact-choice-row');
   paretoOptions.append(make('span','subcontrol-label','Pareto estimator'));
   const estimator = radioGroup(paretoOptions,'estimator','Pareto estimator',[['MLE','MLE'],['OLS','OLS']],'compact-choice-row');

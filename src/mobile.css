@@ -158,7 +158,7 @@
   .plot-series-controls .series-choice { white-space: normal; }
   .plot-survey-key {
     inset-inline: 3px;
-    top: 0;
+    top: 4px;
     padding: 5px 4px;
     gap: 6px 11px;
   }
