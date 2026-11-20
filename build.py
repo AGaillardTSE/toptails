@@ -37,11 +37,17 @@ if not args.standalone:
     app=app.replace(needle,"const value=await (node.dataset.parts?readCompressedFiles(JSON.parse(node.dataset.parts)):readCompressed(encoded))")
 css='\n'.join(read(n) for n in ['shared.css','international.css','data-correspondence.css','mobile.css'])
 vendor='/* Chart.js 4.4.1\n'+(ROOT/'vendor/Chart-LICENSE.txt').read_text()+'\n*/\n'+(ROOT/'vendor/chart.umd.min.js').read_text()
-csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src "+("'none'" if args.standalone else "'self'")+"; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+image_sources="data: blob:" if args.standalone else "'self' data: blob:"
+csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src "+image_sources+"; connect-src "+("'none'" if args.standalone else "'self'")+"; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
 dest=ROOT/'standalone' if args.standalone else ROOT;dest.mkdir(exist_ok=True)
-logo_uri='data:image/svg+xml;base64,'+base64.b64encode((ROOT/'src/logo.svg').read_bytes()).decode('ascii')
+if args.standalone:
+    favicon_type='image/svg+xml'
+    favicon_href='data:image/svg+xml;base64,'+base64.b64encode((ROOT/'src/logo.svg').read_bytes()).decode('ascii')
+else:
+    favicon_type='image/png'
+    favicon_href='./favicon.png'
 for design,name in [('design_a.html','inequality.html'),('design_b.html','inequality_observatory.html')]:
-    page=read(design).replace('__SITE_LOGO__',logo_uri).replace('__CHART_JS__',vendor).replace('<script type="application/json" id="explorer-results">__EXPLORER_RESULTS__</script>',payload).replace('__APP_JS__',app).replace('__METHODS_HTML__',read('methods.html'))
+    page=read(design).replace('__FAVICON_TYPE__',favicon_type).replace('__SITE_LOGO__',favicon_href).replace('__CHART_JS__',vendor).replace('<script type="application/json" id="explorer-results">__EXPLORER_RESULTS__</script>',payload).replace('__APP_JS__',app).replace('__METHODS_HTML__',read('methods.html'))
     page=page.replace('</head>','<style>'+css+'</style>\n</head>',1).replace('<head>','<head>\n<meta http-equiv="Content-Security-Policy" content="'+csp+'">',1)
     encoded=page.encode();(dest/name).write_bytes(encoded)
     if name=='inequality_observatory.html':
