@@ -175,22 +175,13 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .pareto-range-key span{display:inline-flex;align-items:center;gap:7px}
 .pareto-range-key i{display:inline-block;width:20px;height:10px;border:1px solid currentColor;background:currentColor;opacity:.25}
 .pareto-range-key .pareto-ks-key{height:0;border:0;border-top:2px dashed currentColor;opacity:1}
-.pareto-overview-grid>.pareto-shape-card{grid-column:1/-1}
-@media(max-width:760px){.pareto-overview-grid .pareto-shape-card .pareto-example-chart{height:290px}}
-@media(max-width:760px){.pareto-overview-grid{grid-template-columns:1fr}.dc-visual-procedure .dc-causal-arrow{gap:24px}}
+@media(max-width:760px){.pareto-overview-grid{grid-template-columns:1fr}.pareto-overview-grid .pareto-example-chart{height:290px}.dc-visual-procedure .dc-causal-arrow{gap:24px}}
 .budget-definitions .budget-definition-grid{grid-template-columns:minmax(260px,1.1fr) repeat(3,minmax(150px,.55fr)) minmax(340px,1.5fr);min-width:1106px}
 .budget-diagram-column .budget-between-operator{top:73px}
 .budget-component-capital .budget-component-symbol math{font-size:20px}
 .budget-diagram-column .budget-component-symbol{height:92px;min-height:92px}
 .budget-diagram-column .budget-between-operator{top:49px}
 
-/* Read the CDF, density and log–log fits from left to right on desktop. */
-.pareto-overview-grid>.pareto-example-card:first-child{grid-column:1/-1}
-@media(min-width:1100px){
-  .pareto-overview-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .pareto-overview-grid>.pareto-example-card:first-child{grid-column:auto}
-  .pareto-overview-grid .pareto-range-key{gap:6px 12px;font-size:13px}
-}
 .budget-full-equation{min-width:0;padding:8px 0 0}
 
 /* Keep each expression over its variable card. The long terms get more room. */
