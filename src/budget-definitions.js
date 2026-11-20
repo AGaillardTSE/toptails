@@ -376,7 +376,7 @@ function initBudgetDefinitions({host,metadata,summary,referencePoints,spendingOp
   }
   equation.remove();
   const sample=el('section','definition-sample'),sampleFields=el('dl','definition-data-facts');sample.append(el('h3','','Data and sample'),sampleFields);host.append(sample);
-  const appendix=el('p','definition-appendix');appendix.append('See the paper’s ');const link=el('a','','Online Appendix');link.href='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';link.target='_blank';link.rel='noopener noreferrer';appendix.append(link,' for detailed definitions and construction.');host.append(appendix);
+  const appendix=el('p','definition-appendix');appendix.append('See the paper’s ');const link=el('a','','Supplemental Appendix');link.href='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';link.target='_blank';link.rel='noopener noreferrer';appendix.append(link,' for detailed definitions and construction.');host.append(appendix);
   const price=asset=>mathSub('p',asset)+'<mi>'+asset+'</mi>';
   const componentTerms={
     nondurable:['Nondurable consumption','<msup><mi>c</mi><mtext>ND</mtext></msup>'],
