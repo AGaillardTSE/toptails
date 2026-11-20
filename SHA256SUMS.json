@@ -541,10 +541,10 @@
   "data/tail_curves_SAEZ_ZUCMAN.70d658385212f245.part02.bin": "ab7cb11fc2e1082a7ba76f233b9841e7ef1d1e9b3f663e1e86a17921a40bca60",
   "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
   "data/tail_curves_SCF.db23850757603869.part01.bin": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-  "data_manifest.json": "38ed09704811868417035702d0cce17ff90324d887b147c4b1994bf720604c78",
-  "index.html": "57819b54f0dc00a20ebae9e4f0e1745bec8a7efaf2e3bca98a1297dc0b47db64",
-  "inequality.html": "640c35b251185b1a5ebd2c047d9044bc316841c1a281d391cf7940da47a95311",
-  "inequality_observatory.html": "57819b54f0dc00a20ebae9e4f0e1745bec8a7efaf2e3bca98a1297dc0b47db64",
+  "data_manifest.json": "3b29cfaad0c72571889c0af043a708af6174d63b80df7f3d60a74601533f1a84",
+  "index.html": "027c67ca75a1e436e1efe2a1eabec5a88a0024cae6d350a381582cf1370255f7",
+  "inequality.html": "a943b0212b9ddcc182b5e02127fe2caba0a2b70f24e9c5f3e9668d7db39b3912",
+  "inequality_observatory.html": "027c67ca75a1e436e1efe2a1eabec5a88a0024cae6d350a381582cf1370255f7",
   "src/adjustments.js": "799381d30791fa55afd994a0a9253edfb1ad31995275cea7dfb26878d2aff29d",
   "src/app.js": "14c75f7c395332091dac9f38cffaa00bd19dbb913ad4d71e0cba385dea6763af",
   "src/budget-definitions.js": "a22ed3d1e052e11023aaa50d28647133a84b5134d9993e158921529deeab0218",
@@ -604,5 +604,5 @@
   "validation/validation_20261113_scf_P70_release_validation.json": "7088d807c7d9481bdc81606bc2a49d1e5c2b12a35e99b047d8754d27ab19cdfd",
   "vendor/Chart-LICENSE.txt": "5a0877ad6d818529be4f33009d0942cdf7e2ed7656156f4aba7308459a546030",
   "vendor/chart.umd.min.js": "81ffafe13c37e1b25793b020d446f4d9739b949dadb7f9f79d709a0cad781c2f",
-  "src/logo.svg": "3eff15b2d7deb0c449f371a62de1afcead1a203eb52313760b276a162d94f3a0"
+  "src/logo.svg": "e54f9a5fab0f331f5371c97ef734d70192b7acef744099fc2da149e314c85577"
 }
