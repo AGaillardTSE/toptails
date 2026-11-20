@@ -2517,7 +2517,8 @@ function createUSQuantileComparison({
   const referenceFont = '600 12px Arial, sans-serif';
   const axisTitleFont = {size:13,lineHeight:1.2};
   const axisTitlePadding = 4;
-  const selected = new Set(surveys.filter(survey => ['PSID','CEX_BM_RECON'].includes(survey)));
+  const defaultSurveys = ['PSID','CEX_BM_RECON','YODLEE','FORBES','SAEZ_ZUCMAN'];
+  const selected = new Set(surveys.filter(survey => defaultSurveys.includes(survey)));
   const household = survey => ['PSID','SCF','CEX_BM_RECON'].includes(survey);
   const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
   const percentile = value => 'P' + number.format(value);
