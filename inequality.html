@@ -1680,7 +1680,7 @@ function initParetoEstimation({host,loadData}){
     const ksLabel = 'KS estimate at ' + percentileLabel(ksPoint.x) + ' · ζ = ' + number(ksPoint.y, 2);
     const trueLabel = 'True upper-tail shape · ζ = ' + number(trueShape, 2);
     const shape = overviewCard('Estimated Pareto shape by cutoff',
-      'Within a Pareto tail, raising the cutoff changes the scale while the tail falls at the same rate, so the estimated shape should level off. The KS criterion looks for the start of the Pareto tail by finding the closest fit, which gives a guide to where the plateau should begin. At the highest cutoffs, estimates get noisy as few observations remain.');
+      'Within a Pareto tail, raising the cutoff changes the scale while the tail falls at the same rate. Because the shape is independent of the scale, the estimates tend to form a plateau when plotted against the cutoff percentile. The KS criterion automatically selects the cutoff with the closest Pareto fit, giving an estimate of where the plateau begins. At the highest cutoffs, estimates get noisy because few observations remain.');
     shape.card.classList.add('pareto-shape-card');
     shape.canvas.setAttribute('aria-label', 'Maximum-likelihood Pareto shape every 0.1 percentile from P70 to P99.5. ' + ksLabel + '. ' + trueLabel + '.');
     const key = el('div', 'pareto-range-key');
