@@ -13,7 +13,7 @@ function createUSTotalIncomeHelp() {
 }
 
 function createUSQuantileComparison({
-  host, surveys, loadCurves, metadata, spendingOptions, surveyName, surveyTooltip,
+  host, surveys, loadCurves, metadata, spendingOptions, surveyName, surveyTooltip, showRawByDefault = true,
   getHousingMethod, onHousingChange, getWeightingMethod, onWeightingChange,
   getCapitalDefinition, onCapitalDefinitionChange, getCEXIncome, onCEXIncomeChange
 }) {
@@ -141,7 +141,7 @@ function createUSQuantileComparison({
     return {key,section,header,heading,toggle,wrap,canvas,summary,empty,groups:[],chart:null};
   });
   const [rawPanel,currentPanel] = panels;
-  let request = 0, pending, lastFilter, period, showRawPanel = true;
+  let request = 0, pending, lastFilter, period, showRawPanel = showRawByDefault;
   for (const panel of panels) {
     panel.toggle.addEventListener('click', async () => {
       const hadFocus = document.activeElement===panel.toggle;

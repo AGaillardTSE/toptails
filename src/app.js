@@ -1040,8 +1040,8 @@ function createTimeWindow(canvas, onChange) {
 
   if(typeof Chart!=='function') { $('page-error').hidden=false;$('page-error').textContent='The embedded chart library could not be loaded.';return; }
   enableTouchTooltipDismissal(Chart);
-  // The online build uses separate data parts. Standalone files retain their original figure labels.
-  if (document.querySelector('[data-explorer-block][data-parts]')) Chart.register(onlineYAxisTitles);
+  const isOnlineBuild = document.querySelector('[data-explorer-block][data-parts]') !== null;
+  if (isOnlineBuild) Chart.register(onlineYAxisTitles);
   Chart.defaults.font.family='Arial, sans-serif'; Chart.defaults.color='#6c7180';
   if(typeof initUSReferencePoints==='function')referenceController=initUSReferencePoints(META,{getCapitalVariant:dinaVariant});
   initializeDinaControls();
@@ -1174,6 +1174,7 @@ function createTimeWindow(canvas, onChange) {
     quantileComparison=createUSQuantileComparison({
       host:$('us-quantile-comparison'),
       surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
+      showRawByDefault:!isOnlineBuild,
       metadata:META,spendingOptions,surveyName,surveyTooltip,
       getHousingMethod:()=>housing.method,
       onHousingChange:checked=>{$('constant-housing-service').checked=checked;applyHousingMethod();},

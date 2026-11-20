@@ -147,7 +147,7 @@
 
 .data-version{display:inline-block;margin-left:24px;color:#d6a4b3;font:400 16px/1.2 Arial,sans-serif;letter-spacing:.01em;text-transform:none;vertical-align:middle;white-space:nowrap}@media(max-width:760px){.data-version{margin-left:16px;font-size:14px}}
 
-.header-resources{display:flex;align-items:center;justify-content:flex-end;gap:24px;flex-shrink:0}.header-resources .paper-link{display:inline-flex;align-items:center;gap:7px;color:#c8ccd4;text-decoration:none;white-space:nowrap;font:400 13px/1.5 Arial,sans-serif}.header-resources .paper-link:hover{color:#fff}.header-resources .paper-link:focus-visible{outline:2px solid #d993ae;outline-offset:5px}.header-resource-placeholder{color:#969eae;white-space:nowrap;font:400 13px/1.5 Arial,sans-serif}.header-resource-placeholder small{font:inherit;color:#858d9d}@media(max-width:760px){.topbar-inner,.masthead-inner{flex-wrap:wrap;row-gap:14px}.masthead-inner{padding-top:16px;padding-bottom:16px}.header-resources{width:100%;justify-content:flex-start;gap:20px;padding-left:35px}}
+.header-resources{display:flex;align-items:center;justify-content:flex-end;gap:24px;flex-shrink:0}.header-resources .paper-link{display:inline-flex;align-items:center;gap:7px;color:#c8ccd4;text-decoration:none;white-space:nowrap;font:400 13px/1.5 Arial,sans-serif}.header-resources .paper-link:hover{color:#fff}.header-resources .paper-link:focus-visible{outline:2px solid #d993ae;outline-offset:5px}.header-resources .resource-arrow{font:400 13px/1.5 Arial,sans-serif}.header-resource-placeholder{display:inline-flex;align-items:center;gap:7px;color:#969eae;white-space:nowrap;font:400 13px/1.5 Arial,sans-serif}.header-resource-placeholder small{font:inherit;color:#858d9d}@media(max-width:760px){.topbar-inner,.masthead-inner{flex-wrap:wrap;row-gap:14px}.masthead-inner{padding-top:16px;padding-bottom:16px}.header-resources{width:100%;justify-content:flex-start;gap:20px;padding-left:35px}}
 
 .footer{flex-wrap:wrap;gap:12px 28px;align-items:baseline}.footer-copyright{line-height:1.8}.footer-copyright a{white-space:nowrap}.footer-copyright a:hover{text-decoration:underline;text-underline-offset:3px}.footer-copyright a:focus-visible{outline:2px solid #b34470;outline-offset:3px}
 
@@ -1082,7 +1082,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 </head>
 <body>
 <a class="skip-link" href="#panel-inequality">Skip to the plots</a>
-<header class="topbar"><div class="topbar-inner"><a class="brand" href="./index.html"><span class="brand-zeta" aria-hidden="true">ζ</span><h1>Upper-Tail Inequality: Consumption, Income, and Wealth<span class="data-version">Data v1</span></h1></a><nav class="header-resources" aria-label="Paper, appendix and citation"><a class="paper-link" href="https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&amp;dl=0" target="_blank" rel="noopener noreferrer">Academic paper <span aria-hidden="true">↗</span></a><span class="header-resource-placeholder" role="link" aria-disabled="true">Online appendix <small>(coming soon)</small></span><button class="header-citation" type="button" data-citation-trigger>Citation</button></nav></div></header>
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="./index.html"><span class="brand-zeta" aria-hidden="true">ζ</span><h1>Upper-Tail Inequality: Consumption, Income, and Wealth<span class="data-version">Data v1</span></h1></a><nav class="header-resources" aria-label="Paper, appendix and citation"><a class="paper-link" href="https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&amp;dl=0" target="_blank" rel="noopener noreferrer">Academic paper <span class="resource-arrow" aria-hidden="true">↗</span></a><span class="header-resource-placeholder" role="link" aria-disabled="true">Online appendix <span class="resource-arrow" aria-hidden="true">↗</span> <small>(coming soon)</small></span><button class="header-citation" type="button" data-citation-trigger>Citation</button></nav></div></header>
 <nav id="primary-nav" class="tab-nav primary-tabs" aria-label="Explorer sections"><div class="tab-nav-inner" role="tablist"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">United States</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Across Countries</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Variable Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Survey Adjustments</button><button class="tab-button" type="button" id="tab-pareto" data-section="pareto" role="tab" aria-selected="false" aria-controls="panel-pareto">Pareto Estimation</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></div></nav>
 <main class="workspace">
 <div id="page-error" class="error-message" role="alert" hidden></div>
@@ -2575,7 +2575,7 @@ function createUSTotalIncomeHelp() {
 }
 
 function createUSQuantileComparison({
-  host, surveys, loadCurves, metadata, spendingOptions, surveyName, surveyTooltip,
+  host, surveys, loadCurves, metadata, spendingOptions, surveyName, surveyTooltip, showRawByDefault = true,
   getHousingMethod, onHousingChange, getWeightingMethod, onWeightingChange,
   getCapitalDefinition, onCapitalDefinitionChange, getCEXIncome, onCEXIncomeChange
 }) {
@@ -2703,7 +2703,7 @@ function createUSQuantileComparison({
     return {key,section,header,heading,toggle,wrap,canvas,summary,empty,groups:[],chart:null};
   });
   const [rawPanel,currentPanel] = panels;
-  let request = 0, pending, lastFilter, period, showRawPanel = true;
+  let request = 0, pending, lastFilter, period, showRawPanel = showRawByDefault;
   for (const panel of panels) {
     panel.toggle.addEventListener('click', async () => {
       const hadFocus = document.activeElement===panel.toggle;
@@ -5377,8 +5377,8 @@ function createTimeWindow(canvas, onChange) {
 
   if(typeof Chart!=='function') { $('page-error').hidden=false;$('page-error').textContent='The embedded chart library could not be loaded.';return; }
   enableTouchTooltipDismissal(Chart);
-  // The online build uses separate data parts. Standalone files retain their original figure labels.
-  if (document.querySelector('[data-explorer-block][data-parts]')) Chart.register(onlineYAxisTitles);
+  const isOnlineBuild = document.querySelector('[data-explorer-block][data-parts]') !== null;
+  if (isOnlineBuild) Chart.register(onlineYAxisTitles);
   Chart.defaults.font.family='Arial, sans-serif'; Chart.defaults.color='#6c7180';
   if(typeof initUSReferencePoints==='function')referenceController=initUSReferencePoints(META,{getCapitalVariant:dinaVariant});
   initializeDinaControls();
@@ -5511,6 +5511,7 @@ function createTimeWindow(canvas, onChange) {
     quantileComparison=createUSQuantileComparison({
       host:$('us-quantile-comparison'),
       surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
+      showRawByDefault:!isOnlineBuild,
       metadata:META,spendingOptions,surveyName,surveyTooltip,
       getHousingMethod:()=>housing.method,
       onHousingChange:checked=>{$('constant-housing-service').checked=checked;applyHousingMethod();},
