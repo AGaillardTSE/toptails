@@ -6,7 +6,7 @@
 #panel-other #cc-loglog .plot-surface{overflow:hidden}
 #panel-other .cc-b-readout{padding:0 28px;margin:0;min-height:0;color:#25877d;font-size:12px;line-height:1.5}
 #panel-other #cc-b-fits th:first-child,#panel-other #cc-b-fits td:first-child{text-align:left}
-#panel-other .other-table-meta{padding:18px 28px var(--variables-gap-before)}
+#panel-other .other-table-meta{padding:var(--variables-gap-before) 28px}
 @media(max-width:760px){#panel-other .results-controls .control{max-width:none}#panel-other .cc-b-readout{padding:0 18px}}
 
 #panel-other .cc-survey-legend{display:flex;align-items:center;flex-wrap:wrap;gap:7px 13px;padding:var(--variables-gap-after) 28px 10px;font:400 13px/1.5 Arial,sans-serif;color:#6a7280}

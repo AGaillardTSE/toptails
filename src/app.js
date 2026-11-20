@@ -90,6 +90,23 @@ function withFigureYAxisTitles(charts, capture) {
   }
 }
 
+function enableTouchTooltipDismissal(Chart) {
+  let touchChart;
+  function dismiss() {
+    if (!touchChart?.canvas || !touchChart.tooltip?.getActiveElements().length) return;
+    touchChart.setActiveElements([]);
+    touchChart.tooltip.setActiveElements([], {x:0,y:0});
+    touchChart.render();
+  }
+  document.addEventListener('pointerdown', event => {
+    if (event.pointerType !== 'touch') return;
+    const chart = event.target instanceof HTMLCanvasElement ? Chart.getChart(event.target) : undefined;
+    if (chart !== touchChart) dismiss();
+    touchChart = chart;
+  }, {capture:true,passive:true});
+  window.addEventListener('scroll', dismiss, {capture:true,passive:true});
+}
+
 function createTimeWindow(canvas, onChange) {
   const element = document.createElement('div');
   element.className = 'time-window';
@@ -417,6 +434,14 @@ function createTimeWindow(canvas, onChange) {
   const summaryIndex = new Map(ALL_SUMMARY.map(row=>[curveKey(row),row]));
   const thresholdQ = (rule=s.threshold,customQ=s.customQ) => {const q=rule==='ks'?null:rule==='custom'?customQ:Number(rule.slice(1))/100;return FINITE(q)?q:null;};
   const thresholdName = (state=s) => state.threshold==='ks'?'KS-selected thresholds':state.threshold==='custom'?'Percentile '+num(100*state.customQ,1)+' thresholds':({p80:'Top 20% · 80th-percentile thresholds',p90:'Top 10% · 90th-percentile thresholds',p95:'Top 5% · 95th-percentile thresholds',p98:'Top 2% · 98th-percentile thresholds',p99:'Top 1% · 99th-percentile thresholds'})[state.threshold];
+  function appendParetoEstimationLink(container){
+    const link=document.createElement('a');
+    link.className='subtitle-tab-link';
+    link.href='#panel-pareto';
+    link.textContent='Pareto estimation';
+    link.addEventListener('click',event=>{event.preventDefault();tab('pareto');});
+    container.append(' (see ',link,')');
+  }
   function tailResult(row,method=s.method,rule=s.threshold,customQ=s.customQ,preserve=true) {
     const curve=curveIndex.get(curveKey(row));if(!curve)return {estimate:null,q:thresholdQ(rule,customQ),maxks:null,n_tail:null};
     const key=method.toLowerCase();
@@ -597,14 +622,7 @@ function createTimeWindow(canvas, onChange) {
       const estimator=document.createElement('span');
       estimator.className='subtitle-estimator';
       estimator.textContent=estimatorLabel;
-      if(s.threshold==='ks'){
-        const link=document.createElement('a');
-        link.className='subtitle-tab-link';
-        link.href='#panel-pareto';
-        link.textContent='Pareto estimation';
-        link.addEventListener('click',event=>{event.preventDefault();tab('pareto');});
-        estimator.append(' (see ',link,')');
-      }
+      if(s.threshold==='ks')appendParetoEstimationLink(estimator);
       if(s.metric==='pareto_wealth_ratio')estimator.append(' · each series divided by wealth');
       subtitle.append(estimator);
     }
@@ -1021,6 +1039,7 @@ function createTimeWindow(canvas, onChange) {
   function definitions(){definitionsController=initBudgetDefinitions({host:$('definitions-content'),metadata:META,summary:ALL_SUMMARY,referencePoints,spendingOptions,getHousingMethod:()=>housing.method,getDinaCapitalDefinition:()=>dina.capitalDefinition});}
 
   if(typeof Chart!=='function') { $('page-error').hidden=false;$('page-error').textContent='The embedded chart library could not be loaded.';return; }
+  enableTouchTooltipDismissal(Chart);
   // The online build uses separate data parts. Standalone files retain their original figure labels.
   if (document.querySelector('[data-explorer-block][data-parts]')) Chart.register(onlineYAxisTitles);
   Chart.defaults.font.family='Arial, sans-serif'; Chart.defaults.color='#6c7180';
@@ -1124,7 +1143,7 @@ function createTimeWindow(canvas, onChange) {
     if(otherController||typeof initOtherSurveys!=='function')return;
     const usSurveys=[...VISIBLE_US_SURVEYS,...(referenceController?.sources||[])];
     otherController=initOtherSurveys(DATA.other||{}, {
-      usSurveys,getUSSummary:crossCountryUSSummary,spendingOptions,surveyName,surveyTooltip,
+      usSurveys,getUSSummary:crossCountryUSSummary,spendingOptions,surveyName,surveyTooltip,appendParetoEstimationLink,
       prepareUSSummaryThresholds:()=>ensureFullCurves([...VISIBLE_US_SURVEYS,...(META.reference_curve_surveys||[])]),
       loadUSCurves:async()=>{
         await ensureFullCurves([...VISIBLE_US_SURVEYS,...(META.reference_curve_surveys||[])]);
@@ -1175,7 +1194,7 @@ function createTimeWindow(canvas, onChange) {
     });
   }
   function initializeAdjustmentController(){if(!adjustmentController&&typeof initAdjustments==='function')adjustmentController=initAdjustments(DATA.adjustments||{},{getHousingMethod:()=>housing.method,getWeightingMethod:()=>weighting.method,housingMatches,loadComposition:async survey=>{const key='composition_'+survey,value=await loadBlock(key);blockPromises.delete(key);return value;}});}
-  const createEyeballing=(host,international=false)=>Eyeballing.create({host,international,metadata:META,loadBlock,getHousingMethod:()=>housing.method,onHousingChange:method=>{housing.method=method;applySpecificationSelection();},getWeightingMethod:()=>weighting.method,onWeightingChange:method=>{weighting.method=method;applySpecificationSelection();},getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,surveyTooltip});
+  const createEyeballing=(host,international=false)=>Eyeballing.create({host,international,metadata:META,loadBlock,getHousingMethod:()=>housing.method,onHousingChange:method=>{housing.method=method;applySpecificationSelection();},getWeightingMethod:()=>weighting.method,onWeightingChange:method=>{weighting.method=method;applySpecificationSelection();},getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,surveyTooltip,appendParetoEstimationLink});
   eyeController=createEyeballing($('us-eyeballing'));
   if(typeof initDataAndCorrespondence==='function')dataController=initDataAndCorrespondence(META,{loadParetoIllustration:()=>loadBlock('illustration_ks')});
   window.addEventListener('adjustments-procedure-visible',()=>{if(adjustmentsVisible())adjustmentController?.render();});

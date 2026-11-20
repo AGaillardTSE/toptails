@@ -209,7 +209,7 @@
 
 .primary-tabs .tab-nav-inner{gap:24px;align-items:stretch}.primary-tabs .tab-button{flex:0 0 auto;line-height:1.35}.primary-tabs #tab-definitions{max-width:none;white-space:nowrap}.primary-tabs #tab-adjustments{max-width:218px;white-space:normal}
 
-.plot-subtitle .subtitle-tab-link{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.subtitle-tab-link{color:inherit;text-decoration:underline;text-underline-offset:2px}
 
 /* Keep plot details compact and give time-series notes the full plot width. */
 .plot-subtitle,.chart-subtitle{font-size:12px;line-height:1.6}
@@ -282,7 +282,7 @@
 .eyeballing-panel .plot-top h2{grid-column:1;grid-row:1;margin-bottom:0}
 .eyeballing-panel .plot-top .eyeballing-actions{grid-column:2;grid-row:1}
 .eyeballing-panel .plot-top .plot-subtitle{grid-column:1/-1;grid-row:2;margin:0}
-.results-controls .control>label,.results-controls .control>.control-label{color:#747783}
+.results-controls .control>label,.results-controls .control>.control-label,.results-controls label[for="results-variable"]{color:#747783}
 
 .eyeballing-legend .eye-circle{width:10px;height:10px;border:1.3px solid #BF5555bf}
 
