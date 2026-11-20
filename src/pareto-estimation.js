@@ -64,10 +64,40 @@ function initParetoEstimation({host,loadData}){
     addCutoffKey(first,labels);
     charts.push(new Chart(first.canvas,{type:'line',plugins:[cdfCutoffAreas(data.cases)],data:{datasets:[{label:'Empirical CDF',data:data.full_cdf,borderColor:'#4c5664',borderWidth:1.6,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,animation:false,parsing:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Cumulative probability: '+number(c.parsed.y)}}},scales:{x:{type:'logarithmic',afterBuildTicks:addLogAmountTicks,title:{display:true,text:'Amount / median (log scale)',font:{size:13}},ticks:{font:{size:13},maxRotation:0,callback:logAmountTick},grid:{display:false}},y:{min:0,max:1,title:{display:true,text:'Cumulative probability',font:{size:13}},ticks:{stepSize:.2,font:{size:13}},grid:{color:'#e9e9ee'}}}}}));
     renderDensity(data);
-    const second=overviewCard('Log–log tail fits','Shaded regions mark the tail above each cutoff. Dashed lines show the corresponding fitted Pareto tails. A Pareto tail follows a straight line on these log–log axes.');
+    const sampleSize = number(data.simulation.n, 0);
+    const second = overviewCard('Log–log tail fits',
+      'The dots show all ' + sampleSize + ' simulated observations. Dashed lines show the Pareto fits above the three marked cutoffs. A Pareto tail follows a straight line on these log–log axes.');
+    second.canvas.setAttribute('aria-label', 'Log–log tail probabilities for all ' + sampleSize +
+      ' simulated observations, with fitted Pareto tails at ' + labels.join(', '));
     addCutoffKey(second,labels);
     const tailRegions={id:'paretoTailRegions',beforeDatasetsDraw(chart){const {ctx,chartArea,scales}=chart;ctx.save();ctx.beginPath();ctx.rect(chartArea.left,chartArea.top,chartArea.width,chartArea.height);ctx.clip();data.cases.forEach((sample,i)=>{const left=scales.x.getPixelForValue(sample.cutoff),top=scales.y.getPixelForValue(sample.tail_mass);ctx.fillStyle=rangeColors[i]+'14';ctx.fillRect(left,top,chartArea.right-left,chartArea.bottom-top);ctx.strokeStyle=rangeColors[i];ctx.lineWidth=1;ctx.setLineDash([4,4]);ctx.strokeRect(left,top,chartArea.right-left,chartArea.bottom-top);});ctx.restore();},afterDatasetsDraw(chart){const {ctx,chartArea,scales}=chart;ctx.save();ctx.font='12px Arial';ctx.textBaseline='top';data.cases.forEach((sample,i)=>{const text=i===1?'KS optimum':labels[i],left=Math.min(scales.x.getPixelForValue(sample.cutoff)+6,chartArea.right-ctx.measureText(text).width-5),top=Math.max(chartArea.top+4,scales.y.getPixelForValue(sample.tail_mass)-18);ctx.fillStyle='#fffefa';ctx.fillRect(left-2,top-1,ctx.measureText(text).width+4,15);ctx.fillStyle=rangeColors[i];ctx.fillText(text,left,top);});ctx.restore();}};
-    charts.push(new Chart(second.canvas,{type:'line',plugins:[tailRegions],data:{datasets:[{label:'Empirical tail probability',data:data.survival,borderColor:'#4c5664',borderWidth:1.6,pointRadius:0},...data.cases.map((sample,i)=>({label:labels[i]+' fit · ζ = '+number(sample.coefficient,2),data:sample.survival_fit,borderColor:rangeColors[i],borderDash:[6,4],borderWidth:2,pointRadius:0}))]},options:{responsive:true,maintainAspectRatio:false,animation:false,parsing:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+number(c.parsed.y,4)}}},scales:{x:{type:'logarithmic',min:data.cases[0].cutoff/2,max:data.cases[0].xright,title:{display:true,text:'Amount / median (log scale)',font:{size:13}},ticks:{font:{size:13},maxRotation:0,maxTicksLimit:6},grid:{display:false}},y:{type:'logarithmic',min:.8/data.simulation.n,max:1,title:{display:true,text:'Tail probability (log scale)',font:{size:13}},ticks:{font:{size:13},callback:v=>[1,.1,.01,.001,.0001].includes(v)?v:''},grid:{color:'#e9e9ee'}}}}}));
+    const observed = {
+      label: 'Empirical tail probability', data: data.survival, showLine: false,
+      backgroundColor: '#4c5664', pointRadius: 1.35, pointHoverRadius: 3, pointHitRadius: 4, order: 1,
+    };
+    const fittedTails = data.cases.map((sample, i) => ({
+      label: labels[i] + ' fit · ζ = ' + number(sample.coefficient, 2), data: sample.survival_fit,
+      borderColor: rangeColors[i], borderDash: [6, 4], borderWidth: 2, pointRadius: 0,
+    }));
+    charts.push(new Chart(second.canvas, {
+      type: 'line', plugins: [tailRegions], data: {datasets: [observed, ...fittedTails]},
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false, parsing: false,
+        plugins: {legend: {display: false}, tooltip: {callbacks: {
+          label: c => c.dataset.label + ': ' + number(c.parsed.y, 4),
+        }}},
+        scales: {
+          x: {type: 'logarithmic', min: data.full_cdf[0].x, max: data.cases[0].xright,
+            afterBuildTicks: addLogAmountTicks,
+            title: {display: true, text: 'Amount / median (log scale)', font: {size: 13}},
+            ticks: {font: {size: 13}, maxRotation: 0, callback: logAmountTick}, grid: {display: false}},
+          y: {type: 'logarithmic', min: .8 / data.simulation.n, max: 1.08,
+            title: {display: true, text: 'Tail probability (log scale)', font: {size: 13}},
+            ticks: {font: {size: 13}, callback: v => [1, .1, .01, .001, .0001].includes(v) ? v : ''},
+            grid: {color: '#e9e9ee'}},
+        },
+      },
+    }));
   }
   function renderShapeByCutoff(data) {
     const [low, ks, high] = data.cases;
