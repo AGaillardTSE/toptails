@@ -549,8 +549,6 @@ function createUSQuantileComparison({
     status.hidden = false;
     csvButton.disabled = pngButton.disabled = true;
     try {
-      const curves = await loadCurves(ids);
-      if (sequence !== request) return;
       const curveOptions = ids.flatMap(survey => activeVariables.flatMap(([key,variableLabel,color]) => {
         const measure = key === 'consumption' ? spending.value : key;
         if (survey==='SCF'&&measure==='consump_def1') return [];
@@ -575,6 +573,8 @@ function createUSQuantileComparison({
       const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
       const availableOptions = [...curveOptions,...rawOptions];
+      const curves = await loadCurves(availableOptions);
+      if (sequence !== request) return;
       const years = new Set(curves.filter(row=>availableOptions.some(config=>supported(row,config)))
         .map(row=>row.year).filter(Number.isFinite));
       years.add(firstYear);

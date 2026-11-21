@@ -250,7 +250,12 @@ function createTimeWindow(canvas, onChange) {
   if(separateBlocks){
     DATA={};
     const initialBlocks=[...document.querySelectorAll('[data-explorer-block][data-lazy="false"]')];
-    for(let i=0;i<initialBlocks.length;i++){const node=initialBlocks[i];startupStatus.textContent='Loading aggregate results · '+Math.round(100*i/initialBlocks.length)+'%';DATA[node.dataset.explorerBlock]=await loadBlock(node.dataset.explorerBlock);}
+    let initialBlocksLoaded=0;
+    await Promise.all(initialBlocks.map(async node=>{
+      const key=node.dataset.explorerBlock;
+      DATA[key]=await loadBlock(key);
+      startupStatus.textContent='Loading aggregate results · '+Math.round(100*++initialBlocksLoaded/initialBlocks.length)+'%';
+    }));
     loadingMain?.setAttribute('data-aggregate-decode-ms',String(Math.round(performance.now())));
     embedded.textContent='';
   }else{
@@ -279,7 +284,7 @@ function createTimeWindow(canvas, onChange) {
   };
   const ALL_SUMMARY=unpack(DATA.summary);
   let ALL_CURVES=unpack(DATA.tail_curves);
-  const BIN_AVAILABILITY=unpack(DATA.bivariate);
+  let BIN_AVAILABILITY=unpack(DATA.bivariate);
   let ALL_BINS=BIN_AVAILABILITY,SUMMARY=ALL_SUMMARY,BINS=ALL_BINS,CURVES=ALL_CURVES;
   const META = DATA.metadata || {};
   BIN_AVAILABILITY.push(...(META.relationship_additions_catalog||[]));
@@ -305,6 +310,19 @@ function createTimeWindow(canvas, onChange) {
     }));
   }
   async function ensureDeferredBlock(key){if(!DATA[key])DATA[key]=await loadBlock(key);return DATA[key];}
+  let bivariateCataloguePromise;
+  function ensureBivariateCatalogue(){
+    if(DATA.bivariate||!$('explorer-block-bivariate'))return;
+    if(!bivariateCataloguePromise)bivariateCataloguePromise=loadBlock('bivariate').then(catalogue=>{
+      BIN_AVAILABILITY=unpack(catalogue).concat(META.relationship_additions_catalog||[]);
+      ALL_BINS=BIN_AVAILABILITY;
+      BINS=ALL_BINS.filter(specificationMatches);
+      for(const row of ALL_BINS)BIVARIATE_SURVEYS.add(row.survey);
+      fillBivariateCatalogueControls();
+      DATA.bivariate=catalogue;
+    }).catch(error=>{bivariateCataloguePromise=null;throw error;});
+    return bivariateCataloguePromise;
+  }
   const binScopeMatches=(row,scope)=>!row.relationship_addition&&row.survey===scope.survey&&(!scope.pair_scoped||row.xvar===scope.xvar)&&housingMethod(row)===scope.housing_method&&weightingMethod(row)===scope.weighting_method&&(row.capital_income_definition||'benchmark')===scope.capital_income_definition&&(!FINITE(scope.bin_min_n)||Number(row.bin_min_n??10)===scope.bin_min_n);
   function selectedBinBlocks(survey,{all=false,minN=b.minN,adjustment=b.adjustment}={}){
     const pair=PAIRS[b.pair],ykey=sourceKey(pair.y,b.measure),dinaSource=survey==='SAEZ_ZUCMAN';
@@ -414,7 +432,6 @@ function createTimeWindow(canvas, onChange) {
   const years = [...new Set(SUMMARY.filter(r=>r.survey==='PSID').map(r=>r.year))].sort((a,c)=>a-c);
   const scfYears = [...new Set(SUMMARY.filter(r=>r.survey==='SCF').map(r=>r.year))].sort((a,c)=>a-c);
   const cexYears = [...new Set(SUMMARY.filter(r=>r.survey==='CEX').map(r=>r.year))].sort((a,c)=>a-c);
-  const cexBivYears=[...new Set(BINS.filter(row=>row.survey==='CEX').map(row=>row.year).filter(FINITE))].sort((a,b)=>a-b);
   const bmYears=[...new Set(ALL_SUMMARY.filter(row=>row.survey==='CEX_BM').map(row=>row.year))].sort((a,b)=>a-b);
   const bmReconYears=[...new Set(ALL_SUMMARY.filter(row=>row.survey==='CEX_BM_RECON').map(row=>row.year))].sort((a,b)=>a-b);
   const surveyYears={PSID:years,SCF:scfYears,CEX:cexYears,CEX_BM:bmYears,CEX_BM_RECON:bmReconYears};
@@ -471,6 +488,7 @@ function createTimeWindow(canvas, onChange) {
     if(mainVisible()&&isParetoMetric(s.metric)&&s.threshold!=='ks')await ensureFullCurves([...selectedSurveys(s)]);
     if(resultsVisible())await ensureFullCurves([...resultsSurveys()].filter(survey=>r.threshold!=='ks'||META.reference_curve_surveys?.includes(survey)));
     if(quantilesVisible()&&!quantileComparison)initializeQuantileComparison();
+    if(bivVisible())await ensureBivariateCatalogue();
     if(otherVisible()){await ensureDeferredBlock('other');if(s.cexIncome)await ensureCEXIncome();initializeOtherController();}
     if(adjustmentsVisible()){await ensureDeferredBlock('adjustments');initializeAdjustmentController();}
     if(paretoVisible()){if(!paretoController)paretoController=initParetoEstimation({host:$('pareto-estimation-content'),loadData:()=>loadBlock('illustration_ks')});await paretoController.render();}
@@ -481,7 +499,7 @@ function createTimeWindow(canvas, onChange) {
     frame=requestAnimationFrame(async()=>{try{
       $('page-error').hidden=true;
       const preparation=prepareView();
-      const pending=otherVisible()&&!otherController||adjustmentsVisible()&&!adjustmentController||(mainVisible()&&s.threshold!=='ks'?[...selectedSurveys(s)]:resultsVisible()&&r.threshold!=='ks'?[...resultsSurveys()]:[]).some(survey=>detailedCurveSurveys.includes(survey)&&!loadedCurveSurveys.has(survey));
+      const pending=bivVisible()&&!DATA.bivariate&&$('explorer-block-bivariate')||otherVisible()&&!otherController||adjustmentsVisible()&&!adjustmentController||(mainVisible()&&s.threshold!=='ks'?[...selectedSurveys(s)]:resultsVisible()&&r.threshold!=='ks'?[...resultsSurveys()]:[]).some(survey=>detailedCurveSurveys.includes(survey)&&!loadedCurveSurveys.has(survey));
       if(pending){startupStatus.textContent='Loading selected results…';document.body.append(startupStatus);loadingMain?.setAttribute('aria-busy','true');}
       await preparation;if(request!==viewRequest)return;
       if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())quantileComparison?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
@@ -1052,15 +1070,21 @@ function createTimeWindow(canvas, onChange) {
   [['average','Across-wave average'],...scfYears.map(year=>[String(year),String(year)])].forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;$('scf-wave-select').append(option);});
   if(b.scfWave!=='average'&&!scfYears.includes(Number(b.scfWave)))b.scfWave=String(scfYears[scfYears.length-1]);
   $('scf-wave-select').value=b.scfWave;
-  $('cex-wave-select').replaceChildren();
-  [['average','Across-wave average'],...cexBivYears.map(year=>[String(year),String(year)])].forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;$('cex-wave-select').append(option);});
-  if(cexBivYears.length&&!cexBivYears.includes(Number(b.cexWave)))b.cexWave=String(cexBivYears[cexBivYears.length-1]);
-  $('cex-wave-select').value=b.cexWave;
+  function fillBivariateCatalogueControls(){
+    const cexBivYears=[...new Set(BINS.filter(row=>row.survey==='CEX').map(row=>row.year).filter(FINITE))].sort((a,b)=>a-b);
+    $('cex-wave-select').replaceChildren(new Option('Across-wave average','average'),...cexBivYears.map(year=>new Option(String(year),String(year))));
+    if(cexBivYears.length&&b.cexWave!=='average'&&!cexBivYears.includes(Number(b.cexWave)))b.cexWave=String(cexBivYears.at(-1));
+    $('cex-wave-select').value=b.cexWave;
+    $('biv-survey-select').replaceChildren(...bivariateSurveyChoices().map(survey=>new Option(surveyName(survey),survey)));
+    $('biv-survey-select').value=b.primary;
+    fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());
+    fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);
+  }
+  fillBivariateCatalogueControls();
   $('recon-wave-select').replaceChildren();[['average','Across-wave average'],...bmReconYears.map(year=>[String(year),String(year)])].forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;$('recon-wave-select').append(option);});if(!bmReconYears.includes(Number(b.reconWave)))b.reconWave=String(bmReconYears.at(-1));$('recon-wave-select').value=b.reconWave;
-  $('biv-survey-select').replaceChildren();bivariateSurveyChoices().forEach(survey=>{const option=document.createElement('option');option.value=survey;option.textContent=surveyName(survey);$('biv-survey-select').append(option);});
-  $('survey-select').value=s.primary;$('biv-survey-select').value=b.primary;
-  fillOverlays('overlay-controls',s,mainOverlayChoices());fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());
-  fillSpendingSelect('measure-select',selectedSurveys(s),s,SUMMARY);fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);$('biv-bin-min').value=String(b.minN);$('biv-scale').value=b.scale;$('biv-fit').value=b.fit;
+  $('survey-select').value=s.primary;
+  fillOverlays('overlay-controls',s,mainOverlayChoices());
+  fillSpendingSelect('measure-select',selectedSurveys(s),s,SUMMARY);$('biv-bin-min').value=String(b.minN);$('biv-scale').value=b.scale;$('biv-fit').value=b.fit;
   if($('overview-subtitle'))$('overview-subtitle').textContent='Consumption, income and wealth across survey waves.';
   function crossCountryUSSummary(measure,{indicator='pareto',threshold='ks',q=.95}={}){
     const fields={consump_def1:'c',total_labor_income:'labor',total_income:'income',networth_val:'wealth',total_capital_income:'capital'};
@@ -1171,6 +1195,14 @@ function createTimeWindow(canvas, onChange) {
   function syncDinaControls(){for(const [name,selected] of [['results',resultsSurveys()],['biv',selectedSurveys(b)]]){const select=$('dina-capital-'+name),box=$('dina-capital-'+name+'-control');if(select)select.value=dina.capitalDefinition;if(box)box.hidden=!selected.has('SAEZ_ZUCMAN')||(name==='biv'&&!['wealth_capital','income_capital'].includes(b.pair));}}
   function initializeQuantileComparison(){
     const referenceSurveys=[...new Set(referenceController?.profileCurves().map(row=>row.survey)||[])];
+    const scopedCurvePromises=new Map();
+    function loadScopedCurves(key){
+      if(!scopedCurvePromises.has(key))scopedCurvePromises.set(key,loadBlock(key).then(table=>{
+        blockPromises.delete(key);
+        return unpack(table);
+      }).catch(error=>{scopedCurvePromises.delete(key);throw error;}));
+      return scopedCurvePromises.get(key);
+    }
     quantileComparison=createUSQuantileComparison({
       host:$('us-quantile-comparison'),
       surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
@@ -1184,13 +1216,28 @@ function createTimeWindow(canvas, onChange) {
       onCapitalDefinitionChange:setDinaCapitalDefinition,
       getCEXIncome:()=>s.cexIncome,
       onCEXIncomeChange:checked=>{s.cexIncome=checked;fillOverlays('overlay-controls',s,mainOverlayChoices());fillSeries();schedule();},
-      async loadCurves(surveys){
-        if(!surveys.length)return [];
-        await ensureFullCurves(surveys);
-        if(s.cexIncome&&surveys.includes('CEX_BM_RECON'))await ensureCEXIncome();
-        const curves=s.cexIncome?ALL_CURVES.concat(cexIncomeCurves):ALL_CURVES;
-        return curves.filter(row=>surveys.includes(row.survey)&&specificationMatches(row))
-          .concat((referenceController?.profileCurves()||[]).filter(row=>surveys.includes(row.survey)));
+      async loadCurves(options){
+        const stages=new Map();
+        for(const {survey,variant} of options){
+          if(!stages.has(survey))stages.set(survey,new Set());
+          stages.get(survey).add(variant);
+        }
+        const fallback=[],scoped=[];
+        for(const [survey,variants] of stages){
+          const keys=[...variants].map(variant=>{
+            const weights=survey==='CEX_BM_RECON'?'scf_housing':survey==='PSID'&&variant==='full'?weighting.method:'scf_income';
+            return ['quantile_curves',survey,variant,housingSource(survey),weights].join('_');
+          });
+          if(loadedCurveSurveys.has(survey)||!keys.every(key=>$('explorer-block-'+key)))fallback.push(survey);
+          else for(const key of keys)scoped.push(loadScopedCurves(key));
+        }
+        const includeCEXIncome=s.cexIncome&&stages.has('CEX_BM_RECON');
+        const [selectedCurves]=await Promise.all([
+          Promise.all(scoped),ensureFullCurves(fallback),includeCEXIncome?ensureCEXIncome():null,
+        ]);
+        const curves=ALL_CURVES.filter(row=>fallback.includes(row.survey)&&specificationMatches(row)).concat(...selectedCurves);
+        if(includeCEXIncome)curves.push(...cexIncomeCurves.filter(specificationMatches));
+        return curves.concat((referenceController?.profileCurves()||[]).filter(row=>stages.has(row.survey)));
       },
     });
   }

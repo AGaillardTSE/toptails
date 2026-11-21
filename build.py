@@ -11,6 +11,7 @@ for entry in manifest['entries']:
             raw=b''.join((ROOT/p['path']).read_bytes() for p in entry['parts'])
             assert len(raw)==entry['gzip_bytes'] and hashlib.sha256(raw).hexdigest()==entry['sha256']
             for p in entry['parts']:assert hashlib.sha256((ROOT/p['path']).read_bytes()).hexdigest()==p['sha256']
+        if args.standalone and entry.get('online_only'):continue
         if args.standalone:content=base64.b64encode(raw).decode()
         else:tag=tag[:-1]+' data-parts="'+html.escape(json.dumps([p['path'] for p in entry['parts']]),quote=True)+'">'
     payload.append(entry['separator']+tag+content+'</script>')
