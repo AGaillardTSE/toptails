@@ -571,8 +571,8 @@ function createTimeWindow(canvas, onChange) {
   }
   function destroy(canvas,chart) { const existing=Chart.getChart($(canvas)); if(existing) existing.destroy(); else if(chart) chart.destroy(); }
   const timeWindow = createTimeWindow($('time-chart'), schedule);
-  const timePhoneLayout = window.matchMedia('(max-width: 760px)');
-  timePhoneLayout.addEventListener('change', () => { if (mainVisible()) schedule(); });
+  const phoneLayout = window.matchMedia('(max-width: 760px)');
+  phoneLayout.addEventListener('change', () => { if (mainVisible()) schedule(); });
 
   function renderTime() {
     destroy('time-chart',timeChart);timeChart=null;timeRows=[];
@@ -592,7 +592,7 @@ function createTimeWindow(canvas, onChange) {
       });
     });
     datasets.push(...(referenceController?.datasets(s)||[]));
-    if(timePhoneLayout.matches){
+    if(phoneLayout.matches){
       for(const dataset of datasets)if(typeof dataset.pointRadius==='number')dataset.pointRadius=Math.max(2.5,dataset.pointRadius*.72);
     }
     (referenceController?.plotted(s)||[]).forEach(row=>timeRows.push({survey:row.survey,wave:row.year,observation_year:SeriesYears.period(row).year,observation_period:SeriesYears.period(row).label,year_basis:SeriesYears.period(row).basis,adjustment:'Standalone reference: '+row.author_variant,variable:row.variable,variable_label:row.source_label,indicator:s.metric,method:row.method,threshold:row.threshold_rule,estimate:row.estimate,pareto_estimate:isParetoMetric(s.metric)?row.pareto_estimate??row.estimate:null,wealth_pareto_estimate:row.wealth_pareto_estimate??null,threshold_quantile:row.threshold_quantile,ks:row.ks,n_tail:row.n_tail??null,tail_unit_type:row.unit||META.surveys?.[row.survey]?.tail_unit||'',author_variant:row.author_variant,capital_income_definition:row.capital_income_definition||'',source_definition:row.source_definition}));
@@ -626,7 +626,7 @@ function createTimeWindow(canvas, onChange) {
       if(s.metric==='pareto_wealth_ratio')estimator.append(' · each series divided by wealth');
       subtitle.append(estimator);
     }
-    const phone=timePhoneLayout.matches,notesPanel=$('time-note').parentElement,actions=$('download-time-csv')?.closest('.chart-actions');
+    const phone=phoneLayout.matches,notesPanel=$('time-note').parentElement,actions=$('download-time-csv')?.closest('.chart-actions');
     notesPanel.querySelector('.time-adjustment-summary')?.remove();
     if(adjustmentLabels.length){
       const detail=document.createElement('span');
@@ -1174,7 +1174,7 @@ function createTimeWindow(canvas, onChange) {
     quantileComparison=createUSQuantileComparison({
       host:$('us-quantile-comparison'),
       surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
-      showRawByDefault:!isOnlineBuild,
+      showRawByDefault: !isOnlineBuild || !phoneLayout.matches,
       metadata:META,spendingOptions,surveyName,surveyTooltip,
       getHousingMethod:()=>housing.method,
       onHousingChange:checked=>{$('constant-housing-service').checked=checked;applyHousingMethod();},
