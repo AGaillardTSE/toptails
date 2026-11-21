@@ -1496,7 +1496,8 @@ if(typeof module!=='undefined'&&module.exports)module.exports=SeriesYears;
 
 (() => {
   const authors=[['Gaillard','Alexandre'],['Hellwig','Christian'],['Wangner','Philipp'],['Werquin','Nicolas']];
-  const title='Consumption, Wealth, and Income Inequality: A Tale of Tails',year='2026',url='https://uppertaildata.com/';
+  const title='Consumption, Wealth, and Income Inequality: A Tale of Tails',year='2026';
+  const paperURL='https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&e=2&dl=0';
   const formats={
     bibtex:{label:'BibTeX',extension:'bib',mime:'application/x-bibtex',text:`@unpublished{GaillardHellwigWangnerWerquin2026,
   author = {Gaillard, Alexandre and Hellwig, Christian and
@@ -1504,18 +1505,17 @@ if(typeof module!=='undefined'&&module.exports)module.exports=SeriesYears;
   title  = {${title}},
   year   = {${year}},
   note   = {Working paper},
-  url    = {${url}}
+  url    = {${paperURL}}
 }`},
-    endnote:{label:'EndNote',extension:'enw',mime:'text/plain',text:['%0 Unpublished Work',...authors.map(([last,first])=>'%A '+last+', '+first),'%D '+year,'%T '+title,'%9 Working paper','%U '+url].join('\n')},
-    refer:{label:'Refer/BibIX',extension:'refer',mime:'text/plain',text:[...authors.map(([last,first])=>'%A '+first+' '+last),'%T '+title,'%D '+year,'%O Working paper','%U '+url].join('\n')},
-    ris:{label:'RIS',extension:'ris',mime:'application/x-research-info-systems',text:['TY  - UNPB',...authors.map(([last,first])=>'AU  - '+last+', '+first),'TI  - '+title,'PY  - '+year,'N1  - Working paper','UR  - '+url,'ER  -'].join('\n')},
-    tsv:{label:'Tab-Delimited',extension:'tsv',mime:'text/tab-separated-values',text:[['Reference Type','Author','Year','Title','URL'].join('\t'),['Working paper',authors.map(([last,first])=>last+', '+first).join('; '),year,title,url].join('\t')].join('\n')}
+    endnote:{label:'EndNote',extension:'enw',mime:'text/plain',text:['%0 Unpublished Work',...authors.map(([last,first])=>'%A '+last+', '+first),'%D '+year,'%T '+title,'%9 Working paper','%U '+paperURL].join('\n')},
+    refer:{label:'Refer/BibIX',extension:'refer',mime:'text/plain',text:[...authors.map(([last,first])=>'%A '+first+' '+last),'%T '+title,'%D '+year,'%O Working paper','%U '+paperURL].join('\n')},
+    ris:{label:'RIS',extension:'ris',mime:'application/x-research-info-systems',text:['TY  - UNPB',...authors.map(([last,first])=>'AU  - '+last+', '+first),'TI  - '+title,'PY  - '+year,'N1  - Working paper','UR  - '+paperURL,'ER  -'].join('\n')},
+    tsv:{label:'Tab-Delimited',extension:'tsv',mime:'text/tab-separated-values',text:[['Reference Type','Author','Year','Title','URL'].join('\t'),['Working paper',authors.map(([last,first])=>last+', '+first).join('; '),year,title,paperURL].join('\t')].join('\n')}
   };
   if(typeof module!=='undefined'&&module.exports)module.exports=formats;
   if(typeof document==='undefined')return;
   const trigger=document.querySelector('[data-citation-trigger]');
   if(!trigger)return;
-  const paperURL='https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&e=2&dl=0';
   const dialog=document.createElement('dialog');
   dialog.className='citation-dialog';dialog.id='paper-citation-dialog';
   dialog.setAttribute('aria-labelledby','paper-citation-title');
