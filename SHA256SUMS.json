@@ -541,10 +541,10 @@
   "data/tail_curves_SAEZ_ZUCMAN.70d658385212f245.part02.bin": "ab7cb11fc2e1082a7ba76f233b9841e7ef1d1e9b3f663e1e86a17921a40bca60",
   "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
   "data/tail_curves_SCF.db23850757603869.part01.bin": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-  "data_manifest.json": "7c05019ff08c6968ea34ae3dd67e04ad6f23ed0b4cdcefda942061ee975680e9",
-  "index.html": "673b0a960778d6f3d11fa3d427aeee3261f063bb674bb5e785d6229a09f8a860",
-  "inequality.html": "d8015b31d1debd2385e0c59ba09b7b3aca445c3c5a53cec3ad465ee0c24f8f2a",
-  "inequality_observatory.html": "673b0a960778d6f3d11fa3d427aeee3261f063bb674bb5e785d6229a09f8a860",
+  "data_manifest.json": "79a26037a907fb12bf2b49a25883957ba9bbb258032b2b9c9443ba2c795e4218",
+  "index.html": "d242b45065da1e103b4de07bbc04603ffd875d0ece45414e581fec0cff7bd9d9",
+  "inequality.html": "a3ba7a7bb2b17e2379c30c21c42bcbbe289a6287eaac986e8608fea0c2925ee9",
+  "inequality_observatory.html": "d242b45065da1e103b4de07bbc04603ffd875d0ece45414e581fec0cff7bd9d9",
   "src/adjustments.js": "799381d30791fa55afd994a0a9253edfb1ad31995275cea7dfb26878d2aff29d",
   "src/app.js": "251d1b215b95beaec162790158b958fe72c0b6dc7d5fd5e6a3cb0cfa3b7dbdc7",
   "src/budget-definitions.js": "7f6761dca2735a5a1499a5fb2b63b8f095a5976ffbe3fa5a76aefdc7ad9124ea",
@@ -611,5 +611,6 @@
   "data/illustration_ks.ee794916289c2e78.part01.bin": "ee794916289c2e78fbaf20af9b2efa1619ca466bbabeebad430bb45f7419f9f9",
   "data/illustration_ks.a048e03e966e48c7.part01.bin": "a048e03e966e48c7f1246f50bd3c2654d878ba4bb5c1d8f20d06d9ff53b92a2f",
   "data/illustration_ks.b892b86dadafe01c.part01.bin": "b892b86dadafe01c6b0e38693ed87e33e3d73d7a6ed7fb4c963da0769ae9427c",
-  "data/illustration_ks.c3fb8a5eb35b8b09.part01.bin": "c3fb8a5eb35b8b09d4080467e067326c117e1dcb96dbbf1504923955168dfb88"
+  "data/illustration_ks.c3fb8a5eb35b8b09.part01.bin": "c3fb8a5eb35b8b09d4080467e067326c117e1dcb96dbbf1504923955168dfb88",
+  "data/illustration_ks.7e99809e8da979f4.part01.bin": "7e99809e8da979f4ac292b92cf324e937e5ffff0d099255fb71bad3871182e4e"
 }
