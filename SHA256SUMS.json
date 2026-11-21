@@ -541,10 +541,10 @@
   "data/tail_curves_SAEZ_ZUCMAN.70d658385212f245.part02.bin": "ab7cb11fc2e1082a7ba76f233b9841e7ef1d1e9b3f663e1e86a17921a40bca60",
   "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
   "data/tail_curves_SCF.db23850757603869.part01.bin": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-  "data_manifest.json": "0562b6cdbbe454529d2cc444cb23b7e337ba072c8fc9dacefaf46116ba74ae9e",
-  "index.html": "bb5a40bb2f7fde3f786dc5286d2f11f9055246ed83f9ae0467ae2ea52eb792c4",
-  "inequality.html": "53d249264d114be1f14f254e4f4cb647249a3ba7b39fd5ab81148606249d084f",
-  "inequality_observatory.html": "bb5a40bb2f7fde3f786dc5286d2f11f9055246ed83f9ae0467ae2ea52eb792c4",
+  "data_manifest.json": "8aea1622aa242d33ad6e65bef1813dc7f8d3ac673f20c1ec7c0532d9cd812076",
+  "index.html": "818817381b803f4bf39c671fd951819bd14fdae5dd377da2e3b9288c331eda0f",
+  "inequality.html": "cbcd1004c199cdcf79f3385d7890bc138e82fe252a1cbf13aad762a9720f17e2",
+  "inequality_observatory.html": "818817381b803f4bf39c671fd951819bd14fdae5dd377da2e3b9288c331eda0f",
   "src/adjustments.js": "799381d30791fa55afd994a0a9253edfb1ad31995275cea7dfb26878d2aff29d",
   "src/app.js": "af5d3a3bc621d396eaa5a7396d37dd5c3a75b2a461762a506129d1d7b68a786b",
   "src/budget-definitions.js": "7f6761dca2735a5a1499a5fb2b63b8f095a5976ffbe3fa5a76aefdc7ad9124ea",
@@ -558,7 +558,7 @@
   "src/methods.html": "7f02d9c5b797facfb4cc1500b2b12ff73a2152797c0436ec42f6349505bcd0f0",
   "src/mobile.css": "26d85896dec225034eb1fdf04b221432a709bd3f76395138970daa02c83e95dc",
   "src/other-surveys.js": "7a9e35cc406729f1b1cfa9a01eba033f76712cf100415ef404e3c5212c5d5b12",
-  "src/pareto-estimation.js": "637a127f1723800df363c58d3ccf0d6c9e98eacd6b7ac9fd9694ae0b13bf852a",
+  "src/pareto-estimation.js": "b011b271f0fc7ddc0e2557d1fe95111549837ebdd79d37855da2986799dbf72b",
   "src/quantile-comparison.js": "1e051252583ed4ab9d2113925197c51947febee27210b8391e1e995ff089db68",
   "src/reference-points.js": "746eba78b0225a68c8b8f07f71b75c0fc57ca3337116ca5c5e1d6eb19ecf848e",
   "src/series-years.js": "b9b444cc1c141f484f3744b67b0a6a8d4ea7604f025203911cb6ab798fa0d518",
@@ -609,5 +609,6 @@
   "data/illustration_ks.796f4bf8012ead5b.part01.bin": "796f4bf8012ead5b203c42c4daabeb2d0c900a5cd74bfd5001f61079a13e3e4c",
   "data/illustration_ks.4f0ee1156bb8edc0.part01.bin": "4f0ee1156bb8edc04fa0c7042cc2d98bc9ba5ed12cc720b4ad690611212cde0e",
   "data/illustration_ks.ee794916289c2e78.part01.bin": "ee794916289c2e78fbaf20af9b2efa1619ca466bbabeebad430bb45f7419f9f9",
-  "data/illustration_ks.a048e03e966e48c7.part01.bin": "a048e03e966e48c7f1246f50bd3c2654d878ba4bb5c1d8f20d06d9ff53b92a2f"
+  "data/illustration_ks.a048e03e966e48c7.part01.bin": "a048e03e966e48c7f1246f50bd3c2654d878ba4bb5c1d8f20d06d9ff53b92a2f",
+  "data/illustration_ks.b892b86dadafe01c.part01.bin": "b892b86dadafe01c6b0e38693ed87e33e3d73d7a6ed7fb4c963da0769ae9427c"
 }
