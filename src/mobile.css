@@ -198,7 +198,6 @@
 
 @media (max-width: 760px) {
   .header-resources { column-gap: 9px; }
-  .header-resource-placeholder { font-size: 12px; }
 
   #panel-inequality .plot-surface > .chart-actions:not([hidden]) {
     padding: 0 13px 12px;

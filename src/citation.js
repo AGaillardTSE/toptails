@@ -19,7 +19,7 @@
   if(typeof document==='undefined')return;
   const trigger=document.querySelector('[data-citation-trigger]');
   if(!trigger)return;
-  const paperURL='https://www.dropbox.com/scl/fi/bxfxrio8taz6bywwjqcvu/GHWW_2024.pdf?rlkey=8d9oymi9jdagybvwriringwy5&dl=0';
+  const paperURL='https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&e=2&dl=0';
   const dialog=document.createElement('dialog');
   dialog.className='citation-dialog';dialog.id='paper-citation-dialog';
   dialog.setAttribute('aria-labelledby','paper-citation-title');
