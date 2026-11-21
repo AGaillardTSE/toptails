@@ -655,6 +655,135 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 
 .pareto-method :is(p,li,dd,.pareto-example-readout,.pareto-illustration-status){font-size:14px}
 
+.model-implications {
+  color: #34485e;
+}
+.model-implications .model-heading h2 {
+  margin: 0 0 12px;
+  color: #20354f;
+  font: normal 29px/1.25 Georgia, serif;
+}
+.model-implications p {
+  margin: 0 0 14px;
+  color: #526579;
+  font: 400 14px/1.75 Arial, sans-serif;
+}
+.model-implications a {
+  color: #355f87;
+  text-underline-offset: 3px;
+}
+.model-implications > section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #dfded8;
+}
+.model-implications h3 {
+  margin: 0 0 8px;
+  color: #20354f;
+  font: 600 20px/1.35 Arial, sans-serif;
+}
+.model-ratio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0 12px;
+}
+.model-ratio-card {
+  min-width: 0;
+  padding: 16px 18px;
+  border: 1px solid #dfded8;
+  border-top: 3px solid #477ead;
+  border-radius: 7px;
+  background: #fffefa;
+}
+.model-ratio-card + .model-ratio-card {
+  border-top-color: #a43d60;
+}
+.model-ratio-card h4 {
+  margin: 0;
+  color: #2d465f;
+  font: 600 16px/1.4 Arial, sans-serif;
+}
+.model-ratio-card math {
+  margin: 12px 0;
+  color: #20354f;
+  font-size: clamp(18px, 4.5vw, 23px);
+}
+.model-ratio-card p {
+  margin: 0;
+}
+.model-implications .model-example {
+  margin: 0;
+}
+.model-table-frame {
+  margin: 14px 0 8px;
+  border: 1px solid #dfded8;
+  border-radius: 7px;
+  background: #fffefa;
+}
+.model-results-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  color: #34485e;
+  font: 400 14px/1.5 Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.model-results-table caption {
+  padding: 12px 16px 8px;
+  color: #20354f;
+  text-align: left;
+  font-weight: 600;
+}
+.model-results-table :is(th, td) {
+  padding: 9px 14px;
+  border-bottom: 1px solid #e7e4df;
+  text-align: center;
+  font-size: inherit;
+  white-space: normal;
+}
+.model-results-table th:first-child {
+  width: 34%;
+  text-align: left;
+}
+.model-results-table thead {
+  background: #f1efea;
+}
+.model-results-table tbody th span {
+  display: inline-block;
+  margin-left: 3px;
+  white-space: nowrap;
+  font-weight: 400;
+}
+.model-results-table tr > :last-child {
+  background: #edf3f8;
+  font-weight: 600;
+}
+.model-results-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.model-implications .model-table-note {
+  font-size: 12px;
+}
+@media (max-width: 720px) {
+  .model-ratio-grid {
+    grid-template-columns: 1fr;
+  }
+  .model-implications .model-heading h2 {
+    font-size: 25px;
+  }
+  .model-results-table {
+    font-size: 12px;
+  }
+  .model-results-table :is(th, td) {
+    padding: 7px 6px;
+  }
+  .model-results-table tbody th span {
+    display: block;
+    margin-left: 0;
+  }
+}
+
 .budget-definitions .definition-sample p{font-size:14px;line-height:1.75}
 
 /* Compare estimators on the same row, followed by the cutoff criterion. */
@@ -1082,7 +1211,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 <body>
 <a class="skip-link" href="#panel-inequality">Skip to the plots</a>
 <header class="topbar"><div class="topbar-inner"><a class="brand" href="./index.html"><span class="brand-zeta" aria-hidden="true">ζ</span><h1>Upper-Tail Inequality: Consumption, Income, and Wealth<span class="data-version">Data v1</span></h1></a><nav class="header-resources" aria-label="Paper, appendix and citation"><a class="paper-link" href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Academic paper <span class="resource-arrow" aria-hidden="true"></span></a><a class="appendix-link" href="https://www.dropbox.com/scl/fi/1kar9f1q453j2cceln9az/GHWW_2026_OA.pdf?rlkey=htm5pdq9gy23wbhwf60h74u2j&amp;e=1&amp;dl=0" target="_blank" rel="noopener noreferrer">Supplemental Appendix <span class="resource-arrow" aria-hidden="true"></span></a><button class="header-citation" type="button" data-citation-trigger>Citation</button></nav></div></header>
-<nav id="primary-nav" class="tab-nav primary-tabs" aria-label="Explorer sections"><div class="tab-nav-inner" role="tablist"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">United States</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Across Countries</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Variable Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Survey Adjustments</button><button class="tab-button" type="button" id="tab-pareto" data-section="pareto" role="tab" aria-selected="false" aria-controls="panel-pareto">Pareto Estimation</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></div></nav>
+<nav id="primary-nav" class="tab-nav primary-tabs" aria-label="Explorer sections"><div class="tab-nav-inner" role="tablist"><button class="tab-button active" type="button" id="tab-us" data-section="us" role="tab" aria-selected="true" aria-controls="panel-inequality">United States</button><button class="tab-button" type="button" id="tab-other" data-section="other" role="tab" aria-selected="false" aria-controls="panel-other">Across Countries</button><button class="tab-button" type="button" id="tab-definitions" data-section="definitions" role="tab" aria-selected="false" aria-controls="panel-definitions">Variable Construction &amp; Sample</button><button class="tab-button" type="button" id="tab-adjustments" data-section="adjustments" role="tab" aria-selected="false" aria-controls="panel-adjustments">Survey Adjustments</button><button class="tab-button" type="button" id="tab-pareto" data-section="pareto" role="tab" aria-selected="false" aria-controls="panel-pareto">Pareto Estimation</button><button class="tab-button" type="button" id="tab-model" data-section="model" role="tab" aria-selected="false" aria-controls="panel-model">Model Implications</button><button class="tab-button" type="button" id="tab-data" data-section="data" role="tab" aria-selected="false" aria-controls="panel-data">Sources</button><button class="tab-button" type="button" id="tab-repository" data-section="repository" role="tab" aria-selected="false" aria-controls="panel-repository">Replication package</button></div></nav>
 <main class="workspace">
 <div id="page-error" class="error-message" role="alert" hidden></div>
 <nav id="us-secondary-nav" class="secondary-nav cc-subnav" aria-label="US views"><div class="secondary-nav-inner" role="tablist" aria-label="US views"><button class="secondary-tab active" type="button" id="tab-inequality" data-tab="inequality" role="tab" aria-selected="true" aria-controls="panel-inequality">Tails over time</button><button class="secondary-tab" type="button" id="tab-quantiles" data-tab="quantiles" role="tab" aria-selected="false" aria-controls="panel-quantiles">Tails by quantile</button><button class="secondary-tab" type="button" id="tab-results" data-tab="results" role="tab" aria-selected="false" aria-controls="panel-results">Table of results</button><button class="secondary-tab" type="button" id="tab-loglog" data-tab="loglog" role="tab" aria-selected="false" aria-controls="panel-loglog">Log–log relationships</button><button class="secondary-tab" type="button" id="tab-eyeballing" data-tab="eyeballing" role="tab" aria-selected="false" aria-controls="panel-eyeballing">Eyeballing Pareto Tails</button></div></nav>
@@ -1239,6 +1368,76 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 </div></section>
 <section id="panel-data" class="tab-panel" role="tabpanel" aria-labelledby="tab-data" hidden></section>
 <section id="panel-pareto" class="tab-panel" role="tabpanel" aria-labelledby="tab-pareto" hidden><div class="method-content" id="pareto-estimation-content"></div></section>
+<section id="panel-model" class="tab-panel" role="tabpanel" aria-labelledby="tab-model" tabindex="0" hidden><article class="model-implications">
+  <header class="model-heading">
+    <h2>Implications for heterogeneous-agent models</h2>
+    <p>In the data, the upper tails rank from thinnest to thickest as consumption, labor income, wealth, and capital income. The canonical model with homothetic, wealth-independent preferences and scale-independent returns predicts equally thick tails for consumption, wealth, and capital income.</p>
+  </header>
+
+  <section aria-labelledby="model-identification">
+    <h3 id="model-identification">Identification from Pareto coefficients</h3>
+    <p>In the paper’s asymptotic model with strongly wealth-dependent preferences, two tail ratios identify the relative curvature of preferences and the scale dependence of returns. Here <var>ζ</var><sub>c</sub> is the coefficient for consumption, <var>ζ</var><sub>a</sub> for invested wealth before terminal bequests, and <var>ζ</var><sub>ra</sub> for capital income. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 3.3, Corollary 1</a></p>
+
+    <div class="model-ratio-grid">
+      <section class="model-ratio-card" aria-labelledby="model-return-scale">
+        <h4 id="model-return-scale">Capital income and wealth identify return scale dependence</h4>
+        <math display="block" aria-label="The capital-income coefficient divided by the wealth coefficient equals one over one plus eta. Thus eta equals the wealth coefficient divided by the capital-income coefficient minus one.">
+          <mrow>
+            <mfrac><msub><mi>ζ</mi><mi>ra</mi></msub><msub><mi>ζ</mi><mi>a</mi></msub></mfrac>
+            <mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mi>η</mi></mrow></mfrac>
+            <mspace width=".7em"/><mo>⇒</mo><mspace width=".7em"/>
+            <mi>η</mi><mo>=</mo><mfrac><msub><mi>ζ</mi><mi>a</mi></msub><msub><mi>ζ</mi><mi>ra</mi></msub></mfrac><mo>−</mo><mn>1</mn>
+          </mrow>
+        </math>
+        <p>Holding the return shock fixed, the rate of return scales with invested wealth as <var>a</var><sup><var>η</var></sup>. A thicker capital-income tail than wealth tail implies a positive <var>η</var> in the model.</p>
+      </section>
+
+      <section class="model-ratio-card" aria-labelledby="model-preference-curvature">
+        <h4 id="model-preference-curvature">The two ratios identify relative preference curvature</h4>
+        <math display="block" aria-label="The consumption coefficient divided by the wealth coefficient equals gamma divided by nu times one plus eta. Thus gamma over nu equals the consumption coefficient divided by the capital-income coefficient.">
+          <mrow>
+            <mfrac><msub><mi>ζ</mi><mi>c</mi></msub><msub><mi>ζ</mi><mi>a</mi></msub></mfrac>
+            <mo>=</mo><mfrac><mi>γ</mi><mrow><mi>ν</mi><mo stretchy="true">(</mo><mn>1</mn><mo>+</mo><mi>η</mi><mo stretchy="true">)</mo></mrow></mfrac>
+            <mspace width=".7em"/><mo>⇒</mo><mspace width=".7em"/>
+            <mfrac><mi>γ</mi><mi>ν</mi></mfrac><mo>=</mo><mfrac><msub><mi>ζ</mi><mi>c</mi></msub><msub><mi>ζ</mi><mi>ra</mi></msub></mfrac>
+          </mrow>
+        </math>
+        <p><var>γ</var> and <var>ν</var> govern how quickly marginal utility falls with consumption and wealth, respectively. Once return scale dependence is accounted for, a larger <var>γ</var>/<var>ν</var> means consumption rises more slowly with wealth at a given age in the upper tail.</p>
+      </section>
+    </div>
+
+    <p class="model-example"><strong>Example.</strong> A consumption-to-wealth tail ratio of 2.0 and a capital-income-to-wealth ratio of 0.85 imply <var>η</var> ≈ 0.18 and <var>γ</var>/<var>ν</var> ≈ 2.35 in the asymptotic model.</p>
+  </section>
+
+  <section aria-labelledby="model-quantitative">
+    <h3 id="model-quantitative">Quantitative results</h3>
+    <p>In the standard Aiyagari calibration, the top 1% hold 3% of wealth, compared with 35% in the data. Adding entrepreneurs with heterogeneous returns brings the wealth tail close to the data while leaving consumption too concentrated. A direct motive to hold wealth allows the full model to match all four tails in simulated samples comparable to the PSID.</p>
+    <div class="model-table-frame">
+      <table class="model-results-table">
+        <caption>Pareto coefficients and ratios at KS-selected cutoffs</caption>
+        <thead>
+          <tr>
+            <th scope="col">Statistic</th>
+            <th scope="col">Adjusted data</th>
+            <th scope="col">Homothetic model</th>
+            <th scope="col">Full model</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Wealth <span><var>ζ</var><sub>a</sub></span></th><td>1.36</td><td>1.35</td><td>1.37</td></tr>
+          <tr><th scope="row">Consumption <span><var>ζ</var><sub>c</sub>/<var>ζ</var><sub>a</sub></span></th><td>2.08</td><td>1.33</td><td>2.03</td></tr>
+          <tr><th scope="row">Labor income <span><var>ζ</var><sub>y</sub>/<var>ζ</var><sub>a</sub></span></th><td>1.43</td><td>1.46</td><td>1.43</td></tr>
+          <tr><th scope="row">Capital income <span><var>ζ</var><sub>ra</sub>/<var>ζ</var><sub>a</sub></span></th><td>0.82</td><td>0.76</td><td>0.80</td></tr>
+          <tr><th scope="row">Top 1% wealth share</th><td>35%</td><td>34%</td><td>37%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="model-table-note"><em>Notes:</em> Pareto coefficients use MLE. Data are from the adjusted PSID and U.S. wealth statistics. The homothetic benchmark includes entrepreneurs and fat-tailed earnings. The full model adds wealth-dependent preferences. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 4, Tables 1 and 2</a></p>
+    <p>With <var>γ</var> fixed at 2, the full model estimates <var>ν</var> = 0.844 and <var>η</var> = 0.0815. The consumption ratio strongly disciplines preference curvature. At finite wealth levels, persistent differences in returns across investors can also thicken the capital-income tail, so the quantitative fit only weakly separates return type from return scale.</p>
+    <p>In the full model, the marginal propensity to consume out of wealth falls from about 7% between the 70th and 80th wealth percentiles to 2% in the top 1%. The model also needs less return heterogeneity to match wealth concentration. Entrepreneurs in the top 1% earn about 22%, compared with 34% in the homothetic specification. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Sections 4.3–4.4</a></p>
+  </section>
+</article>
+</section>
 <section id="panel-repository" class="tab-panel" role="tabpanel" aria-labelledby="tab-repository" hidden><div class="other-card"><header class="other-card-heading"><div><h2>Replication package</h2><p>Data are currently available upon request.</p></div></header></div></section>
 <section id="panel-definitions" class="tab-panel" role="tabpanel" aria-labelledby="tab-definitions" hidden>
 <div id="definitions-content" class="definitions-box"></div>
@@ -4929,7 +5128,7 @@ function createTimeWindow(canvas, onChange) {
     if(housingControl){housingControl.hidden=!housingNav;if(housingNav)housingNav.append(housingControl);}
     document.querySelectorAll('#primary-nav [data-section]').forEach(button=>{const active=button.dataset.section===(us?'us':name);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);if(button.dataset.section==='us')button.setAttribute('aria-controls','panel-'+lastUSTab);});
     document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{const active=button.dataset.tab===name;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);});
-    ['inequality','quantiles','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
+    ['inequality','quantiles','results','loglog','eyeballing','other','adjustments','pareto','model','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
   }
   document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{
     button.addEventListener('click',()=>tab(button.dataset.tab));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#us-secondary-nav [data-tab]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.tab);});
@@ -5404,7 +5603,9 @@ function createTimeWindow(canvas, onChange) {
     if(!onlySCF&&s.customQ>.99)s.customQ=.99;
     $('indicator-select').value=s.metric;$('estimator-select').value=s.method;$('threshold-select').value=s.threshold;
     const kind=indicatorKind(s.metric);setRadioValue('indicator-kind',kind);setRadioValue('pareto-measure',s.paretoMetric);setRadioValue('pareto-estimator',s.method);setRadioValue('tail-threshold',s.threshold);setRadioValue('top-share-cutoff',s.shareMetric);
-    $('pareto-options').hidden=kind!=='pareto';$('top-share-options').hidden=kind!=='shares';$('gini-options').hidden=kind!=='gini';
+    for(const [id,indicator] of [['pareto-options','pareto'],['top-share-options','shares'],['gini-options','gini']]){
+      const panel=$(id);if(panel)panel.hidden=kind!==indicator;
+    }
     document.querySelectorAll('input[name="indicator-kind"]').forEach(input=>{const unavailable=!hasHousehold&&(input.value==='shares'?!hasShareReference:input.value==='gini'?!hasGiniReference:false);input.disabled=unavailable;input.closest('label')?.classList.toggle('unavailable-option',unavailable);input.closest('label').title=unavailable?'Top shares and Gini coefficients are unavailable for standalone reference datasets.':'';});
     document.querySelectorAll('input[name="pareto-measure"]').forEach(input=>{const unavailable=input.value==='pareto_wealth_ratio'&&!hasHouseholdWealth&&!hasWealthReference;input.disabled=unavailable;input.closest('label')?.classList.toggle('unavailable-option',unavailable);});
     const ols=document.querySelector('input[name="pareto-estimator"][value="OLS"]');if(ols){ols.disabled=false;ols.closest('label')?.classList.remove('unavailable-option');ols.closest('label').title='Datasets without a stored OLS estimate for the selected threshold are omitted automatically.';}
@@ -5442,7 +5643,7 @@ function createTimeWindow(canvas, onChange) {
   document.querySelectorAll('input[name="pareto-estimator"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.method=input.value;syncTailControls();schedule();}));
   document.querySelectorAll('input[name="tail-threshold"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.threshold=input.value;syncTailControls();schedule();}));
   document.querySelectorAll('input[name="top-share-cutoff"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.shareMetric=input.value;applyMainMetric(input.value);schedule();}));
-  [['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth']].forEach(([id,method])=>$(id).addEventListener('change',event=>{weighting.method=event.target.checked?method:'scf_income';applySpecificationSelection();}));
+  [['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth']].forEach(([id,method])=>$(id)?.addEventListener('change',event=>{weighting.method=event.target.checked?method:'scf_income';applySpecificationSelection();}));
   function changeBivariatePair(value){if(value!=='wealth_consumption')b.overlays.delete('cex_bm_recon');const capital=['wealth_capital','income_capital'].includes(value);if(!capital&&b.autoSCF){b.overlays.delete('scf');b.autoSCF=false;}if(capital&&!b.overlays.has('scf')){b.overlays.add('scf');b.autoSCF=true;}b.pair=value;fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());}
   bind('biv-survey-select',value=>{b.primary=value;b.overlays.delete(value);syncHousingAvailability();if(value==='cex_bm'&&!['wealth_consumption','income_consumption'].includes(b.pair)){b.pair='wealth_consumption';$('pair-select').value=b.pair;}fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());fillSpendingSelect('biv-measure-select',value,b,BINS);});
   bind('biv-variant',value=>{b.adjustment=value;fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);}); bind('biv-measure-select',value=>{b.measure=value;$('biv-measure-select').title=spendingName(value);}); bind('pair-select',changeBivariatePair); bind('wave-select',value=>b.wave=value);
@@ -5662,6 +5863,7 @@ function createTimeWindow(canvas, onChange) {
   window.addEventListener('adjustments-procedure-visible',()=>{if(adjustmentsVisible())adjustmentController?.render();});
   function filterSpecificationData(){SUMMARY=ALL_SUMMARY.filter(specificationMatches);CURVES=ALL_CURVES.filter(specificationMatches);BINS=ALL_BINS.filter(specificationMatches);}
   function syncWeightingControls(){
+    if(!$('weight-scf-income'))return;
     const chosen=selectedSurveys(s),onlyCEX=chosen.size===1&&chosen.has('CEX_BM_RECON'),available=s.adjustment==='full'&&chosen.has('PSID')&&!!META.weighting_sensitivity;
     const standardOptions=document.querySelector('.weighting-control>.weighting-options:not(.cex-weighting-options)'),cexOptions=document.querySelector('.cex-weighting-options');if(standardOptions)standardOptions.hidden=onlyCEX;if(cexOptions)cexOptions.hidden=!onlyCEX;
     $('weight-scf-income').checked=weighting.method==='scf_income';$('weight-irs-income').checked=weighting.method==='irs_income';$('weight-scf-wealth').checked=weighting.method==='scf_wealth';

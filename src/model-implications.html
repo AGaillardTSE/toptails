@@ -1,0 +1,69 @@
+<article class="model-implications">
+  <header class="model-heading">
+    <h2>Implications for heterogeneous-agent models</h2>
+    <p>In the data, the upper tails rank from thinnest to thickest as consumption, labor income, wealth, and capital income. The canonical model with homothetic, wealth-independent preferences and scale-independent returns predicts equally thick tails for consumption, wealth, and capital income.</p>
+  </header>
+
+  <section aria-labelledby="model-identification">
+    <h3 id="model-identification">Identification from Pareto coefficients</h3>
+    <p>In the paper’s asymptotic model with strongly wealth-dependent preferences, two tail ratios identify the relative curvature of preferences and the scale dependence of returns. Here <var>ζ</var><sub>c</sub> is the coefficient for consumption, <var>ζ</var><sub>a</sub> for invested wealth before terminal bequests, and <var>ζ</var><sub>ra</sub> for capital income. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 3.3, Corollary 1</a></p>
+
+    <div class="model-ratio-grid">
+      <section class="model-ratio-card" aria-labelledby="model-return-scale">
+        <h4 id="model-return-scale">Capital income and wealth identify return scale dependence</h4>
+        <math display="block" aria-label="The capital-income coefficient divided by the wealth coefficient equals one over one plus eta. Thus eta equals the wealth coefficient divided by the capital-income coefficient minus one.">
+          <mrow>
+            <mfrac><msub><mi>ζ</mi><mi>ra</mi></msub><msub><mi>ζ</mi><mi>a</mi></msub></mfrac>
+            <mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mi>η</mi></mrow></mfrac>
+            <mspace width=".7em"/><mo>⇒</mo><mspace width=".7em"/>
+            <mi>η</mi><mo>=</mo><mfrac><msub><mi>ζ</mi><mi>a</mi></msub><msub><mi>ζ</mi><mi>ra</mi></msub></mfrac><mo>−</mo><mn>1</mn>
+          </mrow>
+        </math>
+        <p>Holding the return shock fixed, the rate of return scales with invested wealth as <var>a</var><sup><var>η</var></sup>. A thicker capital-income tail than wealth tail implies a positive <var>η</var> in the model.</p>
+      </section>
+
+      <section class="model-ratio-card" aria-labelledby="model-preference-curvature">
+        <h4 id="model-preference-curvature">The two ratios identify relative preference curvature</h4>
+        <math display="block" aria-label="The consumption coefficient divided by the wealth coefficient equals gamma divided by nu times one plus eta. Thus gamma over nu equals the consumption coefficient divided by the capital-income coefficient.">
+          <mrow>
+            <mfrac><msub><mi>ζ</mi><mi>c</mi></msub><msub><mi>ζ</mi><mi>a</mi></msub></mfrac>
+            <mo>=</mo><mfrac><mi>γ</mi><mrow><mi>ν</mi><mo stretchy="true">(</mo><mn>1</mn><mo>+</mo><mi>η</mi><mo stretchy="true">)</mo></mrow></mfrac>
+            <mspace width=".7em"/><mo>⇒</mo><mspace width=".7em"/>
+            <mfrac><mi>γ</mi><mi>ν</mi></mfrac><mo>=</mo><mfrac><msub><mi>ζ</mi><mi>c</mi></msub><msub><mi>ζ</mi><mi>ra</mi></msub></mfrac>
+          </mrow>
+        </math>
+        <p><var>γ</var> and <var>ν</var> govern how quickly marginal utility falls with consumption and wealth, respectively. Once return scale dependence is accounted for, a larger <var>γ</var>/<var>ν</var> means consumption rises more slowly with wealth at a given age in the upper tail.</p>
+      </section>
+    </div>
+
+    <p class="model-example"><strong>Example.</strong> A consumption-to-wealth tail ratio of 2.0 and a capital-income-to-wealth ratio of 0.85 imply <var>η</var> ≈ 0.18 and <var>γ</var>/<var>ν</var> ≈ 2.35 in the asymptotic model.</p>
+  </section>
+
+  <section aria-labelledby="model-quantitative">
+    <h3 id="model-quantitative">Quantitative results</h3>
+    <p>In the standard Aiyagari calibration, the top 1% hold 3% of wealth, compared with 35% in the data. Adding entrepreneurs with heterogeneous returns brings the wealth tail close to the data while leaving consumption too concentrated. A direct motive to hold wealth allows the full model to match all four tails in simulated samples comparable to the PSID.</p>
+    <div class="model-table-frame">
+      <table class="model-results-table">
+        <caption>Pareto coefficients and ratios at KS-selected cutoffs</caption>
+        <thead>
+          <tr>
+            <th scope="col">Statistic</th>
+            <th scope="col">Adjusted data</th>
+            <th scope="col">Homothetic model</th>
+            <th scope="col">Full model</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Wealth <span><var>ζ</var><sub>a</sub></span></th><td>1.36</td><td>1.35</td><td>1.37</td></tr>
+          <tr><th scope="row">Consumption <span><var>ζ</var><sub>c</sub>/<var>ζ</var><sub>a</sub></span></th><td>2.08</td><td>1.33</td><td>2.03</td></tr>
+          <tr><th scope="row">Labor income <span><var>ζ</var><sub>y</sub>/<var>ζ</var><sub>a</sub></span></th><td>1.43</td><td>1.46</td><td>1.43</td></tr>
+          <tr><th scope="row">Capital income <span><var>ζ</var><sub>ra</sub>/<var>ζ</var><sub>a</sub></span></th><td>0.82</td><td>0.76</td><td>0.80</td></tr>
+          <tr><th scope="row">Top 1% wealth share</th><td>35%</td><td>34%</td><td>37%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="model-table-note"><em>Notes:</em> Pareto coefficients use MLE. Data are from the adjusted PSID and U.S. wealth statistics. The homothetic benchmark includes entrepreneurs and fat-tailed earnings. The full model adds wealth-dependent preferences. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 4, Tables 1 and 2</a></p>
+    <p>With <var>γ</var> fixed at 2, the full model estimates <var>ν</var> = 0.844 and <var>η</var> = 0.0815. The consumption ratio strongly disciplines preference curvature. At finite wealth levels, persistent differences in returns across investors can also thicken the capital-income tail, so the quantitative fit only weakly separates return type from return scale.</p>
+    <p>In the full model, the marginal propensity to consume out of wealth falls from about 7% between the 70th and 80th wealth percentiles to 2% in the top 1%. The model also needs less return heterogeneity to match wealth concentration. Entrepreneurs in the top 1% earn about 22%, compared with 34% in the homothetic specification. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Sections 4.3–4.4</a></p>
+  </section>
+</article>

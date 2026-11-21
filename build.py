@@ -48,7 +48,7 @@ else:
     favicon_type='image/png'
     favicon_href='./favicon.png'
 for design,name in [('design_a.html','inequality.html'),('design_b.html','inequality_observatory.html')]:
-    page=read(design).replace('__FAVICON_TYPE__',favicon_type).replace('__SITE_LOGO__',favicon_href).replace('__CHART_JS__',vendor).replace('<script type="application/json" id="explorer-results">__EXPLORER_RESULTS__</script>',payload).replace('__APP_JS__',app).replace('__METHODS_HTML__',read('methods.html'))
+    page=read(design).replace('__FAVICON_TYPE__',favicon_type).replace('__SITE_LOGO__',favicon_href).replace('__CHART_JS__',vendor).replace('<script type="application/json" id="explorer-results">__EXPLORER_RESULTS__</script>',payload).replace('__APP_JS__',app).replace('__METHODS_HTML__',read('methods.html')).replace('__MODEL_HTML__',read('model-implications.html'))
     page=page.replace('</head>','<style>'+css+'</style>\n</head>',1).replace('<head>','<head>\n<meta http-equiv="Content-Security-Policy" content="'+csp+'">',1)
     encoded=page.encode();(dest/name).write_bytes(encoded)
     if name=='inequality_observatory.html':

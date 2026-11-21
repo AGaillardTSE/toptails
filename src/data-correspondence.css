@@ -88,6 +88,135 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 
 .pareto-method :is(p,li,dd,.pareto-example-readout,.pareto-illustration-status){font-size:14px}
 
+.model-implications {
+  color: #34485e;
+}
+.model-implications .model-heading h2 {
+  margin: 0 0 12px;
+  color: #20354f;
+  font: normal 29px/1.25 Georgia, serif;
+}
+.model-implications p {
+  margin: 0 0 14px;
+  color: #526579;
+  font: 400 14px/1.75 Arial, sans-serif;
+}
+.model-implications a {
+  color: #355f87;
+  text-underline-offset: 3px;
+}
+.model-implications > section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #dfded8;
+}
+.model-implications h3 {
+  margin: 0 0 8px;
+  color: #20354f;
+  font: 600 20px/1.35 Arial, sans-serif;
+}
+.model-ratio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0 12px;
+}
+.model-ratio-card {
+  min-width: 0;
+  padding: 16px 18px;
+  border: 1px solid #dfded8;
+  border-top: 3px solid #477ead;
+  border-radius: 7px;
+  background: #fffefa;
+}
+.model-ratio-card + .model-ratio-card {
+  border-top-color: #a43d60;
+}
+.model-ratio-card h4 {
+  margin: 0;
+  color: #2d465f;
+  font: 600 16px/1.4 Arial, sans-serif;
+}
+.model-ratio-card math {
+  margin: 12px 0;
+  color: #20354f;
+  font-size: clamp(18px, 4.5vw, 23px);
+}
+.model-ratio-card p {
+  margin: 0;
+}
+.model-implications .model-example {
+  margin: 0;
+}
+.model-table-frame {
+  margin: 14px 0 8px;
+  border: 1px solid #dfded8;
+  border-radius: 7px;
+  background: #fffefa;
+}
+.model-results-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  color: #34485e;
+  font: 400 14px/1.5 Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.model-results-table caption {
+  padding: 12px 16px 8px;
+  color: #20354f;
+  text-align: left;
+  font-weight: 600;
+}
+.model-results-table :is(th, td) {
+  padding: 9px 14px;
+  border-bottom: 1px solid #e7e4df;
+  text-align: center;
+  font-size: inherit;
+  white-space: normal;
+}
+.model-results-table th:first-child {
+  width: 34%;
+  text-align: left;
+}
+.model-results-table thead {
+  background: #f1efea;
+}
+.model-results-table tbody th span {
+  display: inline-block;
+  margin-left: 3px;
+  white-space: nowrap;
+  font-weight: 400;
+}
+.model-results-table tr > :last-child {
+  background: #edf3f8;
+  font-weight: 600;
+}
+.model-results-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.model-implications .model-table-note {
+  font-size: 12px;
+}
+@media (max-width: 720px) {
+  .model-ratio-grid {
+    grid-template-columns: 1fr;
+  }
+  .model-implications .model-heading h2 {
+    font-size: 25px;
+  }
+  .model-results-table {
+    font-size: 12px;
+  }
+  .model-results-table :is(th, td) {
+    padding: 7px 6px;
+  }
+  .model-results-table tbody th span {
+    display: block;
+    margin-left: 0;
+  }
+}
+
 .budget-definitions .definition-sample p{font-size:14px;line-height:1.75}
 
 /* Compare estimators on the same row, followed by the cutoff criterion. */

@@ -515,7 +515,7 @@ function createTimeWindow(canvas, onChange) {
     if(housingControl){housingControl.hidden=!housingNav;if(housingNav)housingNav.append(housingControl);}
     document.querySelectorAll('#primary-nav [data-section]').forEach(button=>{const active=button.dataset.section===(us?'us':name);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);if(button.dataset.section==='us')button.setAttribute('aria-controls','panel-'+lastUSTab);});
     document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{const active=button.dataset.tab===name;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;button.classList.toggle('active',active);});
-    ['inequality','quantiles','results','loglog','eyeballing','other','adjustments','pareto','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
+    ['inequality','quantiles','results','loglog','eyeballing','other','adjustments','pareto','model','data','definitions','repository'].forEach(key=>{const panel=$('panel-'+key),active=key===name;panel.hidden=!active;panel.classList.toggle('active',active);});if(name==='definitions')definitionsController?.chooseDefault([...selectedSurveys(s)]);syncHousingAvailability();schedule();
   }
   document.querySelectorAll('#us-secondary-nav [data-tab]').forEach(button=>{
     button.addEventListener('click',()=>tab(button.dataset.tab));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#us-secondary-nav [data-tab]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.tab);});
@@ -990,7 +990,9 @@ function createTimeWindow(canvas, onChange) {
     if(!onlySCF&&s.customQ>.99)s.customQ=.99;
     $('indicator-select').value=s.metric;$('estimator-select').value=s.method;$('threshold-select').value=s.threshold;
     const kind=indicatorKind(s.metric);setRadioValue('indicator-kind',kind);setRadioValue('pareto-measure',s.paretoMetric);setRadioValue('pareto-estimator',s.method);setRadioValue('tail-threshold',s.threshold);setRadioValue('top-share-cutoff',s.shareMetric);
-    $('pareto-options').hidden=kind!=='pareto';$('top-share-options').hidden=kind!=='shares';$('gini-options').hidden=kind!=='gini';
+    for(const [id,indicator] of [['pareto-options','pareto'],['top-share-options','shares'],['gini-options','gini']]){
+      const panel=$(id);if(panel)panel.hidden=kind!==indicator;
+    }
     document.querySelectorAll('input[name="indicator-kind"]').forEach(input=>{const unavailable=!hasHousehold&&(input.value==='shares'?!hasShareReference:input.value==='gini'?!hasGiniReference:false);input.disabled=unavailable;input.closest('label')?.classList.toggle('unavailable-option',unavailable);input.closest('label').title=unavailable?'Top shares and Gini coefficients are unavailable for standalone reference datasets.':'';});
     document.querySelectorAll('input[name="pareto-measure"]').forEach(input=>{const unavailable=input.value==='pareto_wealth_ratio'&&!hasHouseholdWealth&&!hasWealthReference;input.disabled=unavailable;input.closest('label')?.classList.toggle('unavailable-option',unavailable);});
     const ols=document.querySelector('input[name="pareto-estimator"][value="OLS"]');if(ols){ols.disabled=false;ols.closest('label')?.classList.remove('unavailable-option');ols.closest('label').title='Datasets without a stored OLS estimate for the selected threshold are omitted automatically.';}
@@ -1028,7 +1030,7 @@ function createTimeWindow(canvas, onChange) {
   document.querySelectorAll('input[name="pareto-estimator"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.method=input.value;syncTailControls();schedule();}));
   document.querySelectorAll('input[name="tail-threshold"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.threshold=input.value;syncTailControls();schedule();}));
   document.querySelectorAll('input[name="top-share-cutoff"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.shareMetric=input.value;applyMainMetric(input.value);schedule();}));
-  [['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth']].forEach(([id,method])=>$(id).addEventListener('change',event=>{weighting.method=event.target.checked?method:'scf_income';applySpecificationSelection();}));
+  [['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth']].forEach(([id,method])=>$(id)?.addEventListener('change',event=>{weighting.method=event.target.checked?method:'scf_income';applySpecificationSelection();}));
   function changeBivariatePair(value){if(value!=='wealth_consumption')b.overlays.delete('cex_bm_recon');const capital=['wealth_capital','income_capital'].includes(value);if(!capital&&b.autoSCF){b.overlays.delete('scf');b.autoSCF=false;}if(capital&&!b.overlays.has('scf')){b.overlays.add('scf');b.autoSCF=true;}b.pair=value;fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());}
   bind('biv-survey-select',value=>{b.primary=value;b.overlays.delete(value);syncHousingAvailability();if(value==='cex_bm'&&!['wealth_consumption','income_consumption'].includes(b.pair)){b.pair='wealth_consumption';$('pair-select').value=b.pair;}fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());fillSpendingSelect('biv-measure-select',value,b,BINS);});
   bind('biv-variant',value=>{b.adjustment=value;fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);}); bind('biv-measure-select',value=>{b.measure=value;$('biv-measure-select').title=spendingName(value);}); bind('pair-select',changeBivariatePair); bind('wave-select',value=>b.wave=value);
@@ -1248,6 +1250,7 @@ function createTimeWindow(canvas, onChange) {
   window.addEventListener('adjustments-procedure-visible',()=>{if(adjustmentsVisible())adjustmentController?.render();});
   function filterSpecificationData(){SUMMARY=ALL_SUMMARY.filter(specificationMatches);CURVES=ALL_CURVES.filter(specificationMatches);BINS=ALL_BINS.filter(specificationMatches);}
   function syncWeightingControls(){
+    if(!$('weight-scf-income'))return;
     const chosen=selectedSurveys(s),onlyCEX=chosen.size===1&&chosen.has('CEX_BM_RECON'),available=s.adjustment==='full'&&chosen.has('PSID')&&!!META.weighting_sensitivity;
     const standardOptions=document.querySelector('.weighting-control>.weighting-options:not(.cex-weighting-options)'),cexOptions=document.querySelector('.cex-weighting-options');if(standardOptions)standardOptions.hidden=onlyCEX;if(cexOptions)cexOptions.hidden=!onlyCEX;
     $('weight-scf-income').checked=weighting.method==='scf_income';$('weight-irs-income').checked=weighting.method==='irs_income';$('weight-scf-wealth').checked=weighting.method==='scf_wealth';
