@@ -2663,7 +2663,7 @@ function createUSQuantileComparison({
   const xMin = 70;
   const xMax = 99.25;
   const markerPercentiles = [70, 75, 80, 85, 90, 95];
-  const markerRadius = 3.5;
+  const markerRadius = survey => survey === 'PSID' ? 3 : 4;
 
   host.classList.remove('quantile-profile-card');
   host.classList.add('explorer-grid');
@@ -2720,7 +2720,7 @@ function createUSQuantileComparison({
     context.clearRect(center-6,0,12,swatch.height);
     context.setLineDash([]);
     context.lineWidth = 1.8;
-    Chart.helpers.drawPoint(context,{pointStyle,radius:markerRadius,borderWidth:1.8},center,y);
+    Chart.helpers.drawPoint(context,{pointStyle,radius:markerRadius(survey),borderWidth:1.8},center,y);
     return [survey,swatch];
   }));
   const sidebar = find('.quantile-comparison-sidebar');
@@ -3074,7 +3074,7 @@ function createUSQuantileComparison({
           label:label+' · '+chartSurveyName(survey),survey,
           data:points.map(({q,mean,n,se})=>({x:q*100,y:mean,n,se})),
           borderColor:color,backgroundColor:color,pointStyle,borderDash,
-          pointRadius:({raw})=>points.length===1||markerPercentiles.some(p=>Math.abs(raw?.x-p)<1e-6)?markerRadius:0,
+          pointRadius:({raw})=>points.length===1||markerPercentiles.some(p=>Math.abs(raw?.x-p)<1e-6)?markerRadius(survey):0,
           pointHoverRadius:5,borderWidth:2.2,
         };
       });
