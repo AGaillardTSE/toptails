@@ -753,5 +753,5 @@ function initOtherSurveys(other,context) {
     ...row,indicator:summary.indicator,tail_threshold:isTailIndicator(summary.indicator)?summary.threshold==='custom'?'P'+Math.round(100*summary.q):summary.threshold.toUpperCase():null
   })),'cross_country_summary.csv'));$('cc-results-csv').addEventListener('click',()=>download(tableRows,'international_selected_results.csv'));$('cc-results-all').addEventListener('click',allResultsCSV);$('cc-b-csv').addEventListener('click',()=>download(plottedRows,'international_relationship.csv'));
   updateRelationshipOptions();
-  return{render,resize:()=>{if(!active())return;if(view==='eyeballing')eyeController?.resize();else if(view==='summary')renderSummary();else if(view==='time')timeChart?.resize();else if(view==='quantiles')thresholdController?.resize();else if(view==='loglog')relationshipChart?.resize();}};
+  return{changeView,render,resize:()=>{if(!active())return;if(view==='eyeballing')eyeController?.resize();else if(view==='summary')renderSummary();else if(view==='time')timeChart?.resize();else if(view==='quantiles')thresholdController?.resize();else if(view==='loglog')relationshipChart?.resize();}};
 }

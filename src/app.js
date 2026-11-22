@@ -483,6 +483,7 @@ function createTimeWindow(canvas, onChange) {
 
   function announce(text) { $('live-announcement').textContent=text; }
   let viewRequest=0;
+  let requestedCountryView=null;
   async function prepareView(){
     if(mainVisible()&&s.cexIncome&&selectedSurveys(s).has('CEX_BM_RECON')){await ensureCEXIncome();fillSeries();}
     if(mainVisible()&&isParetoMetric(s.metric)&&s.threshold!=='ks')await ensureFullCurves([...selectedSurveys(s)]);
@@ -502,13 +503,21 @@ function createTimeWindow(canvas, onChange) {
       const pending=bivVisible()&&!DATA.bivariate&&$('explorer-block-bivariate')||otherVisible()&&!otherController||adjustmentsVisible()&&!adjustmentController||(mainVisible()&&s.threshold!=='ks'?[...selectedSurveys(s)]:resultsVisible()&&r.threshold!=='ks'?[...resultsSurveys()]:[]).some(survey=>detailedCurveSurveys.includes(survey)&&!loadedCurveSurveys.has(survey));
       if(pending){startupStatus.textContent='Loading selected results…';document.body.append(startupStatus);loadingMain?.setAttribute('aria-busy','true');}
       await preparation;if(request!==viewRequest)return;
-      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())quantileComparison?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();if(otherVisible())otherController?.render();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
+      if(mainVisible())renderTime();if(resultsVisible())renderResults();if(quantilesVisible())quantileComparison?.render();if(bivVisible())renderBivariateWhenReady();if(s.tab==='eyeballing')eyeController?.render();
+      if(otherVisible()&&otherController){
+        const countryView=requestedCountryView;
+        requestedCountryView=null;
+        if(countryView)otherController.changeView(countryView);
+        else otherController.render();
+      }
+      if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.render();if(dataVisible()||adjustmentsVisible())dataController?.render();if(!$('panel-definitions').hidden)definitionsController?.render();
       initializeMobileFilters();
       if(!loadingMain?.dataset.firstPlotMs)loadingMain?.setAttribute('data-first-plot-ms',String(Math.round(performance.now())));
       startupStatus.remove();loadingMain?.removeAttribute('aria-busy');
     }catch(error){if(request!==viewRequest)return;startupStatus.remove();loadingMain?.removeAttribute('aria-busy');$('page-error').hidden=false;$('page-error').textContent='The selected plot could not be drawn. Please change the selection or reload the page.';console.error(error);}});
   }
-  function tab(name) {
+  function tab(name,countryView=null) {
+    requestedCountryView=name==='other'?countryView:null;
     const us=['inequality','quantiles','results','loglog','eyeballing'].includes(name);if(us)lastUSTab=name;s.tab=name;
     $('us-secondary-nav').hidden=!us;$('live-announcement').hidden=name!=='inequality';if(name!=='inequality')$('live-announcement').textContent='';
     const housingControl=document.querySelector('.global-housing-control'),housingNav=us?$('us-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='other'?$('cc-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='adjustments'?$('dc-adjustments-nav-inner'):null;
@@ -523,6 +532,19 @@ function createTimeWindow(canvas, onChange) {
   document.querySelectorAll('#primary-nav [data-section]').forEach(button=>{
     button.addEventListener('click',()=>tab(button.dataset.section==='us'?lastUSTab:button.dataset.section));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#primary-nav [data-section]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.section==='us'?lastUSTab:all[index].dataset.section);});
   });
+  function openQuantileLink(hash) {
+    if(hash==='#panel-quantiles'){tab('quantiles');return $('tab-quantiles');}
+    if(hash==='#cc-quantiles'){tab('other','quantiles');return $('tab-other');}
+    return null;
+  }
+  document.querySelectorAll('#panel-model a[href="#panel-quantiles"], #panel-model a[href="#cc-quantiles"]').forEach(link=>{
+    link.addEventListener('click',event=>{
+      if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      event.preventDefault();
+      openQuantileLink(link.hash)?.focus();
+    });
+  });
+  window.addEventListener('hashchange',()=>openQuantileLink(location.hash));
 
   let cexIncomeSummary=[],cexIncomeCurves=[],cexIncomeReady=false;
   const timeSummary=()=>s.cexIncome?SUMMARY.concat(cexIncomeSummary.filter(specificationMatches)):SUMMARY;
@@ -1286,7 +1308,8 @@ function createTimeWindow(canvas, onChange) {
   initDetailHelp();
   ['survey-select','results-survey'].forEach(id=>{['cex','cex_bm'].forEach(value=>{const option=$(id).querySelector('option[value="'+value+'"]');if(option)option.hidden=true;});});
   filterSpecificationData();syncWeightingControls();
-  fillResultsDatasets();fillResultsVariables();syncTailControls();definitions();fillSeries();tab('inequality');
+  fillResultsDatasets();fillResultsVariables();syncTailControls();definitions();fillSeries();
+  if(!openQuantileLink(location.hash))tab('inequality');
   if(loadingMain){loadingMain.inert=false;loadingMain.removeAttribute('aria-busy');loadingMain.setAttribute('data-interactive-ms',String(Math.round(performance.now())));}if(loadingNav)loadingNav.inert=false;startupStatus.remove();
   window.addEventListener('resize',()=>{if(mainVisible())timeChart?.resize();if(quantilesVisible())quantileComparison?.resize();if(bivVisible())bivChart?.resize();if(s.tab==='eyeballing')eyeController?.resize();if(otherVisible())otherController?.resize();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.resize();if(dataVisible()||adjustmentsVisible())dataController?.resize();if(paretoVisible())paretoController?.resize();});
 })().catch(error=>{document.querySelector('main')?.removeAttribute('inert');document.querySelector('main')?.removeAttribute('aria-busy');document.getElementById('primary-nav')?.removeAttribute('inert');console.error(error);const target=document.getElementById('page-error');if(target){target.hidden=false;target.textContent='The results could not be loaded. Please reload the page in a current browser.';}});

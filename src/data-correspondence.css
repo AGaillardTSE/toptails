@@ -90,6 +90,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 
 .model-implications {
   --model-zeta: #bd2553;
+  padding: 24px 28px 12px;
   color: #34485e;
 }
 .model-implications .model-zeta {
@@ -110,6 +111,9 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: #355f87;
   text-underline-offset: 3px;
 }
+.model-heading a {
+  white-space: nowrap;
+}
 .model-implications > section {
   margin-top: 24px;
   padding-top: 20px;
@@ -127,49 +131,41 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   gap: 16px;
   margin: 16px 0 12px;
 }
-.model-equation-card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+.model-assumptions {
+  gap: 24px;
 }
-.model-return {
-  --component-color: #477ead;
+.model-assumptions p {
+  margin: 0;
+}
+.model-ratio-card {
   --corollary-accent: #245a87;
+  min-width: 0;
+  padding: 16px 18px;
+  border: 1px solid #dfded8;
+  border-top: 3px solid #477ead;
+  border-radius: 7px;
+  background: #fffefa;
 }
-.model-preference {
-  --component-color: #bf5277;
+.model-ratio-card + .model-ratio-card {
   --corollary-accent: #9a2c52;
-}
-.model-equation-card > .budget-component {
-  display: block;
-  flex: 1;
-  position: relative;
-  margin-top: 26px;
-}
-.model-equation-card h4 {
-  margin: 0 0 8px;
-  color: var(--corollary-accent);
-}
-.model-implications .model-equation-lead {
-  margin: 0;
-  text-align: center;
-}
-.model-formula {
-  display: grid;
-  place-items: center;
-  min-height: 70px;
-  padding: 8px 4px;
-}
-.model-formula math {
-  margin: 0;
-  color: #20354f;
-  font-size: clamp(18px, 4.5vw, 23px);
+  border-top-color: #a43d60;
 }
 .model-corollary-result {
   color: var(--corollary-accent);
   font-weight: 700;
 }
-.model-equation-card .budget-component p {
+.model-ratio-card h4 {
+  margin: 0;
+  color: #2d465f;
+  font: 600 16px/1.4 Arial, sans-serif;
+}
+.model-assumptions math,
+.model-ratio-card math {
+  margin: 12px 0;
+  color: #20354f;
+  font-size: clamp(18px, 4.5vw, 23px);
+}
+.model-ratio-card p {
   margin: 0;
 }
 .model-implications .model-example {
@@ -226,6 +222,9 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   font-size: 12px;
 }
 @media (max-width: 720px) {
+  .model-implications {
+    padding: 16px 12px 6px;
+  }
   .model-assumptions,
   .model-ratio-grid {
     grid-template-columns: 1fr;
