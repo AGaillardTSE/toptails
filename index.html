@@ -228,7 +228,7 @@
 
 .budget-diagram-scroll{max-width:100%;overflow-x:auto;padding-bottom:6px}.budget-definitions .budget-definition-grid{grid-template-columns:repeat(5,minmax(0,1fr));min-width:900px;align-items:stretch}.budget-diagram-column{display:flex;flex-direction:column;min-width:0}.budget-definitions .budget-definition-grid>.budget-component{display:block;flex:1}.budget-definitions .budget-component h4{margin:0 0 10px}.budget-term-arrow{text-align:center;color:var(--component-color,#727c87);font:400 40px/1 Arial,sans-serif;padding:1px 0 14px}.budget-diagram-column .budget-component-symbol{min-height:65px}.budget-diagram-column .budget-component-symbol math{font-size:34px}.budget-component-symbol.definition-unavailable,.budget-term-arrow.definition-unavailable{color:#9aa1a8;opacity:.55}
 
-.budget-diagram-column{position:relative}.budget-between-operator{position:absolute;left:-7px;top:32.5px;transform:translate(-50%,-50%);color:#171b22;line-height:1;z-index:1}.budget-between-operator math{font-size:34px;color:#171b22}.budget-between-operator mo,.budget-component-symbol mo:not([data-variable-mark]){color:#171b22}.budget-definitions .budget-component-symbol.definition-unavailable{opacity:1;color:#a3a8ad}.budget-definitions .budget-definition-grid>.budget-component{position:relative;margin-top:30px;--budget-frame-bg:#faf9f5}.budget-definitions .budget-definition-grid>.budget-component.definition-unavailable{--budget-frame-bg:#f2f1ee}.budget-definition-grid>.budget-component::before,.budget-definition-grid>.budget-component::after{content:"";position:absolute;left:50%;width:0;height:0;transform:translateX(-50%);border-left:26px solid transparent;border-right:26px solid transparent;border-bottom:26px solid var(--component-color,#9299a0);top:-26px;pointer-events:none}.budget-definition-grid>.budget-component::after{top:-22px;border-left-width:24px;border-right-width:24px;border-bottom:25px solid var(--budget-frame-bg,#faf9f5)}
+.budget-diagram-column{position:relative}.budget-between-operator{position:absolute;left:-7px;top:32.5px;transform:translate(-50%,-50%);color:#171b22;line-height:1;z-index:1}.budget-between-operator math{font-size:34px;color:#171b22}.budget-between-operator mo,.budget-component-symbol mo:not([data-variable-mark]){color:#171b22}.budget-definitions .budget-component-symbol.definition-unavailable{opacity:1;color:#a3a8ad}.budget-definitions .budget-definition-grid>.budget-component{position:relative;margin-top:30px;--budget-frame-bg:#faf9f5}.budget-definitions .budget-definition-grid>.budget-component.definition-unavailable{--budget-frame-bg:#f2f1ee}:is(.budget-definition-grid,.model-equation-card)>.budget-component::before,:is(.budget-definition-grid,.model-equation-card)>.budget-component::after{content:"";position:absolute;left:50%;width:0;height:0;transform:translateX(-50%);border-left:26px solid transparent;border-right:26px solid transparent;border-bottom:26px solid var(--component-color,#9299a0);top:-26px;pointer-events:none}:is(.budget-definition-grid,.model-equation-card)>.budget-component::after{top:-22px;border-left-width:24px;border-right-width:24px;border-bottom:25px solid var(--budget-frame-bg,#faf9f5)}
 
 .primary-tabs .tab-nav-inner{gap:24px;align-items:stretch}.primary-tabs .tab-button{flex:0 0 auto;line-height:1.35}.primary-tabs #tab-definitions{max-width:none;white-space:nowrap}.primary-tabs #tab-adjustments{max-width:218px;white-space:normal}
 
@@ -694,45 +694,38 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   gap: 16px;
   margin: 16px 0 12px;
 }
-.model-assumption-card,
-.model-ratio-card {
+.model-equation-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  padding: 16px 18px;
-  border: 1px solid #dfded8;
-  border-radius: 8px;
-  background: #fffefa;
-  box-shadow: 0 3px 10px #20354f08;
 }
-.model-ratio-card {
+.model-return {
+  --component-color: #477ead;
   --corollary-accent: #245a87;
-  --corollary-tint: #eaf2f8;
-  border-top: 3px solid #477ead;
 }
-.model-ratio-card + .model-ratio-card {
+.model-preference {
+  --component-color: #bf5277;
   --corollary-accent: #9a2c52;
-  --corollary-tint: #f9ecf1;
-  border-top-color: #ef2d68;
 }
-.model-assumption-card h4,
-.model-ratio-card h4 {
-  margin: 0 0 6px;
-  color: #2d465f;
-  font: 600 16px/1.4 Arial, sans-serif;
+.model-equation-card > .budget-component {
+  display: block;
+  flex: 1;
+  position: relative;
+  margin-top: 26px;
 }
-.model-ratio-card h4 {
+.model-equation-card h4 {
+  margin: 0 0 8px;
   color: var(--corollary-accent);
+}
+.model-implications .model-equation-lead {
+  margin: 0;
+  text-align: center;
 }
 .model-formula {
   display: grid;
   place-items: center;
-  min-height: 76px;
-  margin: 10px 0;
-  padding: 8px 6px;
-  border-radius: 5px;
-  background: #f4f3ee;
-}
-.model-ratio-card .model-formula {
-  background: var(--corollary-tint);
+  min-height: 70px;
+  padding: 8px 4px;
 }
 .model-formula math {
   margin: 0;
@@ -743,8 +736,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: var(--corollary-accent);
   font-weight: 700;
 }
-.model-assumption-card p,
-.model-ratio-card p {
+.model-equation-card .budget-component p {
   margin: 0;
 }
 .model-implications .model-example {
@@ -1417,9 +1409,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     <p>We show that, in a model with strongly wealth-dependent preferences, two ratios of asymptotic Pareto coefficients identify the relative curvature of preferences and the scale dependence of returns. Here <var class="model-zeta">ζ<sub>c</sub></var> is the coefficient for consumption, <var class="model-zeta">ζ<sub>a</sub></var> for invested wealth before terminal bequests, and <var class="model-zeta">ζ<sub>ra</sub></var> for capital income. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 3.3, Corollary 1</a></p>
 
     <div class="model-assumptions">
-      <section class="model-assumption-card" aria-labelledby="model-utility">
-        <h4 id="model-utility">Preferences</h4>
-        <p>Take the separable form for period utility</p>
+      <section class="model-equation-card model-preference" aria-labelledby="model-utility">
+        <p class="model-equation-lead">Take the separable form for period utility</p>
         <div class="model-formula">
           <math display="block" aria-label="Utility of consumption c and wealth a equals c raised to one minus gamma divided by one minus gamma, plus kappa times a raised to one minus nu divided by one minus nu.">
             <mrow>
@@ -1430,11 +1421,13 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
             </mrow>
           </math>
         </div>
-        <p><var>γ</var> and <var>ν</var> govern how quickly marginal utility falls with consumption <var>c</var> and wealth <var>a</var>, respectively. <var>κ</var> is the weight on wealth in utility. Preferences are strongly wealth-dependent when <var>κ</var>&nbsp;&gt;&nbsp;0 and <var>γ</var>&nbsp;&gt;&nbsp;<var>ν</var>.</p>
+        <div class="budget-component">
+          <h4 id="model-utility">Preferences</h4>
+          <p><var>γ</var> and <var>ν</var> govern how quickly marginal utility falls with consumption <var>c</var> and wealth <var>a</var>, respectively. <var>κ</var> is the weight on wealth in utility. Preferences are strongly wealth-dependent when <var>κ</var>&nbsp;&gt;&nbsp;0 and <var>γ</var>&nbsp;&gt;&nbsp;<var>ν</var>.</p>
+        </div>
       </section>
-      <section class="model-assumption-card" aria-labelledby="model-returns">
-        <h4 id="model-returns">Return process</h4>
-        <p>In the baseline model, next period’s cash-on-hand is gross capital income</p>
+      <section class="model-equation-card model-return" aria-labelledby="model-returns">
+        <p class="model-equation-lead">In the baseline model, next period’s cash-on-hand is gross capital income</p>
         <div class="model-formula">
           <math display="block" aria-label="Household i’s next-period cash-on-hand equals its next-period return shock times its invested wealth raised to one plus eta.">
             <mrow>
@@ -1444,13 +1437,15 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
             </mrow>
           </math>
         </div>
-        <p><var>r</var> is an idiosyncratic return shock with a Pareto upper tail, independent across households and periods. <var>η</var> is the elasticity of the gross return rate with respect to invested wealth.</p>
+        <div class="budget-component">
+          <h4 id="model-returns">Return process</h4>
+          <p><var>r</var> is an idiosyncratic return shock with a Pareto upper tail, independent across households and periods. <var>η</var> is the elasticity of the gross return rate with respect to invested wealth.</p>
+        </div>
       </section>
     </div>
 
     <div class="model-ratio-grid">
-      <section class="model-ratio-card" aria-labelledby="model-return-scale">
-        <h4 id="model-return-scale">Capital income and wealth identify return scale dependence</h4>
+      <section class="model-equation-card model-return" aria-labelledby="model-return-scale">
         <div class="model-formula">
           <math display="block" aria-label="The capital-income coefficient divided by the wealth coefficient equals one over one plus eta. Thus eta equals the wealth coefficient divided by the capital-income coefficient minus one.">
             <mrow>
@@ -1463,11 +1458,13 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
             </mrow>
           </math>
         </div>
-        <p>A thicker capital-income tail than wealth tail implies a positive <var>η</var> in the model. At a given return shock, a positive <var>η</var> means that the rate of return rises with invested wealth.</p>
+        <div class="budget-component">
+          <h4 id="model-return-scale">Capital income and wealth identify return scale dependence</h4>
+          <p>A thicker capital-income tail than wealth tail implies a positive <var>η</var> in the model. At a given return shock, a positive <var>η</var> means that the rate of return rises with invested wealth.</p>
+        </div>
       </section>
 
-      <section class="model-ratio-card" aria-labelledby="model-preference-curvature">
-        <h4 id="model-preference-curvature">The two ratios identify relative preference curvature</h4>
+      <section class="model-equation-card model-preference" aria-labelledby="model-preference-curvature">
         <div class="model-formula">
           <math display="block" aria-label="The consumption coefficient divided by the wealth coefficient equals gamma divided by nu times one plus eta. Thus gamma over nu equals the consumption coefficient divided by the capital-income coefficient.">
             <mrow>
@@ -1480,7 +1477,10 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
             </mrow>
           </math>
         </div>
-        <p>Under the conditions of Corollary 1, the upper-tail elasticity of consumption with respect to wealth at a given age is <var>ν</var>/<var>γ</var>. A larger <var>γ</var>/<var>ν</var> means consumption rises more slowly as wealth increases.</p>
+        <div class="budget-component">
+          <h4 id="model-preference-curvature">The two ratios identify relative preference curvature</h4>
+          <p>Under the conditions of Corollary 1, the upper-tail elasticity of consumption with respect to wealth at a given age is <var>ν</var>/<var>γ</var>. A larger <var>γ</var>/<var>ν</var> means consumption rises more slowly as wealth increases.</p>
+        </div>
       </section>
     </div>
 

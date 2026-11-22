@@ -127,45 +127,38 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   gap: 16px;
   margin: 16px 0 12px;
 }
-.model-assumption-card,
-.model-ratio-card {
+.model-equation-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  padding: 16px 18px;
-  border: 1px solid #dfded8;
-  border-radius: 8px;
-  background: #fffefa;
-  box-shadow: 0 3px 10px #20354f08;
 }
-.model-ratio-card {
+.model-return {
+  --component-color: #477ead;
   --corollary-accent: #245a87;
-  --corollary-tint: #eaf2f8;
-  border-top: 3px solid #477ead;
 }
-.model-ratio-card + .model-ratio-card {
+.model-preference {
+  --component-color: #bf5277;
   --corollary-accent: #9a2c52;
-  --corollary-tint: #f9ecf1;
-  border-top-color: #ef2d68;
 }
-.model-assumption-card h4,
-.model-ratio-card h4 {
-  margin: 0 0 6px;
-  color: #2d465f;
-  font: 600 16px/1.4 Arial, sans-serif;
+.model-equation-card > .budget-component {
+  display: block;
+  flex: 1;
+  position: relative;
+  margin-top: 26px;
 }
-.model-ratio-card h4 {
+.model-equation-card h4 {
+  margin: 0 0 8px;
   color: var(--corollary-accent);
+}
+.model-implications .model-equation-lead {
+  margin: 0;
+  text-align: center;
 }
 .model-formula {
   display: grid;
   place-items: center;
-  min-height: 76px;
-  margin: 10px 0;
-  padding: 8px 6px;
-  border-radius: 5px;
-  background: #f4f3ee;
-}
-.model-ratio-card .model-formula {
-  background: var(--corollary-tint);
+  min-height: 70px;
+  padding: 8px 4px;
 }
 .model-formula math {
   margin: 0;
@@ -176,8 +169,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: var(--corollary-accent);
   font-weight: 700;
 }
-.model-assumption-card p,
-.model-ratio-card p {
+.model-equation-card .budget-component p {
   margin: 0;
 }
 .model-implications .model-example {
