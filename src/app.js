@@ -1232,7 +1232,7 @@ function createTimeWindow(canvas, onChange) {
     quantileComparison=createUSQuantileComparison({
       host:$('us-quantile-comparison'),
       surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
-      showRawByDefault: false,
+      showRawByDefault: !phoneLayout.matches,
       metadata:META,spendingOptions,surveyName,surveyTooltip,
       getHousingMethod:()=>housing.method,
       onHousingChange:checked=>{$('constant-housing-service').checked=checked;applyHousingMethod();},

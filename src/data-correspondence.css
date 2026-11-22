@@ -463,7 +463,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .quantile-comparison-chart{height:780px;position:relative;min-width:0}
 .quantile-panel-accessible-summary{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .quantile-comparison-status{margin:12px 0;font-size:14px}
-.quantile-comparison-finding{margin:0 0 10px;color:#425367;font:400 14px/1.55 Arial,sans-serif}
+.quantile-comparison-finding{margin:0 0 10px;color:#526579;font:400 14px/1.75 Arial,sans-serif}
+.quantile-finding-expression{white-space:nowrap}
 .quantile-comparison-note{margin:10px 0 0;color:#627388;font:400 13px/1.5 Arial,sans-serif}
 @media(max-width:1100px){.quantile-comparison-panels.has-raw-panel{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:760px){

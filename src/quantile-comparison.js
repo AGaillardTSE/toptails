@@ -398,31 +398,55 @@ function createUSQuantileComparison({
     }));
   }
 
-  function summarizeAdjustedPSID(groups) {
-    const estimates = Object.fromEntries(groups
-      .filter(group=>group.survey==='PSID' && group.variant!=='raw' && group.reference?.n)
-      .map(({key,label,reference})=>[key,{label,mean:reference.mean}]));
-    const wealth = estimates.networth_val?.mean;
-    if (!(wealth > 0)) return '';
-    const consumption = estimates.consumption;
-    const capital = estimates.total_capital_income;
-    const comparisons = [];
-    if (consumption) {
-      const ratio = consumption.mean / wealth;
-      const relative = Math.abs(ratio - 2) < .15 ? 'about twice' : ratio.toFixed(2)+' times';
-      comparisons.push('At the KS-selected thresholds, the adjusted PSID Pareto coefficient for '
-        +consumption.label.toLowerCase()+' averages '+consumption.mean.toFixed(2)+', '+relative
-        +' the wealth coefficient of '+wealth.toFixed(2)+'.');
+  function renderPSIDHeadline(adjustedGroups, rawGroups) {
+    const means = groups => new Map(groups
+      .filter(group=>group.survey==='PSID' && group.reference?.n)
+      .map(({key,reference})=>[key,reference.mean]));
+    const adjusted = means(adjustedGroups);
+    const raw = means(rawGroups);
+    const measures = [
+      ['consumption','c',spending.selectedOptions[0].textContent.toLowerCase()],
+      ['total_capital_income','ra','capital income'],
+      ['networth_val','a','wealth'],
+    ].filter(([key])=>adjusted.has(key)&&raw.has(key));
+    finding.hidden = measures.length===0;
+    if (finding.hidden) return;
+
+    function zeta(subscript) {
+      const symbol = make('var','','ζ');
+      symbol.append(make('sub','',subscript));
+      return symbol;
     }
-    if (capital) {
-      const difference = Math.round(100*(capital.mean/wealth-1));
-      const comparison = difference === 0 ? 'close to the wealth coefficient'
-        : 'about '+Math.abs(difference)+'% '+(difference<0?'below':'above')+' the wealth coefficient';
-      comparisons.push((consumption ? 'The capital-income coefficient'
-        : 'At the KS-selected thresholds, the adjusted PSID capital-income Pareto coefficient')
-        +' averages '+capital.mean.toFixed(2)+', '+comparison+(consumption?'':' of '+wealth.toFixed(2))+'.');
+    function expression(subscript, adjustedValue, rawValue, ratio = false) {
+      const term = make('span','quantile-finding-expression');
+      term.append(zeta(subscript));
+      if (ratio) term.append('/',zeta('a'));
+      term.append(' = '+adjustedValue.toFixed(2)+' (resp. '+rawValue.toFixed(2)+')');
+      return term;
     }
-    return comparisons.join(' ');
+    function appendList(items) {
+      items.forEach((item,index)=>{
+        if (index) finding.append(index===items.length-1 ? (items.length===2?' and ':', and ') : ', ');
+        finding.append(...item);
+      });
+    }
+
+    finding.replaceChildren(make('strong','','Headline result:'),
+      ' At the KS-selected thresholds, the adjusted (resp. raw) PSID Pareto '
+      +(measures.length===1?'coefficient is ':'coefficients are '));
+    appendList(measures.map(([key,subscript,label])=>[
+      expression(subscript,adjusted.get(key),raw.get(key)), ' for '+label,
+    ]));
+    const adjustedWealth = adjusted.get('networth_val');
+    const rawWealth = raw.get('networth_val');
+    const ratios = measures.filter(([key])=>key!=='networth_val');
+    if (ratios.length && adjustedWealth>0 && rawWealth>0) {
+      finding.append(', implying ');
+      appendList(ratios.map(([key,subscript])=>[
+        expression(subscript,adjusted.get(key)/adjustedWealth,raw.get(key)/rawWealth,true),
+      ]));
+    }
+    finding.append('.');
   }
 
   function resizePlots() {
@@ -444,8 +468,6 @@ function createUSQuantileComparison({
     panelGrid.classList.toggle('single-reporting-panel',!includeRaw&&adjustment.value==='adj');
     csvButton.disabled = pngButton.disabled = !visible;
     status.hidden = visible;
-    finding.textContent = indicator==='pareto' ? summarizeAdjustedPSID(currentPanel.groups) : '';
-    finding.hidden = !finding.textContent;
     note.parentElement.hidden = !visible;
     if (!visible) status.textContent = !selected.size ? 'Choose a dataset to see its estimates.'
       : !activeVariables.length ? 'Choose a variable to see its estimates.'
@@ -599,8 +621,10 @@ function createUSQuantileComparison({
         return [{survey,variant,variable:measure,key,label,color,authorVariant,contract,incomeAuthorVariant,
           wealthAuthorVariant:survey==='SAEZ_ZUCMAN'?'dina_2022':authorVariant,indicator,method}];
       }));
-      const rawOptions = includeRaw ? curveOptions.map(config =>
-        household(config.survey) ? {...config,variant:'raw'} : config) : [];
+      const headlineEligible = canCompare && indicator==='pareto';
+      const rawOptions = curveOptions.filter(config=>includeRaw || (headlineEligible && config.survey==='PSID'
+        && ['consumption','total_capital_income','networth_val'].includes(config.key)))
+        .map(config=>household(config.survey) ? {...config,variant:'raw'} : config);
       const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
       const availableOptions = [...curveOptions,...rawOptions];
@@ -615,12 +639,14 @@ function createUSQuantileComparison({
       period = firstYear+'-'+lastYear;
       const profileCurves = curves.filter(row=>row.year>=firstYear&&row.year<=lastYear);
       subtitle.textContent = firstYear+'–'+lastYear+' average · '+title;
-      const plotGroups = configs=>configs.map(config=>({...config,
-        points:ThresholdProfiles.profiles(profileCurves,config),
+      const plotGroups = (configs, withProfiles = true)=>configs.map(config=>({...config,
+        points:withProfiles ? ThresholdProfiles.profiles(profileCurves,config) : [],
         reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),
       })).filter(group=>group.points.length||group.reference?.n);
       currentPanel.groups = plotGroups(curveOptions);
-      rawPanel.groups = plotGroups(rawOptions);
+      const rawGroups = plotGroups(rawOptions,includeRaw);
+      rawPanel.groups = includeRaw ? rawGroups : [];
+      if (headlineEligible) renderPSIDHeadline(currentPanel.groups,rawGroups);
       drawPlots(title,activeVariables,indicator,canCompare,includeRaw);
       lastFilter = filter;
     } catch (error) {
