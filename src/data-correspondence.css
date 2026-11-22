@@ -89,7 +89,12 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .pareto-method :is(p,li,dd,.pareto-example-readout,.pareto-illustration-status){font-size:14px}
 
 .model-implications {
+  --model-zeta: #bd2553;
   color: #34485e;
+}
+.model-implications .model-zeta {
+  color: var(--model-zeta);
+  font-weight: 600;
 }
 .model-implications .model-heading h2 {
   margin: 0 0 12px;
@@ -122,34 +127,56 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   gap: 16px;
   margin: 16px 0 12px;
 }
-.model-assumptions {
-  gap: 24px;
-}
-.model-assumptions p {
-  margin: 0;
-}
+.model-assumption-card,
 .model-ratio-card {
   min-width: 0;
   padding: 16px 18px;
   border: 1px solid #dfded8;
-  border-top: 3px solid #477ead;
-  border-radius: 7px;
+  border-radius: 8px;
   background: #fffefa;
+  box-shadow: 0 3px 10px #20354f08;
+}
+.model-ratio-card {
+  --corollary-accent: #245a87;
+  --corollary-tint: #eaf2f8;
+  border-top: 3px solid #477ead;
 }
 .model-ratio-card + .model-ratio-card {
-  border-top-color: #a43d60;
+  --corollary-accent: #9a2c52;
+  --corollary-tint: #f9ecf1;
+  border-top-color: #ef2d68;
 }
+.model-assumption-card h4,
 .model-ratio-card h4 {
-  margin: 0;
+  margin: 0 0 6px;
   color: #2d465f;
   font: 600 16px/1.4 Arial, sans-serif;
 }
-.model-assumptions math,
-.model-ratio-card math {
-  margin: 12px 0;
+.model-ratio-card h4 {
+  color: var(--corollary-accent);
+}
+.model-formula {
+  display: grid;
+  place-items: center;
+  min-height: 76px;
+  margin: 10px 0;
+  padding: 8px 6px;
+  border-radius: 5px;
+  background: #f4f3ee;
+}
+.model-ratio-card .model-formula {
+  background: var(--corollary-tint);
+}
+.model-formula math {
+  margin: 0;
   color: #20354f;
   font-size: clamp(18px, 4.5vw, 23px);
 }
+.model-corollary-result {
+  color: var(--corollary-accent);
+  font-weight: 700;
+}
+.model-assumption-card p,
 .model-ratio-card p {
   margin: 0;
 }

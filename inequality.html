@@ -651,7 +651,12 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .pareto-method :is(p,li,dd,.pareto-example-readout,.pareto-illustration-status){font-size:14px}
 
 .model-implications {
+  --model-zeta: #bd2553;
   color: #34485e;
+}
+.model-implications .model-zeta {
+  color: var(--model-zeta);
+  font-weight: 600;
 }
 .model-implications .model-heading h2 {
   margin: 0 0 12px;
@@ -684,34 +689,56 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   gap: 16px;
   margin: 16px 0 12px;
 }
-.model-assumptions {
-  gap: 24px;
-}
-.model-assumptions p {
-  margin: 0;
-}
+.model-assumption-card,
 .model-ratio-card {
   min-width: 0;
   padding: 16px 18px;
   border: 1px solid #dfded8;
-  border-top: 3px solid #477ead;
-  border-radius: 7px;
+  border-radius: 8px;
   background: #fffefa;
+  box-shadow: 0 3px 10px #20354f08;
+}
+.model-ratio-card {
+  --corollary-accent: #245a87;
+  --corollary-tint: #eaf2f8;
+  border-top: 3px solid #477ead;
 }
 .model-ratio-card + .model-ratio-card {
-  border-top-color: #a43d60;
+  --corollary-accent: #9a2c52;
+  --corollary-tint: #f9ecf1;
+  border-top-color: #ef2d68;
 }
+.model-assumption-card h4,
 .model-ratio-card h4 {
-  margin: 0;
+  margin: 0 0 6px;
   color: #2d465f;
   font: 600 16px/1.4 Arial, sans-serif;
 }
-.model-assumptions math,
-.model-ratio-card math {
-  margin: 12px 0;
+.model-ratio-card h4 {
+  color: var(--corollary-accent);
+}
+.model-formula {
+  display: grid;
+  place-items: center;
+  min-height: 76px;
+  margin: 10px 0;
+  padding: 8px 6px;
+  border-radius: 5px;
+  background: #f4f3ee;
+}
+.model-ratio-card .model-formula {
+  background: var(--corollary-tint);
+}
+.model-formula math {
+  margin: 0;
   color: #20354f;
   font-size: clamp(18px, 4.5vw, 23px);
 }
+.model-corollary-result {
+  color: var(--corollary-accent);
+  font-weight: 700;
+}
+.model-assumption-card p,
 .model-ratio-card p {
   margin: 0;
 }
@@ -1389,58 +1416,72 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 
   <section aria-labelledby="model-identification">
     <h3 id="model-identification">Identification from Pareto coefficients</h3>
-    <p>We show that, in a model with strongly wealth-dependent preferences, two ratios of asymptotic Pareto coefficients identify the relative curvature of preferences and the scale dependence of returns. Here <var>ζ</var><sub>c</sub> is the coefficient for consumption, <var>ζ</var><sub>a</sub> for invested wealth before terminal bequests, and <var>ζ</var><sub>ra</sub> for capital income. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 3.3, Corollary 1</a></p>
+    <p>We show that, in a model with strongly wealth-dependent preferences, two ratios of asymptotic Pareto coefficients identify the relative curvature of preferences and the scale dependence of returns. Here <var class="model-zeta">ζ<sub>c</sub></var> is the coefficient for consumption, <var class="model-zeta">ζ<sub>a</sub></var> for invested wealth before terminal bequests, and <var class="model-zeta">ζ<sub>ra</sub></var> for capital income. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 3.3, Corollary 1</a></p>
 
     <div class="model-assumptions">
-      <div>
+      <section class="model-assumption-card" aria-labelledby="model-utility">
+        <h4 id="model-utility">Preferences</h4>
         <p>Take the separable form for period utility</p>
-        <math display="block" aria-label="Utility of consumption c and wealth a equals c raised to one minus gamma divided by one minus gamma, plus kappa times a raised to one minus nu divided by one minus nu.">
-          <mrow>
-            <mi>u</mi><mo>(</mo><mi>c</mi><mo>,</mo><mi>a</mi><mo>)</mo><mo>=</mo>
-            <mfrac><msup><mi>c</mi><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow></msup><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow></mfrac>
-            <mo>+</mo><mi>κ</mi>
-            <mfrac><msup><mi>a</mi><mrow><mn>1</mn><mo>−</mo><mi>ν</mi></mrow></msup><mrow><mn>1</mn><mo>−</mo><mi>ν</mi></mrow></mfrac>
-          </mrow>
-        </math>
-        <p><var>γ</var> and <var>ν</var> govern how quickly marginal utility falls with consumption <var>c</var> and wealth <var>a</var>, respectively. <var>κ</var> is the weight on wealth in utility. Preferences are strongly wealth-dependent when <var>κ</var> &gt; 0 and <var>γ</var> &gt; <var>ν</var>.</p>
-      </div>
-      <div>
+        <div class="model-formula">
+          <math display="block" aria-label="Utility of consumption c and wealth a equals c raised to one minus gamma divided by one minus gamma, plus kappa times a raised to one minus nu divided by one minus nu.">
+            <mrow>
+              <mi>u</mi><mo stretchy="false">(</mo><mi>c</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo><mo>=</mo>
+              <mfrac><msup><mi>c</mi><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow></msup><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow></mfrac>
+              <mo>+</mo><mi>κ</mi>
+              <mfrac><msup><mi>a</mi><mrow><mn>1</mn><mo>−</mo><mi>ν</mi></mrow></msup><mrow><mn>1</mn><mo>−</mo><mi>ν</mi></mrow></mfrac>
+            </mrow>
+          </math>
+        </div>
+        <p><var>γ</var> and <var>ν</var> govern how quickly marginal utility falls with consumption <var>c</var> and wealth <var>a</var>, respectively. <var>κ</var> is the weight on wealth in utility. Preferences are strongly wealth-dependent when <var>κ</var>&nbsp;&gt;&nbsp;0 and <var>γ</var>&nbsp;&gt;&nbsp;<var>ν</var>.</p>
+      </section>
+      <section class="model-assumption-card" aria-labelledby="model-returns">
+        <h4 id="model-returns">Return process</h4>
         <p>In the baseline model, next period’s cash-on-hand is gross capital income</p>
-        <math display="block" aria-label="Household i’s next-period cash-on-hand equals its next-period return shock times its invested wealth raised to one plus eta.">
-          <mrow>
-            <msub><mi>X</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo>
-            <msub><mi>r</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub>
-            <msubsup><mi>a</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow><mrow><mn>1</mn><mo>+</mo><mi>η</mi></mrow></msubsup>
-          </mrow>
-        </math>
+        <div class="model-formula">
+          <math display="block" aria-label="Household i’s next-period cash-on-hand equals its next-period return shock times its invested wealth raised to one plus eta.">
+            <mrow>
+              <msub><mi>X</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo>
+              <msub><mi>r</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub>
+              <msubsup><mi>a</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi></mrow><mrow><mn>1</mn><mo>+</mo><mi>η</mi></mrow></msubsup>
+            </mrow>
+          </math>
+        </div>
         <p><var>r</var> is an idiosyncratic return shock with a Pareto upper tail, independent across households and periods. <var>η</var> is the elasticity of the gross return rate with respect to invested wealth.</p>
-      </div>
+      </section>
     </div>
 
     <div class="model-ratio-grid">
       <section class="model-ratio-card" aria-labelledby="model-return-scale">
         <h4 id="model-return-scale">Capital income and wealth identify return scale dependence</h4>
-        <math display="block" aria-label="The capital-income coefficient divided by the wealth coefficient equals one over one plus eta. Thus eta equals the wealth coefficient divided by the capital-income coefficient minus one.">
-          <mrow>
-            <mfrac><msub><mi>ζ</mi><mi>ra</mi></msub><msub><mi>ζ</mi><mi>a</mi></msub></mfrac>
-            <mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mi>η</mi></mrow></mfrac>
-            <mspace width=".7em"/><mo>⇒</mo><mspace width=".7em"/>
-            <mi>η</mi><mo>=</mo><mfrac><msub><mi>ζ</mi><mi>a</mi></msub><msub><mi>ζ</mi><mi>ra</mi></msub></mfrac><mo>−</mo><mn>1</mn>
-          </mrow>
-        </math>
+        <div class="model-formula">
+          <math display="block" aria-label="The capital-income coefficient divided by the wealth coefficient equals one over one plus eta. Thus eta equals the wealth coefficient divided by the capital-income coefficient minus one.">
+            <mrow>
+              <mfrac><msub class="model-zeta"><mi>ζ</mi><mi>ra</mi></msub><msub class="model-zeta"><mi>ζ</mi><mi>a</mi></msub></mfrac>
+              <mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mi>η</mi></mrow></mfrac>
+              <mspace width=".7em"/><mo>⇒</mo><mspace width=".7em"/>
+              <mrow class="model-corollary-result">
+                <mi>η</mi><mo>=</mo><mfrac><msub class="model-zeta"><mi>ζ</mi><mi>a</mi></msub><msub class="model-zeta"><mi>ζ</mi><mi>ra</mi></msub></mfrac><mo>−</mo><mn>1</mn>
+              </mrow>
+            </mrow>
+          </math>
+        </div>
         <p>A thicker capital-income tail than wealth tail implies a positive <var>η</var> in the model. At a given return shock, a positive <var>η</var> means that the rate of return rises with invested wealth.</p>
       </section>
 
       <section class="model-ratio-card" aria-labelledby="model-preference-curvature">
         <h4 id="model-preference-curvature">The two ratios identify relative preference curvature</h4>
-        <math display="block" aria-label="The consumption coefficient divided by the wealth coefficient equals gamma divided by nu times one plus eta. Thus gamma over nu equals the consumption coefficient divided by the capital-income coefficient.">
-          <mrow>
-            <mfrac><msub><mi>ζ</mi><mi>c</mi></msub><msub><mi>ζ</mi><mi>a</mi></msub></mfrac>
-            <mo>=</mo><mfrac><mi>γ</mi><mrow><mi>ν</mi><mo stretchy="true">(</mo><mn>1</mn><mo>+</mo><mi>η</mi><mo stretchy="true">)</mo></mrow></mfrac>
-            <mspace width=".7em"/><mo>⇒</mo><mspace width=".7em"/>
-            <mfrac><mi>γ</mi><mi>ν</mi></mfrac><mo>=</mo><mfrac><msub><mi>ζ</mi><mi>c</mi></msub><msub><mi>ζ</mi><mi>ra</mi></msub></mfrac>
-          </mrow>
-        </math>
+        <div class="model-formula">
+          <math display="block" aria-label="The consumption coefficient divided by the wealth coefficient equals gamma divided by nu times one plus eta. Thus gamma over nu equals the consumption coefficient divided by the capital-income coefficient.">
+            <mrow>
+              <mfrac><msub class="model-zeta"><mi>ζ</mi><mi>c</mi></msub><msub class="model-zeta"><mi>ζ</mi><mi>a</mi></msub></mfrac>
+              <mo>=</mo><mfrac><mi>γ</mi><mrow><mi>ν</mi><mo stretchy="true">(</mo><mn>1</mn><mo>+</mo><mi>η</mi><mo stretchy="true">)</mo></mrow></mfrac>
+              <mspace width=".7em"/><mo>⇒</mo><mspace width=".7em"/>
+              <mrow class="model-corollary-result">
+                <mfrac><mi>γ</mi><mi>ν</mi></mfrac><mo>=</mo><mfrac><msub class="model-zeta"><mi>ζ</mi><mi>c</mi></msub><msub class="model-zeta"><mi>ζ</mi><mi>ra</mi></msub></mfrac>
+              </mrow>
+            </mrow>
+          </math>
+        </div>
         <p>Under the conditions of Corollary 1, the upper-tail elasticity of consumption with respect to wealth at a given age is <var>ν</var>/<var>γ</var>. A larger <var>γ</var>/<var>ν</var> means consumption rises more slowly as wealth increases.</p>
       </section>
     </div>
@@ -1463,10 +1504,10 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
           </tr>
         </thead>
         <tbody>
-          <tr><th scope="row">Wealth <span><var>ζ</var><sub>a</sub></span></th><td>1.36</td><td>1.35</td><td>1.37</td></tr>
-          <tr><th scope="row">Consumption <span><var>ζ</var><sub>c</sub>/<var>ζ</var><sub>a</sub></span></th><td>2.08</td><td>1.33</td><td>2.03</td></tr>
-          <tr><th scope="row">Labor income <span><var>ζ</var><sub>y</sub>/<var>ζ</var><sub>a</sub></span></th><td>1.43</td><td>1.46</td><td>1.43</td></tr>
-          <tr><th scope="row">Capital income <span><var>ζ</var><sub>ra</sub>/<var>ζ</var><sub>a</sub></span></th><td>0.82</td><td>0.76</td><td>0.80</td></tr>
+          <tr><th scope="row">Wealth <span><var class="model-zeta">ζ<sub>a</sub></var></span></th><td>1.36</td><td>1.35</td><td>1.37</td></tr>
+          <tr><th scope="row">Consumption <span><var class="model-zeta">ζ<sub>c</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th><td>2.08</td><td>1.33</td><td>2.03</td></tr>
+          <tr><th scope="row">Labor income <span><var class="model-zeta">ζ<sub>y</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th><td>1.43</td><td>1.46</td><td>1.43</td></tr>
+          <tr><th scope="row">Capital income <span><var class="model-zeta">ζ<sub>ra</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th><td>0.82</td><td>0.76</td><td>0.80</td></tr>
           <tr><th scope="row">Top 1% wealth share</th><td>35%</td><td>34%</td><td>37%</td></tr>
         </tbody>
       </table>
