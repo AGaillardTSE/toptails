@@ -541,10 +541,10 @@
   "data/tail_curves_SAEZ_ZUCMAN.70d658385212f245.part02.bin": "ab7cb11fc2e1082a7ba76f233b9841e7ef1d1e9b3f663e1e86a17921a40bca60",
   "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
   "data/tail_curves_SCF.db23850757603869.part01.bin": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-  "data_manifest.json": "0285635182638e988e689932fdb48e4423107a8aa1fb6e9530c3f8cf4ee5bf51",
-  "index.html": "dc9e384adeef37365e61b757b0933629a1836adc4487d543fca503aa427a08f3",
-  "inequality.html": "dcefb6228a383659eed22558063122d3f6173c2809946c4294e594c634603f37",
-  "inequality_observatory.html": "dc9e384adeef37365e61b757b0933629a1836adc4487d543fca503aa427a08f3",
+  "data_manifest.json": "c7e79ad14a3832251f9a72c0910a133e4a88c1f1f31b473f44404aac1e198e8b",
+  "index.html": "f9dc978f94ce092f2ddf00ea7f7b7f048c26db4a125b8b193467316d38841707",
+  "inequality.html": "5e6a7468a75cff0192a263b3c909645f8f67345b66d289dd3e3ed975f10b17b8",
+  "inequality_observatory.html": "f9dc978f94ce092f2ddf00ea7f7b7f048c26db4a125b8b193467316d38841707",
   "src/adjustments.js": "799381d30791fa55afd994a0a9253edfb1ad31995275cea7dfb26878d2aff29d",
   "src/app.js": "8a9b49d81a2698ec5a994cf5deea200ac62925ed4a496760a996c8bb15f987f2",
   "src/budget-definitions.js": "2ce0db4a2b15d455b701dc7809055cd805ade647ecfce5bb6ed3ac0aec17fbd1",
@@ -632,5 +632,5 @@
   "data/quantile_curves_SCF_adj_benchmark_scf_income.84dca3bad3487017.part01.bin": "84dca3bad34870171bf3bb31e04a6d0c665c02a6e320659b7957f644679c4b69",
   "data/quantile_curves_SCF_full_benchmark_scf_income.76d4fb4e33c3e0a6.part01.bin": "76d4fb4e33c3e0a62028bd3290e167ee744285eae5d1f7515d617979aeea6def",
   "data/quantile_curves_SCF_raw_benchmark_scf_income.ff3753a24a4c3635.part01.bin": "ff3753a24a4c3635a5876d18da92c4eb8b6fcaeec8a2d1a8fbf40e701d272b32",
-  "src/model-implications.html": "8609b61502e8b152b9bcb32bf60e47cbf6721c113671859cfa3de7117ad4e273"
+  "src/model-implications.html": "595ce043544b360959330f6886c54657bcc244b5b27b4c9ede718e9a853740e5"
 }
