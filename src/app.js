@@ -390,10 +390,10 @@ function createTimeWindow(canvas, onChange) {
   ];
   const hiddenSpending=new Set(['food_home','food_away','food_housing','food_housing_vehicle']);
   const spendingOptions=(Array.isArray(META.spending_options)?META.spending_options:FALLBACK_SPENDING).filter(option=>!hiddenSpending.has(option.key)&&(SUMMARY.some(r=>r.variable===option.key)||BINS.some(r=>r.yvar===option.key)));
-  const s = {cexIncome:false,tab:'inequality',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS.filter(key=>key!=='total_income'))};
+  const s = {cexIncome:false,tab:'quantiles',primary:'psid',primaryEnabled:true,overlays:new Set(['scf','yodlee','forbes','saez_zucman']),metric:'pareto',paretoMetric:'pareto',shareMetric:'share_top20',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95,measure:'flow',variables:new Set(KEYS.filter(key=>key!=='total_income'))};
   const r = {survey:'psid',datasets:new Set(['PSID']),yodleeVariant:'all',variable:'all',adjustment:'full',method:'MLE',threshold:'ks',customQ:.95};
   const b = {primary:'psid',overlays:new Set(),adjustment:'full',measure:'flow',pair:'wealth_consumption',wave:'average',scfWave:'average',dinaWave:'average',autoSCF:false,cexWave:'latest',reconWave:'latest',bmWave:'latest',stat:'mean',minN:10,excludeNetRent:false,beforePersonalInterest:false,traces:false,scale:'loglog',fit:'ols'};
-  let eyeController,definitionsController,paretoController,timeChart,bivChart,otherController,adjustmentController,quantileComparison,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='inequality';
+  let eyeController,definitionsController,paretoController,timeChart,bivChart,otherController,adjustmentController,quantileComparison,referenceController,dataController,frame,timeRows=[],binRows=[],resultRows=[],resultPage=0,allResultsBusy=false,lastUSTab='quantiles';
   const VISIBLE_US_SURVEYS=new Set(['PSID','SCF','CEX_BM_RECON']);
   const BIVARIATE_SURVEYS=new Set([...BIN_AVAILABILITY.map(row=>row.survey),...(META.relationship_blocks||[]).map(scope=>scope.survey)]),hasCorrectedCEXBins=BIVARIATE_SURVEYS.has('CEX_BM_RECON');
   const surveyChoices=()=>['psid','scf',...(ALL_SUMMARY.some(row=>row.survey==='CEX_BM_RECON')?['cex_bm_recon']:[])];
@@ -519,6 +519,7 @@ function createTimeWindow(canvas, onChange) {
   function tab(name,countryView=null) {
     requestedCountryView=name==='other'?countryView:null;
     const us=['inequality','quantiles','results','loglog','eyeballing'].includes(name);if(us)lastUSTab=name;s.tab=name;
+    document.querySelector('.skip-link')?.setAttribute('href','#panel-'+name);
     $('us-secondary-nav').hidden=!us;$('live-announcement').hidden=name!=='inequality';if(name!=='inequality')$('live-announcement').textContent='';
     const housingControl=document.querySelector('.global-housing-control'),housingNav=us?$('us-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='other'?$('cc-secondary-nav')?.querySelector('.secondary-nav-inner'):name==='adjustments'?$('dc-adjustments-nav-inner'):null;
     if(housingControl){housingControl.hidden=!housingNav;if(housingNav)housingNav.append(housingControl);}
@@ -532,7 +533,8 @@ function createTimeWindow(canvas, onChange) {
   document.querySelectorAll('#primary-nav [data-section]').forEach(button=>{
     button.addEventListener('click',()=>tab(button.dataset.section==='us'?lastUSTab:button.dataset.section));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const all=[...document.querySelectorAll('#primary-nav [data-section]')];let index=all.indexOf(button);if(event.key==='Home')index=0;else if(event.key==='End')index=all.length-1;else index=(index+(event.key==='ArrowRight'?1:-1)+all.length)%all.length;all[index].focus();tab(all[index].dataset.section==='us'?lastUSTab:all[index].dataset.section);});
   });
-  function openQuantileLink(hash) {
+  function openViewLink(hash) {
+    if(hash==='#panel-inequality'){tab('inequality');return $('tab-inequality');}
     if(hash==='#panel-quantiles'){tab('quantiles');return $('tab-quantiles');}
     if(hash==='#cc-quantiles'){tab('other','quantiles');return $('tab-other');}
     return null;
@@ -541,10 +543,10 @@ function createTimeWindow(canvas, onChange) {
     link.addEventListener('click',event=>{
       if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
       event.preventDefault();
-      openQuantileLink(link.hash)?.focus();
+      openViewLink(link.hash)?.focus();
     });
   });
-  window.addEventListener('hashchange',()=>openQuantileLink(location.hash));
+  window.addEventListener('hashchange',()=>openViewLink(location.hash));
 
   let cexIncomeSummary=[],cexIncomeCurves=[],cexIncomeReady=false;
   const timeSummary=()=>s.cexIncome?SUMMARY.concat(cexIncomeSummary.filter(specificationMatches)):SUMMARY;
@@ -1230,7 +1232,7 @@ function createTimeWindow(canvas, onChange) {
     quantileComparison=createUSQuantileComparison({
       host:$('us-quantile-comparison'),
       surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
-      showRawByDefault: !isOnlineBuild || !phoneLayout.matches,
+      showRawByDefault: false,
       metadata:META,spendingOptions,surveyName,surveyTooltip,
       getHousingMethod:()=>housing.method,
       onHousingChange:checked=>{$('constant-housing-service').checked=checked;applyHousingMethod();},
@@ -1309,7 +1311,7 @@ function createTimeWindow(canvas, onChange) {
   ['survey-select','results-survey'].forEach(id=>{['cex','cex_bm'].forEach(value=>{const option=$(id).querySelector('option[value="'+value+'"]');if(option)option.hidden=true;});});
   filterSpecificationData();syncWeightingControls();
   fillResultsDatasets();fillResultsVariables();syncTailControls();definitions();fillSeries();
-  if(!openQuantileLink(location.hash))tab('inequality');
+  if(!openViewLink(location.hash))tab('quantiles');
   if(loadingMain){loadingMain.inert=false;loadingMain.removeAttribute('aria-busy');loadingMain.setAttribute('data-interactive-ms',String(Math.round(performance.now())));}if(loadingNav)loadingNav.inert=false;startupStatus.remove();
   window.addEventListener('resize',()=>{if(mainVisible())timeChart?.resize();if(quantilesVisible())quantileComparison?.resize();if(bivVisible())bivChart?.resize();if(s.tab==='eyeballing')eyeController?.resize();if(otherVisible())otherController?.resize();if(adjustmentsVisible()&&(!dataController||dataController.isProcedureVisible()))adjustmentController?.resize();if(dataVisible()||adjustmentsVisible())dataController?.resize();if(paretoVisible())paretoController?.resize();});
 })().catch(error=>{document.querySelector('main')?.removeAttribute('inert');document.querySelector('main')?.removeAttribute('aria-busy');document.getElementById('primary-nav')?.removeAttribute('inert');console.error(error);const target=document.getElementById('page-error');if(target){target.hidden=false;target.textContent='The results could not be loaded. Please reload the page in a current browser.';}});

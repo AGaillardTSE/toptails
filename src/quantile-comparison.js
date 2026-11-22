@@ -36,8 +36,7 @@ function createUSQuantileComparison({
   const referenceFont = '600 12px Arial, sans-serif';
   const axisTitleFont = {size:13,lineHeight:1.2};
   const axisTitlePadding = 4;
-  const defaultSurveys = ['PSID','CEX_BM_RECON','YODLEE','FORBES','SAEZ_ZUCMAN'];
-  const selected = new Set(surveys.filter(survey => defaultSurveys.includes(survey)));
+  const selected = new Set(surveys.includes('PSID') ? ['PSID'] : []);
   const household = survey => ['PSID','SCF','CEX_BM_RECON'].includes(survey);
   const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
   const percentile = value => 'P' + number.format(value);
@@ -72,6 +71,7 @@ function createUSQuantileComparison({
     </div>
     <div class="quantile-comparison-body">
       <p class="quantile-comparison-status" role="status" hidden></p>
+      <p class="quantile-comparison-finding" hidden></p>
       <div class="quantile-comparison-panels"></div>
       <p class="quantile-comparison-note"><em>Notes:</em> <span></span></p>
     </div>
@@ -112,6 +112,7 @@ function createUSQuantileComparison({
   const options = find('.quantile-comparison-options');
   const datasetChoices = find('.dataset-controls');
   const status = find('.quantile-comparison-status');
+  const finding = find('.quantile-comparison-finding');
   const plotHeading = find('.quantile-comparison-header h2');
   const subtitle = find('.plot-subtitle');
   const csvButton = find('[data-action="csv"]');
@@ -397,6 +398,33 @@ function createUSQuantileComparison({
     }));
   }
 
+  function summarizeAdjustedPSID(groups) {
+    const estimates = Object.fromEntries(groups
+      .filter(group=>group.survey==='PSID' && group.variant!=='raw' && group.reference?.n)
+      .map(({key,label,reference})=>[key,{label,mean:reference.mean}]));
+    const wealth = estimates.networth_val?.mean;
+    if (!(wealth > 0)) return '';
+    const consumption = estimates.consumption;
+    const capital = estimates.total_capital_income;
+    const comparisons = [];
+    if (consumption) {
+      const ratio = consumption.mean / wealth;
+      const relative = Math.abs(ratio - 2) < .15 ? 'about twice' : ratio.toFixed(2)+' times';
+      comparisons.push('At the KS-selected thresholds, the adjusted PSID Pareto coefficient for '
+        +consumption.label.toLowerCase()+' averages '+consumption.mean.toFixed(2)+', '+relative
+        +' the wealth coefficient of '+wealth.toFixed(2)+'.');
+    }
+    if (capital) {
+      const difference = Math.round(100*(capital.mean/wealth-1));
+      const comparison = difference === 0 ? 'close to the wealth coefficient'
+        : 'about '+Math.abs(difference)+'% '+(difference<0?'below':'above')+' the wealth coefficient';
+      comparisons.push((consumption ? 'The capital-income coefficient'
+        : 'At the KS-selected thresholds, the adjusted PSID capital-income Pareto coefficient')
+        +' averages '+capital.mean.toFixed(2)+', '+comparison+(consumption?'':' of '+wealth.toFixed(2))+'.');
+    }
+    return comparisons.join(' ');
+  }
+
   function resizePlots() {
     for (const panel of panels) panel.chart?.resize();
   }
@@ -416,6 +444,8 @@ function createUSQuantileComparison({
     panelGrid.classList.toggle('single-reporting-panel',!includeRaw&&adjustment.value==='adj');
     csvButton.disabled = pngButton.disabled = !visible;
     status.hidden = visible;
+    finding.textContent = indicator==='pareto' ? summarizeAdjustedPSID(currentPanel.groups) : '';
+    finding.hidden = !finding.textContent;
     note.parentElement.hidden = !visible;
     if (!visible) status.textContent = !selected.size ? 'Choose a dataset to see its estimates.'
       : !activeVariables.length ? 'Choose a variable to see its estimates.'
@@ -484,7 +514,7 @@ function createUSQuantileComparison({
             x:{type:'linear',min:xMin,max:xMax,
               afterBuildTicks:scale=>{scale.ticks=(includeRaw?[70,80,90,99]:[70,75,80,85,90,95,99]).map(value=>({value}));},
               ticks:{callback:percentile,maxRotation:0,font:{size:13}},grid:{display:false},
-              title:{display:true,text:shares?'Distribution percentile':'Tail cutoff percentile',font:{size:13}}},
+              title:{display:true,text:shares?'Distribution percentile':'Percentile where the upper tail begins',font:{size:13}}},
             y:{...yRange,grid:{color:'#e8e8ed'},
               title:{display:panel===titlePanel,text:yTitle,font:axisTitleFont,
                 padding:axisTitlePadding},
@@ -547,6 +577,7 @@ function createUSQuantileComparison({
     const sequence = ++request;
     status.textContent = 'Loading selected estimates…';
     status.hidden = false;
+    finding.hidden = true;
     csvButton.disabled = pngButton.disabled = true;
     try {
       const curveOptions = ids.flatMap(survey => activeVariables.flatMap(([key,variableLabel,color]) => {
