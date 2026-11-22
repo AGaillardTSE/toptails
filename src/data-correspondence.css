@@ -115,11 +115,18 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: #20354f;
   font: 600 20px/1.35 Arial, sans-serif;
 }
+.model-assumptions,
 .model-ratio-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   margin: 16px 0 12px;
+}
+.model-assumptions {
+  gap: 24px;
+}
+.model-assumptions p {
+  margin: 0;
 }
 .model-ratio-card {
   min-width: 0;
@@ -137,6 +144,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: #2d465f;
   font: 600 16px/1.4 Arial, sans-serif;
 }
+.model-assumptions math,
 .model-ratio-card math {
   margin: 12px 0;
   color: #20354f;
@@ -199,6 +207,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   font-size: 12px;
 }
 @media (max-width: 720px) {
+  .model-assumptions,
   .model-ratio-grid {
     grid-template-columns: 1fr;
   }
