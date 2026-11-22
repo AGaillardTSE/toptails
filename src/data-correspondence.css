@@ -159,11 +159,14 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: #2d465f;
   font: 600 16px/1.4 Arial, sans-serif;
 }
-.model-assumptions math,
-.model-ratio-card math {
+:is(.model-assumptions, .model-ratio-card) math[display="block"] {
   margin: 12px 0;
   color: #20354f;
   font-size: clamp(18px, 4.5vw, 23px);
+}
+.model-implications p math {
+  font-size: 1.05em;
+  color: #20354f;
 }
 .model-ratio-card p {
   margin: 0;

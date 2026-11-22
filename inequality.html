@@ -721,11 +721,14 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: #2d465f;
   font: 600 16px/1.4 Arial, sans-serif;
 }
-.model-assumptions math,
-.model-ratio-card math {
+:is(.model-assumptions, .model-ratio-card) math[display="block"] {
   margin: 12px 0;
   color: #20354f;
   font-size: clamp(18px, 4.5vw, 23px);
+}
+.model-implications p math {
+  font-size: 1.05em;
+  color: #20354f;
 }
 .model-ratio-card p {
   margin: 0;
@@ -1400,7 +1403,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 <section id="panel-model" class="tab-panel" role="tabpanel" aria-labelledby="tab-model" tabindex="0" hidden><article class="model-implications other-card">
   <header class="model-heading">
     <h2>Implications for heterogeneous-agent models</h2>
-    <p>In the data, the upper tails rank from thinnest to thickest as consumption, labor income, wealth, and capital income (see <a href="#panel-quantiles">United States – Tails by quantile</a> and <a href="#cc-quantiles">Across Countries – Tails by quantile</a>). In <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Gaillard et al. (2026)</a>, we show that the canonical heterogeneous agents (HA) model with homothetic, wealth-independent preferences and scale-independent returns predicts equally thick tails for consumption, wealth, and capital income. Intuitively, under the permanent income hypothesis, households smooth consumption according to their lifetime resources. At very high wealth, assets dominate those resources, so consumption becomes proportional to wealth. With scale-independent returns, capital income also scales in proportion to wealth. As a consequence, when homothetic models use heterogeneous returns to address the wealth concentration puzzle by matching top wealth shares or the wealth Gini, they also make consumption too concentrated at the top, giving rise to the <strong>consumption concentration puzzle</strong>.</p>
+    <p>In the data, the upper tails rank from thinnest to thickest as consumption, labor income, wealth, and capital income (see <a href="#panel-quantiles">United States – Tails by quantile</a> and <a href="#cc-quantiles">Across Countries – Tails by quantile</a>). In <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Gaillard et al. (2026)</a>, we show that the canonical heterogeneous agents (HA) model with homothetic, wealth-independent preferences and scale-independent returns predicts equally thick tails for consumption, wealth, and capital income. Intuitively, under the permanent income hypothesis, households smooth consumption according to their lifetime resources. At very high wealth, assets dominate those resources, so consumption becomes proportional to wealth. With scale-independent returns, capital income also scales in proportion to wealth. Homothetic heterogeneous-agent models, including models with entrepreneurs, can use differences in returns across households to address the wealth concentration puzzle by matching observed top wealth shares or the wealth Gini. The same mechanism can make consumption too concentrated at the top, even more so than labor income, giving rise to the <strong>consumption concentration puzzle</strong>.</p>
     <p>We show that non-homothetic, wealth-dependent preferences and scale-dependent returns can reproduce both the ranking and the magnitudes of the observed Pareto tail coefficients.</p>
   </header>
 
@@ -1413,13 +1416,13 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
         <p>Take the separable form for period utility</p>
         <math display="block" aria-label="Utility of consumption c and wealth a equals c raised to one minus gamma divided by one minus gamma, plus kappa times a raised to one minus nu divided by one minus nu.">
           <mrow>
-            <mi>u</mi><mo>(</mo><mi>c</mi><mo>,</mo><mi>a</mi><mo>)</mo><mo>=</mo>
+            <mi>u</mi><mo stretchy="false">(</mo><mi>c</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo><mo>=</mo>
             <mfrac><msup><mi>c</mi><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow></msup><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow></mfrac>
             <mo>+</mo><mi>κ</mi>
             <mfrac><msup><mi>a</mi><mrow><mn>1</mn><mo>−</mo><mi>ν</mi></mrow></msup><mrow><mn>1</mn><mo>−</mo><mi>ν</mi></mrow></mfrac>
           </mrow>
         </math>
-        <p><var>γ</var> and <var>ν</var> govern how quickly marginal utility falls with consumption <var>c</var> and wealth <var>a</var>, respectively. <var>κ</var> is the weight on wealth in utility. Preferences are strongly wealth-dependent when <var>κ</var> &gt; 0 and <var>γ</var> &gt; <var>ν</var>.</p>
+        <p><math><mi>γ</mi></math> and <math><mi>ν</mi></math> govern how quickly marginal utility falls with consumption <math><mi>c</mi></math> and wealth <math><mi>a</mi></math>, respectively. <math><mi>κ</mi></math> is the weight on wealth in utility. Preferences are strongly wealth-dependent when <math><mi>κ</mi><mo>&gt;</mo><mn>0</mn></math> and <math><mi>γ</mi><mo>&gt;</mo><mi>ν</mi></math>.</p>
       </div>
       <div>
         <p>In the baseline model, next period’s cash-on-hand is gross capital income</p>
@@ -1458,7 +1461,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
             <mrow class="model-corollary-result"><mfrac><mi>γ</mi><mi>ν</mi></mfrac><mo>=</mo><mfrac><msub class="model-zeta"><mi>ζ</mi><mi>c</mi></msub><msub class="model-zeta"><mi>ζ</mi><mi>ra</mi></msub></mfrac></mrow>
           </mrow>
         </math>
-        <p>Under the conditions of Corollary 1, the upper-tail elasticity of consumption with respect to wealth at a given age is <var>ν</var>/<var>γ</var>. A larger <var>γ</var>/<var>ν</var> means consumption rises more slowly as wealth increases.</p>
+        <p>Under the conditions of Corollary 1, the upper-tail elasticity of consumption with respect to wealth at a given age is <math><mi>ν</mi><mo>/</mo><mi>γ</mi></math>. A larger <math><mi>γ</mi><mo>/</mo><mi>ν</mi></math> means consumption rises more slowly as wealth increases (the consumption function is more concave in wealth).</p>
       </section>
     </div>
 
