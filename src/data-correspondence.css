@@ -218,7 +218,17 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   background: #edf3f8;
   font-weight: 600;
 }
-.model-results-table tbody tr:last-child > * {
+.model-results-table .model-table-group th {
+  background: #f1efea;
+  color: #34485e;
+  font-weight: 600;
+}
+.model-results-table .model-puzzle-value {
+  background: #f9edf1;
+  color: #9a2c52;
+  font-weight: 700;
+}
+.model-results-table tbody:last-of-type tr:last-child > * {
   border-bottom: 0;
 }
 .model-implications .model-table-note {
