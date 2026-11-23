@@ -2966,7 +2966,8 @@ const ThresholdProfiles = (() => {
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=ThresholdProfiles;
 
-const US_TOTAL_INCOME_NOTE = 'Total income is only partly comparable across surveys. The series differ in whether and how they count realized capital gains, pensions, government transfers, and other income.';
+const US_TOTAL_INCOME_NOTE = 'Total income is only partly comparable across surveys. The series differ in whether and how they count realized capital gains, pensions, government transfers, and other income. '
+  + 'To construct the SCF income weights, we use a common definition of total income that matches those in the SCF. The total-income series shown here uses the total reported income.';
 
 function createUSTotalIncomeHelp() {
   const help = document.createElement('button');
