@@ -541,10 +541,10 @@
   "data/tail_curves_SAEZ_ZUCMAN.70d658385212f245.part02.bin": "ab7cb11fc2e1082a7ba76f233b9841e7ef1d1e9b3f663e1e86a17921a40bca60",
   "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
   "data/tail_curves_SCF.db23850757603869.part01.bin": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-  "data_manifest.json": "54cf0bdd6894447a30594d31c7012b627e71313243d5c632d91c6abf5cdaa6dc",
-  "index.html": "7e2e704cd629833a377f20cb22ce70753b19cf43b40940ccb7ef280223b5f370",
-  "inequality.html": "a0caf9c2d0d5ca34eea4fedd55ba5648c1eff45ea0fa18237dfff3eacb8d1b2d",
-  "inequality_observatory.html": "7e2e704cd629833a377f20cb22ce70753b19cf43b40940ccb7ef280223b5f370",
+  "data_manifest.json": "565cbfc45223845ff6c8fab907ead5757876da3f482c9afa4920d2011b3d41c9",
+  "index.html": "27b080e181cb53008837b9baacf6a86dfa9a62db3ee4da8563c72a5c1016425e",
+  "inequality.html": "2c59fc1f866adea99e8fde10627ab8e9f417f890a7010fa5aca7b20e74b0e64c",
+  "inequality_observatory.html": "27b080e181cb53008837b9baacf6a86dfa9a62db3ee4da8563c72a5c1016425e",
   "src/adjustments.js": "799381d30791fa55afd994a0a9253edfb1ad31995275cea7dfb26878d2aff29d",
   "src/app.js": "6ce4f2bcea150931c530977f000c6a2353ae7eb245d8e768b5ca6babf2141998",
   "src/budget-definitions.js": "2ce0db4a2b15d455b701dc7809055cd805ade647ecfce5bb6ed3ac0aec17fbd1",
@@ -632,5 +632,5 @@
   "data/quantile_curves_SCF_adj_benchmark_scf_income.84dca3bad3487017.part01.bin": "84dca3bad34870171bf3bb31e04a6d0c665c02a6e320659b7957f644679c4b69",
   "data/quantile_curves_SCF_full_benchmark_scf_income.76d4fb4e33c3e0a6.part01.bin": "76d4fb4e33c3e0a62028bd3290e167ee744285eae5d1f7515d617979aeea6def",
   "data/quantile_curves_SCF_raw_benchmark_scf_income.ff3753a24a4c3635.part01.bin": "ff3753a24a4c3635a5876d18da92c4eb8b6fcaeec8a2d1a8fbf40e701d272b32",
-  "src/model-implications.html": "ed542df6b478f454508a5949dd988d6a1ba18a1512329abd0865bff1d223809c"
+  "src/model-implications.html": "a03a0ee76be5b9ead29f3abfe9d0e406dd0e3b2a24d10c2eae1028ff6774df38"
 }
