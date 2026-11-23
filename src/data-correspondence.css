@@ -201,6 +201,12 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   text-align: left;
   font-weight: 600;
 }
+.model-cutoff-table caption {
+  border-top: 1px solid #dfded8;
+}
+.model-cutoff-table tbody :is(th, td) {
+  padding-block: 6px;
+}
 .model-results-table :is(th, td) {
   padding: 8px 14px;
   border-bottom: 1px solid #e7e4df;
@@ -224,7 +230,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   white-space: nowrap;
   font-weight: 400;
 }
-.model-results-table tr:not(.model-table-group) > :last-child {
+.model-wealth-table tr > :last-child,
+.model-full-model td {
   background: #edf3f8;
   font-weight: 600;
 }
@@ -234,12 +241,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   background: #f5f4ef;
   color: #34485e;
   font-weight: 700;
-}
-.model-table-group small {
-  margin-left: 6px;
-  color: #57687b;
-  font-size: inherit;
-  font-weight: 400;
 }
 .model-results-table .model-puzzle-value {
   background: #f9edf1;
@@ -279,10 +280,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .model-results-table thead th:first-child {
     width: 32%;
     padding-left: 6px;
-  }
-  .model-results-table tbody th span {
-    display: block;
-    margin-left: 0;
   }
 }
 

@@ -541,16 +541,16 @@
   "data/tail_curves_SAEZ_ZUCMAN.70d658385212f245.part02.bin": "ab7cb11fc2e1082a7ba76f233b9841e7ef1d1e9b3f663e1e86a17921a40bca60",
   "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
   "data/tail_curves_SCF.db23850757603869.part01.bin": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-  "data_manifest.json": "76b497627e03e92b72028c894b90948660a4bce518be9493336f1a1aaac88cd2",
-  "index.html": "b461065837f9df304f8c23583469a8e4d8e849934e939a6aeaab5de73b6676ab",
-  "inequality.html": "9e299f395772f5c0211e8df4f0097c02d1ee21ae7c803106f6ec5d6626404410",
-  "inequality_observatory.html": "b461065837f9df304f8c23583469a8e4d8e849934e939a6aeaab5de73b6676ab",
+  "data_manifest.json": "25299db256482aa4bc606f1d53c0741e7f0fd94b32f1942fa718a6ed18327ddc",
+  "index.html": "ad123a297e95c97a2190e25d551416d020a405b1098d95f1ed3bd4500942f257",
+  "inequality.html": "e29a44df04c4abdbad32678a6d368e4ccf6fb655a7550e82e291728b4da0504a",
+  "inequality_observatory.html": "ad123a297e95c97a2190e25d551416d020a405b1098d95f1ed3bd4500942f257",
   "src/adjustments.js": "799381d30791fa55afd994a0a9253edfb1ad31995275cea7dfb26878d2aff29d",
   "src/app.js": "6ce4f2bcea150931c530977f000c6a2353ae7eb245d8e768b5ca6babf2141998",
   "src/budget-definitions.js": "2ce0db4a2b15d455b701dc7809055cd805ade647ecfce5bb6ed3ac0aec17fbd1",
   "src/citation.js": "cf9c88af777cdf60b928693f07e27749374a3e36d8d807c6a627d06637165f11",
   "src/data-and-correspondence.js": "38a695ee06bd814cf9416c4294faec0e826d8b5e777ce981bf00f29649bc10db",
-  "src/data-correspondence.css": "289f8114c6d81b84efe9e65d21f4a1047584d1a95a5cfa960f0a902718646c31",
+  "src/data-correspondence.css": "c43357daf08a70614bb5dd0f70995e187d81e4cfd1ae3d63b9f72e0f415972b0",
   "src/design_a.html": "a842abe32744f92d62fed09b9ebd59fa0b2a18ef45d1bdf32b08db3d8f949f0b",
   "src/design_b.html": "49334bced0952c21e3726d5772710cc34d392f105ca224fbf33b1cfc984072bb",
   "src/eyeballing.js": "983950dd708da0e3a7e7980e0c8044db8a5cada47b2e1ee5e02e2a7db2a2a331",
@@ -632,5 +632,5 @@
   "data/quantile_curves_SCF_adj_benchmark_scf_income.84dca3bad3487017.part01.bin": "84dca3bad34870171bf3bb31e04a6d0c665c02a6e320659b7957f644679c4b69",
   "data/quantile_curves_SCF_full_benchmark_scf_income.76d4fb4e33c3e0a6.part01.bin": "76d4fb4e33c3e0a62028bd3290e167ee744285eae5d1f7515d617979aeea6def",
   "data/quantile_curves_SCF_raw_benchmark_scf_income.ff3753a24a4c3635.part01.bin": "ff3753a24a4c3635a5876d18da92c4eb8b6fcaeec8a2d1a8fbf40e701d272b32",
-  "src/model-implications.html": "197ee1218bdf92d073e335f6392e12a8977837141fae0ae6d36293f5e41d2d71"
+  "src/model-implications.html": "5f4dfa175f3f4748b2d35914e0e373bc8cc6f5699155072b63e3a505847738a6"
 }
