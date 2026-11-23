@@ -13,7 +13,8 @@ function createUSTotalIncomeHelp() {
 }
 
 function createUSQuantileComparison({
-  host, surveys, loadCurves, metadata, spendingOptions, surveyName, surveyTooltip, showRawByDefault = true,
+  host, surveys, loadCurves, metadata, spendingOptions, surveyName, surveyTooltip, appendParetoEstimationLink,
+  showRawByDefault = true,
   getHousingMethod, onHousingChange, getWeightingMethod, onWeightingChange,
   getCapitalDefinition, onCapitalDefinitionChange, getCEXIncome, onCEXIncomeChange
 }) {
@@ -417,11 +418,16 @@ function createUSQuantileComparison({
       symbol.append(make('sub','',subscript));
       return symbol;
     }
-    function expression(subscript, adjustedValue, rawValue, ratio = false) {
+    function expression(key, subscript, adjustedValue, rawValue, ratio = false) {
       const term = make('span','quantile-finding-expression');
+      const estimate = value => {
+        const number = make('strong','',value.toFixed(2));
+        number.style.color = referenceColors[key];
+        return number;
+      };
       term.append(zeta(subscript));
       if (ratio) term.append('/',zeta('a'));
-      term.append(' = '+adjustedValue.toFixed(2)+' (resp. '+rawValue.toFixed(2)+')');
+      term.append(' = ',estimate(adjustedValue),' (resp. ',estimate(rawValue),')');
       return term;
     }
     function appendList(items) {
@@ -432,10 +438,12 @@ function createUSQuantileComparison({
     }
 
     finding.replaceChildren(make('strong','','Headline result:'),
-      ' At the KS-selected thresholds, the adjusted (resp. raw) PSID Pareto '
+      ' At the KS-selected thresholds');
+    appendParetoEstimationLink(finding);
+    finding.append(', the adjusted (resp. raw) PSID Pareto '
       +(measures.length===1?'coefficient is ':'coefficients are '));
     appendList(measures.map(([key,subscript,label])=>[
-      expression(subscript,adjusted.get(key),raw.get(key)), ' for '+label,
+      expression(key,subscript,adjusted.get(key),raw.get(key)), ' for '+label,
     ]));
     const adjustedWealth = adjusted.get('networth_val');
     const rawWealth = raw.get('networth_val');
@@ -443,7 +451,7 @@ function createUSQuantileComparison({
     if (ratios.length && adjustedWealth>0 && rawWealth>0) {
       finding.append(', implying ');
       appendList(ratios.map(([key,subscript])=>[
-        expression(subscript,adjusted.get(key)/adjustedWealth,raw.get(key)/rawWealth,true),
+        expression(key,subscript,adjusted.get(key)/adjustedWealth,raw.get(key)/rawWealth,true),
       ]));
     }
     finding.append('.');

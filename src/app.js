@@ -1233,7 +1233,7 @@ function createTimeWindow(canvas, onChange) {
       host:$('us-quantile-comparison'),
       surveys:[...VISIBLE_US_SURVEYS,...referenceSurveys],
       showRawByDefault: !phoneLayout.matches,
-      metadata:META,spendingOptions,surveyName,surveyTooltip,
+      metadata:META,spendingOptions,surveyName,surveyTooltip,appendParetoEstimationLink,
       getHousingMethod:()=>housing.method,
       onHousingChange:checked=>{$('constant-housing-service').checked=checked;applyHousingMethod();},
       getWeightingMethod:()=>weighting.method,
