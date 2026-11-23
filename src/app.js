@@ -293,12 +293,25 @@ function createTimeWindow(canvas, onChange) {
   const dina={capitalDefinition:'including_fiscal_gains'};
   const dinaVariant=()=>META.saez_zucman_reference?.capital_income_definitions?.[dina.capitalDefinition]?.author_variant||'dina_2022_incl_gains';
   const weighting={method:'scf_income'};
+  const broadIncomeMethod='scf_broad_income';
+  const weightingLabels={scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights',scf_broad_income:'SCF broad income weights'};
   const housingMethod=row=>row.housing_method||'benchmark';
   const weightingMethod=row=>row.weighting_method||(row.survey==='CEX_BM_RECON'?'scf_housing':'scf_income');
   const housingSource=(survey,method=housing.method)=>META.housing_method_aliases?.[survey]?.[method]||method;
   const housingMatches=row=>housingMethod(row)===housingSource(row.survey||'PSID');
-  const weightingMatches=row=>row.survey==='CEX_BM_RECON'?weightingMethod(row)==='scf_housing':['PSID','CEX'].includes(row.survey)&&row.variant==='full'?weightingMethod(row)===weighting.method:weightingMethod(row)==='scf_income';
-  const specificationMatches=row=>row.survey==='SAEZ_ZUCMAN'||housingMatches(row)&&weightingMatches(row);
+  const comparisonWeighting=()=>weighting.method===broadIncomeMethod?'scf_income':weighting.method;
+  const weightingMatches=(row,method)=>row.survey==='CEX_BM_RECON'?weightingMethod(row)==='scf_housing':['PSID','CEX'].includes(row.survey)&&row.variant==='full'?weightingMethod(row)===method:weightingMethod(row)==='scf_income';
+  const commonSCFIncome=row=>row.survey==='SCF'&&row.variable==='total_income'&&weightingMethod(row)===broadIncomeMethod;
+  const usesBroadPSIDIncome=(adjustment,surveys)=>adjustment==='full'&&weighting.method===broadIncomeMethod&&surveys.has('PSID');
+  const useCommonSCFIncome=(adjustment,surveys)=>usesBroadPSIDIncome(adjustment,surveys)&&surveys.has('SCF');
+  const comparisonRows=(rows,adjustment,surveys)=>{
+    if(!useCommonSCFIncome(adjustment,surveys))return rows;
+    return rows.filter(row=>row.survey!=='SCF'||row.variable!=='total_income'||row.variant==='raw').concat(
+      ALL_SUMMARY.filter(row=>commonSCFIncome(row)&&housingMatches(row)));
+  };
+  const specificationMatchesFor=(row,method)=>row.survey==='SAEZ_ZUCMAN'||housingMatches(row)&&weightingMatches(row,method);
+  const specificationMatches=row=>specificationMatchesFor(row,weighting.method);
+  const comparisonSpecificationMatches=row=>specificationMatchesFor(row,comparisonWeighting());
   const detailedCurveSurveys=[...document.querySelectorAll('[data-explorer-block^="tail_curves_"]')].map(node=>node.dataset.explorerBlock.slice('tail_curves_'.length)),loadedCurveSurveys=new Set(detailedCurveSurveys.length?[]:ALL_CURVES.map(row=>row.survey)),curvePromises=new Map();
   async function ensureFullCurves(surveys=detailedCurveSurveys){
     await Promise.all(surveys.filter(survey=>detailedCurveSurveys.includes(survey)).map(survey=>{
@@ -373,7 +386,7 @@ function createTimeWindow(canvas, onChange) {
   const KEYS = ['spending','total_labor_income','total_capital_income','networth_val','total_income'];
   const LABELS = {total_labor_income:'Labor income',total_capital_income:'Capital income',total_income:'Total income',networth_val:'Net worth'};
   const ADJ = {raw:'Raw data',adj:'Rescaled',full:'Fully adjusted'};
-  const adjustmentLabel=row=>isCEX(row.survey)&&row.variable==='networth_val'&&row.variant==='full'&&!ALL_SUMMARY.some(value=>value.survey===row.survey&&value.variable==='networth_val'&&value.variant==='adj'&&housingMethod(value)===housingMethod(row))?'Income reweighted':row.survey==='SCF'&&row.variant==='adj'?'Rescaled':row.variant==='original'?'Original B&M construction':ADJ[row.variant]||row.variant;
+  const adjustmentLabel=row=>commonSCFIncome(row)?'Rescaled · common total income':row.survey==='PSID'&&weightingMethod(row)===broadIncomeMethod?'Reporting + representation · SCF broad income':isCEX(row.survey)&&row.variable==='networth_val'&&row.variant==='full'&&!ALL_SUMMARY.some(value=>value.survey===row.survey&&value.variable==='networth_val'&&value.variant==='adj'&&housingMethod(value)===housingMethod(row))?'Income reweighted':row.survey==='SCF'&&row.variant==='adj'?'Rescaled':row.variant==='original'?'Original B&M construction':ADJ[row.variant]||row.variant;
   const PAIRS = {
     wealth_consumption:{x:'networth_val',y:'spending'}, income_consumption:{x:'total_income',y:'spending'},
     labor_consumption:{x:'total_labor_income',y:'spending'},capital_consumption:{x:'total_capital_income',y:'spending'},
@@ -474,7 +487,8 @@ function createTimeWindow(canvas, onChange) {
   }
   const metricValue = row => {const fit=tailResult(row);return s.metric==='pareto'?fit.estimate:s.metric==='pareto_wealth_ratio'?tailWealthRatio(row,fit):row[s.metric];};
   function wealthTail(row,method=s.method,rule=s.threshold,q=s.customQ) {
-    const wealthRow=summaryIndex.get(curveKey({...row,variable:'networth_val'}))||{...row,variable:'networth_val'},wealth=tailResult(wealthRow,method,rule,q);
+    const wealthSpec={...row,variable:'networth_val',weighting_method:commonSCFIncome(row)?'scf_income':weightingMethod(row)};
+    const wealthRow=summaryIndex.get(curveKey(wealthSpec))||wealthSpec,wealth=tailResult(wealthRow,method,rule,q);
     return wealth;
   }
   function tailWealthRatio(row,fit,method=s.method,rule=s.threshold,q=s.customQ) {
@@ -549,7 +563,7 @@ function createTimeWindow(canvas, onChange) {
   window.addEventListener('hashchange',()=>openViewLink(location.hash));
 
   let cexIncomeSummary=[],cexIncomeCurves=[],cexIncomeReady=false;
-  const timeSummary=()=>s.cexIncome?SUMMARY.concat(cexIncomeSummary.filter(specificationMatches)):SUMMARY;
+  const timeSummary=()=>comparisonRows(s.cexIncome?SUMMARY.concat(cexIncomeSummary.filter(specificationMatches)):SUMMARY,s.adjustment,selectedSurveys(s));
   const timeKeys=()=>KEYS;
   async function ensureCEXIncome(){
     if(cexIncomeReady)return;
@@ -571,7 +585,7 @@ function createTimeWindow(canvas, onChange) {
       if (key==='total_income') {
         const group=document.createElement('span');
         group.className='us-total-income-choice';
-        group.append(item,createUSTotalIncomeHelp());
+        group.append(item,createUSTotalIncomeHelp(usesBroadPSIDIncome(s.adjustment,selected)));
         $('series-controls').append(group);
       } else $('series-controls').append(item);
     });
@@ -651,7 +665,7 @@ function createTimeWindow(canvas, onChange) {
     const yTitle=({pareto:'Pareto tail coefficient (ζ)',pareto_wealth_ratio:'Relative to wealth (ζₓ / ζₐ)',gini:'Gini coefficient'})[s.metric]||metricLabel();
     const shownHouseholds=new Set(datasets.map(dataset=>dataset.survey).filter(survey=>['PSID','CEX_BM_RECON','SCF'].includes(survey))),adjustmentLabels=[];
     if(s.adjustment==='full'){
-      if(shownHouseholds.has('PSID'))adjustmentLabels.push('PSID is rescaled to national accounts and uses '+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]+'.');
+      if(shownHouseholds.has('PSID'))adjustmentLabels.push('PSID is rescaled to national accounts and uses '+weightingLabels[weighting.method]+'.');
       if(shownHouseholds.has('CEX_BM_RECON'))adjustmentLabels.push('CEX is rescaled to national accounts and uses SCF housing weights.');
       if(shownHouseholds.has('SCF'))adjustmentLabels.push('SCF is rescaled to national accounts only.');
     }else if(shownHouseholds.size){
@@ -695,6 +709,9 @@ function createTimeWindow(canvas, onChange) {
     if(housing.method==='bp')notes.push('Homeowner services use the constant housing-value-rate version. Only computed or verified equivalent housing definitions are shown.');
     if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='irs_income')notes.push('PSID fully adjusted results use IRS income weights.');
     if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='scf_wealth')notes.push('PSID fully adjusted results use SCF wealth weights.');
+    if(usesBroadPSIDIncome(s.adjustment,selected)&&s.variables.has('total_income'))notes.push(useCommonSCFIncome(s.adjustment,selected)
+      ?'Adjusted PSID and SCF total income use the common measure.'
+      :'Adjusted PSID total income uses the common measure.');
     if(isParetoMetric(s.metric)&&s.threshold==='ks')notes.push('Each coefficient uses its own KS-selected threshold.');
     if(s.metric==='pareto_wealth_ratio')notes.push('Each value divides the selected variable’s Pareto coefficient by the wealth coefficient from the same survey, wave and adjustment stage; wealth equals 1.');
     if(s.variables.has('spending')&&selected.has('SCF')){const rows=SUMMARY.filter(row=>row.survey==='SCF'&&row.variable===spendingKey(s.measure)&&row.variant===variantFor('SCF'));if(!rows.some(row=>FINITE(metricValue(row))))notes.push('Consumption is unavailable in SCF for this adjustment.');}
@@ -760,11 +777,12 @@ function createTimeWindow(canvas, onChange) {
   resultsMeasureLabel.replaceWith(resultsMeasureTitle);
   resultsMeasureTitle.append(resultsMeasureLabel,resultsTotalIncomeHelp);
   function fillResultsVariables(){
-    const selected=resultsSurveys(),native=referencePoints().filter(row=>selected.has(row.survey)),household=SUMMARY.filter(row=>selected.has(row.survey)),variables=[...new Set([...household,...native].map(row=>row.variable))].filter(variable=>!hiddenSpending.has(variable)).sort((a,b)=>variableDisplayLabel(a,r.survey.toUpperCase()).localeCompare(variableDisplayLabel(b,r.survey.toUpperCase()))),select=$('results-variable');select.replaceChildren();
+    const selected=resultsSurveys(),native=referencePoints().filter(row=>selected.has(row.survey)),household=comparisonRows(SUMMARY,r.adjustment,selected).filter(row=>selected.has(row.survey)),variables=[...new Set([...household,...native].map(row=>row.variable))].filter(variable=>!hiddenSpending.has(variable)).sort((a,b)=>variableDisplayLabel(a,r.survey.toUpperCase()).localeCompare(variableDisplayLabel(b,r.survey.toUpperCase()))),select=$('results-variable');select.replaceChildren();
     const supported=variable=>household.some(row=>row.variable===variable&&row.variant===variantFor(row.survey,r.adjustment))||native.some(row=>row.variable===variable&&(row.survey!=='YODLEE'||r.yodleeVariant==='all'||row.author_variant===r.yodleeVariant));
     [['all','All available measures'],...variables.map(variable=>[variable,variableDisplayLabel(variable,r.survey.toUpperCase())])].forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;option.disabled=value!=='all'&&!supported(value);select.append(option);});
     if(r.variable!=='all'&&(!variables.includes(r.variable)||!supported(r.variable)))r.variable='all';select.value=r.variable;
     resultsTotalIncomeHelp.hidden=r.variable!=='total_income';
+    resultsTotalIncomeHelp.dataset.tooltip=usesBroadPSIDIncome(r.adjustment,selected)?US_COMMON_TOTAL_INCOME_NOTE:US_TOTAL_INCOME_NOTE;
   }
   function syncResultsControls(){
     const selected=resultsSurveys(),hasHouseholds=[...selected].some(survey=>VISIBLE_US_SURVEYS.has(survey)),hasYodlee=selected.has('YODLEE'),bankOnly=hasYodlee&&!hasHouseholds,bankOptions=[['all','All saved constructions'],...Object.entries(YODLEE_VARIANTS).filter(([variant])=>referencePoints().some(row=>row.survey==='YODLEE'&&row.author_variant===variant))],adjustment=$('results-adjustment'),bank=$('results-yodlee-adjustment');
@@ -773,13 +791,13 @@ function createTimeWindow(canvas, onChange) {
     fill(adjustment,bankOnly?bankOptions:hasHouseholds?[['full','Reporting + representation'],['adj','Reporting adjustment'],['raw','Raw data']]:[['reference','Not applicable']],bankOnly?r.yodleeVariant:hasHouseholds?r.adjustment:'reference');adjustment.disabled=!hasHouseholds&&!bankOnly;
     adjustment.closest('.control').querySelector('label').textContent=bankOnly?'Durable correction':'Adjustment';
     fillResultsVariables();
-    const householdRows=SUMMARY.filter(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,r.adjustment)&&(r.variable==='all'||row.variable===r.variable)),available=(method,rule)=>householdRows.some(row=>FINITE(tailResult(row,method,rule,r.customQ).estimate)||(!loadedCurveSurveys.has(row.survey)&&curveIndex.get(curveKey(row))?.available_thresholds?.[method]?.includes(rule)))||resultsReferenceRows(method,rule).length>0;
+    const householdRows=comparisonRows(SUMMARY,r.adjustment,selected).filter(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,r.adjustment)&&(r.variable==='all'||row.variable===r.variable)),available=(method,rule)=>householdRows.some(row=>FINITE(tailResult(row,method,rule,r.customQ).estimate)||(!loadedCurveSurveys.has(row.survey)&&curveIndex.get(curveKey(row))?.available_thresholds?.[method]?.includes(rule)))||resultsReferenceRows(method,rule).length>0;
     [...$('results-method').options].forEach(option=>{option.disabled=!['ks','p80','p90','p95','p98'].some(rule=>available(option.value,rule));option.title=option.disabled?'No stored estimates for this method and selection.':'';});if($('results-method').querySelector('option[value="'+r.method+'"]').disabled)r.method=[...$('results-method').options].find(option=>!option.disabled)?.value||'MLE';
     [...$('results-threshold').options].forEach(option=>{option.disabled=option.value==='custom'?!householdRows.length&&!resultsReferenceRows(r.method,'p80').length:!available(r.method,option.value);option.title=option.disabled?'No stored estimates for this threshold and selection.':'';});if($('results-threshold').querySelector('option[value="'+r.threshold+'"]').disabled)r.threshold=[...$('results-threshold').options].find(option=>!option.disabled)?.value||'ks';
     const custom=$('results-custom-threshold'),spec=customThresholdSpec(r);custom.max=String(spec.maximum);custom.step=String(spec.step);if(r.threshold==='custom'&&100*r.customQ>Number(custom.max))r.customQ=Number(custom.max)/100;custom.value=String(100*r.customQ);$('results-method').value=r.method;$('results-threshold').value=r.threshold;$('results-custom-threshold-control').hidden=r.threshold!=='custom';
   }
   function selectedResultRows(){
-    const selected=resultsSurveys(),annual=SUMMARY.filter(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,r.adjustment)&&(r.variable==='all'||row.variable===r.variable)).map(row=>({...makeAnnualResult(row,r.method,r.threshold,r.customQ),source_housing_method:housingMethod(row),housing_method:housing.method}));
+    const selected=resultsSurveys(),annual=comparisonRows(SUMMARY,r.adjustment,selected).filter(row=>selected.has(row.survey)&&row.variant===variantFor(row.survey,r.adjustment)&&(r.variable==='all'||row.variable===r.variable)).map(row=>({...makeAnnualResult(row,r.method,r.threshold,r.customQ),source_housing_method:housingMethod(row),housing_method:housing.method}));
     resultsReferenceRows().forEach(point=>{const row={...point,country:'US',housing_method:'not_applicable',source_housing_method:'not_applicable',weighting_method:point.survey==='YODLEE'?'source_scf_income':'not_applicable',year:point.year,period_type:'wave',period_label:String(point.year),variant:point.author_variant,source_variant:point.author_variant,adjustment_label:point.survey==='YODLEE'?(YODLEE_VARIANTS[point.author_variant]||point.author_variant):point.survey==='SAEZ_ZUCMAN'?'DINA reference':'Standalone reference',variable_label:variableDisplayLabel(point.variable,point.survey),pareto_estimate:point.estimate,max_ks:point.ks,wealth_pareto_estimate:point.wealth_pareto_estimate??null,ratio_numerator_mean:point.estimate,tail_to_wealth:point.tail_to_wealth??null,tail_unit_type:point.unit||META.surveys?.[point.survey]?.tail_unit||'',n_tail:point.n_tail??null,n_obs:point.n_obs??null,n_waves:1,n_waves_total:1,n_waves_pareto:FINITE(point.estimate)?1:0,n_waves_ratio:FINITE(point.tail_to_wealth)?1:0};INEQUALITY_METRICS.forEach(field=>{row[field]=FINITE(point[field])?point[field]:null;row['n_waves_'+field]=FINITE(row[field])?1:0;});annual.push(row);});
     annual.sort((a,b)=>a.survey.localeCompare(b.survey)||a.year-b.year||a.variable.localeCompare(b.variable)||a.variant.localeCompare(b.variant));const map=new Map();annual.forEach(row=>accumulateAverage(map,row));return [...averageResults(map),...annual];
   }
@@ -960,11 +978,13 @@ function createTimeWindow(canvas, onChange) {
     });
     const lx=displayLabel(pair.x,b.measure,b.primary.toUpperCase()),ly=displayLabel(pair.y,b.measure,b.primary.toUpperCase());
     $('biv-chart-title').textContent=ly+' and '+(pair.x==='networth_val'&&!isCEX(b.primary.toUpperCase())?'wealth':lx.toLowerCase().replace(/\bcex\b/g,'CEX'));
-    $('biv-chart-subtitle').textContent='Normalized weighted '+(b.stat==='mean'?'means':'medians')+' · '+(useLog?'log–log':'level')+' axes'+(b.adjustment==='full'&&selectedSurveys(b).has('PSID')?' · '+(selectedSurveys(b).has('CEX_BM_RECON')?'PSID: ':'')+({scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights'})[weighting.method]:'')+(b.adjustment==='full'&&selectedSurveys(b).has('CEX_BM_RECON')?' · CEX: SCF housing values':'')+(housing.method==='bp'?' · Constant imputed rent rate':'');
+    $('biv-chart-subtitle').textContent='Normalized weighted '+(b.stat==='mean'?'means':'medians')+' · '+(useLog?'log–log':'level')+' axes'+(b.adjustment==='full'&&selectedSurveys(b).has('PSID')?' · '+(selectedSurveys(b).has('CEX_BM_RECON')?'PSID: ':'')+weightingLabels[weighting.method]:'')+(b.adjustment==='full'&&selectedSurveys(b).has('CEX_BM_RECON')?' · CEX: SCF housing values':'')+(housing.method==='bp'?' · Constant imputed rent rate':'');
     if(capitalIncomePair())$('biv-chart-subtitle').textContent+=(b.excludeNetRent?' · Excludes net imputed rent':'')+(b.beforePersonalInterest?' · Before personal-debt interest':'');
     $('biv-chart').setAttribute('aria-label',ly+' versus '+lx+' in the upper tail');
     $('biv-empty').hidden=!!plotted.length;
-    $('biv-empty').textContent='No comparable '+(useLog?'positive ':'')+'results for this selection.';
+    $('biv-empty').textContent=binningSurveys.has('PSID')&&b.adjustment==='full'&&weighting.method===broadIncomeMethod
+      ?'PSID log–log estimates with SCF broad income weights are unavailable. Select another adjustment or change the weighting correction in Tails by quantile.'
+      :'No comparable '+(useLog?'positive ':'')+'results for this selection.';
     const onlyBM=selectedSurveys(b).size===1&&selectedSurveys(b).has('CEX_BM');$('biv-variant').disabled=onlyBM;$('biv-variant').value=onlyBM?'raw':b.adjustment;$('biv-variant').title=onlyBM?'B&M relationships use the identified original reported sample; adjusted income and wealth rankings are unavailable.':'';$('wave-select').disabled=!selectedSurveys(b).has('PSID');$('show-waves').disabled=!selectedSurveys(b).has('PSID');
     $('scf-wave-select').disabled=!selectedSurveys(b).has('SCF');
     $('recon-wave-select').disabled=!selectedSurveys(b).has('CEX_BM_RECON');$('recon-wave-select').closest('.control').hidden=!selectedSurveys(b).has('CEX_BM_RECON');const hasCEXRelationship=selectedSurveys(b).has('CEX');$('cex-wave-select').disabled=!hasCEXRelationship;$('bm-wave-select').disabled=!selectedSurveys(b).has('CEX_BM');
@@ -994,6 +1014,7 @@ function createTimeWindow(canvas, onChange) {
     if(omitted.length) notes.push(omitted.join('; ')+ ' omitted from this plot.');
     const counts=regressions.filter(f=>f.method==='OLS');
     if(counts.length) notes.push(counts.map(f=>f.name+': '+f.n+' bins').join(' · ')+'.');
+    if(selected.has('PSID')&&b.adjustment==='full'&&weighting.method===broadIncomeMethod&&plotted.length)notes.push('PSID log–log estimates with SCF broad income weights are unavailable.');
     $('biv-omissions').textContent=notes.join(' ');
     if(!plotted.length) return;
     const lo=Math.max(Math.min(...plotted.map(p=>p.x)),Math.min(...plotted.map(p=>p.y))), hi=Math.min(Math.max(...plotted.map(p=>p.x)),Math.max(...plotted.map(p=>p.y)));
@@ -1054,7 +1075,7 @@ function createTimeWindow(canvas, onChange) {
   document.querySelectorAll('input[name="pareto-estimator"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.method=input.value;syncTailControls();schedule();}));
   document.querySelectorAll('input[name="tail-threshold"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.threshold=input.value;syncTailControls();schedule();}));
   document.querySelectorAll('input[name="top-share-cutoff"]').forEach(input=>input.addEventListener('change',()=>{if(!input.checked)return;s.shareMetric=input.value;applyMainMetric(input.value);schedule();}));
-  [['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth']].forEach(([id,method])=>$(id)?.addEventListener('change',event=>{weighting.method=event.target.checked?method:'scf_income';applySpecificationSelection();}));
+  [['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth'],['weight-scf-broad-income',broadIncomeMethod]].forEach(([id,method])=>$(id)?.addEventListener('change',event=>{weighting.method=event.target.checked?method:'scf_income';applySpecificationSelection();}));
   function changeBivariatePair(value){if(value!=='wealth_consumption')b.overlays.delete('cex_bm_recon');const capital=['wealth_capital','income_capital'].includes(value);if(!capital&&b.autoSCF){b.overlays.delete('scf');b.autoSCF=false;}if(capital&&!b.overlays.has('scf')){b.overlays.add('scf');b.autoSCF=true;}b.pair=value;fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());}
   bind('biv-survey-select',value=>{b.primary=value;b.overlays.delete(value);syncHousingAvailability();if(value==='cex_bm'&&!['wealth_consumption','income_consumption'].includes(b.pair)){b.pair='wealth_consumption';$('pair-select').value=b.pair;}fillOverlays('biv-overlay-controls',b,bivariateSurveyChoices());fillSpendingSelect('biv-measure-select',value,b,BINS);});
   bind('biv-variant',value=>{b.adjustment=value;fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);}); bind('biv-measure-select',value=>{b.measure=value;$('biv-measure-select').title=spendingName(value);}); bind('pair-select',changeBivariatePair); bind('wave-select',value=>b.wave=value);
@@ -1145,7 +1166,7 @@ function createTimeWindow(canvas, onChange) {
       const stored=row['pareto_'+threshold];
       return method==='MLE'&&threshold!=='custom'&&FINITE(stored)?stored:estimate;
     }
-    const sourceRows=ALL_SUMMARY.filter(row=>VISIBLE_US_SURVEYS.has(row.survey)&&specificationMatches(row));
+    const sourceRows=ALL_SUMMARY.filter(row=>VISIBLE_US_SURVEYS.has(row.survey)&&comparisonSpecificationMatches(row));
     for(const row of sourceRows)for(const method of methods){
       const estimate=!isTail?row[indicator]:cutoff===null?tailResult(row,method,'ks').estimate:fixedEstimate(row,method,curveIndex.get(curveKey(row)));
       add(row,method,row.variant,estimate);
@@ -1205,8 +1226,8 @@ function createTimeWindow(canvas, onChange) {
       loadCEXIncome:async()=>{await ensureCEXIncome();return cexIncomeCurves;},
       getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,
       loadInternationalBins:separateBlocks?loadInternationalBins:null,getHousingMethod:()=>housing.method,
-      getSpecificationSignature:()=>housing.method+'|'+weighting.method+'|'+dina.capitalDefinition,
-      housingMatches:specificationMatches,metadata:META,createEyeballing:host=>createEyeballing(host,true),
+      getSpecificationSignature:()=>housing.method+'|'+comparisonWeighting()+'|'+dina.capitalDefinition,
+      housingMatches:comparisonSpecificationMatches,metadata:META,createEyeballing:host=>createEyeballing(host,true),
     });
     if(otherVisible()){const control=document.querySelector('.global-housing-control'),nav=$('cc-secondary-nav')?.querySelector('.secondary-nav-inner');if(control&&nav){control.hidden=false;nav.append(control);}}
   }
@@ -1243,7 +1264,7 @@ function createTimeWindow(canvas, onChange) {
       getCEXIncome:()=>s.cexIncome,
       onCEXIncomeChange:checked=>{s.cexIncome=checked;fillOverlays('overlay-controls',s,mainOverlayChoices());fillSeries();schedule();},
       async loadCurves(options){
-        const stages=new Map();
+        const stages=new Map(), useCommonIncome=options.some(option=>option.commonSCFIncome);
         for(const {survey,variant} of options){
           if(!stages.has(survey))stages.set(survey,new Set());
           stages.get(survey).add(variant);
@@ -1254,6 +1275,7 @@ function createTimeWindow(canvas, onChange) {
             const weights=survey==='CEX_BM_RECON'?'scf_housing':survey==='PSID'&&variant==='full'?weighting.method:'scf_income';
             return ['quantile_curves',survey,variant,housingSource(survey),weights].join('_');
           });
+          if(survey==='SCF'&&useCommonIncome)keys.push(['quantile_curves','SCF','adj',housingSource('SCF'),broadIncomeMethod].join('_'));
           if(loadedCurveSurveys.has(survey)||!keys.every(key=>$('explorer-block-'+key)))fallback.push(survey);
           else for(const key of keys)scoped.push(loadScopedCurves(key));
         }
@@ -1261,14 +1283,15 @@ function createTimeWindow(canvas, onChange) {
         const [selectedCurves]=await Promise.all([
           Promise.all(scoped),ensureFullCurves(fallback),includeCEXIncome?ensureCEXIncome():null,
         ]);
-        const curves=ALL_CURVES.filter(row=>fallback.includes(row.survey)&&specificationMatches(row)).concat(...selectedCurves);
+        const curves=ALL_CURVES.filter(row=>fallback.includes(row.survey)&&(specificationMatches(row)||(useCommonIncome&&commonSCFIncome(row)&&housingMatches(row))))
+          .concat(...selectedCurves).filter(row=>!useCommonIncome||row.survey!=='SCF'||row.variable!=='total_income'||row.variant==='raw'||commonSCFIncome(row));
         if(includeCEXIncome)curves.push(...cexIncomeCurves.filter(specificationMatches));
         return curves.concat((referenceController?.profileCurves()||[]).filter(row=>stages.has(row.survey)));
       },
     });
   }
-  function initializeAdjustmentController(){if(!adjustmentController&&typeof initAdjustments==='function')adjustmentController=initAdjustments(DATA.adjustments||{},{getHousingMethod:()=>housing.method,getWeightingMethod:()=>weighting.method,housingMatches,loadComposition:async survey=>{const key='composition_'+survey,value=await loadBlock(key);blockPromises.delete(key);return value;}});}
-  const createEyeballing=(host,international=false)=>Eyeballing.create({host,international,metadata:META,loadBlock,getHousingMethod:()=>housing.method,onHousingChange:method=>{housing.method=method;applySpecificationSelection();},getWeightingMethod:()=>weighting.method,onWeightingChange:method=>{weighting.method=method;applySpecificationSelection();},getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,surveyTooltip,appendParetoEstimationLink});
+  function initializeAdjustmentController(){if(!adjustmentController&&typeof initAdjustments==='function')adjustmentController=initAdjustments(DATA.adjustments||{},{getHousingMethod:()=>housing.method,getWeightingMethod:comparisonWeighting,housingMatches,loadComposition:async survey=>{const key='composition_'+survey,value=await loadBlock(key);blockPromises.delete(key);return value;}});}
+  const createEyeballing=(host,international=false)=>Eyeballing.create({host,international,metadata:META,loadBlock,getHousingMethod:()=>housing.method,onHousingChange:method=>{housing.method=method;applySpecificationSelection();},getWeightingMethod:international?comparisonWeighting:()=>weighting.method,onWeightingChange:method=>{weighting.method=method;applySpecificationSelection();},getDinaCapitalDefinition:()=>dina.capitalDefinition,onDinaCapitalDefinitionChange:setDinaCapitalDefinition,surveyTooltip,appendParetoEstimationLink});
   eyeController=createEyeballing($('us-eyeballing'));
   if(typeof initDataAndCorrespondence==='function')dataController=initDataAndCorrespondence(META,{loadParetoIllustration:()=>loadBlock('illustration_ks')});
   window.addEventListener('adjustments-procedure-visible',()=>{if(adjustmentsVisible())adjustmentController?.render();});
@@ -1277,9 +1300,16 @@ function createTimeWindow(canvas, onChange) {
     if(!$('weight-scf-income'))return;
     const chosen=selectedSurveys(s),onlyCEX=chosen.size===1&&chosen.has('CEX_BM_RECON'),available=s.adjustment==='full'&&chosen.has('PSID')&&!!META.weighting_sensitivity;
     const standardOptions=document.querySelector('.weighting-control>.weighting-options:not(.cex-weighting-options)'),cexOptions=document.querySelector('.cex-weighting-options');if(standardOptions)standardOptions.hidden=onlyCEX;if(cexOptions)cexOptions.hidden=!onlyCEX;
-    $('weight-scf-income').checked=weighting.method==='scf_income';$('weight-irs-income').checked=weighting.method==='irs_income';$('weight-scf-wealth').checked=weighting.method==='scf_wealth';
-    $('weight-scf-income').disabled=!available;$('weight-irs-income').disabled=!available;$('weight-scf-wealth').disabled=!available;
-    ['weight-scf-income','weight-irs-income','weight-scf-wealth'].forEach(id=>$(id).closest('.weighting-choice')?.classList.toggle('unavailable-option',!available));document.querySelector('.weighting-control')?.classList.toggle('weighting-unavailable',!available&&!(onlyCEX&&s.adjustment==='full'));
+    for(const [id,method] of [['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth'],['weight-scf-broad-income',broadIncomeMethod]]){
+      const radio=$(id),wrapper=radio?.closest('.weighting-choice');
+      if(!radio)continue;
+      const published=method!==broadIncomeMethod||!!META.weighting_sensitivity?.controls?.[method];
+      if(wrapper)wrapper.hidden=!published;
+      radio.checked=weighting.method===method;
+      radio.disabled=!available||!published;
+      wrapper?.classList.toggle('unavailable-option',radio.disabled);
+    }
+    document.querySelector('.weighting-control')?.classList.toggle('weighting-unavailable',!available&&!(onlyCEX&&s.adjustment==='full'));
   }
   function applySpecificationSelection(shouldSchedule=true){
     filterSpecificationData();syncWeightingControls();fillSpendingSelect('measure-select',selectedSurveys(s),s,SUMMARY);fillSpendingSelect('biv-measure-select',selectedSurveys(b),b,BINS);fillResultsVariables();fillSeries();fillOverlays('overlay-controls',s,mainOverlayChoices());if(shouldSchedule)schedule();

@@ -1,11 +1,12 @@
 const US_TOTAL_INCOME_NOTE = 'Total income is only partly comparable across surveys. The series differ in whether and how they count realized capital gains, pensions, government transfers, and other income. '
   + 'To construct the SCF income weights, we use a common definition of total income that matches those in the SCF. The total-income series shown here uses the total reported income.';
+const US_COMMON_TOTAL_INCOME_NOTE = 'With SCF broad income weights, adjusted PSID total income uses the common income measure. The adjusted SCF series uses the same measure when shown alongside PSID. The surveys group some rental and retirement receipts differently.';
 
-function createUSTotalIncomeHelp() {
+function createUSTotalIncomeHelp(useCommonIncome = false) {
   const help = document.createElement('button');
   help.type = 'button';
   help.className = 'help-marker detail-help hover-help';
-  help.dataset.tooltip = US_TOTAL_INCOME_NOTE;
+  help.dataset.tooltip = useCommonIncome ? US_COMMON_TOTAL_INCOME_NOTE : US_TOTAL_INCOME_NOTE;
   help.dataset.helpToggle = 'true';
   help.setAttribute('aria-label', 'About total-income comparability');
   help.setAttribute('aria-expanded', 'false');
@@ -214,6 +215,7 @@ function createUSQuantileComparison({
   adjustments.append(weightingBox);
   const weighting = radioGroup(weightingBox,'weighting','Weighting correction for PSID',[
     ['scf_income','SCF income'],['irs_income','IRS income'],['scf_wealth','SCF wealth'],
+    ...(metadata.weighting_sensitivity?.controls?.scf_broad_income?[['scf_broad_income','SCF broad income']]:[]),
   ],'weighting-options',onWeightingChange);
   for (const input of weighting.inputs) {
     const label = input.parentElement;
@@ -277,6 +279,7 @@ function createUSQuantileComparison({
   const scfInput = datasetChoices.querySelector('input[value="SCF"]');
 
   const seriesBar = find('.series-bar');
+  const totalIncomeHelp = createUSTotalIncomeHelp();
   const variableInputs = variables.map(([value,label,color]) => {
     const item = make('span','us-total-income-choice');
     const {wrapper,input} = choice(item,'checkbox','variable',value,label,render);
@@ -286,7 +289,7 @@ function createUSQuantileComparison({
     swatch.setAttribute('aria-hidden','true');
     input.after(swatch);
     input.checked = value !== 'total_income';
-    if (value === 'total_income') item.append(createUSTotalIncomeHelp());
+    if (value === 'total_income') item.append(totalIncomeHelp);
     seriesBar.append(item);
     return input;
   });
@@ -579,6 +582,8 @@ function createUSQuantileComparison({
     adjustment.disabled = !hasSurvey;
     const canCompare = hasSurvey && adjustment.value!=='raw';
     const includeRaw = showRawPanel && canCompare;
+    const compareCommonIncome = selected.has('PSID') && adjustment.value==='full' && getWeightingMethod()==='scf_broad_income';
+    totalIncomeHelp.dataset.tooltip = compareCommonIncome ? US_COMMON_TOTAL_INCOME_NOTE : US_TOTAL_INCOME_NOTE;
     adjustments.classList.toggle('adjustment-unavailable',!hasSurvey);
     weightingBox.hidden = !selected.has('PSID') || adjustment.value !== 'full';
     for (const input of weighting.inputs) input.checked = input.value === getWeightingMethod();
@@ -636,7 +641,9 @@ function createUSQuantileComparison({
         .map(config=>household(config.survey) ? {...config,variant:'raw'} : config);
       const supported = (row, config) => row.survey===config.survey && row.variant===config.variant &&
         row.variable===config.variable && (!config.authorVariant||row.author_variant===config.authorVariant);
-      const availableOptions = [...curveOptions,...rawOptions];
+      const availableOptions = [...curveOptions,...rawOptions].map(config=>({
+        ...config, commonSCFIncome:compareCommonIncome&&config.survey==='SCF'&&config.variant==='adj'&&(config.variable==='total_income'||config.indicator==='income_ratio'),
+      }));
       const curves = await loadCurves(availableOptions);
       if (sequence !== request) return;
       const years = new Set(curves.filter(row=>availableOptions.some(config=>supported(row,config)))
@@ -647,12 +654,16 @@ function createUSQuantileComparison({
       startWave.value = String(firstYear);
       period = firstYear+'-'+lastYear;
       const profileCurves = curves.filter(row=>row.year>=firstYear&&row.year<=lastYear);
-      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title;
+      const commonIncomeShown=compareCommonIncome&&(activeKeys.includes('total_income')||indicator==='income_ratio');
+      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title+(commonIncomeShown?' · Common total income':'');
       const plotGroups = (configs, withProfiles = true)=>configs.map(config=>({...config,
         points:withProfiles ? ThresholdProfiles.profiles(profileCurves,config) : [],
         reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),
       })).filter(group=>group.points.length||group.reference?.n);
-      currentPanel.groups = plotGroups(curveOptions);
+      currentPanel.groups = plotGroups(curveOptions).map(group=>({...group,
+        weightingMethod:group.survey==='PSID'&&group.variant==='full'?getWeightingMethod()
+          :compareCommonIncome&&group.survey==='SCF'&&(group.variable==='total_income'||group.indicator==='income_ratio')?'scf_broad_income':'',
+      }));
       const rawGroups = plotGroups(rawOptions,includeRaw);
       rawPanel.groups = includeRaw ? rawGroups : [];
       if (headlineEligible) renderPSIDHeadline(currentPanel.groups,rawGroups);
@@ -674,14 +685,14 @@ function createUSQuantileComparison({
     link.click();
   }
   csvButton.addEventListener('click', () => {
-    const rows = ['dataset,measure,adjustment,period,indicator,estimator,threshold_percentile,estimate,waves,years_used,standard_error,ks_mean,ks_standard_error,ks_waves,panel'];
+    const rows = ['dataset,measure,adjustment,period,indicator,estimator,threshold_percentile,estimate,waves,years_used,standard_error,ks_mean,ks_standard_error,ks_waves,panel,weighting_method'];
     for (const panel of panels) {
-      for (const {survey,variable,variant,indicator,method,points,reference} of panel.groups) {
+      for (const {survey,variable,variant,indicator,method,points,reference,weightingMethod} of panel.groups) {
         const prefix = [survey,variable,variant,period,indicator,indicator==='share'?'':method];
         const ks = [reference?.mean,reference?.se,reference?.n||''];
         for (const p of points) rows.push([...prefix,Math.round(p.q*1000000)/10000,
-          p.mean,p.n,p.years_used,p.se,...ks,panel.key].join(','));
-        if (!points.length && reference?.n) rows.push([...prefix,'','','','','',...ks,panel.key].join(','));
+          p.mean,p.n,p.years_used,p.se,...ks,panel.key,weightingMethod||''].join(','));
+        if (!points.length && reference?.n) rows.push([...prefix,'','','','','',...ks,panel.key,weightingMethod||''].join(','));
       }
     }
     const url = URL.createObjectURL(new Blob([rows.join('\r\n')],{type:'text/csv;charset=utf-8'}));

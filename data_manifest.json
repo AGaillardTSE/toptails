@@ -1,5 +1,5 @@
 {
-  "source_html_sha256": "3d9e2872dac281747ccffa579fc57bd279927d94c09bc6735883c35fc75bebb3",
+  "source_html_sha256": "6ecdfc5a05ae81f3bb5de4dd74ccaf81d388a390dd75ec54341febfdf65db99c",
   "entries": [
     {
       "id": "explorer-block-bins_unmerged_PSID",
@@ -184,28 +184,28 @@
       "id": "explorer-block-tail_curves_PSID",
       "separator": "\n",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_PSID\" data-explorer-block=\"tail_curves_PSID\" data-lazy=\"true\">",
-      "sha256": "32b660c884f378e26f1e33d15763763c7dcc5f9a7691b210ea12915f9c52b01c",
-      "gzip_bytes": 12906529,
+      "sha256": "0727946e72d7ed769b27be4e2ad74f2d2435bd343ff3aa1f5e1371fe7be8f23f",
+      "gzip_bytes": 15382757,
       "parts": [
         {
-          "path": "data/tail_curves_PSID.32b660c884f378e2.part01.bin",
+          "path": "data/tail_curves_PSID.0727946e72d7ed76.part01.bin",
           "bytes": 4194304,
-          "sha256": "2961167fbd8f7a2b17f3979594fae928b532d43cf266070d6cacdbad0a1371fa"
+          "sha256": "63c7e2d4ca40a956eb5a8177a02b2c42eddcce87922c01c062b6de69c812f89d"
         },
         {
-          "path": "data/tail_curves_PSID.32b660c884f378e2.part02.bin",
+          "path": "data/tail_curves_PSID.0727946e72d7ed76.part02.bin",
           "bytes": 4194304,
-          "sha256": "1bc004864d51a890b37330944946d1c50005fe4a3a1d0794e9039bb46dc24c11"
+          "sha256": "67bf904cf3626e2ff0f995c076b3b3fc54b48c34a4b3e50aef5ff91964b417a3"
         },
         {
-          "path": "data/tail_curves_PSID.32b660c884f378e2.part03.bin",
+          "path": "data/tail_curves_PSID.0727946e72d7ed76.part03.bin",
           "bytes": 4194304,
-          "sha256": "19f9e2ba6ea48458e53c8943b62739f0920922332b222533ddee31249b878f1b"
+          "sha256": "a14e4054fc9611fb23ec868b147bbbd5a3267a5b97318bc1cffb88905ba09bb9"
         },
         {
-          "path": "data/tail_curves_PSID.32b660c884f378e2.part04.bin",
-          "bytes": 323617,
-          "sha256": "28fccd28bf6bfbb5910dc692b6f55ba221d796990159cf5d6fdb2415f96bf144"
+          "path": "data/tail_curves_PSID.0727946e72d7ed76.part04.bin",
+          "bytes": 2799845,
+          "sha256": "cb4da2070906c0c79be82d952b351382394286acd76fbb043850de8e7ccce1df"
         }
       ]
     },
@@ -213,13 +213,13 @@
       "id": "explorer-block-tail_curves_SCF",
       "separator": "\n",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves_SCF\" data-explorer-block=\"tail_curves_SCF\" data-lazy=\"true\">",
-      "sha256": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-      "gzip_bytes": 2534327,
+      "sha256": "142f78d29592ae3b4f8ef947ad0341353e4e1138361c1183619c5a3f38f20853",
+      "gzip_bytes": 2636794,
       "parts": [
         {
-          "path": "data/tail_curves_SCF.db23850757603869.part01.bin",
-          "bytes": 2534327,
-          "sha256": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b"
+          "path": "data/tail_curves_SCF.142f78d29592ae3b.part01.bin",
+          "bytes": 2636794,
+          "sha256": "142f78d29592ae3b4f8ef947ad0341353e4e1138361c1183619c5a3f38f20853"
         }
       ]
     },
@@ -2708,13 +2708,13 @@
       "id": "explorer-block-summary",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-summary\" data-explorer-block=\"summary\" data-lazy=\"false\">",
       "separator": "\n",
-      "sha256": "052bd18a2b356bae721404f9bc8a8fa5f1437cd17c0f764c1c23a4fa7ddf7d04",
-      "gzip_bytes": 668919,
+      "sha256": "81dc5256f58c9598a7e4575402a454d8d55679be82a0c267c6a393a00492b758",
+      "gzip_bytes": 699924,
       "parts": [
         {
-          "path": "data/summary.052bd18a2b356bae.part01.bin",
-          "bytes": 668919,
-          "sha256": "052bd18a2b356bae721404f9bc8a8fa5f1437cd17c0f764c1c23a4fa7ddf7d04"
+          "path": "data/summary.81dc5256f58c9598.part01.bin",
+          "bytes": 699924,
+          "sha256": "81dc5256f58c9598a7e4575402a454d8d55679be82a0c267c6a393a00492b758"
         }
       ]
     },
@@ -2722,13 +2722,13 @@
       "id": "explorer-block-tail_curves",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-tail_curves\" data-explorer-block=\"tail_curves\" data-lazy=\"false\">",
       "separator": "\n",
-      "sha256": "4bdbebeecbf45d94a13bc86962b4e99d7e0c6f94e0bb24ddd7790b87de8766b0",
-      "gzip_bytes": 372835,
+      "sha256": "95aa7b94d63d9ac0fef975779d3ca63b44c6dba393cdba157a6b1369e704a4e0",
+      "gzip_bytes": 389799,
       "parts": [
         {
-          "path": "data/tail_curves.4bdbebeecbf45d94.part01.bin",
-          "bytes": 372835,
-          "sha256": "4bdbebeecbf45d94a13bc86962b4e99d7e0c6f94e0bb24ddd7790b87de8766b0"
+          "path": "data/tail_curves.95aa7b94d63d9ac0.part01.bin",
+          "bytes": 389799,
+          "sha256": "95aa7b94d63d9ac0fef975779d3ca63b44c6dba393cdba157a6b1369e704a4e0"
         }
       ]
     },
@@ -3080,13 +3080,13 @@
       "id": "explorer-block-metadata",
       "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-metadata\" data-explorer-block=\"metadata\" data-lazy=\"false\">",
       "separator": "\n",
-      "sha256": "ad51184b7adf0a73cf392c821e385c68c579f5db904319bda452137f77b380d3",
-      "gzip_bytes": 1260908,
+      "sha256": "6d58d6da5d1c4eda86ddbf8fcace6ad91a4933263a3015ca1aa3aa60d2223dbe",
+      "gzip_bytes": 1261150,
       "parts": [
         {
-          "path": "data/metadata.ad51184b7adf0a73.part01.bin",
-          "bytes": 1260908,
-          "sha256": "ad51184b7adf0a73cf392c821e385c68c579f5db904319bda452137f77b380d3"
+          "path": "data/metadata.6d58d6da5d1c4eda.part01.bin",
+          "bytes": 1261150,
+          "sha256": "6d58d6da5d1c4eda86ddbf8fcace6ad91a4933263a3015ca1aa3aa60d2223dbe"
         }
       ]
     },
@@ -3374,7 +3374,67 @@
         }
       ],
       "online_only": true
+    },
+    {
+      "id": "explorer-block-quantile_curves_SCF_full_benchmark_scf_broad_income",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-quantile_curves_SCF_full_benchmark_scf_broad_income\" data-explorer-block=\"quantile_curves_SCF_full_benchmark_scf_broad_income\" data-lazy=\"true\">",
+      "separator": "\n",
+      "gzip_bytes": 106935,
+      "sha256": "a4769559b6d9edcb83728cc5a3cd5b563f9a31c85d71c5bf244e8068e3bb74a8",
+      "parts": [
+        {
+          "path": "data/quantile_curves_SCF_full_benchmark_scf_broad_income.a4769559b6d9edcb.part01.bin",
+          "bytes": 106935,
+          "sha256": "a4769559b6d9edcb83728cc5a3cd5b563f9a31c85d71c5bf244e8068e3bb74a8"
+        }
+      ],
+      "online_only": true
+    },
+    {
+      "id": "explorer-block-quantile_curves_SCF_adj_benchmark_scf_broad_income",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-quantile_curves_SCF_adj_benchmark_scf_broad_income\" data-explorer-block=\"quantile_curves_SCF_adj_benchmark_scf_broad_income\" data-lazy=\"true\">",
+      "separator": "\n",
+      "gzip_bytes": 106928,
+      "sha256": "3212585a65f70d6024a9399a09316f1e78b89726373fe230462fb65d8f8fefc1",
+      "parts": [
+        {
+          "path": "data/quantile_curves_SCF_adj_benchmark_scf_broad_income.3212585a65f70d60.part01.bin",
+          "bytes": 106928,
+          "sha256": "3212585a65f70d6024a9399a09316f1e78b89726373fe230462fb65d8f8fefc1"
+        }
+      ],
+      "online_only": true
+    },
+    {
+      "id": "explorer-block-quantile_curves_PSID_full_benchmark_scf_broad_income",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-quantile_curves_PSID_full_benchmark_scf_broad_income\" data-explorer-block=\"quantile_curves_PSID_full_benchmark_scf_broad_income\" data-lazy=\"true\">",
+      "separator": "\n",
+      "gzip_bytes": 1620744,
+      "sha256": "be2df86b46b11db56d9635b237acdadfbf5493a1ecee1f7670c71a6389a0175b",
+      "parts": [
+        {
+          "path": "data/quantile_curves_PSID_full_benchmark_scf_broad_income.be2df86b46b11db5.part01.bin",
+          "bytes": 1620744,
+          "sha256": "be2df86b46b11db56d9635b237acdadfbf5493a1ecee1f7670c71a6389a0175b"
+        }
+      ],
+      "online_only": true
+    },
+    {
+      "id": "explorer-block-quantile_curves_PSID_full_bp_scf_broad_income",
+      "tag": "<script type=\"application/octet-stream\" id=\"explorer-block-quantile_curves_PSID_full_bp_scf_broad_income\" data-explorer-block=\"quantile_curves_PSID_full_bp_scf_broad_income\" data-lazy=\"true\">",
+      "separator": "\n",
+      "gzip_bytes": 1618839,
+      "sha256": "265666331a0266268047b1ebb26236da65e87c03123398f8269c479477ebda6a",
+      "parts": [
+        {
+          "path": "data/quantile_curves_PSID_full_bp_scf_broad_income.265666331a026626.part01.bin",
+          "bytes": 1618839,
+          "sha256": "265666331a0266268047b1ebb26236da65e87c03123398f8269c479477ebda6a"
+        }
+      ],
+      "online_only": true
     }
   ],
-  "source_html_bytes": 420936272
+  "source_html_bytes": 424444294
 }
