@@ -183,17 +183,29 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .model-table-frame {
   margin: 14px 0 8px;
+  overflow-x: auto;
   border: 1px solid #dfded8;
   border-radius: 7px;
   background: #fffefa;
 }
 .model-results-table {
   width: 100%;
+  min-width: 680px;
   table-layout: fixed;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   color: #34485e;
   font: 400 14px/1.5 Arial, sans-serif;
   font-variant-numeric: tabular-nums;
+}
+.model-results-table .model-statistic-column {
+  width: 26%;
+}
+.model-results-table .model-homothetic-columns {
+  background: #f8f7f3;
+}
+.model-results-table .model-full-columns {
+  background: #edf3f8;
 }
 .model-results-table caption {
   padding: 12px 16px 8px;
@@ -201,14 +213,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   text-align: left;
   font-weight: 600;
 }
-.model-cutoff-table caption {
-  border-top: 1px solid #dfded8;
-}
-.model-cutoff-table tbody :is(th, td) {
-  padding-block: 6px;
-}
 .model-results-table :is(th, td) {
-  padding: 8px 14px;
+  padding: 7px 9px;
   border-bottom: 1px solid #e7e4df;
   text-align: center;
   font-size: inherit;
@@ -217,12 +223,15 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .model-results-table tr > th:first-child {
   text-align: left;
 }
-.model-results-table thead th:first-child {
-  width: 36%;
-}
-.model-results-table thead {
+.model-results-table thead th {
   background: #f1efea;
   color: #20354f;
+}
+.model-results-table thead tr:last-child th {
+  background: #f5f4ef;
+}
+.model-results-table th[scope="colgroup"]:last-child {
+  background: #edf3f8;
 }
 .model-results-table tbody th span {
   display: inline-block;
@@ -230,9 +239,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   white-space: nowrap;
   font-weight: 400;
 }
-.model-wealth-table tr > :last-child,
-.model-full-model td {
-  background: #edf3f8;
+.model-results-table tbody:first-of-type td:nth-child(n + 8),
+.model-results-table tbody:last-of-type td:last-child {
   font-weight: 600;
 }
 .model-results-table .model-table-group th {
@@ -268,18 +276,24 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     font-size: 25px;
   }
   .model-results-table {
+    min-width: 640px;
     font-size: 12px;
   }
+  .model-results-table .model-statistic-column {
+    width: 145px;
+  }
   .model-results-table :is(th, td) {
-    padding: 6px;
+    padding: 6px 4px;
   }
-  .model-results-table thead th {
-    padding-inline: 3px;
-    font-size: 11px;
+  .model-results-table tr > th:first-child:not([colspan]) {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    padding-left: 8px;
+    border-right: 1px solid #e7e4df;
   }
-  .model-results-table thead th:first-child {
-    width: 32%;
-    padding-left: 6px;
+  .model-results-table tbody th[scope="row"] {
+    background: #fffefa;
   }
 }
 

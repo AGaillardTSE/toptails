@@ -750,17 +750,29 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .model-table-frame {
   margin: 14px 0 8px;
+  overflow-x: auto;
   border: 1px solid #dfded8;
   border-radius: 7px;
   background: #fffefa;
 }
 .model-results-table {
   width: 100%;
+  min-width: 680px;
   table-layout: fixed;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   color: #34485e;
   font: 400 14px/1.5 Arial, sans-serif;
   font-variant-numeric: tabular-nums;
+}
+.model-results-table .model-statistic-column {
+  width: 26%;
+}
+.model-results-table .model-homothetic-columns {
+  background: #f8f7f3;
+}
+.model-results-table .model-full-columns {
+  background: #edf3f8;
 }
 .model-results-table caption {
   padding: 12px 16px 8px;
@@ -768,14 +780,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   text-align: left;
   font-weight: 600;
 }
-.model-cutoff-table caption {
-  border-top: 1px solid #dfded8;
-}
-.model-cutoff-table tbody :is(th, td) {
-  padding-block: 6px;
-}
 .model-results-table :is(th, td) {
-  padding: 8px 14px;
+  padding: 7px 9px;
   border-bottom: 1px solid #e7e4df;
   text-align: center;
   font-size: inherit;
@@ -784,12 +790,15 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 .model-results-table tr > th:first-child {
   text-align: left;
 }
-.model-results-table thead th:first-child {
-  width: 36%;
-}
-.model-results-table thead {
+.model-results-table thead th {
   background: #f1efea;
   color: #20354f;
+}
+.model-results-table thead tr:last-child th {
+  background: #f5f4ef;
+}
+.model-results-table th[scope="colgroup"]:last-child {
+  background: #edf3f8;
 }
 .model-results-table tbody th span {
   display: inline-block;
@@ -797,9 +806,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   white-space: nowrap;
   font-weight: 400;
 }
-.model-wealth-table tr > :last-child,
-.model-full-model td {
-  background: #edf3f8;
+.model-results-table tbody:first-of-type td:nth-child(n + 8),
+.model-results-table tbody:last-of-type td:last-child {
   font-weight: 600;
 }
 .model-results-table .model-table-group th {
@@ -835,18 +843,24 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     font-size: 25px;
   }
   .model-results-table {
+    min-width: 640px;
     font-size: 12px;
   }
+  .model-results-table .model-statistic-column {
+    width: 145px;
+  }
   .model-results-table :is(th, td) {
-    padding: 6px;
+    padding: 6px 4px;
   }
-  .model-results-table thead th {
-    padding-inline: 3px;
-    font-size: 11px;
+  .model-results-table tr > th:first-child:not([colspan]) {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    padding-left: 8px;
+    border-right: 1px solid #e7e4df;
   }
-  .model-results-table thead th:first-child {
-    width: 32%;
-    padding-left: 6px;
+  .model-results-table tbody th[scope="row"] {
+    background: #fffefa;
   }
 }
 
@@ -1510,59 +1524,79 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     <p><strong>Homothetic benchmark.</strong> Households derive utility from consumption alone, and labor earnings have a Pareto upper tail. Entrepreneurs earn higher returns than workers. Within each group, the return rate is independent of wealth.</p>
     <p><strong>Full model.</strong> Wealth enters utility directly, and its marginal utility declines more slowly than that of consumption. This strengthens saving incentives at the top. The full model retains differences in returns across households and lets the return rate rise with invested wealth.</p>
     <p><strong>Reading the consumption concentration puzzle.</strong> The highlighted KS ratios show that the homothetic model makes consumption more concentrated than labor income (1.33 versus 1.46), since a lower coefficient means a thicker tail. The data put consumption below labor income in concentration (2.08 versus 1.43). The full model reproduces that ordering and closely matches the observed ratios.</p>
-    <div class="model-table-frame">
-      <table class="model-results-table model-wealth-table">
-        <caption>Wealth concentration</caption>
+    <div class="model-table-frame" role="region" aria-label="Quantitative results table" tabindex="0">
+      <table class="model-results-table">
+        <caption>Observed and simulated Pareto tails and wealth concentration</caption>
+        <colgroup><col class="model-statistic-column"></colgroup>
+        <colgroup><col span="3"></colgroup>
+        <colgroup class="model-homothetic-columns"><col span="3"></colgroup>
+        <colgroup class="model-full-columns"><col span="3"></colgroup>
         <thead>
           <tr>
             <th scope="col">Statistic</th>
-            <th scope="col">Data</th>
-            <th scope="col">Homothetic</th>
-            <th scope="col">Full model</th>
+            <th scope="colgroup" colspan="3">Data</th>
+            <th scope="colgroup" colspan="3">Homothetic model</th>
+            <th scope="colgroup" colspan="3">Full model</th>
           </tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">Top 1% wealth share</th><td>35%</td><td>34%</td><td>37%</td></tr>
-          <tr><th scope="row">Wealth Gini</th><td>0.80</td><td>0.79</td><td>0.80</td></tr>
-        </tbody>
-      </table>
-      <table class="model-results-table model-cutoff-table">
-        <caption>Observed and simulated Pareto tails</caption>
-        <thead>
           <tr>
-            <th scope="col">Sample or model</th>
-            <th scope="col">KS-selected</th>
-            <th scope="col">95th percentile</th>
-            <th scope="col">98th percentile</th>
+            <th scope="col">Pareto tail estimates</th>
+            <th scope="col">KS</th><th scope="col">95th</th><th scope="col">98th</th>
+            <th scope="col">KS</th><th scope="col">95th</th><th scope="col">98th</th>
+            <th scope="col">KS</th><th scope="col">95th</th><th scope="col">98th</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="model-table-group"><th colspan="4" scope="rowgroup">Consumption <span><var class="model-zeta">ζ<sub>c</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th></tr>
-          <tr><th scope="row">Data</th><td>2.08</td><td>2.06</td><td>1.97</td></tr>
-          <tr><th scope="row">Homothetic</th><td class="model-puzzle-value">1.33</td><td>1.37</td><td>1.17</td></tr>
-          <tr class="model-full-model"><th scope="row">Full model</th><td>2.03</td><td>2.03</td><td>1.98</td></tr>
+          <tr>
+            <th scope="row">Consumption <span><var class="model-zeta">ζ<sub>c</sub></var></span></th>
+            <td>≈2.83</td><td>≈2.86</td><td>≈2.88</td>
+            <td>≈1.80</td><td>≈1.81</td><td>≈1.63</td>
+            <td>≈2.78</td><td>≈2.84</td><td>≈2.75</td>
+          </tr>
+          <tr>
+            <th scope="row">Wealth <span><var class="model-zeta">ζ<sub>a</sub></var></span></th>
+            <td>1.36</td><td>1.39</td><td>1.46</td>
+            <td>1.35</td><td>1.32</td><td>1.39</td>
+            <td>1.37</td><td>1.40</td><td>1.39</td>
+          </tr>
+          <tr>
+            <th scope="row">Capital income <span><var class="model-zeta">ζ<sub>ra</sub></var></span></th>
+            <td>≈1.12</td><td>≈1.14</td><td>≈1.33</td>
+            <td>≈1.03</td><td>≈1.02</td><td>≈1.20</td>
+            <td>≈1.10</td><td>≈1.11</td><td>≈1.18</td>
+          </tr>
+          <tr>
+            <th scope="row">Consumption / wealth <span><var class="model-zeta">ζ<sub>c</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th>
+            <td>2.08</td><td>2.06</td><td>1.97</td>
+            <td class="model-puzzle-value">1.33</td><td>1.37</td><td>1.17</td>
+            <td>2.03</td><td>2.03</td><td>1.98</td>
+          </tr>
+          <tr>
+            <th scope="row">Capital income / wealth <span><var class="model-zeta">ζ<sub>ra</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th>
+            <td>0.82</td><td>0.82</td><td>0.91</td>
+            <td>0.76</td><td>0.77</td><td>0.86</td>
+            <td>0.80</td><td>0.79</td><td>0.85</td>
+          </tr>
+          <tr>
+            <th scope="row">Labor income / wealth <span><var class="model-zeta">ζ<sub>y</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th>
+            <td>1.43</td><td aria-label="Unavailable">—</td><td aria-label="Unavailable">—</td>
+            <td class="model-puzzle-value">1.46</td><td aria-label="Unavailable">—</td><td aria-label="Unavailable">—</td>
+            <td>1.43</td><td aria-label="Unavailable">—</td><td aria-label="Unavailable">—</td>
+          </tr>
         </tbody>
         <tbody>
-          <tr class="model-table-group"><th colspan="4" scope="rowgroup">Labor income <span><var class="model-zeta">ζ<sub>y</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th></tr>
-          <tr><th scope="row">Data</th><td>1.43</td><td aria-label="Unavailable">—</td><td aria-label="Unavailable">—</td></tr>
-          <tr><th scope="row">Homothetic</th><td class="model-puzzle-value">1.46</td><td aria-label="Unavailable">—</td><td aria-label="Unavailable">—</td></tr>
-          <tr class="model-full-model"><th scope="row">Full model</th><td>1.43</td><td aria-label="Unavailable">—</td><td aria-label="Unavailable">—</td></tr>
-        </tbody>
-        <tbody>
-          <tr class="model-table-group"><th colspan="4" scope="rowgroup">Wealth <span><var class="model-zeta">ζ<sub>a</sub></var></span></th></tr>
-          <tr><th scope="row">Data</th><td>1.36</td><td>1.39</td><td>1.46</td></tr>
-          <tr><th scope="row">Homothetic</th><td>1.35</td><td>1.32</td><td>1.39</td></tr>
-          <tr class="model-full-model"><th scope="row">Full model</th><td>1.37</td><td>1.40</td><td>1.39</td></tr>
-        </tbody>
-        <tbody>
-          <tr class="model-table-group"><th colspan="4" scope="rowgroup">Capital income <span><var class="model-zeta">ζ<sub>ra</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th></tr>
-          <tr><th scope="row">Data</th><td>0.82</td><td>0.82</td><td>0.91</td></tr>
-          <tr><th scope="row">Homothetic</th><td>0.76</td><td>0.77</td><td>0.86</td></tr>
-          <tr class="model-full-model"><th scope="row">Full model</th><td>0.80</td><td>0.79</td><td>0.85</td></tr>
+          <tr class="model-table-group"><th colspan="10" scope="rowgroup">Other statistics</th></tr>
+          <tr>
+            <th scope="row">Top 1% wealth share</th>
+            <td colspan="3">35%</td><td colspan="3">34%</td><td colspan="3">37%</td>
+          </tr>
+          <tr>
+            <th scope="row">Wealth Gini</th>
+            <td colspan="3">0.80</td><td colspan="3">0.79</td><td colspan="3">0.80</td>
+          </tr>
         </tbody>
       </table>
     </div>
-    <p class="model-table-note"><em>Notes:</em> Pareto coefficients use MLE. Dashes mark unavailable estimates. Data are from the adjusted PSID and U.S. wealth statistics. The homothetic benchmark includes entrepreneurs and fat-tailed earnings. The full model adds wealth-dependent preferences and scale-dependent returns. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 4, Tables 1 and 2</a></p>
+    <p class="model-table-note"><em>Notes:</em> Pareto coefficients use MLE. The approximate consumption and capital-income coefficients multiply the rounded wealth coefficients by their corresponding ratios in the paper. Dashes mark unavailable estimates. Data are from the adjusted PSID and U.S. wealth statistics. The homothetic benchmark includes entrepreneurs and fat-tailed earnings. The full model adds wealth-dependent preferences and scale-dependent returns. <a href="https://www.dropbox.com/scl/fi/zl65lsrvzd8yrr2kic24n/GHWW_2026.pdf?rlkey=lymccj7wbuqr91rimf39802f5&amp;e=2&amp;dl=0" target="_blank" rel="noopener noreferrer">Section 4, Tables 1 and 2</a></p>
     <p>With <var>γ</var> fixed at 2, the full model estimates <var>ν</var> = 0.844 and <var>η</var> = 0.0815. The consumption ratio strongly disciplines preference curvature. At KS-selected cutoffs, persistent differences in returns across investor types can also thicken the capital-income tail, so the quantitative fit only weakly separates return type from return scale. Identification of scale dependence therefore relies on the very top of the distribution, where the asymptotic relationships are more likely to hold.</p>
     <p><strong>Other non-homothetic preferences.</strong> The tail ratios also discipline preference parameters in specifications with a warm-glow bequest motive or nested non-homothetic CES (nNH-CES) utility. Each specification links the ratios to its own parameters. <a href="https://www.dropbox.com/scl/fi/1kar9f1q453j2cceln9az/GHWW_2026_OA.pdf?rlkey=htm5pdq9gy23wbhwf60h74u2j&amp;e=1&amp;dl=0" target="_blank" rel="noopener noreferrer">Supplemental Appendix, Sections D.3.2 and D.3.4</a></p>
   </section>
