@@ -541,10 +541,10 @@
   "data/tail_curves_SAEZ_ZUCMAN.70d658385212f245.part02.bin": "ab7cb11fc2e1082a7ba76f233b9841e7ef1d1e9b3f663e1e86a17921a40bca60",
   "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
   "data/tail_curves_SCF.db23850757603869.part01.bin": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-  "data_manifest.json": "8cb429487e7b40679ae72e269856cedbedf270ea379e7dc940536b038cdb61c6",
-  "index.html": "db97014eca4a024700db57909011a2ebd108a369b0c23f0a8956c601e2f1851d",
-  "inequality.html": "2113a23a3b97027da7d121e41a5e60868b6c38d00c1007d45cc875260125995f",
-  "inequality_observatory.html": "db97014eca4a024700db57909011a2ebd108a369b0c23f0a8956c601e2f1851d",
+  "data_manifest.json": "730a00c698305368bac844c90b387d50d2acf18c2043540dda969f72ce2da877",
+  "index.html": "200af4af24a7312cac722241e840e50b3c148b10d8a7bc5fea1ae71bf7140841",
+  "inequality.html": "7217cc53d8bd22b0e4b89a931f3a7404b47e006145ca7bec9e7690935e8ef87c",
+  "inequality_observatory.html": "200af4af24a7312cac722241e840e50b3c148b10d8a7bc5fea1ae71bf7140841",
   "src/adjustments.js": "799381d30791fa55afd994a0a9253edfb1ad31995275cea7dfb26878d2aff29d",
   "src/app.js": "6ce4f2bcea150931c530977f000c6a2353ae7eb245d8e768b5ca6babf2141998",
   "src/budget-definitions.js": "2ce0db4a2b15d455b701dc7809055cd805ade647ecfce5bb6ed3ac0aec17fbd1",
@@ -632,5 +632,5 @@
   "data/quantile_curves_SCF_adj_benchmark_scf_income.84dca3bad3487017.part01.bin": "84dca3bad34870171bf3bb31e04a6d0c665c02a6e320659b7957f644679c4b69",
   "data/quantile_curves_SCF_full_benchmark_scf_income.76d4fb4e33c3e0a6.part01.bin": "76d4fb4e33c3e0a62028bd3290e167ee744285eae5d1f7515d617979aeea6def",
   "data/quantile_curves_SCF_raw_benchmark_scf_income.ff3753a24a4c3635.part01.bin": "ff3753a24a4c3635a5876d18da92c4eb8b6fcaeec8a2d1a8fbf40e701d272b32",
-  "src/model-implications.html": "d0a327888f51c627246def05a007fc55a9906709e1c7a3f9ef6eae8210987531"
+  "src/model-implications.html": "9cf5483430ce866e96f5e5636c95e98cdcba877ded7595dac30b32656fe26ee5"
 }
