@@ -603,7 +603,7 @@ select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:38p
 
 .dc-correspondence-note{font:400 14px/1.7 Arial,sans-serif;color:#6d7580;margin:18px 0 0}.dc-correspondence-note a{color:#355f87;text-underline-offset:3px}
 
-.pareto-method-heading h2{font:normal 29px/1.25 Georgia,serif;color:#20354f;margin:0 0 12px}.pareto-method p{font:400 14px/1.75 Arial,sans-serif;color:#5e6d7e}.pareto-method h3{font:600 18px/1.5 Arial,sans-serif;color:#2d465f;margin:0 0 12px}.pareto-method-explanation{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}.pareto-method-explanation>section,.pareto-example-card{min-width:0;border:1px solid #dfded8;border-radius:7px;background:#fffefa;padding:22px}.pareto-method-math{overflow-x:auto;color:#2d465f;padding:10px 0}.pareto-method-math math{font-size:21px;margin:0}.pareto-illustration{margin-top:30px}.pareto-illustration-legend{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px 24px;margin:20px 0;font:400 14px/1.5 Arial,sans-serif;color:#5e6d7e}.pareto-illustration-legend>span{display:inline-flex;align-items:center;gap:9px}.pareto-illustration-legend i{width:29px;border-top:2px solid #4c5664}.pareto-illustration-legend .ks-key-pareto{border-top:2px dashed #477EAD}.pareto-illustration-legend .ks-key-gap{border-color:#bd4056;border-width:3px}.pareto-illustration-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.pareto-example-card h4{font:600 16px/1.5 Arial,sans-serif;color:#304962;margin:0 0 14px;text-align:center}.pareto-example-chart{height:310px;position:relative}.pareto-example-card .pareto-example-readout{font:400 14px/1.7 Arial,sans-serif;margin:15px 0 0}.pareto-illustration-status{margin:18px 0 0}@media(max-width:760px){.pareto-method-explanation,.pareto-illustration-grid{grid-template-columns:1fr}.pareto-method-explanation>section,.pareto-example-card{padding:18px}.pareto-example-chart{height:290px}}
+:is(.pareto-method-heading,.model-heading) h2{font:normal 29px/1.25 Georgia,serif;color:#20354f;margin:0 0 12px}.pareto-method p{font:400 14px/1.75 Arial,sans-serif;color:#5e6d7e}.pareto-method h3{font:600 18px/1.5 Arial,sans-serif;color:#2d465f;margin:0 0 12px}.pareto-method-explanation{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}.pareto-method-explanation>section,.pareto-example-card{min-width:0;border:1px solid #dfded8;border-radius:7px;background:#fffefa;padding:22px}.pareto-method-math{overflow-x:auto;color:#2d465f;padding:10px 0}.pareto-method-math math{font-size:21px;margin:0}.pareto-illustration{margin-top:30px}.pareto-illustration-legend{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px 24px;margin:20px 0;font:400 14px/1.5 Arial,sans-serif;color:#5e6d7e}.pareto-illustration-legend>span{display:inline-flex;align-items:center;gap:9px}.pareto-illustration-legend i{width:29px;border-top:2px solid #4c5664}.pareto-illustration-legend .ks-key-pareto{border-top:2px dashed #477EAD}.pareto-illustration-legend .ks-key-gap{border-color:#bd4056;border-width:3px}.pareto-illustration-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.pareto-example-card h4{font:600 16px/1.5 Arial,sans-serif;color:#304962;margin:0 0 14px;text-align:center}.pareto-example-chart{height:310px;position:relative}.pareto-example-card .pareto-example-readout{font:400 14px/1.7 Arial,sans-serif;margin:15px 0 0}.pareto-illustration-status{margin:18px 0 0}@media(max-width:760px){.pareto-method-explanation,.pareto-illustration-grid{grid-template-columns:1fr}.pareto-method-explanation>section,.pareto-example-card{padding:18px}.pareto-example-chart{height:290px}}
 
 /* One dropdown appearance across all views, matching the U.S. results table. */
 select:not([multiple]){min-height:41px!important;border:1px solid #ffffff1a!important;border-radius:6px!important;background-color:#20293c!important;color:#f3f1ed!important;padding:8px 38px 8px 8px!important;font:400 13px/1.5 Arial,Helvetica,sans-serif!important}
@@ -652,7 +652,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 
 .model-implications {
   --model-zeta: #bd2553;
-  padding: 24px 28px 12px;
+  padding: 22px 22px 12px;
   color: #34485e;
 }
 .model-implications .model-zeta {
@@ -660,13 +660,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   font-weight: 600;
 }
 .model-heading {
-  margin-bottom: 20px;
-  padding: 24px 28px 0;
-}
-.model-heading h2 {
-  margin: 0 0 12px;
-  color: #20354f;
-  font: normal 29px/1.25 Georgia, serif;
+  margin-bottom: 24px;
 }
 :is(.model-heading, .model-implications) p {
   margin: 0 0 14px;
@@ -679,9 +673,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 :is(.model-heading, .model-implications) a {
   color: #355f87;
   text-underline-offset: 3px;
-}
-.model-heading a {
-  white-space: nowrap;
 }
 .model-implications > section + section {
   margin-top: 24px;
@@ -748,7 +739,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   overflow-x: auto;
   border: 1px solid #dfded8;
   border-radius: 7px;
-  background: #fffefa;
+  background: #fff;
 }
 .model-results-table {
   width: 100%;
@@ -762,12 +753,6 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
 }
 .model-results-table .model-statistic-column {
   width: 26%;
-}
-.model-results-table .model-homothetic-columns {
-  background: #f8f7f3;
-}
-.model-results-table .model-full-columns {
-  background: #edf3f8;
 }
 .model-results-table caption {
   padding: 12px 16px 8px;
@@ -786,24 +771,24 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   text-align: left;
 }
 .model-results-table thead th {
-  background: #f1efea;
   color: #20354f;
 }
-.model-results-table thead tr:last-child th {
+.model-results-table thead th:first-child {
+  background: #f1efea;
+}
+.model-results-table thead tr:last-child th:first-child {
   background: #f5f4ef;
 }
-.model-results-table th[scope="colgroup"]:last-child {
-  background: #edf3f8;
+.model-results-table thead th[scope="colgroup"],
+.model-results-table :is(thead tr:last-child, tbody:first-of-type tr) > :nth-child(3n + 2),
+.model-results-table tbody:last-of-type td {
+  border-left: 1px solid #e7e4df;
 }
 .model-results-table tbody th span {
   display: inline-block;
   margin-left: 3px;
   white-space: nowrap;
   font-weight: 400;
-}
-.model-results-table tbody:first-of-type td:nth-child(n + 8),
-.model-results-table tbody:last-of-type td:last-child {
-  font-weight: 600;
 }
 .model-results-table .model-table-group th {
   padding-block: 7px;
@@ -817,25 +802,26 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: #9a2c52;
   font-weight: 700;
 }
+.model-results-table .model-key-result {
+  background: #edf3f8;
+  color: #20354f;
+  font-weight: 700;
+}
 .model-results-table tbody:last-of-type tr:last-child > * {
   border-bottom: 0;
 }
 .model-implications .model-table-note {
   font-size: 12px;
 }
-@media (max-width: 720px) {
+@media (max-width: 760px) {
   .model-implications {
-    padding: 16px 12px 6px;
+    padding: 18px 18px 6px;
   }
-  .model-heading {
-    padding: 16px 12px 0;
-  }
+}
+@media (max-width: 720px) {
   .model-assumptions,
   .model-ratio-grid {
     grid-template-columns: 1fr;
-  }
-  .model-heading h2 {
-    font-size: 25px;
   }
   .model-results-table {
     min-width: 640px;
@@ -855,7 +841,7 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     border-right: 1px solid #e7e4df;
   }
   .model-results-table tbody th[scope="row"] {
-    background: #fffefa;
+    background: #fff;
   }
 }
 
@@ -1532,8 +1518,8 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
         <caption>Observed and simulated Pareto tails and wealth concentration</caption>
         <colgroup><col class="model-statistic-column"></colgroup>
         <colgroup><col span="3"></colgroup>
-        <colgroup class="model-homothetic-columns"><col span="3"></colgroup>
-        <colgroup class="model-full-columns"><col span="3"></colgroup>
+        <colgroup><col span="3"></colgroup>
+        <colgroup><col span="3"></colgroup>
         <thead>
           <tr>
             <th scope="col">Statistic</th>
@@ -1571,13 +1557,13 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
             <th scope="row">Consumption / wealth <span><var class="model-zeta">ζ<sub>c</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th>
             <td>2.08</td><td>2.06</td><td>1.97</td>
             <td class="model-puzzle-value">1.33</td><td>1.37</td><td>1.17</td>
-            <td>2.03</td><td>2.03</td><td>1.98</td>
+            <td class="model-key-result">2.03</td><td>2.03</td><td>1.98</td>
           </tr>
           <tr>
             <th scope="row">Capital income / wealth <span><var class="model-zeta">ζ<sub>ra</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th>
             <td>0.82</td><td>0.82</td><td>0.91</td>
             <td>0.76</td><td>0.77</td><td>0.86</td>
-            <td>0.80</td><td>0.79</td><td>0.85</td>
+            <td class="model-key-result">0.80</td><td>0.79</td><td>0.85</td>
           </tr>
           <tr>
             <th scope="row">Labor income / wealth <span><var class="model-zeta">ζ<sub>y</sub></var>/<var class="model-zeta">ζ<sub>a</sub></var></span></th>
