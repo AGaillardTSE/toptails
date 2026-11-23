@@ -541,10 +541,10 @@
   "data/tail_curves_SAEZ_ZUCMAN.70d658385212f245.part02.bin": "ab7cb11fc2e1082a7ba76f233b9841e7ef1d1e9b3f663e1e86a17921a40bca60",
   "data/tail_curves_SAEZ_ZUCMAN.d922db0fa3db641e.part01.bin": "d922db0fa3db641e9202e504e15b4fd89912d65ef97217f48cc937b09744e10c",
   "data/tail_curves_SCF.db23850757603869.part01.bin": "db23850757603869eb2039b6b25823df211530120e7e19c6da7ca8f2eb24451b",
-  "data_manifest.json": "a2a99c0c9a78c6888b429c962878c3876c7b0c7c362dcf3da1199fd90ba050a9",
-  "index.html": "47b4dde9570c5f57a4cd501e6de2ae2726fb990b2ecd32613e2f9416caf16a80",
-  "inequality.html": "865300f85430a1457235df1098508feb5215d8042ef6cd4663c9e0129685cb86",
-  "inequality_observatory.html": "47b4dde9570c5f57a4cd501e6de2ae2726fb990b2ecd32613e2f9416caf16a80",
+  "data_manifest.json": "ff4a3c89608a719f229836b034433ad951e3b97e89405d02174ee7cc1cbe27f2",
+  "index.html": "0389c01db1cbaf4e867fa2096a812b62ba414c9c4620bf2bc933b9dda96190fa",
+  "inequality.html": "f655a470dd0f95b91c0932fba469b298de2679d71060915861dff72bcfb5c97c",
+  "inequality_observatory.html": "0389c01db1cbaf4e867fa2096a812b62ba414c9c4620bf2bc933b9dda96190fa",
   "src/adjustments.js": "799381d30791fa55afd994a0a9253edfb1ad31995275cea7dfb26878d2aff29d",
   "src/app.js": "6ce4f2bcea150931c530977f000c6a2353ae7eb245d8e768b5ca6babf2141998",
   "src/budget-definitions.js": "2ce0db4a2b15d455b701dc7809055cd805ade647ecfce5bb6ed3ac0aec17fbd1",
@@ -632,5 +632,5 @@
   "data/quantile_curves_SCF_adj_benchmark_scf_income.84dca3bad3487017.part01.bin": "84dca3bad34870171bf3bb31e04a6d0c665c02a6e320659b7957f644679c4b69",
   "data/quantile_curves_SCF_full_benchmark_scf_income.76d4fb4e33c3e0a6.part01.bin": "76d4fb4e33c3e0a62028bd3290e167ee744285eae5d1f7515d617979aeea6def",
   "data/quantile_curves_SCF_raw_benchmark_scf_income.ff3753a24a4c3635.part01.bin": "ff3753a24a4c3635a5876d18da92c4eb8b6fcaeec8a2d1a8fbf40e701d272b32",
-  "src/model-implications.html": "95d7ab5a15aa715f425afd8852f840da2368bed93fd69e62edb59822257b181a"
+  "src/model-implications.html": "d5f9f6af20907dc783ac494cd0d8f1aed31fcd20d82f4a7550a184cdb0942be7"
 }
