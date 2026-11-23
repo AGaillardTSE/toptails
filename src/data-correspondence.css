@@ -97,24 +97,31 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   color: var(--model-zeta);
   font-weight: 600;
 }
-.model-implications .model-heading h2 {
+.model-heading {
+  margin-bottom: 20px;
+  padding: 24px 28px 0;
+}
+.model-heading h2 {
   margin: 0 0 12px;
   color: #20354f;
   font: normal 29px/1.25 Georgia, serif;
 }
-.model-implications p {
+:is(.model-heading, .model-implications) p {
   margin: 0 0 14px;
   color: #526579;
   font: 400 14px/1.75 Arial, sans-serif;
 }
-.model-implications a {
+.model-heading p:last-child {
+  margin-bottom: 0;
+}
+:is(.model-heading, .model-implications) a {
   color: #355f87;
   text-underline-offset: 3px;
 }
 .model-heading a {
   white-space: nowrap;
 }
-.model-implications > section {
+.model-implications > section + section {
   margin-top: 24px;
   padding-top: 20px;
   border-top: 1px solid #dfded8;
@@ -249,11 +256,14 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .model-implications {
     padding: 16px 12px 6px;
   }
+  .model-heading {
+    padding: 16px 12px 0;
+  }
   .model-assumptions,
   .model-ratio-grid {
     grid-template-columns: 1fr;
   }
-  .model-implications .model-heading h2 {
+  .model-heading h2 {
     font-size: 25px;
   }
   .model-results-table {
