@@ -1168,6 +1168,13 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
     align-items: center;
     gap: 9px 7px;
   }
+  .sidebar :is(#overlay-controls, .dataset-controls) > .overlay-choice:not(.overlay-choice-saez_zucman),
+  .sidebar .weighting-options .weighting-choice > .small-check {
+    grid-column: auto;
+  }
+  .sidebar .weighting-options .weighting-choice:has(input[value="scf_broad_income"]) {
+    grid-column: 1/-1;
+  }
   .sidebar .overlay-choice.small-check { gap: 5px; }
   .sidebar .indicator-kind-options { flex-wrap: wrap; gap: 7px 10px; }
   .sidebar .threshold-choice-row { flex-wrap: wrap; }
@@ -1243,6 +1250,11 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .sidebar :is(#overlay-controls, .dataset-controls) {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
   }
+  .sidebar .weighting-options:not(.cex-weighting-options) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+    column-gap: 5px;
+  }
+  .sidebar .weighting-options .weighting-choice { column-gap: 3px; }
   .sidebar .cex-income-option { font-size: 11px !important; }
 }
 
