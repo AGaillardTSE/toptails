@@ -1,6 +1,6 @@
 const US_TOTAL_INCOME_NOTE = 'Total income is only partly comparable across surveys. The series differ in whether and how they count realized capital gains, pensions, government transfers, and other income. '
   + 'To construct the SCF income weights, we use a common definition of total income that matches those in the SCF. The total-income series shown here uses the total reported income.';
-const US_COMMON_TOTAL_INCOME_NOTE = 'With SCF income + retirement weights, adjusted PSID total income uses the common income measure. The adjusted SCF series uses the same measure when shown alongside PSID. Both exclude imputed rent on owner-occupied housing. The surveys group some rental and retirement receipts differently.';
+const US_COMMON_TOTAL_INCOME_NOTE = 'With SCF income + retirement weights, adjusted PSID total income uses the common income measure. The adjusted SCF series uses the same measure when shown alongside PSID. Both include net imputed owner rent. The surveys group some rental and retirement receipts differently.';
 
 function createUSTotalIncomeHelp(useCommonIncome = false) {
   const help = document.createElement('button');
@@ -648,7 +648,7 @@ function createUSQuantileComparison({
       period = firstYear+'-'+lastYear;
       const profileCurves = curves.filter(row=>row.year>=firstYear&&row.year<=lastYear);
       const commonIncomeShown=compareCommonIncome&&(activeKeys.includes('total_income')||indicator==='income_ratio');
-      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title+(commonIncomeShown?' · Common total income':'');
+      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title+(commonIncomeShown?' · Common total income including net imputed rent':'');
       const plotGroups = configs=>configs.map(config=>({...config,
         points:ThresholdProfiles.profiles(profileCurves,config),
         reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),

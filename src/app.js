@@ -715,8 +715,8 @@ function createTimeWindow(canvas, onChange) {
     if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='irs_income')notes.push('PSID fully adjusted results use IRS income weights.');
     if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='scf_wealth')notes.push('PSID fully adjusted results use SCF wealth weights.');
     if(usesBroadPSIDIncome(s.adjustment,selected)&&s.variables.has('total_income'))notes.push(useCommonSCFIncome(s.adjustment,selected)
-      ?'Adjusted PSID and SCF total income use the common measure excluding imputed owner rent.'
-      :'Adjusted PSID total income uses the common measure excluding imputed owner rent.');
+      ?'Adjusted PSID and SCF total income use the common measure including net imputed rent.'
+      :'Adjusted PSID total income uses the common measure including net imputed rent.');
     if(isParetoMetric(s.metric)&&s.threshold==='ks')notes.push('Each coefficient uses its own KS-selected threshold.');
     if(s.metric==='pareto_wealth_ratio')notes.push('Each value divides the selected variable’s Pareto coefficient by the wealth coefficient from the same survey, wave and adjustment stage; wealth equals 1.');
     if(s.variables.has('spending')&&selected.has('SCF')){const rows=SUMMARY.filter(row=>row.survey==='SCF'&&row.variable===spendingKey(s.measure)&&row.variant===variantFor('SCF'));if(!rows.some(row=>FINITE(metricValue(row))))notes.push('Consumption is unavailable in SCF for this adjustment.');}
