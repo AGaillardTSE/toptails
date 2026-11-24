@@ -35,14 +35,16 @@ const Eyeballing=(()=>{
       const hasConstant=rows.some(r=>r.housing_method==='bp'),effectiveHousing=hasConstant?getHousingMethod():rows[0]?.housing_method;housing.disabled=!hasConstant;housing.checked=hasConstant&&getHousingMethod()==='bp';housingBox.classList.toggle('unavailable-option',!hasConstant);housing.title=hasConstant?'Use the constant NIPA-matched homeowner rent-rate alternative.':'This dataset has no constant-rent alternative.';rows=rows.filter(r=>r.housing_method===effectiveHousing);
       const fullPSID=state.survey==='PSID'&&state.variant==='full';
       const weightOptions=[...new Set(rows.map(sourceWeight))];
-      const inheritedBroad=fullPSID&&getWeightingMethod()==='scf_broad_income';
+      const inherited=fullPSID?getWeightingMethod():null;
+      const inheritedDina=inherited==='dina_income';
+      const inheritedBroad=inherited==='scf_broad_income';
       state.weighting=fullPSID?getWeightingMethod():rows[0]?sourceWeight(rows[0]):undefined;
-      fill('weighting',weightOptions.map(key=>[key,({scf_income:'SCF income',irs_income:'IRS income',scf_wealth:'SCF wealth',scf_broad_income:'SCF broad inc.',scf_housing:'SCF housing values',native:'Source weights',native_dina:'DINA source weights',equal_list_weights:'Equal rich-list weights'})[key]||key]));
-      if(inheritedBroad&&!weightOptions.includes('scf_broad_income')){
-        const unavailable=new Option('SCF broad inc. (unavailable)','scf_broad_income',false,true);
+      fill('weighting',weightOptions.map(key=>[key,({scf_income:'SCF income',irs_income:'IRS income',scf_wealth:'SCF wealth',dina_income:'DINA market income',scf_broad_income:'SCF broad inc.',scf_housing:'SCF housing values',native:'Source weights',native_dina:'DINA source weights',equal_list_weights:'Equal rich-list weights'})[key]||key]));
+      if((inheritedBroad||inheritedDina)&&!weightOptions.includes(inherited)){
+        const unavailable=new Option(inheritedDina?'DINA market income (unavailable)':'SCF broad inc. (unavailable)',inherited,false,true);
         unavailable.disabled=true;
         inputs.weighting.add(unavailable);
-        state.weighting=inputs.weighting.value='scf_broad_income';
+        state.weighting=inputs.weighting.value=inherited;
       }
       weightBox.hidden=state.survey!=='PSID';rows=rows.filter(row=>sourceWeight(row)===state.weighting);
       const isDinaCapital=state.survey==='SAEZ_ZUCMAN'&&state.variable==='total_capital_income';state.gains=getDinaCapitalDefinition();fill('gains',[['including_fiscal_gains','Including fiscal capital gains'],['excluding_fiscal_gains','Excluding fiscal capital gains']]);gainsBox.hidden=!isDinaCapital;rows=rows.filter(r=>r.capital_income_definition===(isDinaCapital?state.gains:'benchmark'));
@@ -51,7 +53,9 @@ const Eyeballing=(()=>{
       help.dataset.tooltip=({HFCS:'Household Finance and Consumption Survey: ECB-coordinated household surveys of assets, debts, income and consumption across European countries.',HILDA:'Household, Income and Labour Dynamics in Australia: a longitudinal household survey of income, spending and wealth.',SHIW:'Survey of Household Income and Wealth: Banca d’Italia’s household survey of income, saving and wealth.'})[state.survey]||surveyTooltip(state.survey);help.setAttribute('aria-label','About '+names[state.survey]);surveyBox.querySelector('select').title=names[state.survey];return rows[0];
     }
     function number(value,digits=3){return Number(value).toLocaleString('en-US',{minimumFractionDigits:digits,maximumFractionDigits:digits});}
-    async function render(){const token=++request,scope=sync();chart?.destroy();chart=null;plotted=[];delete canvas.dataset.profile;delete canvas.dataset.pointCount;csv.disabled=png.disabled=true;subtitle.textContent='';readout.textContent='';waveNote.textContent='';canvas.hidden=true;status.hidden=false;status.textContent=scope?'Loading empirical tail…':state.weighting==='scf_broad_income'
+    async function render(){const token=++request,scope=sync();chart?.destroy();chart=null;plotted=[];delete canvas.dataset.profile;delete canvas.dataset.pointCount;csv.disabled=png.disabled=true;subtitle.textContent='';readout.textContent='';waveNote.textContent='';canvas.hidden=true;status.hidden=false;status.textContent=scope?'Loading empirical tail…':state.weighting==='dina_income'
+      ?'Empirical tail plots with DINA market-income weights are unavailable. See Tails by quantile for the coefficient estimates.'
+      :state.weighting==='scf_broad_income'
       ?'Empirical tail plots with SCF broad inc. weights are unavailable for these filters. See Tails by quantile for the coefficient estimates.'
       :'No empirical tail is available for these filters.';if(!scope)return;
       try{if(!cache.has(scope.block))cache.set(scope.block,loadBlock(scope.block));const payload=await cache.get(scope.block);if(token!==request)return;const profile=payload.profiles.find(r=>['survey','country','variant','housing_method','weighting_method','capital_income_definition','variable','method','threshold_rule'].every(k=>k==='weighting_method'?sourceWeight(r)===sourceWeight(scope):r[k]===scope[k])&&(state.wave==='average'?r.period_type==='average':r.period_type==='wave'&&r.year===Number(state.wave))&&(state.survey!=='FORBES'||r.q<=.90+1e-10));if(!profile){status.textContent='This tail has too few observations or no supported fit.';return;}

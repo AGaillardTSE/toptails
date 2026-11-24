@@ -216,6 +216,7 @@ function createUSQuantileComparison({
   const weighting = radioGroup(weightingBox,'weighting','Weighting correction for PSID',[
     ['scf_income','SCF income'],['irs_income','IRS income'],['scf_wealth','SCF wealth'],
     ...(metadata.weighting_sensitivity?.controls?.scf_broad_income?[['scf_broad_income','SCF broad inc.']]:[]),
+    ...(metadata.weighting_sensitivity?.controls?.dina_income?[['dina_income','DINA market income']]:[]),
   ],'weighting-options',onWeightingChange);
   for (const input of weighting.inputs) {
     const label = input.parentElement;
@@ -648,7 +649,8 @@ function createUSQuantileComparison({
       period = firstYear+'-'+lastYear;
       const profileCurves = curves.filter(row=>row.year>=firstYear&&row.year<=lastYear);
       const commonIncomeShown=compareCommonIncome&&(activeKeys.includes('total_income')||indicator==='income_ratio');
-      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title+(commonIncomeShown?' · Common total income including net imputed rent':'');
+      const dinaWeightsShown = selected.has('PSID') && adjustment.value==='full' && getWeightingMethod()==='dina_income';
+      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title+(commonIncomeShown?' · Common total income including net imputed rent':'')+(dinaWeightsShown?' · DINA market-income weights, PSID waves 2005–2019':'');
       const plotGroups = configs=>configs.map(config=>({...config,
         points:ThresholdProfiles.profiles(profileCurves,config),
         reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),
