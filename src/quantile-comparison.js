@@ -1,12 +1,13 @@
 const US_TOTAL_INCOME_NOTE = 'Total income is only partly comparable across surveys. The series differ in whether and how they count realized capital gains, pensions, government transfers, and other income. '
-  + 'To construct the SCF income weights, we use a common definition of total income that matches those in the SCF. The total-income series shown here uses the total reported income.';
-const US_COMMON_TOTAL_INCOME_NOTE = 'With SCF broad inc. weights, adjusted PSID total income uses the common income measure. The adjusted SCF series uses the same measure when shown alongside PSID. Both include net imputed owner rent. The surveys group some rental and retirement receipts differently.';
+  + 'Standard SCF income weights use a common income definition for reweighting and the plots show reported total income. '
+  + 'For a closer comparison, DINA income aligns the market-income ranking used to reweight PSID with DINA. The displayed totals still follow each source’s definition. '
+  + 'SCF broad income uses a common measure for adjusted PSID and SCF totals, including net imputed owner rent.';
 
-function createUSTotalIncomeHelp(useCommonIncome = false) {
+function createUSTotalIncomeHelp() {
   const help = document.createElement('button');
   help.type = 'button';
   help.className = 'help-marker detail-help hover-help';
-  help.dataset.tooltip = useCommonIncome ? US_COMMON_TOTAL_INCOME_NOTE : US_TOTAL_INCOME_NOTE;
+  help.dataset.tooltip = US_TOTAL_INCOME_NOTE;
   help.dataset.helpToggle = 'true';
   help.setAttribute('aria-label', 'About total-income comparability');
   help.setAttribute('aria-expanded', 'false');
@@ -215,8 +216,8 @@ function createUSQuantileComparison({
   adjustments.append(weightingBox);
   const weighting = radioGroup(weightingBox,'weighting','Weighting correction for PSID',[
     ['scf_income','SCF income'],['irs_income','IRS income'],['scf_wealth','SCF wealth'],
-    ...(metadata.weighting_sensitivity?.controls?.scf_broad_income?[['scf_broad_income','SCF broad inc.']]:[]),
-    ...(metadata.weighting_sensitivity?.controls?.dina_income?[['dina_income','DINA market income']]:[]),
+    ...(metadata.weighting_sensitivity?.controls?.dina_income?[['dina_income','DINA income']]:[]),
+    ...(metadata.weighting_sensitivity?.controls?.scf_broad_income?[['scf_broad_income','SCF broad income']]:[]),
   ],'weighting-options',onWeightingChange);
   for (const input of weighting.inputs) {
     const label = input.parentElement;
@@ -579,7 +580,6 @@ function createUSQuantileComparison({
     const canCompare = hasSurvey && adjustment.value!=='raw';
     const includeRaw = showRawPanel && canCompare;
     const compareCommonIncome = selected.has('PSID') && adjustment.value==='full' && getWeightingMethod()==='scf_broad_income';
-    totalIncomeHelp.dataset.tooltip = compareCommonIncome ? US_COMMON_TOTAL_INCOME_NOTE : US_TOTAL_INCOME_NOTE;
     adjustments.classList.toggle('adjustment-unavailable',!hasSurvey);
     weightingBox.hidden = !selected.has('PSID') || adjustment.value !== 'full';
     for (const input of weighting.inputs) input.checked = input.value === getWeightingMethod();
@@ -652,7 +652,7 @@ function createUSQuantileComparison({
       const profileCurves = curves.filter(row=>row.year>=firstYear&&row.year<=lastYear);
       const commonIncomeShown=compareCommonIncome&&(activeKeys.includes('total_income')||indicator==='income_ratio');
       const dinaWeightsShown = selected.has('PSID') && adjustment.value==='full' && getWeightingMethod()==='dina_income';
-      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title+(commonIncomeShown?' · Common total income including net imputed rent':'')+(dinaWeightsShown?' · DINA market-income weights, PSID waves 2005–2019':'');
+      subtitle.textContent = firstYear+'–'+lastYear+' average · '+title+(commonIncomeShown?' · Common total income including net imputed rent':'')+(dinaWeightsShown?' · DINA income weights, PSID waves 2005–2019':'');
       const plotGroups = configs=>configs.map(config=>({...config,
         points:ThresholdProfiles.profiles(profileCurves,config),
         reference:shares ? null : ThresholdProfiles.reference(profileCurves,config),

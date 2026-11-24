@@ -295,8 +295,8 @@ function createTimeWindow(canvas, onChange) {
   const weighting={method:'scf_income'};
   const broadIncomeMethod='scf_broad_income';
   const dinaIncomeMethod='dina_income';
-  const weightingControls=[['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth'],['weight-scf-broad-income',broadIncomeMethod],['weight-dina-income',dinaIncomeMethod]];
-  const weightingLabels={scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights',scf_broad_income:'SCF broad inc. weights',dina_income:'DINA market income weights'};
+  const weightingControls=[['weight-scf-income','scf_income'],['weight-irs-income','irs_income'],['weight-scf-wealth','scf_wealth'],['weight-dina-income',dinaIncomeMethod],['weight-scf-broad-income',broadIncomeMethod]];
+  const weightingLabels={scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights',scf_broad_income:'SCF broad income weights',dina_income:'DINA income weights'};
   const housingMethod=row=>row.housing_method||'benchmark';
   const weightingMethod=row=>row.weighting_method||(row.survey==='CEX_BM_RECON'?'scf_housing':'scf_income');
   const housingSource=(survey,method=housing.method)=>META.housing_method_aliases?.[survey]?.[method]||method;
@@ -393,7 +393,7 @@ function createTimeWindow(canvas, onChange) {
   const KEYS = ['spending','total_labor_income','total_capital_income','networth_val','total_income'];
   const LABELS = {total_labor_income:'Labor income',total_capital_income:'Capital income',total_income:'Total income',networth_val:'Net worth'};
   const ADJ = {raw:'Raw data',adj:'Rescaled',full:'Fully adjusted'};
-  const adjustmentLabel=row=>commonSCFIncome(row)?'Rescaled · common total income':row.survey==='PSID'&&weightingMethod(row)===dinaIncomeMethod?'Reporting + representation · DINA market income':row.survey==='PSID'&&weightingMethod(row)===broadIncomeMethod?'Reporting + representation · SCF broad inc.':isCEX(row.survey)&&row.variable==='networth_val'&&row.variant==='full'&&!ALL_SUMMARY.some(value=>value.survey===row.survey&&value.variable==='networth_val'&&value.variant==='adj'&&housingMethod(value)===housingMethod(row))?'Income reweighted':row.survey==='SCF'&&row.variant==='adj'?'Rescaled':row.variant==='original'?'Original B&M construction':ADJ[row.variant]||row.variant;
+  const adjustmentLabel=row=>commonSCFIncome(row)?'Rescaled · common total income':row.survey==='PSID'&&weightingMethod(row)===dinaIncomeMethod?'Reporting + representation · DINA income':row.survey==='PSID'&&weightingMethod(row)===broadIncomeMethod?'Reporting + representation · SCF broad income':isCEX(row.survey)&&row.variable==='networth_val'&&row.variant==='full'&&!ALL_SUMMARY.some(value=>value.survey===row.survey&&value.variable==='networth_val'&&value.variant==='adj'&&housingMethod(value)===housingMethod(row))?'Income reweighted':row.survey==='SCF'&&row.variant==='adj'?'Rescaled':row.variant==='original'?'Original B&M construction':ADJ[row.variant]||row.variant;
   const PAIRS = {
     wealth_consumption:{x:'networth_val',y:'spending'}, income_consumption:{x:'total_income',y:'spending'},
     labor_consumption:{x:'total_labor_income',y:'spending'},capital_consumption:{x:'total_capital_income',y:'spending'},
@@ -597,7 +597,7 @@ function createTimeWindow(canvas, onChange) {
       if (key==='total_income') {
         const group=document.createElement('span');
         group.className='us-total-income-choice';
-        group.append(item,createUSTotalIncomeHelp(usesBroadPSIDIncome(s.adjustment,selected)));
+        group.append(item,createUSTotalIncomeHelp());
         $('series-controls').append(group);
       } else $('series-controls').append(item);
     });
@@ -721,7 +721,7 @@ function createTimeWindow(canvas, onChange) {
     if(housing.method==='bp')notes.push('Homeowner services use the constant housing-value-rate version. Only computed or verified equivalent housing definitions are shown.');
     if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='irs_income')notes.push('PSID fully adjusted results use IRS income weights.');
     if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='scf_wealth')notes.push('PSID fully adjusted results use SCF wealth weights.');
-    if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method===dinaIncomeMethod)notes.push('DINA market-income weights cover PSID waves 2005–2019.');
+    if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method===dinaIncomeMethod)notes.push('DINA income weights cover PSID waves 2005–2019.');
     if(usesBroadPSIDIncome(s.adjustment,selected)&&s.variables.has('total_income'))notes.push(useCommonSCFIncome(s.adjustment,selected)
       ?'Adjusted PSID and SCF total income use the common measure including net imputed rent.'
       :'Adjusted PSID total income uses the common measure including net imputed rent.');
@@ -796,7 +796,6 @@ function createTimeWindow(canvas, onChange) {
     [['all','All available measures'],...variables.map(variable=>[variable,variableDisplayLabel(variable,r.survey.toUpperCase())])].forEach(([value,text])=>{const option=document.createElement('option');option.value=value;option.textContent=text;option.disabled=value!=='all'&&!supported(value);select.append(option);});
     if(r.variable!=='all'&&(!variables.includes(r.variable)||!supported(r.variable)))r.variable='all';select.value=r.variable;
     resultsTotalIncomeHelp.hidden=r.variable!=='total_income';
-    resultsTotalIncomeHelp.dataset.tooltip=usesBroadPSIDIncome(r.adjustment,selected)?US_COMMON_TOTAL_INCOME_NOTE:US_TOTAL_INCOME_NOTE;
   }
   function syncResultsControls(){
     const selected=resultsSurveys(),hasHouseholds=[...selected].some(survey=>VISIBLE_US_SURVEYS.has(survey)),hasYodlee=selected.has('YODLEE'),bankOnly=hasYodlee&&!hasHouseholds,bankOptions=[['all','All saved constructions'],...Object.entries(YODLEE_VARIANTS).filter(([variant])=>referencePoints().some(row=>row.survey==='YODLEE'&&row.author_variant===variant))],adjustment=$('results-adjustment'),bank=$('results-yodlee-adjustment');

@@ -39,9 +39,9 @@ const Eyeballing=(()=>{
       const inheritedDina=inherited==='dina_income';
       const inheritedBroad=inherited==='scf_broad_income';
       state.weighting=fullPSID?getWeightingMethod():rows[0]?sourceWeight(rows[0]):undefined;
-      fill('weighting',weightOptions.map(key=>[key,({scf_income:'SCF income',irs_income:'IRS income',scf_wealth:'SCF wealth',dina_income:'DINA market income',scf_broad_income:'SCF broad inc.',scf_housing:'SCF housing values',native:'Source weights',native_dina:'DINA source weights',equal_list_weights:'Equal rich-list weights'})[key]||key]));
+      fill('weighting',weightOptions.map(key=>[key,({scf_income:'SCF income',irs_income:'IRS income',scf_wealth:'SCF wealth',dina_income:'DINA income',scf_broad_income:'SCF broad income',scf_housing:'SCF housing values',native:'Source weights',native_dina:'DINA source weights',equal_list_weights:'Equal rich-list weights'})[key]||key]));
       if((inheritedBroad||inheritedDina)&&!weightOptions.includes(inherited)){
-        const unavailable=new Option(inheritedDina?'DINA market income (unavailable)':'SCF broad inc. (unavailable)',inherited,false,true);
+        const unavailable=new Option(inheritedDina?'DINA income (unavailable)':'SCF broad income (unavailable)',inherited,false,true);
         unavailable.disabled=true;
         inputs.weighting.add(unavailable);
         state.weighting=inputs.weighting.value=inherited;
@@ -54,9 +54,9 @@ const Eyeballing=(()=>{
     }
     function number(value,digits=3){return Number(value).toLocaleString('en-US',{minimumFractionDigits:digits,maximumFractionDigits:digits});}
     async function render(){const token=++request,scope=sync();chart?.destroy();chart=null;plotted=[];delete canvas.dataset.profile;delete canvas.dataset.pointCount;csv.disabled=png.disabled=true;subtitle.textContent='';readout.textContent='';waveNote.textContent='';canvas.hidden=true;status.hidden=false;status.textContent=scope?'Loading empirical tail…':state.weighting==='dina_income'
-      ?'Empirical tail plots with DINA market-income weights are unavailable. See Tails by quantile for the coefficient estimates.'
+      ?'Empirical tail plots with DINA income weights are unavailable. See Tails by quantile for the coefficient estimates.'
       :state.weighting==='scf_broad_income'
-      ?'Empirical tail plots with SCF broad inc. weights are unavailable for these filters. See Tails by quantile for the coefficient estimates.'
+      ?'Empirical tail plots with SCF broad income weights are unavailable for these filters. See Tails by quantile for the coefficient estimates.'
       :'No empirical tail is available for these filters.';if(!scope)return;
       try{if(!cache.has(scope.block))cache.set(scope.block,loadBlock(scope.block));const payload=await cache.get(scope.block);if(token!==request)return;const profile=payload.profiles.find(r=>['survey','country','variant','housing_method','weighting_method','capital_income_definition','variable','method','threshold_rule'].every(k=>k==='weighting_method'?sourceWeight(r)===sourceWeight(scope):r[k]===scope[k])&&(state.wave==='average'?r.period_type==='average':r.period_type==='wave'&&r.year===Number(state.wave))&&(state.survey!=='FORBES'||r.q<=.90+1e-10));if(!profile){status.textContent='This tail has too few observations or no supported fit.';return;}
         plotted=pointsFor(payload,profile);if(plotted.length<2){status.textContent='Too few distinct tail observations are available.';return;}const reference=Array.from({length:100},(_,i)=>{const x=Math.exp(Math.log(profile.xmax)*i/99);return{x,y:x**(-profile.alpha)};}).filter(p=>p.y>0),color='#BF5555';
