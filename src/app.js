@@ -294,7 +294,7 @@ function createTimeWindow(canvas, onChange) {
   const dinaVariant=()=>META.saez_zucman_reference?.capital_income_definitions?.[dina.capitalDefinition]?.author_variant||'dina_2022_incl_gains';
   const weighting={method:'scf_income'};
   const broadIncomeMethod='scf_broad_income';
-  const weightingLabels={scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights',scf_broad_income:'SCF broad income weights'};
+  const weightingLabels={scf_income:'SCF income weights',irs_income:'IRS income weights',scf_wealth:'SCF wealth weights',scf_broad_income:'SCF broad weights'};
   const housingMethod=row=>row.housing_method||'benchmark';
   const weightingMethod=row=>row.weighting_method||(row.survey==='CEX_BM_RECON'?'scf_housing':'scf_income');
   const housingSource=(survey,method=housing.method)=>META.housing_method_aliases?.[survey]?.[method]||method;
@@ -386,7 +386,7 @@ function createTimeWindow(canvas, onChange) {
   const KEYS = ['spending','total_labor_income','total_capital_income','networth_val','total_income'];
   const LABELS = {total_labor_income:'Labor income',total_capital_income:'Capital income',total_income:'Total income',networth_val:'Net worth'};
   const ADJ = {raw:'Raw data',adj:'Rescaled',full:'Fully adjusted'};
-  const adjustmentLabel=row=>commonSCFIncome(row)?'Rescaled · common total income':row.survey==='PSID'&&weightingMethod(row)===broadIncomeMethod?'Reporting + representation · SCF broad income':isCEX(row.survey)&&row.variable==='networth_val'&&row.variant==='full'&&!ALL_SUMMARY.some(value=>value.survey===row.survey&&value.variable==='networth_val'&&value.variant==='adj'&&housingMethod(value)===housingMethod(row))?'Income reweighted':row.survey==='SCF'&&row.variant==='adj'?'Rescaled':row.variant==='original'?'Original B&M construction':ADJ[row.variant]||row.variant;
+  const adjustmentLabel=row=>commonSCFIncome(row)?'Rescaled · common total income':row.survey==='PSID'&&weightingMethod(row)===broadIncomeMethod?'Reporting + representation · SCF broad':isCEX(row.survey)&&row.variable==='networth_val'&&row.variant==='full'&&!ALL_SUMMARY.some(value=>value.survey===row.survey&&value.variable==='networth_val'&&value.variant==='adj'&&housingMethod(value)===housingMethod(row))?'Income reweighted':row.survey==='SCF'&&row.variant==='adj'?'Rescaled':row.variant==='original'?'Original B&M construction':ADJ[row.variant]||row.variant;
   const PAIRS = {
     wealth_consumption:{x:'networth_val',y:'spending'}, income_consumption:{x:'total_income',y:'spending'},
     labor_consumption:{x:'total_labor_income',y:'spending'},capital_consumption:{x:'total_capital_income',y:'spending'},
@@ -715,8 +715,8 @@ function createTimeWindow(canvas, onChange) {
     if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='irs_income')notes.push('PSID fully adjusted results use IRS income weights.');
     if(s.adjustment==='full'&&shownHouseholds.has('PSID')&&weighting.method==='scf_wealth')notes.push('PSID fully adjusted results use SCF wealth weights.');
     if(usesBroadPSIDIncome(s.adjustment,selected)&&s.variables.has('total_income'))notes.push(useCommonSCFIncome(s.adjustment,selected)
-      ?'Adjusted PSID and SCF total income use the common measure.'
-      :'Adjusted PSID total income uses the common measure.');
+      ?'Adjusted PSID and SCF total income use the common measure including net imputed rent.'
+      :'Adjusted PSID total income uses the common measure including net imputed rent.');
     if(isParetoMetric(s.metric)&&s.threshold==='ks')notes.push('Each coefficient uses its own KS-selected threshold.');
     if(s.metric==='pareto_wealth_ratio')notes.push('Each value divides the selected variable’s Pareto coefficient by the wealth coefficient from the same survey, wave and adjustment stage; wealth equals 1.');
     if(s.variables.has('spending')&&selected.has('SCF')){const rows=SUMMARY.filter(row=>row.survey==='SCF'&&row.variable===spendingKey(s.measure)&&row.variant===variantFor('SCF'));if(!rows.some(row=>FINITE(metricValue(row))))notes.push('Consumption is unavailable in SCF for this adjustment.');}
@@ -989,7 +989,7 @@ function createTimeWindow(canvas, onChange) {
     $('biv-chart').setAttribute('aria-label',ly+' versus '+lx+' in the upper tail');
     $('biv-empty').hidden=!!plotted.length;
     $('biv-empty').textContent=binningSurveys.has('PSID')&&b.adjustment==='full'&&weighting.method===broadIncomeMethod
-      ?'PSID log–log estimates with SCF broad income weights are unavailable. Select another adjustment or change the weighting correction in Tails by quantile.'
+      ?'PSID log–log estimates with SCF broad weights are unavailable. Select another adjustment or change the weighting correction in Tails by quantile.'
       :'No comparable '+(useLog?'positive ':'')+'results for this selection.';
     const onlyBM=selectedSurveys(b).size===1&&selectedSurveys(b).has('CEX_BM');$('biv-variant').disabled=onlyBM;$('biv-variant').value=onlyBM?'raw':b.adjustment;$('biv-variant').title=onlyBM?'B&M relationships use the identified original reported sample; adjusted income and wealth rankings are unavailable.':'';$('wave-select').disabled=!selectedSurveys(b).has('PSID');$('show-waves').disabled=!selectedSurveys(b).has('PSID');
     $('scf-wave-select').disabled=!selectedSurveys(b).has('SCF');
@@ -1020,7 +1020,7 @@ function createTimeWindow(canvas, onChange) {
     if(omitted.length) notes.push(omitted.join('; ')+ ' omitted from this plot.');
     const counts=regressions.filter(f=>f.method==='OLS');
     if(counts.length) notes.push(counts.map(f=>f.name+': '+f.n+' bins').join(' · ')+'.');
-    if(selected.has('PSID')&&b.adjustment==='full'&&weighting.method===broadIncomeMethod&&plotted.length)notes.push('PSID log–log estimates with SCF broad income weights are unavailable.');
+    if(selected.has('PSID')&&b.adjustment==='full'&&weighting.method===broadIncomeMethod&&plotted.length)notes.push('PSID log–log estimates with SCF broad weights are unavailable.');
     $('biv-omissions').textContent=notes.join(' ');
     if(!plotted.length) return;
     const lo=Math.max(Math.min(...plotted.map(p=>p.x)),Math.min(...plotted.map(p=>p.y))), hi=Math.min(Math.max(...plotted.map(p=>p.x)),Math.max(...plotted.map(p=>p.y)));
