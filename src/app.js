@@ -438,6 +438,11 @@ function createTimeWindow(canvas, onChange) {
   const selectedSurveys = state => new Set([...(state.primaryEnabled===false?[]:[state.primary.toUpperCase()]),...[...state.overlays].map(value=>value.toUpperCase())]);
   const include = (selection,survey) => selection instanceof Set?selection.has(survey):(selection==='both'||selection===survey.toLowerCase());
   const isParetoMetric = metric => metric==='pareto'||metric==='pareto_wealth_ratio';
+  function timeParetoBounds(datasets) {
+    const estimates = datasets.flatMap(({data}) => data.map(({y}) => y).filter(FINITE));
+    const padding = .25;
+    return {min: Math.min(...estimates) - padding, max: Math.max(...estimates) + padding};
+  }
   const HOUSEHOLD_SURVEYS=new Set(['PSID','SCF','CEX','CEX_BM','CEX_BM_RECON']),ADJUSTABLE_SURVEYS=new Set(['PSID','SCF','CEX','CEX_BM_RECON']);
   const indicatorKind=metric=>isParetoMetric(metric)?'pareto':metric.startsWith('share_')?'shares':'gini';
   const metricLabel = () => ({pareto:'Pareto tail coefficients',pareto_wealth_ratio:'Pareto coefficients relative to wealth',gini:'Gini coefficients',share_top20:'Top 20% shares',share_top10:'Top 10% shares',share_top5:'Top 5% shares',share_top1:'Top 1% shares'})[s.metric];
@@ -723,6 +728,7 @@ function createTimeWindow(canvas, onChange) {
     const displayedSurveys=new Set(datasets.map(dataset=>dataset.survey));$('time-note').textContent=notes.join(' ');$('time-chart').setAttribute('aria-label',yTitle+' over time in '+[...displayedSurveys].join(' and '));
     const legend=$('time-survey-key');if(legend){legend.replaceChildren();[...displayedSurveys].forEach(survey=>{const item=document.createElement('span'),mark=document.createElement('i'),name=document.createElement('span'),help=document.createElement('span'),description=surveyTooltip(survey);item.className='plot-legend-item';item.setAttribute('aria-label',surveyName(survey)+'. '+description);mark.className='survey-symbol survey-symbol-'+survey.toLowerCase();mark.setAttribute('aria-hidden','true');name.textContent=surveyName(survey);help.className='help-marker hover-help';help.textContent='?';help.tabIndex=0;help.dataset.tooltip=description;help.setAttribute('aria-label','About '+surveyName(survey));item.append(mark,name,help);legend.append(item);});}
     if(!datasets.length){announce('No comparable series selected.');return;}
+    const yBounds = isParetoMetric(s.metric) ? timeParetoBounds(datasets) : {};
     const {from, to} = visibleYears;
     const shownYears = [...new Set([from, ...availableYears.filter(year => year >= from && year <= to), to])].sort((a,b) => a-b);
     const xmin = from - .6, xmax = to + .6;
@@ -733,7 +739,7 @@ function createTimeWindow(canvas, onChange) {
       const count=axis.chart.width<500?Math.min(6,yearTicks.length):yearTicks.length;
       const years=count<yearTicks.length?Array.from({length:count},(_,index)=>yearTicks[Math.round(index*(yearTicks.length-1)/(count-1))]):yearTicks;
       axis.ticks=years.map(value=>({value}));
-    },grid:{display:false},border:{color:'#d9dce2'},ticks:{maxRotation:0,font:{size:13},callback:value=>Number.isInteger(value)?String(value):''}},y:{title:{display:true,text:yTitle,font:{size:13}},grid:{color:'#e9e9ee'},border:{display:false},ticks:{padding:9,font:{size:13},callback:value=>format(value)}}}}});
+    },grid:{display:false},border:{color:'#d9dce2'},ticks:{maxRotation:0,font:{size:13},callback:value=>Number.isInteger(value)?String(value):''}},y:{...yBounds,title:{display:true,text:yTitle,font:{size:13}},grid:{color:'#e9e9ee'},border:{display:false},ticks:{includeBounds:!isParetoMetric(s.metric),padding:9,font:{size:13},callback:value=>format(value)}}}}});
     requestAnimationFrame(()=>timeChart?.resize());announce(metricLabel()+', '+timeRows.length+' aggregate estimates displayed.');
   }
 
@@ -1214,7 +1220,7 @@ function createTimeWindow(canvas, onChange) {
     if(otherController||typeof initOtherSurveys!=='function')return;
     const usSurveys=[...VISIBLE_US_SURVEYS,...(referenceController?.sources||[])];
     otherController=initOtherSurveys(DATA.other||{}, {
-      usSurveys,getUSSummary:crossCountryUSSummary,spendingOptions,surveyName,surveyTooltip,appendParetoEstimationLink,
+      usSurveys,getUSSummary:crossCountryUSSummary,spendingOptions,surveyName,surveyTooltip,appendParetoEstimationLink,timeParetoBounds,
       prepareUSSummaryThresholds:()=>ensureFullCurves([...VISIBLE_US_SURVEYS,...(META.reference_curve_surveys||[])]),
       loadUSCurves:async()=>{
         await ensureFullCurves([...VISIBLE_US_SURVEYS,...(META.reference_curve_surveys||[])]);
