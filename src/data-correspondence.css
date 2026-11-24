@@ -480,3 +480,48 @@ select:not([multiple]) option:disabled{color:#939ba9!important}
   .quantile-comparison-body{padding-inline:18px;padding-bottom:18px}
   .quantile-comparison-chart{height:600px}
 }
+
+.dc-assumptions {
+  margin: 34px 0 0;
+  padding: 22px clamp(16px, 3vw, 29px);
+  border: 1px solid #dfd2b9;
+  border-left: 4px solid #9a692f;
+  border-radius: 6px;
+  background: #fbf5e8;
+  color: #41392e;
+}
+.dc-assumptions h3 {
+  margin: 0 0 12px;
+  color: #473419;
+  font: normal 24px/1.26 Georgia, serif;
+}
+.dc-assumptions-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 28px;
+  margin: 0;
+}
+.dc-assumptions-list dt,
+.dc-assumptions-list dd,
+.dc-assumptions .dc-assumptions-convergence {
+  margin: 0;
+  font: 400 14px/1.58 Arial, sans-serif;
+}
+.dc-assumptions-list dt {
+  margin: 0 0 2px;
+  color: #473419;
+  font-weight: 700;
+}
+.dc-assumptions .dc-assumptions-convergence {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e1d6c3;
+  color: #5e503b;
+}
+.dc-assumptions-convergence a {
+  color: #604315;
+  text-underline-offset: 2px;
+}
+@media (max-width: 760px) {
+  .dc-assumptions-list { grid-template-columns: minmax(0, 1fr); }
+}
