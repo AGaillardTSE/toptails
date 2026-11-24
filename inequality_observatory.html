@@ -3611,7 +3611,9 @@ function createUSQuantileComparison({
     capital.value = Object.keys(capitalDefinitions).find(key=>capitalDefinitions[key].author_variant===getCapitalDefinition()) || '';
 
     const firstYear = Number(startWave.value);
-    const lastYear = firstYear+Number(timeWindow.value)-1;
+    const windowYears = Number(timeWindow.value);
+    // The 20-year span includes both endpoints, such as 2005 through 2025.
+    const lastYear = firstYear + windowYears - (windowYears === 20 ? 0 : 1);
     const filter = JSON.stringify([ids,activeKeys,spending.value,indicator,method,adjustment.value,includeRaw,firstYear,lastYear,
       getHousingMethod(),getWeightingMethod(),getCapitalDefinition(),getCEXIncome()]);
     if (filter === lastFilter && !pending) { resizePlots(); return; }
