@@ -44,7 +44,7 @@ google_tag = ''
 if not args.standalone:
     script_sources += ' https://www.googletagmanager.com'
     google_tag = """
-<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-W7NHTT8Z"></script>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5847RFSV"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
