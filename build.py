@@ -39,7 +39,19 @@ if not args.standalone:
 css='\n'.join(read(n) for n in ['shared.css','international.css','data-correspondence.css','mobile.css'])
 vendor='/* Chart.js 4.4.1\n'+(ROOT/'vendor/Chart-LICENSE.txt').read_text()+'\n*/\n'+(ROOT/'vendor/chart.umd.min.js').read_text()
 image_sources="data: blob:" if args.standalone else "'self' data: blob:"
-csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src "+image_sources+"; connect-src "+("'none'" if args.standalone else "'self'")+"; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+script_sources = "'unsafe-inline'"
+google_tag = ''
+if not args.standalone:
+    script_sources += ' https://www.googletagmanager.com'
+    google_tag = """
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-W7NHTT8Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>"""
+csp="default-src 'none'; script-src "+script_sources+"; style-src 'unsafe-inline'; img-src "+image_sources+"; connect-src "+("'none'" if args.standalone else "'self'")+"; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+page_head = '<head>\n<meta http-equiv="Content-Security-Policy" content="' + csp + '">' + google_tag
 dest=ROOT/'standalone' if args.standalone else ROOT;dest.mkdir(exist_ok=True)
 if args.standalone:
     favicon_type='image/svg+xml'
@@ -49,7 +61,7 @@ else:
     favicon_href='./favicon.png'
 for design,name in [('design_a.html','inequality.html'),('design_b.html','inequality_observatory.html')]:
     page=read(design).replace('__FAVICON_TYPE__',favicon_type).replace('__SITE_LOGO__',favicon_href).replace('__CHART_JS__',vendor).replace('<script type="application/json" id="explorer-results">__EXPLORER_RESULTS__</script>',payload).replace('__APP_JS__',app).replace('__METHODS_HTML__',read('methods.html')).replace('__MODEL_HTML__',read('model-implications.html'))
-    page=page.replace('</head>','<style>'+css+'</style>\n</head>',1).replace('<head>','<head>\n<meta http-equiv="Content-Security-Policy" content="'+csp+'">',1)
+    page=page.replace('</head>','<style>'+css+'</style>\n</head>',1).replace('<head>',page_head,1)
     encoded=page.encode();(dest/name).write_bytes(encoded)
     if name=='inequality_observatory.html':
         if args.standalone and manifest.get('source_html_sha256'):assert hashlib.sha256(encoded).hexdigest()==manifest['source_html_sha256'],'Standalone does not match the released site'
